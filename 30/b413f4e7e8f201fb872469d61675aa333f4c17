@@ -1,0 +1,51 @@
+learning/days/2026-05-11/article.md
+  s_6427e5c70baaf7::t_d44f918fd968e7 25,27-44
+  s_6427e5c70baaf7::t_727bb6e12678d3 45-47,49-65
+scripts/cli.ts
+  s_6427e5c70baaf7::t_0e0b71e8cbca9a 1-277
+scripts/study/speak.ts
+  s_6427e5c70baaf7::t_86410d6e5284e5 1-21,28-83
+  s_6427e5c70baaf7::t_5fe05382827898 22-27
+CLAUDE.md
+  s_6427e5c70baaf7::t_fb6e0d754c596f 5,7,9,12-14,17,19,21-32,34,36-39,41,50-51,75-78,80,82,85,87,95-97,100,103,106,108-113,115,129,131,133,135-139,141,143-145,147,149-159,163-167,169,173-175
+  s_6427e5c70baaf7::t_64f47b85ef14dc 54,56-57
+  s_6427e5c70baaf7::t_7290512de140dd 60-65
+scripts/study/preview.ts
+  s_6427e5c70baaf7::t_84eb6a96d878aa 419-420
+  s_6427e5c70baaf7::t_b0afc57fd16ca9 545,548
+  s_6427e5c70baaf7::t_313bec2a5b66a1 1-10,12-52,54-89,91-104,106-114,124-196,201-293,311-360,371-418,421-495,498-509,514-540,542-544,546-547,549-558,561,565-566,568-569,571-574,579-581,587-592,597-601,603,613-616,618-625,632-718,720-724,728-737
+  s_6427e5c70baaf7::t_1a64d58be08c7e 294-310
+  s_6427e5c70baaf7::t_7c60ac58314249 53
+  s_6427e5c70baaf7::t_f8b8325fc1ce17 496-497
+  s_6427e5c70baaf7::t_b6f098f7220822 541,559-560,562-564,567,570,575-578,582-586,593-596,602,604-612,617
+  s_6427e5c70baaf7::t_6e8de45868df2a 90
+  s_6427e5c70baaf7::t_cd03421bd4f44c 361-370
+  s_6427e5c70baaf7::t_915d8a91ad7c14 719,725-727
+  s_6427e5c70baaf7::t_8571ab4a394c5e 510-513
+  s_6427e5c70baaf7::t_7a17cb56cea996 626-631
+  s_6427e5c70baaf7::t_bdba15d9e8f423 11
+  s_6427e5c70baaf7::t_72415ce1f07e20 197-200
+  s_6427e5c70baaf7::t_12a7726722faf8 105,115-123
+package.json
+  s_6427e5c70baaf7::t_c073489798fca8 16-23
+scripts/study/add-word.ts
+  s_6427e5c70baaf7::t_da9c04b86909f5 1-131
+.gitignore
+  s_6427e5c70baaf7::t_289290700c6e3c 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "30b413f4e7e8f201fb872469d61675aa333f4c17",
+  "prompts": {},
+  "sessions": {
+    "s_6427e5c70baaf7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e50c8cf-bb1b-4f7d-a286-04bbdcb9d2e9",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "hsiaosiyuan0 <hsiaosiyuan0@outlook.com>"
+    }
+  }
+}
