@@ -1,0 +1,22 @@
+README.md
+  s_6427e5c70baaf7::t_d72764e6973ff5 130-160
+  s_6427e5c70baaf7::t_6c89ad96b5b0f5 128,161-162,165-166
+TODO.md
+  s_6427e5c70baaf7::t_217a74d68ef7af 27-40,44-47
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "61c98a94d3df78ecab3835f49acab14a35e45b65",
+  "prompts": {},
+  "sessions": {
+    "s_6427e5c70baaf7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e50c8cf-bb1b-4f7d-a286-04bbdcb9d2e9",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "hsiaosiyuan0 <hsiaosiyuan0@outlook.com>"
+    }
+  }
+}
