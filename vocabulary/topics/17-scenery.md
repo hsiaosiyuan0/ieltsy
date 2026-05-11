@@ -22,7 +22,3 @@ breathtaking / picturesque / scenic / spectacular / stunning / majestic / awe-in
 - as far as the eye can see
 - nestled in the mountains
 - off the beaten track
-
----
-
-[← 总索引](../../vocabulary.md)

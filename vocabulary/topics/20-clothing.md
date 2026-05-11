@@ -32,7 +32,3 @@ wear / dress (up / down) / try on / put on / take off / slip into / suit / fit /
 - be in vogue（流行）/ be out of fashion
 - fit like a glove
 - on a shoestring（节俭）
-
----
-
-[← 总索引](../../vocabulary.md)

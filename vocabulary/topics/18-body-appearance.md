@@ -41,7 +41,3 @@ resemble / take after / look like / put on weight / lose weight / age (gracefull
 - bear a striking resemblance to
 - have a sweet tooth / a green thumb（习惯类）
 - catch sb's eye
-
----
-
-[← 总索引](../../vocabulary.md)

@@ -43,4 +43,4 @@
 
 ---
 
-[← 第 5 章: 倒装、强调与衔接](05-inversion-emphasis-cohesion.md)　|　[总索引](../grammar.md)　|　[第 7 章: 形容词、副词与介词 →](07-modifiers-and-prepositions.md)
+[← 第 5 章: 倒装、强调与衔接](05-inversion-emphasis-cohesion.md)　|　[第 7 章: 形容词、副词与介词 →](07-modifiers-and-prepositions.md)

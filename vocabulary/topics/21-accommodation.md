@@ -23,7 +23,3 @@ rent / lease / sublet / move in / move out / settle in / share / co-habit / refu
 - put down roots（安家）
 - there's no place like home
 - a stone's throw from（离...很近）
-
----
-
-[← 总索引](../../vocabulary.md)

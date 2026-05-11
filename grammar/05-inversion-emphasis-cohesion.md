@@ -68,4 +68,4 @@
 
 ---
 
-[← 第 4 章: 非谓语动词](04-non-finite-verbs.md)　|　[总索引](../grammar.md)　|　[第 6 章: 名词、代词与限定词 →](06-nouns-pronouns-determiners.md)
+[← 第 4 章: 非谓语动词](04-non-finite-verbs.md)　|　[第 6 章: 名词、代词与限定词 →](06-nouns-pronouns-determiners.md)

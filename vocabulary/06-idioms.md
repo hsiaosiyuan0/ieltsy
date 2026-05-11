@@ -29,7 +29,3 @@
 | Be on the same page | 想法一致 |
 | Food for thought | 引人深思的东西 |
 | A storm in a teacup | 小题大做 |
-
----
-
-[← 总索引](../vocabulary.md)

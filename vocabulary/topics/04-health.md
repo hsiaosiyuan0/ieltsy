@@ -16,7 +16,3 @@ sedentary / nutritious / balanced / processed / addictive / contagious / infecti
 - a balanced diet / nutritious meals
 - mental well-being / psychological resilience
 - preventive healthcare / early diagnosis
-
----
-
-[← 总索引](../../vocabulary.md)

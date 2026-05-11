@@ -34,7 +34,3 @@ lush / verdant / leafy / blooming / withered / drought-resistant / native / inva
 - like a fish out of water（如鱼离水）
 - the elephant in the room（房间里的大象）
 - nip in the bud（防患于未然）
-
----
-
-[← 总索引](../../vocabulary.md)

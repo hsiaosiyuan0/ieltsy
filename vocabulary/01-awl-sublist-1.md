@@ -65,7 +65,3 @@
 | 58 | structure | structural, structured, restructure | 结构 |
 | 59 | theory | theoretical, theoretically, theorist | 理论 |
 | 60 | vary | variable, variation, variant, various, invariably | 变化 |
-
----
-
-[← 总索引](../vocabulary.md)

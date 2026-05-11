@@ -16,7 +16,3 @@ sustainable / eco-friendly / biodegradable / renewable / non-renewable / hazardo
 - mitigate the impact of climate change
 - the depletion of natural resources
 - environmental degradation / ecological balance
-
----
-
-[← 总索引](../../vocabulary.md)

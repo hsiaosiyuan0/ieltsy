@@ -16,7 +16,3 @@ global / multinational / interconnected / interdependent / homogeneous
 - exploit cheap labour
 - cultural homogenization
 - a level playing field
-
----
-
-[← 总索引](../../vocabulary.md)

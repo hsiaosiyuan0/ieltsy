@@ -63,7 +63,3 @@
 - benefit **from** / suffer **from** / refrain **from** / stem **from**
 - focus **on** / depend **on** / impose ... **on** / impinge **on**
 - consist **of** / dispose **of** / approve **of** / boast **of**
-
----
-
-[← 总索引](../vocabulary.md)

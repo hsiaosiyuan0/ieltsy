@@ -27,7 +27,3 @@ athletic / fit / sporty / agile / nimble / fierce / competitive / strenuous / gr
 - ahead of the game / behind the curve
 - jump on the bandwagon
 - throw in the towel（认输）
-
----
-
-[← 总索引](../../vocabulary.md)

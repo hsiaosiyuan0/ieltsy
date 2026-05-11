@@ -35,4 +35,4 @@
 
 ---
 
-[← 第 3 章: 从句](03-clauses.md)　|　[总索引](../grammar.md)　|　[第 5 章: 倒装、强调与衔接 →](05-inversion-emphasis-cohesion.md)
+[← 第 3 章: 从句](03-clauses.md)　|　[第 5 章: 倒装、强调与衔接 →](05-inversion-emphasis-cohesion.md)

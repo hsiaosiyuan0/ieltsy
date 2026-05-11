@@ -16,7 +16,3 @@ nurturing / supportive / authoritarian / permissive / dysfunctional / close-knit
 - juggle work and family responsibilities
 - instill values in children
 - shape a child's character
-
----
-
-[← 总索引](../../vocabulary.md)

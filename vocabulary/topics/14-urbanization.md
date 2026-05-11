@@ -16,7 +16,3 @@ urban / rural / suburban / congested / overcrowded / run-down / vibrant / sustai
 - a housing crisis / housing shortage
 - revitalize the inner city
 - sustainable urban development
-
----
-
-[← 总索引](../../vocabulary.md)

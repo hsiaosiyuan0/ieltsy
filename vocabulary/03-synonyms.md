@@ -59,7 +59,3 @@ individuals / citizens / the public / the populace / society / inhabitants / res
 
 ## 表"现在" — Nowadays
 in modern society / in contemporary times / in this day and age / at present / currently / these days
-
----
-
-[← 总索引](../vocabulary.md)

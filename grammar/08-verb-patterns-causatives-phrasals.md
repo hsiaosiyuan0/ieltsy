@@ -61,4 +61,4 @@
 
 ---
 
-[← 第 7 章: 形容词、副词与介词](07-modifiers-and-prepositions.md)　|　[总索引](../grammar.md)　|　[第 9 章: 主谓一致与句子结构 →](09-agreement-and-sentence-structure.md)
+[← 第 7 章: 形容词、副词与介词](07-modifiers-and-prepositions.md)　|　[第 9 章: 主谓一致与句子结构 →](09-agreement-and-sentence-structure.md)

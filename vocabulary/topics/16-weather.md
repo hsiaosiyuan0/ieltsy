@@ -22,7 +22,3 @@ pour (down) / drizzle / clear up / brighten up / freeze (over) / thaw / heat up 
 - take a turn for the worse
 - be caught in a downpour
 - bundle up against the cold
-
----
-
-[← 总索引](../../vocabulary.md)

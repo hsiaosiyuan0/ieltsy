@@ -41,7 +41,3 @@ experience / feel / express / suppress / vent / overcome / cope with / get over 
 - lose one's temper / fly off the handle
 - keep one's cool / hold it together
 - mixed feelings（百感交集）
-
----
-
-[← 总索引](../../vocabulary.md)

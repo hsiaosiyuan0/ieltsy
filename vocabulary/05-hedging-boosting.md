@@ -29,7 +29,3 @@ invariably / consistently / habitually / customarily / routinely / occasionally 
 ## 程度
 
 considerably / substantially / significantly / markedly / notably / dramatically / drastically / slightly / marginally / modestly
-
----
-
-[← 总索引](../vocabulary.md)

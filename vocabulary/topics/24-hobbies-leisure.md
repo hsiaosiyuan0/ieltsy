@@ -25,7 +25,3 @@ rewarding / fulfilling / engaging / absorbing / time-consuming / addictive / the
 - get lost in（沉浸其中）
 - a hobby that runs in the family
 - right up my alley（正合我意）
-
----
-
-[← 总索引](../../vocabulary.md)

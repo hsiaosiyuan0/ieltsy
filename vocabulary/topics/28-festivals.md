@@ -22,7 +22,3 @@ festive / joyous / jubilant / lively / vibrant / solemn / sacred / religious / t
 - pass down through generations
 - ring in the new year（迎新）
 - light up the night sky
-
----
-
-[← 总索引](../../vocabulary.md)

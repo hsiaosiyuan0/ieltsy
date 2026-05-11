@@ -16,7 +16,3 @@ democratic / authoritarian / transparent / accountable / corrupt / bureaucratic
 - hold the government accountable
 - crack down on corruption
 - public-private partnership
-
----
-
-[← 总索引](../../vocabulary.md)

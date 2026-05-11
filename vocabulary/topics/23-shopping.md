@@ -20,7 +20,3 @@ affordable / pricey / expensive / cheap / overpriced / value-for-money / second-
 - shopping spree（购物狂欢）
 - splash out on（一掷千金）
 - be a sucker for（容易被某物吸引）
-
----
-
-[← 总索引](../../vocabulary.md)

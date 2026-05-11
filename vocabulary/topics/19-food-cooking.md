@@ -27,7 +27,3 @@ produce / dairy / poultry / seafood / grain / legume / dough / batter / stock / 
 - have a sweet tooth
 - piece of cake（轻而易举）
 - take with a pinch of salt（半信半疑）
-
----
-
-[← 总索引](../../vocabulary.md)

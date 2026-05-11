@@ -24,7 +24,3 @@ be born and raised in / grow up in / settle / reside / migrate / relocate / be r
 - there's no place like home
 - be steeped in history（充满历史底蕴）
 - hidden gem（隐藏的宝藏）
-
----
-
-[← 总索引](../../vocabulary.md)

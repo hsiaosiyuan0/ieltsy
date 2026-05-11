@@ -77,4 +77,4 @@
 
 ---
 
-[← 第 8 章: 动词补足、短语动词与使役](08-verb-patterns-causatives-phrasals.md)　|　[总索引](../grammar.md)　|　[第 10 章: 写作高级结构与构词 →](10-writing-advanced-and-formation.md)
+[← 第 8 章: 动词补足、短语动词与使役](08-verb-patterns-causatives-phrasals.md)　|　[第 10 章: 写作高级结构与构词 →](10-writing-advanced-and-formation.md)

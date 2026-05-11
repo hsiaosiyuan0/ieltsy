@@ -16,7 +16,3 @@ cutting-edge / state-of-the-art / sophisticated / user-friendly / intuitive / ob
 - raise concerns over privacy
 - harness the power of AI
 - be at the forefront of technological innovation
-
----
-
-[← 总索引](../../vocabulary.md)

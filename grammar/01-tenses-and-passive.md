@@ -48,4 +48,4 @@
 
 ---
 
-[← 总索引](../grammar.md)　|　[第 2 章: 情态、条件与虚拟 →](02-modals-conditionals-subjunctive.md)
+[第 2 章: 情态、条件与虚拟 →](02-modals-conditionals-subjunctive.md)

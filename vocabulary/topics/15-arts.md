@@ -16,7 +16,3 @@ aesthetic / evocative / thought-provoking / abstract / contemporary / classical 
 - foster appreciation for the arts
 - a feast for the eyes
 - transcend cultural barriers
-
----
-
-[← 总索引](../../vocabulary.md)

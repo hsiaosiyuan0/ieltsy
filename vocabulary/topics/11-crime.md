@@ -16,7 +16,3 @@ lenient / harsh / severe / fair / biased / deterrent / punitive
 - the root causes of crime
 - a lenient / harsh sentence
 - bring sb to justice
-
----
-
-[← 总索引](../../vocabulary.md)

@@ -16,7 +16,3 @@ cohesive / inclusive / diverse / marginalized / underprivileged / affluent / dep
 - combat discrimination / address inequality
 - the underprivileged / the marginalized
 - contribute to the greater good
-
----
-
-[← 总索引](../../vocabulary.md)

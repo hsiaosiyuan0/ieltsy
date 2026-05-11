@@ -25,7 +25,3 @@ punctual / delayed / overcrowded / packed / spacious / efficient / reliable / un
 - hail a taxi
 - miss the boat（错失良机）
 - ease traffic congestion
-
----
-
-[← 总索引](../../vocabulary.md)

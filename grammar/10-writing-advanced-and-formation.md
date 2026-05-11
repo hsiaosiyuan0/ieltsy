@@ -101,4 +101,4 @@
 
 ---
 
-[← 第 9 章: 主谓一致与句子结构](09-agreement-and-sentence-structure.md)　|　[总索引](../grammar.md)　|　[第 11 章: 标点与固定句型 →](11-punctuation-and-fixed-patterns.md)
+[← 第 9 章: 主谓一致与句子结构](09-agreement-and-sentence-structure.md)　|　[第 11 章: 标点与固定句型 →](11-punctuation-and-fixed-patterns.md)

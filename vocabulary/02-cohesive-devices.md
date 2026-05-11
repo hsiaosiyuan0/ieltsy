@@ -44,7 +44,3 @@ provided that / as long as / on the condition that / unless / in the event that 
 
 ## 时间 Time
 meanwhile / simultaneously / subsequently / previously / formerly / hitherto / nowadays / in the past / for the time being
-
----
-
-[← 总索引](../vocabulary.md)

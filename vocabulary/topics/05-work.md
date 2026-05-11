@@ -16,7 +16,3 @@ lucrative / rewarding / demanding / monotonous / fulfilling / stressful / flexib
 - juggle multiple responsibilities
 - offer competitive salaries / lucrative benefits
 - foster a positive work environment
-
----
-
-[← 总索引](../../vocabulary.md)

@@ -15,7 +15,3 @@ biased / objective / sensational / credible / reliable / misleading / slanted
 - spread misinformation / fake news
 - in-depth coverage / extensive coverage
 - cross the line / blur the line between ...
-
----
-
-[← 总索引](../../vocabulary.md)

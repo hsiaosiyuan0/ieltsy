@@ -16,7 +16,3 @@ academic / vocational / compulsory / optional / theoretical / practical / well-r
 - equip students with practical skills
 - the rote-learning approach / spoon-feeding education
 - shoulder financial burden of tuition
-
----
-
-[← 总索引](../../vocabulary.md)

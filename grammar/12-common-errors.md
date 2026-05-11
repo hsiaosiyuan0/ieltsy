@@ -26,4 +26,4 @@
 
 ---
 
-[← 第 11 章: 标点与固定句型](11-punctuation-and-fixed-patterns.md)　|　[总索引](../grammar.md)
+[← 第 11 章: 标点与固定句型](11-punctuation-and-fixed-patterns.md)

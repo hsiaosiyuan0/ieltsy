@@ -53,7 +53,3 @@ indecisive / insecure / clingy / needy / passive / submissive
 - a creature of habit
 - have a chip on one's shoulder（怀有怨恨）
 - a tough nut to crack（难以了解的人）
-
----
-
-[← 总索引](../../vocabulary.md)

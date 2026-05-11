@@ -16,7 +16,3 @@ indigenous / traditional / contemporary / multicultural / ethnic / sacred / secu
 - cultural homogenization
 - celebrate diversity
 - a sense of cultural identity
-
----
-
-[← 总索引](../../vocabulary.md)

@@ -88,4 +88,4 @@
 
 ---
 
-[← 第 10 章: 写作高级结构与构词](10-writing-advanced-and-formation.md)　|　[总索引](../grammar.md)　|　[第 12 章: 常见易错点 →](12-common-errors.md)
+[← 第 10 章: 写作高级结构与构词](10-writing-advanced-and-formation.md)　|　[第 12 章: 常见易错点 →](12-common-errors.md)

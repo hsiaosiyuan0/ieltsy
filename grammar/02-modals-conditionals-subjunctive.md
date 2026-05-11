@@ -43,4 +43,4 @@
 
 ---
 
-[← 第 1 章: 时态与被动](01-tenses-and-passive.md)　|　[总索引](../grammar.md)　|　[第 3 章: 从句 →](03-clauses.md)
+[← 第 1 章: 时态与被动](01-tenses-and-passive.md)　|　[第 3 章: 从句 →](03-clauses.md)

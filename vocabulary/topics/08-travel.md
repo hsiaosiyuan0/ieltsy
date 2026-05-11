@@ -16,7 +16,3 @@ picturesque / scenic / exotic / breathtaking / off-the-beaten-track / touristy /
 - off the beaten track
 - boost the local economy
 - preserve cultural heritage
-
----
-
-[← 总索引](../../vocabulary.md)
