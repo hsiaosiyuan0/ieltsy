@@ -1,0 +1,45 @@
+grammar/07-modifiers-and-prepositions.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 39
+grammar/01-tenses-and-passive.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 51
+grammar/02-modals-conditionals-subjunctive.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 46
+grammar/03-clauses.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 39
+TODO.md
+  s_6427e5c70baaf7::t_87cf9e1e5b2f75 1-32
+grammar/09-agreement-and-sentence-structure.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 80
+grammar/10-writing-advanced-and-formation.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 104
+grammar/12-common-errors.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 29
+grammar/11-punctuation-and-fixed-patterns.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 91
+grammar/04-non-finite-verbs.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 38
+grammar/05-inversion-emphasis-cohesion.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 71
+README.md
+  s_6427e5c70baaf7::t_fa309706fb549f 1-133
+grammar/06-nouns-pronouns-determiners.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 46
+grammar/08-verb-patterns-causatives-phrasals.md
+  s_6427e5c70baaf7::t_a9455f03e49d58 64
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.4",
+  "base_commit_sha": "3e8d68dc88d115dc0cf07e01d79f5442dfe35d3b",
+  "prompts": {},
+  "sessions": {
+    "s_6427e5c70baaf7": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5e50c8cf-bb1b-4f7d-a286-04bbdcb9d2e9",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "hsiaosiyuan0 <hsiaosiyuan0@outlook.com>"
+    }
+  }
+}
