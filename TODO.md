@@ -24,9 +24,24 @@
 
 ## 产品 / 工程
 
-- [ ] 完整学习计划进度可视化（已学 / 待学 / 复习曲线）
-- [ ] 跨设备 db 同步（目前仅本地）
+### HTML 单点页面扩展（高优先）
+
+按"重交互走 HTML、数据回流 sqlite + md"的原则：
+
+- [ ] **Cloze HTML 模式** — 多空填词的交互形态。LLM 生成题目写入 `cloze.md` / db，HTML 渲染带 `<input>` 的句子，用户逐句填，即时校对，提交后 server 写入 `word_mistakes` + 同步 `session.md`。比对话式 cloze 快 5-10 倍。
+- [ ] **整篇默写 HTML 模式** — 隐藏文本 + 大文本框，分段提交，server 跟原文 diff 后写 session.md
+- [ ] **进度 / 错题可视化 dashboard** — 学习曲线、SM-2 到期分布、错题热力图
+
+### 工作流 / 命令
+
+- [ ] **Claude Code Skill** — 把工作流封装成 `/ielts today` / `/ielts cloze` 这种 slash command，省去用户每次自然语言触发
+
+### 内容专项
+
 - [ ] 阅读理解专项（导入剑桥真题阅读篇章）
 - [ ] 听力专项（基于 edge-tts 的 dictation / 听写填空）
-- [ ] 整篇默写的智能 diff 显示（目前在 session.md 里手工标记）
 - [ ] 错题专项练习模式（按 error_type 分类训练）
+
+### 其他
+
+- [ ] 跨设备 db 同步（目前仅本地）

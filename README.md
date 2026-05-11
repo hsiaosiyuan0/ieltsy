@@ -125,9 +125,42 @@ Claude:
 - **edge-tts** — Microsoft Edge 在线 TTS，免费、声音自然
 - **Node `http` 模块** — 零框架本地预览服务
 
-## 关键约束
+## 设计原则
 
-- 一切持久化数据在 SQLite，md 文件是**人类可读视图**
+### 三层架构
+
+| 层 | 实现 | 职责 |
+|---|---|---|
+| **存储** | SQLite + Markdown | 内容、用户进度、学习产物 |
+| **数据流转 / 编排** | CLI + LLM（Claude Code） | 自然语言指令 → 命令调用 + 智能生成 / 判分 |
+| **重交互场景** | HTML 单点页面 | 视觉/操作密集的垂直场景；所有操作写回 SQLite + md |
+
+### 存储分工
+
+- **SQLite (`db/ieltsy.db`)** — 结构化查询索引：内容表（7,090 词 + 368 语法点 + 30 话题）、用户进度表（学习计划、SM-2、daily_sessions、word_mistakes）、学习产物的文件路径
+- **Markdown** — 教学素材源（`grammar/*.md` / `vocabulary/*.md`，importer 据此填 db）+ 学习产物（`learning/days/.../article.md` / `session.md`、`learning/mistakes/*.md`）
+
+### 数据流转 / 编排
+
+`pnpm ielts <cmd>` 是统一 CLI，每条命令自带 `help` 和 `--json` 元数据。**Claude Code 是默认编排器**，按 `CLAUDE.md` 工作流读用户意图、调命令、生成短文 / cloze / 判分。也可以裸跑 CLI 自动化（脚本、cron）。
+
+未来扩展：把高频工作流封装成 Claude Code Skill（`/ielts today` slash command），减少 LLM 触发负担。
+
+### 重交互场景：HTML 单点页面
+
+轻量交互（一个空填词、对话问答）走 LLM 对话；**重交互**（读整篇 + 听音频 + 切语言 + 17 个空反复输入对错）走 HTML 单页。原则：
+- 启动本地 HTTP 服务（无前端框架，原生 Node `http`）
+- 浏览器自动打开 / 用户手动访问
+- **所有用户操作经服务端写回 SQLite + md**（HTML 自己不持久化）
+
+| 已实现 | TODO |
+|---|---|
+| `pnpm ielts preview` — 文章阅读 + 句子/单词朗读 + 中英切换 | Cloze 测试 HTML 模式（多空填词的交互形态） |
+| | 整篇默写 HTML 模式 |
+| | 进度 / 错题可视化 dashboard |
+
+### 其他
+
 - 数据导入幂等：改源 md → `pnpm db:import:*` 重新跑
-- 个人单用户场景，没有多用户 / 鉴权
-- 没有云同步，全部在本地（db + cache 都 gitignored，但 commit 整个 repo 可以跨机器复刻）
+- 个人单用户场景，无多用户 / 鉴权
+- 全部本地（db + cache 都 gitignored，但 commit 整个 repo 可跨机器复刻状态）
