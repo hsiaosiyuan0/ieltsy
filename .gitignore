@@ -3,6 +3,7 @@ db/*.db
 db/*.db-shm
 db/*.db-wal
 db/*.db-journal
+learning/audio-cache/
 .DS_Store
 *.log
 .env
