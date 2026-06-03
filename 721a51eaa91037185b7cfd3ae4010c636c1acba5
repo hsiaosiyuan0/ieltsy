@@ -1,0 +1,36 @@
+.github/workflows/deploy-pages.yml
+  d5e780e1c6453f8d 44-51
+scripts/study/export-pages.ts
+  d5e780e1c6453f8d 62-75,216-311,472,485,605,641,655-665,1371-1438,1696,1698,1881,1889,1935-1937
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.8",
+  "base_commit_sha": "721a51eaa91037185b7cfd3ae4010c636c1acba5",
+  "prompts": {
+    "d5e780e1c6453f8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e8b1b-53b0-7ec3-a33f-9e6cf20fd0c9",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 218,
+      "total_deletions": 6,
+      "accepted_lines": 214,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        ".github/workflows/deploy-pages.yml": {
+          "additions": 8,
+          "accepted_lines": 8
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 210,
+          "deletions": 6,
+          "accepted_lines": 206
+        }
+      }
+    }
+  }
+}
