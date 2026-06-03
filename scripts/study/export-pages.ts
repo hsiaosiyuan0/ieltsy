@@ -1,3 +1,4 @@
+import Database from 'better-sqlite3'
 import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
@@ -17,6 +18,7 @@ interface TargetWord {
   word: string
   pos: string
   refs: string
+  zh?: string
 }
 
 interface GrammarExample {
@@ -46,6 +48,8 @@ const { values } = parseArgs({
 
 const OUT_DIR = resolve(values.out!)
 const SITE_TITLE = values.title!
+const STATIC_GLOSSARY_PATH = resolve('learning/glossary.zh.json')
+const DB_PATH = resolve('db/ieltsy.db')
 
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) =>
@@ -172,6 +176,95 @@ function renderRefs(refs: string): string {
     if (num) return `<a href="#sentence-${num}" class="ref">${tok}</a>`
     return `<span class="ref">${escapeHtml(tok)}</span>`
   }).join(' ')
+}
+
+function glossaryKey(word: string, pos: string): string {
+  return `${word.trim().toLowerCase()}|${pos.trim().toLowerCase()}`
+}
+
+function definitionParts(raw: string): string[] {
+  return raw
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean)
+}
+
+function compactZh(raw: string): string {
+  return definitionParts(raw).join('；').replace(/\s+/g, ' ')
+}
+
+function definitionZhForPos(raw: string, pos: string): string {
+  const parts = definitionParts(raw)
+  const prefixes = posCandidates(normalizePos(pos)).flatMap((candidate) => {
+    if (candidate === 'v') return ['v.', 'vt.', 'vi.']
+    if (candidate === 'adj') return ['adj.', 'a.']
+    if (candidate === 'adv') return ['adv.', 'ad.']
+    return [`${candidate}.`]
+  })
+  const selected = parts.filter((part) => prefixes.some((prefix) => part.toLowerCase().startsWith(prefix)))
+  return compactZh((selected.length > 0 ? selected : parts).join('\n'))
+}
+
+function loadStaticGlossary(): Map<string, string> {
+  const glossary = new Map<string, string>()
+  if (!existsSync(STATIC_GLOSSARY_PATH)) return glossary
+
+  const raw = JSON.parse(readFileSync(STATIC_GLOSSARY_PATH, 'utf-8')) as Record<string, string>
+  for (const [key, value] of Object.entries(raw)) {
+    if (value) glossary.set(key.toLowerCase(), compactZh(value))
+  }
+  return glossary
+}
+
+function createDbGlossaryLookup(): { lookup: (word: string, pos: string) => string | undefined; close: () => void } | null {
+  if (!existsSync(DB_PATH)) return null
+  const db = new Database(DB_PATH, { readonly: true })
+  const byWordAndPos = db.prepare(`
+    SELECT definition_zh FROM words
+    WHERE lower(headword) = ? AND pos = ? AND definition_zh IS NOT NULL AND definition_zh <> ''
+    LIMIT 1
+  `)
+  const byWord = db.prepare(`
+    SELECT definition_zh FROM words
+    WHERE lower(headword) = ? AND definition_zh IS NOT NULL AND definition_zh <> ''
+    ORDER BY CASE pos WHEN 'n' THEN 1 WHEN 'v' THEN 2 WHEN 'adj' THEN 3 WHEN 'adv' THEN 4 ELSE 9 END
+    LIMIT 1
+  `)
+  return {
+    lookup(word: string, pos: string): string | undefined {
+      const normalizedWord = word.trim().toLowerCase()
+      const normalizedPos = normalizePos(pos)
+      for (const candidatePos of posCandidates(normalizedPos)) {
+        const exact = byWordAndPos.get(normalizedWord, candidatePos) as { definition_zh: string } | undefined
+        if (exact?.definition_zh) return definitionZhForPos(exact.definition_zh, normalizedPos)
+      }
+      const fallback = byWord.get(normalizedWord) as { definition_zh: string } | undefined
+      return fallback?.definition_zh ? definitionZhForPos(fallback.definition_zh, normalizedPos) : undefined
+    },
+    close() {
+      db.close()
+    },
+  }
+}
+
+function normalizePos(pos: string): string {
+  return pos.trim().toLowerCase().replace(/\*/g, '')
+}
+
+function posCandidates(pos: string): string[] {
+  const candidates = pos.split('/').map((part) => part.trim()).filter(Boolean)
+  return candidates.length > 0 ? candidates : [pos]
+}
+
+function enrichTargetWords(
+  targetWords: TargetWord[],
+  glossary: Map<string, string>,
+  dbLookup: { lookup: (word: string, pos: string) => string | undefined } | null
+): void {
+  for (const target of targetWords) {
+    const staticZh = glossary.get(glossaryKey(target.word, target.pos)) ?? glossary.get(glossaryKey(target.word, normalizePos(target.pos)))
+    target.zh = staticZh ?? dbLookup?.lookup(target.word, target.pos)
+  }
 }
 
 function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers'): string {
@@ -310,10 +403,11 @@ function renderDay(article: ParsedArticle): string {
             </span>
           </p>`).join('\n')
 
-  const wordsHtml = article.targetWords.map((word, idx) => `            <li>
-              <button type="button" class="word-button" data-speak="${escapeHtml(word.word)}">${idx + 1}. ${escapeHtml(word.word)}</button>
+  const wordsHtml = article.targetWords.map((word) => `            <li>
+              <button type="button" class="word-button" data-speak="${escapeHtml(word.word)}">${escapeHtml(word.word)}</button>
               <span class="pos">${escapeHtml(word.pos)}</span>
-              <span class="refs">${renderRefs(word.refs)}</span>
+              ${word.zh ? `<span class="word-zh">${escapeHtml(word.zh)}</span>` : '<span class="word-zh missing">未收录中文释义</span>'}
+              <span class="refs"><span class="refs-label">出现</span>${renderRefs(word.refs)}</span>
             </li>`).join('\n')
 
   const grammarHtml = article.grammarExamples.map((example) => `            <li>
@@ -523,13 +617,20 @@ function discoverArticles(): ParsedArticle[] {
   const daysDir = resolve('learning/days')
   if (!existsSync(daysDir)) return []
 
+  const glossary = loadStaticGlossary()
+  const dbLookup = createDbGlossaryLookup()
   const articles: ParsedArticle[] = []
-  for (const entry of readdirSync(daysDir, { withFileTypes: true })) {
-    if (!entry.isDirectory() || !/^\d{4}-\d{2}-\d{2}$/.test(entry.name)) continue
-    const articlePath = join(daysDir, entry.name, 'article.md')
-    if (!existsSync(articlePath)) continue
-    const parsed = parseArticleMd(entry.name, readFileSync(articlePath, 'utf-8'))
-    articles.push(parsed)
+  try {
+    for (const entry of readdirSync(daysDir, { withFileTypes: true })) {
+      if (!entry.isDirectory() || !/^\d{4}-\d{2}-\d{2}$/.test(entry.name)) continue
+      const articlePath = join(daysDir, entry.name, 'article.md')
+      if (!existsSync(articlePath)) continue
+      const parsed = parseArticleMd(entry.name, readFileSync(articlePath, 'utf-8'))
+      enrichTargetWords(parsed.targetWords, glossary, dbLookup)
+      articles.push(parsed)
+    }
+  } finally {
+    dbLookup?.close()
   }
 
   return articles.sort((a, b) => b.date.localeCompare(a.date))
@@ -1131,6 +1232,21 @@ body.practice .target.revealed {
   display: flex;
   flex-wrap: wrap;
   gap: 4px;
+  align-items: center;
+}
+.refs-label {
+  color: var(--ink-3);
+  font-size: 0.76rem;
+  font-weight: 900;
+}
+.word-zh {
+  grid-column: 1 / -1;
+  color: var(--ink-2);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.word-zh.missing {
+  color: var(--ink-3);
 }
 .ref {
   color: var(--accent-2);
