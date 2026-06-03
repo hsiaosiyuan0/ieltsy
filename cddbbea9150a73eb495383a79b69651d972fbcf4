@@ -1,0 +1,37 @@
+scripts/study/export-pages.ts
+  d5e780e1c6453f8d 1,21,51-52,181-269,406-407,409-410,620-621,623-633,1235-1249
+learning/glossary.zh.json
+  d5e780e1c6453f8d 1-55
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.8",
+  "base_commit_sha": "cddbbea9150a73eb495383a79b69651d972fbcf4",
+  "prompts": {
+    "d5e780e1c6453f8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e8b1b-53b0-7ec3-a33f-9e6cf20fd0c9",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 223,
+      "total_deletions": 52,
+      "accepted_lines": 180,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "learning/glossary.zh.json": {
+          "additions": 89,
+          "deletions": 34,
+          "accepted_lines": 55
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 134,
+          "deletions": 18,
+          "accepted_lines": 125
+        }
+      }
+    }
+  }
+}
