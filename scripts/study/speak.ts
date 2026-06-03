@@ -7,22 +7,24 @@ import { parseArgs } from 'node:util'
 /**
  * 朗读文本（基于 edge-tts）。
  *
- * 默认 British English 女声 (Sonia)。生成的 mp3 按内容 hash 缓存到
+ * 默认 American English 女声 (Jenny)。生成的 mp3 按内容 hash 缓存到
  * learning/audio-cache/，相同文本只生成一次。
  *
  * Usage:
  *   pnpm study:speak --text "Maria works as a consultant."
- *   pnpm study:speak --voice male --text "..."     (en-GB-Ryan)
- *   pnpm study:speak --voice us-f  --text "..."    (en-US-Aria)
+ *   pnpm study:speak --voice male --text "..."     (en-US-Andrew)
+ *   pnpm study:speak --voice us-f  --text "..."    (en-US-Jenny)
+ *   pnpm study:speak --voice us-soft --text "..."  (en-US-Emma)
  *   pnpm study:speak --rate -10% --text "..."      慢一点 (默认 0%)
  *   pnpm study:speak --no-play --text "..."        只生成不播放
  */
 
 const VOICES: Record<string, string> = {
-  female: 'en-US-AriaNeural',      // 默认：US 女声，news 风格清晰
+  female: 'en-US-JennyNeural',     // 默认：US 女声，自然口语感较强
   male: 'en-US-AndrewNeural',      // US 男声，warm/confident
-  'us-f': 'en-US-AriaNeural',
-  'us-f2': 'en-US-JennyNeural',
+  'us-f': 'en-US-JennyNeural',
+  'us-f2': 'en-US-AriaNeural',
+  'us-soft': 'en-US-EmmaMultilingualNeural',
   'us-m': 'en-US-AndrewNeural',
   'us-m2': 'en-US-GuyNeural',
   'uk-f': 'en-GB-SoniaNeural',

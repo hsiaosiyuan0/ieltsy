@@ -132,11 +132,11 @@ SM-2: 答对 → interval *= ease, ease += 0.1, reps++；答错 → interval=1, 
 
   // ──────────────────────────────────────────────────────────────────────────
   speak: {
-    description: '朗读文本（基于 edge-tts，默认美音女声 Aria）',
+    description: '朗读文本（基于 edge-tts，默认自然美音女声 Jenny）',
     script: 'scripts/study/speak.ts',
     args: [
       { flag: '--text', type: 'string', required: true, description: '要朗读的文本' },
-      { flag: '--voice', type: 'string', default: 'female', description: '声音别名：female/male/us-f/us-m/us-f2/us-m2/uk-f/uk-m 或完整名 en-US-AriaNeural' },
+      { flag: '--voice', type: 'string', default: 'female', description: '声音别名：female/male/us-f/us-soft/us-m/us-f2/us-m2/uk-f/uk-m 或完整名 en-US-JennyNeural' },
       { flag: '--rate', type: 'string', default: '+0%', description: '语速调整，如 -10% 或 +20%' },
       { flag: '--no-play', type: 'boolean', default: false, description: '只生成 mp3 不播放' },
     ],
@@ -168,6 +168,23 @@ SM-2: 答对 → interval *= ease, ease += 0.1, reps++；答错 → interval=1, 
 
 ⚠️ 须用 run_in_background: true 启动（server 是持续进程）。
 停止：pkill -f scripts/study/preview`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  'export-pages': {
+    description: '导出 GitHub Pages 可托管的静态学习站点',
+    script: 'scripts/study/export-pages.ts',
+    args: [
+      { flag: '--out', type: 'string', default: 'dist', description: '静态站点输出目录' },
+      { flag: '--title', type: 'string', default: 'IELTSY', description: '站点标题' },
+    ],
+    examples: [
+      'pnpm ielts export-pages',
+      'pnpm ielts export-pages --out dist --title IELTSY',
+      'pnpm pages:build',
+    ],
+    notes: `从 learning/days/YYYY-MM-DD/article.md 和 learning/mistakes/*.md 生成纯静态 HTML。
+发布版支持手机阅读、浏览器朗读、遮词练习和 localStorage 完成标记；SM-2 进度仍由本地 record 命令写入 SQLite。`,
   },
 
   // ──────────────────────────────────────────────────────────────────────────

@@ -8,7 +8,16 @@ import { parseArgs } from 'node:util'
 
 const DB_PATH = resolve('db/ieltsy.db')
 const CACHE_DIR = resolve('learning/audio-cache')
-const DEFAULT_VOICE = 'en-US-AriaNeural'
+const DEFAULT_VOICE = 'en-US-EmmaMultilingualNeural'
+const DEFAULT_RATE = '+0%'
+
+const VOICES: Record<string, string> = {
+  jenny: 'en-US-JennyNeural',
+  emma: 'en-US-EmmaMultilingualNeural',
+  aria: 'en-US-AriaNeural',
+  andrew: 'en-US-AndrewNeural',
+  guy: 'en-US-GuyNeural',
+}
 
 const { values } = parseArgs({
   options: {
@@ -23,18 +32,18 @@ const PORT = parseInt(values.port!, 10)
 // Audio (edge-tts + cache)
 // ============================================================================
 
-function audioPath(text: string, voice: string = DEFAULT_VOICE): string {
+function audioPath(text: string, voice: string = DEFAULT_VOICE, rate: string = DEFAULT_RATE): string {
   mkdirSync(CACHE_DIR, { recursive: true })
-  const hash = createHash('md5').update(`${voice}|+0%|${text}`).digest('hex').slice(0, 12)
+  const hash = createHash('md5').update(`${voice}|${rate}|${text}`).digest('hex').slice(0, 12)
   return resolve(CACHE_DIR, `${hash}.mp3`)
 }
 
-function ensureAudio(text: string, voice: string = DEFAULT_VOICE): string {
-  const path = audioPath(text, voice)
+function ensureAudio(text: string, voice: string = DEFAULT_VOICE, rate: string = DEFAULT_RATE): string {
+  const path = audioPath(text, voice, rate)
   if (existsSync(path)) return path
   const result = spawnSync(
     'edge-tts',
-    ['--voice', voice, '--rate', '+0%', '--text', text, '--write-media', path],
+    ['--voice', voice, '--rate', rate, '--text', text, '--write-media', path],
     { encoding: 'utf-8' }
   )
   if (result.status !== 0) {
@@ -56,6 +65,7 @@ interface TargetWord {
   word: string
   pos: string
   refs: string
+  zh?: string
 }
 interface GrammarExample {
   sentenceNum: number
@@ -189,6 +199,16 @@ function highlightTargets(text: string, targets: string[]): string {
   return result
 }
 
+function renderRefs(refs: string): string {
+  return refs.split(/\s+/).filter(Boolean).map(tok => {
+    const num = CIRCLED_NUM_TO_INT[tok]
+    if (num) {
+      return `<a class="ref-jump" data-target="${num}" title="跳到第 ${num} 句">${tok}</a>`
+    }
+    return `<span class="ref-label">${escapeHtml(tok)}</span>`
+  }).join(' ')
+}
+
 function renderHtml(date: string, article: ParsedArticle): string {
   const targets = article.targetWords.map(t => t.word)
 
@@ -203,7 +223,8 @@ function renderHtml(date: string, article: ParsedArticle): string {
   const wordsHtml = article.targetWords.map(w => `          <li data-refs="${escapeHtml(w.refs)}">
             <span class="word">${escapeHtml(w.word)}</span>
             <span class="pos">${escapeHtml(w.pos)}</span>
-            <span class="refs">${escapeHtml(w.refs)}</span>
+            <span class="refs">${renderRefs(w.refs)}</span>
+            ${w.zh ? `<span class="zh">${escapeHtml(w.zh)}</span>` : ''}
           </li>`).join('\n')
 
   const grammarExamplesHtml = article.grammarExamples.map(ex => `          <li>
@@ -308,6 +329,16 @@ function renderHtml(date: string, article: ParsedArticle): string {
     border-color: transparent transparent transparent currentColor;
     margin-right: 6px;
   }
+  .ic-pause {
+    display: inline-block;
+    width: 0.55em;
+    height: 0.75em;
+    background: transparent;
+    border-left: 0.18em solid currentColor;
+    border-right: 0.18em solid currentColor;
+    vertical-align: -0.05em;
+    margin-right: 6px;
+  }
   .spacer { flex: 1; }
   label.row { display: flex; align-items: center; gap: 6px; color: var(--text-muted); cursor: pointer; }
   select {
@@ -343,6 +374,7 @@ function renderHtml(date: string, article: ParsedArticle): string {
     background: var(--playing);
     animation: pulse 1.5s ease-in-out infinite;
   }
+  .sentence.paused { background: var(--playing); opacity: 0.6; }
   .sentence.loading { background: var(--hover); opacity: 0.7; }
   @keyframes pulse {
     0%, 100% { background: var(--playing); }
@@ -408,6 +440,7 @@ function renderHtml(date: string, article: ParsedArticle): string {
   .word-list li {
     display: flex;
     align-items: baseline;
+    flex-wrap: wrap;
     gap: 6px;
     padding: 6px 10px;
     border-radius: 6px;
@@ -418,6 +451,7 @@ function renderHtml(date: string, article: ParsedArticle): string {
   .word-list li:hover { background: var(--hover); }
   .word-list li.loading { background: var(--hover); opacity: 0.7; }
   .word-list li.playing { background: var(--playing); }
+  .word-list li.paused { background: var(--playing); opacity: 0.6; }
   .word-list li::before {
     counter-increment: word;
     content: counter(word, decimal);
@@ -429,7 +463,39 @@ function renderHtml(date: string, article: ParsedArticle): string {
   }
   .word-list .word { font-weight: 600; color: var(--target); }
   .word-list .pos { color: var(--text-muted); font-style: italic; font-size: 0.8rem; }
-  .word-list .refs { color: var(--text-muted); font-size: 0.75rem; margin-left: auto; font-family: 'SF Mono', monospace; }
+  .word-list .refs {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+    margin-left: auto;
+    font-family: 'SF Mono', monospace;
+    display: inline-flex;
+    gap: 2px;
+  }
+  .word-list .ref-jump {
+    color: var(--text-muted);
+    text-decoration: none;
+    padding: 2px 4px;
+    border-radius: 3px;
+    cursor: pointer;
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+  .word-list .ref-jump:hover { color: var(--target); background: var(--target-bg); }
+  .word-list .ref-label { padding: 2px 4px; opacity: 0.5; }
+  @keyframes ref-flash {
+    0%   { background: transparent; }
+    20%  { background: var(--target-bg); }
+    100% { background: transparent; }
+  }
+  .sentence.ref-flash { animation: ref-flash 1.4s ease-out; }
+  .word-list .zh {
+    flex-basis: 100%;
+    margin-left: 22px;
+    color: var(--text-muted);
+    font-size: 0.78rem;
+    font-family: 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', 'Noto Serif SC', serif;
+    line-height: 1.5;
+    white-space: pre-line;
+  }
   .grammar-desc {
     color: var(--text-muted);
     margin-bottom: 14px;
@@ -496,11 +562,20 @@ function renderHtml(date: string, article: ParsedArticle): string {
     <button class="btn primary" id="playAll"><span class="ic-play"></span> Play All</button>
     <button class="btn" id="stopBtn"><span class="ic-stop"></span> Stop</button>
     <div class="spacer"></div>
-    <label class="row">Speed
+    <label class="row">Voice
+      <select id="voice">
+        <option value="jenny">Jenny · natural US</option>
+        <option value="emma" selected>Emma · soft US</option>
+        <option value="aria">Aria · clear US</option>
+        <option value="andrew">Andrew · male US</option>
+        <option value="guy">Guy · male US</option>
+      </select>
+    </label>
+    <label class="row">Pace
       <select id="speed">
-        <option value="0.75">0.75×</option>
-        <option value="1" selected>1.0×</option>
-        <option value="1.25">1.25×</option>
+        <option value="-12%">slow</option>
+        <option value="+0%" selected>normal</option>
+        <option value="+8%">brisk</option>
       </select>
     </label>
     <label class="row">
@@ -539,15 +614,34 @@ ${grammarExamplesHtml}
 const audioCache = new Map();
 let currentAudio = null;
 let currentEl = null;
+let currentResolve = null;
+let isPaused = false;
+let stoppedByUser = false;
 
-function getRate() { return parseFloat(document.getElementById('speed').value); }
+function getVoice() { return document.getElementById('voice').value; }
+function getRate() { return document.getElementById('speed').value; }
 
-const AUDIO_VERSION = 'us-aria-v1';  // bump when voice changes
+function setPauseUI() {
+  const btn = document.getElementById('playAll');
+  if (!currentAudio)        btn.innerHTML = '<span class="ic-play"></span> Play All';
+  else if (isPaused)        btn.innerHTML = '<span class="ic-play"></span> Resume';
+  else                      btn.innerHTML = '<span class="ic-pause"></span> Pause';
+}
+
+const AUDIO_VERSION = 'us-voice-v3';  // bump when audio-generation options change
 function getAudio(text) {
-  if (audioCache.has(text)) return audioCache.get(text);
-  const audio = new Audio('/audio?text=' + encodeURIComponent(text) + '&v=' + AUDIO_VERSION);
+  const voice = getVoice();
+  const rate = getRate();
+  const key = voice + '|' + rate + '|' + text;
+  if (audioCache.has(key)) return audioCache.get(key);
+  const audio = new Audio(
+    '/audio?text=' + encodeURIComponent(text)
+    + '&voice=' + encodeURIComponent(voice)
+    + '&rate=' + encodeURIComponent(rate)
+    + '&v=' + AUDIO_VERSION
+  );
   audio.preload = 'auto';
-  audioCache.set(text, audio);
+  audioCache.set(key, audio);
   return audio;
 }
 
@@ -562,29 +656,38 @@ function stopCurrent() {
   if (currentEl) {
     currentEl.classList.remove('playing');
     currentEl.classList.remove('loading');
+    currentEl.classList.remove('paused');
   }
   currentAudio = null;
   currentEl = null;
+  isPaused = false;
+  setPauseUI();
 }
 
 function playAudio(text, el) {
   return new Promise(resolve => {
     stopCurrent();
     const audio = getAudio(text);
-    audio.playbackRate = getRate();
+    audio.playbackRate = 1;
     if (el) {
       el.classList.add('loading');
       currentEl = el;
     }
     currentAudio = audio;
+    currentResolve = resolve;
+    setPauseUI();
 
     const cleanup = () => {
       if (el) {
         el.classList.remove('playing');
         el.classList.remove('loading');
+        el.classList.remove('paused');
       }
       currentEl = null;
       currentAudio = null;
+      currentResolve = null;
+      isPaused = false;
+      setPauseUI();
       resolve();
     };
     audio.onended = cleanup;
@@ -592,7 +695,7 @@ function playAudio(text, el) {
     audio.oncanplay = () => {
       if (el) {
         el.classList.remove('loading');
-        el.classList.add('playing');
+        if (!isPaused) el.classList.add('playing');
       }
     };
     audio.play().catch(err => { console.error('Play failed', err); cleanup(); });
@@ -612,12 +715,51 @@ document.querySelectorAll('.word-list li').forEach(li => {
   });
 });
 
-document.getElementById('playAll').addEventListener('click', async () => {
-  const sentences = Array.from(document.querySelectorAll('.sentence'));
-  for (const s of sentences) await playAudio(s.dataset.text, s);
+// Click ref chip (圈数字) → scroll to sentence, brief flash
+document.querySelectorAll('.word-list .ref-jump').forEach(a => {
+  a.addEventListener('click', e => {
+    e.stopPropagation();
+    const num = a.dataset.target;
+    if (!num) return;
+    const target = document.querySelector('.sentence[data-num="' + num + '"]');
+    if (!target) return;
+    target.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    target.classList.remove('ref-flash');
+    void target.offsetWidth;  // force reflow so animation restarts on repeated clicks
+    target.classList.add('ref-flash');
+    target.addEventListener('animationend', () => target.classList.remove('ref-flash'), { once: true });
+  });
 });
 
-document.getElementById('stopBtn').addEventListener('click', stopCurrent);
+document.getElementById('playAll').addEventListener('click', async () => {
+  if (currentAudio) {
+    if (isPaused) {
+      currentAudio.play().catch(()=>{});
+      isPaused = false;
+      if (currentEl) { currentEl.classList.remove('paused'); currentEl.classList.add('playing'); }
+    } else {
+      currentAudio.pause();
+      isPaused = true;
+      if (currentEl) { currentEl.classList.remove('playing'); currentEl.classList.add('paused'); }
+    }
+    setPauseUI();
+    return;
+  }
+  stoppedByUser = false;
+  const sentences = Array.from(document.querySelectorAll('.sentence'));
+  for (const s of sentences) {
+    await playAudio(s.dataset.text, s);
+    if (stoppedByUser) break;
+  }
+});
+
+document.getElementById('stopBtn').addEventListener('click', () => {
+  stoppedByUser = true;
+  const r = currentResolve;
+  currentResolve = null;
+  stopCurrent();
+  if (r) r();  // unblock Play All loop's await
+});
 
 document.getElementById('showTargets').addEventListener('change', e => {
   document.body.classList.toggle('targets-hidden', !e.target.checked);
@@ -629,9 +771,8 @@ document.getElementById('showZh').addEventListener('change', e => {
   document.body.classList.toggle('zh-hidden', !e.target.checked);
 });
 
-document.getElementById('speed').addEventListener('change', () => {
-  if (currentAudio) currentAudio.playbackRate = getRate();
-});
+document.getElementById('voice').addEventListener('change', stopCurrent);
+document.getElementById('speed').addEventListener('change', stopCurrent);
 </script>
 </body>
 </html>`
@@ -641,9 +782,19 @@ document.getElementById('speed').addEventListener('change', () => {
 // HTTP server
 // ============================================================================
 
-function serveAudio(text: string, res: ServerResponse): void {
+function resolveVoice(value: string | null): string {
+  if (!value) return DEFAULT_VOICE
+  return VOICES[value] ?? DEFAULT_VOICE
+}
+
+function resolveRate(value: string | null): string {
+  if (!value) return DEFAULT_RATE
+  return /^[+-]\d{1,3}%$/.test(value) ? value : DEFAULT_RATE
+}
+
+function serveAudio(text: string, res: ServerResponse, voice: string, rate: string): void {
   try {
-    const path = ensureAudio(text)
+    const path = ensureAudio(text, voice, rate)
     const stat = statSync(path)
     res.writeHead(200, {
       'Content-Type': 'audio/mpeg',
@@ -655,6 +806,20 @@ function serveAudio(text: string, res: ServerResponse): void {
     console.error('[audio error]', err)
     res.writeHead(500, { 'Content-Type': 'text/plain' })
     res.end('Audio generation failed')
+  }
+}
+
+function enrichTargetWordsWithZh(db: Database.Database, targets: TargetWord[]): void {
+  if (targets.length === 0) return
+  const stmt = db.prepare(`
+    SELECT definition_zh FROM words
+    WHERE lower(headword) = ? AND definition_zh IS NOT NULL AND definition_zh <> ''
+    ORDER BY CASE WHEN pos = ? THEN 0 ELSE 1 END, id
+    LIMIT 1
+  `)
+  for (const t of targets) {
+    const row = stmt.get(t.word.toLowerCase(), t.pos) as { definition_zh: string } | undefined
+    if (row?.definition_zh) t.zh = row.definition_zh
   }
 }
 
@@ -677,6 +842,7 @@ function serveArticle(date: string, res: ServerResponse): void {
     }
     const md = readFileSync(fullPath, 'utf-8')
     const parsed = parseArticleMd(md)
+    enrichTargetWordsWithZh(db, parsed.targetWords)
     const html = renderHtml(date, parsed)
     res.writeHead(200, { 'Content-Type': 'text/html; charset=utf-8' })
     res.end(html)
@@ -695,7 +861,7 @@ const server = createServer((req, res) => {
       res.end('Missing text')
       return
     }
-    serveAudio(text, res)
+    serveAudio(text, res, resolveVoice(url.searchParams.get('voice')), resolveRate(url.searchParams.get('rate')))
     return
   }
 

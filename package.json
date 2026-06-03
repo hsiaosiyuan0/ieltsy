@@ -10,7 +10,8 @@
     "db:import:oxford": "tsx scripts/import-oxford.ts",
     "db:import:awl": "tsx scripts/import-awl.ts",
     "db:import:grammar": "tsx scripts/import-grammar.ts",
-    "db:import:all": "pnpm db:import:topics && pnpm db:import:oxford && pnpm db:import:awl && pnpm db:import:grammar",
+    "db:import:zh": "tsx scripts/import-zh.ts",
+    "db:import:all": "pnpm db:import:topics && pnpm db:import:oxford && pnpm db:import:awl && pnpm db:import:grammar && pnpm db:import:zh",
     "db:stats": "tsx scripts/query-stats.ts",
     "db:reset": "rm -f db/ieltsy.db db/ieltsy.db-shm db/ieltsy.db-wal && pnpm db:init && pnpm db:import:all && pnpm db:stats",
     "ielts": "tsx scripts/cli.ts",
@@ -20,7 +21,9 @@
     "study:render-mistakes": "tsx scripts/cli.ts mistakes",
     "study:speak": "tsx scripts/cli.ts speak",
     "study:preview": "tsx scripts/cli.ts preview",
-    "study:add-word": "tsx scripts/cli.ts add-word"
+    "study:add-word": "tsx scripts/cli.ts add-word",
+    "study:export": "tsx scripts/study/export-pages.ts",
+    "pages:build": "pnpm study:export"
   },
   "dependencies": {
     "better-sqlite3": "^12.9.0"

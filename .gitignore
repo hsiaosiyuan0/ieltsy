@@ -1,4 +1,5 @@
 node_modules/
+data/ecdict.csv
 db/*.db
 db/*.db-shm
 db/*.db-wal

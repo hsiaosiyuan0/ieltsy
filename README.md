@@ -54,9 +54,23 @@ pnpm ielts help --json       # 全套 metadata as JSON（LLM-friendly）
 | `today` | 获取今日新词 + 语法 + 复习队列 |
 | `record` | 保存 cloze 成绩 + SM-2 更新 + 错题入库 |
 | `add-word` | 任意词加入学习队列（用户阅读中遇到的生词） |
-| `speak` | edge-tts 朗读（默认美音 Aria，可换 UK / 男声 / 不同语速） |
+| `speak` | edge-tts 朗读（默认自然美音 Jenny，可换 UK / 男声 / 不同语速） |
 | `preview` | 启动本地 HTTP 服务，浏览器预览今日文章，点击句子/单词朗读 |
+| `export-pages` | 导出 GitHub Pages 静态站点（手机阅读 / 朗读 / 遮词复习） |
 | `mistakes` | 从 db 重新生成错题本 md |
+
+## GitHub Pages 发布
+
+发布版是**纯静态只读站点**：从 `learning/days/YYYY-MM-DD/article.md` 和 `learning/mistakes/*.md` 生成 HTML，适合手机继续阅读、浏览器朗读、遮词练习和本地标记完成。SQLite 进度、SM-2 调度和错题写入仍在本地 CLI 里完成。
+
+```bash
+pnpm pages:build
+# 输出 dist/，可直接打开 dist/index.html 预览
+```
+
+仓库已包含 `.github/workflows/deploy-pages.yml`。推送到 GitHub 后，在仓库 Settings → Pages 里把 Source 设为 **GitHub Actions**；之后每次 push `main` 都会自动发布 `dist/`。
+
+注意：GitHub Actions 只能发布已经 commit 的学习日志。新一天学完后，把对应的 `learning/days/YYYY-MM-DD/article.md`、`learning/README.md` 和错题本改动提交上去，手机端才会看到。
 
 ## 架构
 
