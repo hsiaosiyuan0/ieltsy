@@ -174,12 +174,13 @@ function renderRefs(refs: string): string {
   }).join(' ')
 }
 
-function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'play' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers'): string {
+function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers'): string {
   const paths: Record<typeof name, string> = {
     book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
     archive: '<path d="M3 5h18"/><path d="M5 5v14h14V5"/><path d="M9 9h6"/>',
     'arrow-left': '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
+    'arrow-right': '<path d="m12 5 7 7-7 7"/><path d="M5 12h14"/>',
     play: '<path d="m8 5 11 7-11 7V5z"/>',
     translate: '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>',
     eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
@@ -214,17 +215,20 @@ function renderShell(opts: {
 </head>
 <body${opts.bodyAttrs ? ` ${opts.bodyAttrs}` : ''}>
   <a class="skip-link" href="#content">跳到正文</a>
-  <header class="ledger-shell">
-    <a class="brand" href="${homeHref}" aria-label="IELTSY 首页">
-      <span class="brand-mark">${icon('book')}</span>
-      <span>IELTSY</span>
-    </a>
-    <nav class="nav" aria-label="主导航">
-      <a href="${homeHref}" ${navHome}>${icon('home')}<span>学习日</span></a>
-      <a href="${opts.prefix}mistakes/" ${navMistakes}>${icon('archive')}<span>错题本</span></a>
-    </nav>
-  </header>
+  <div class="app-frame">
+    <aside class="desk-rail" aria-label="应用导航">
+      <a class="rail-brand" href="${homeHref}" aria-label="IELTSY 首页">
+        <span class="brand-mark">${icon('book')}</span>
+        <span class="brand-word">IELTSY</span>
+      </a>
+      <nav class="rail-nav" aria-label="主导航">
+        <a class="rail-link" href="${homeHref}" ${navHome}>${icon('home')}<span>学习日</span></a>
+        <a class="rail-link" href="${opts.prefix}mistakes/" ${navMistakes}>${icon('archive')}<span>错题本</span></a>
+      </nav>
+      <span class="rail-status">Pages</span>
+    </aside>
 ${opts.body}
+  </div>
   <script src="${opts.prefix}assets/site.js" defer></script>
 </body>
 </html>
@@ -238,43 +242,51 @@ function renderIndex(articles: ParsedArticle[]): string {
   const latestHref = latest ? `days/${latest.date}/` : '#'
   const lessonItems = articles.map((article) => {
     const title = articleDisplayTitle(article)
-    return `        <a class="ledger-row" href="days/${article.date}/">
+    return `        <a class="timeline-row" href="days/${article.date}/">
           <span class="date-rail">${escapeHtml(article.date)}</span>
           <span class="row-main">
             <strong>${escapeHtml(title)}</strong>
             <span>${escapeHtml(article.genre)} · ${article.targetWords.length} 词 · ${escapeHtml(article.grammarTitle || '语法点')}</span>
           </span>
-          <span class="row-cue">${icon('arrow-left')}</span>
+          <span class="row-cue">${icon('arrow-right')}</span>
         </a>`
   }).join('\n')
 
-  const body = `  <main id="content" class="page home-ledger">
-    <section class="ledger-cover">
-      <div>
-        <p class="eyebrow">Study Ledger</p>
-        <h1>${escapeHtml(SITE_TITLE)}</h1>
-      </div>
-      <div class="cover-actions">
-        <a class="command primary" href="${latestHref}">${icon('play')}<span>继续</span></a>
-        <a class="command" href="mistakes/">${icon('archive')}<span>错题</span></a>
-      </div>
-    </section>
+  const body = `    <main id="content" class="desk-surface desk-home">
+      <section class="today-panel">
+        <div class="today-copy">
+          <p class="eyebrow">Current desk</p>
+          <h1>${escapeHtml(latestTitle)}</h1>
+          <div class="today-meta">
+            <span>${icon('calendar')}${escapeHtml(latest?.date ?? '-')}</span>
+            <span>${icon('layers')}${escapeHtml(latest?.genre ?? 'lesson')}</span>
+            <span>${latest?.targetWords.length ?? 0} 词</span>
+          </div>
+        </div>
+        <div class="today-actions">
+          <a class="desk-command primary" href="${latestHref}">${icon('play')}<span>继续学习</span></a>
+          <a class="desk-command" href="mistakes/">${icon('archive')}<span>错题本</span></a>
+        </div>
+      </section>
 
-    <section class="ledger-metrics" aria-label="学习统计">
-      <div><span>${articles.length}</span><small>学习日</small></div>
-      <div><span>${totalWords}</span><small>目标词</small></div>
-      <div><span>${escapeHtml(latest?.date ?? '-')}</span><small>最近更新</small></div>
-    </section>
+      <section class="desk-grid">
+        <div class="metric-strip" aria-label="学习统计">
+          <div><span>${articles.length}</span><small>学习日</small></div>
+          <div><span>${totalWords}</span><small>目标词</small></div>
+          <div><span>${escapeHtml(latest?.date ?? '-')}</span><small>最近更新</small></div>
+        </div>
 
-    <section class="section-head compact">
-      <h2>学习日</h2>
-      <p>${escapeHtml(latestTitle)}</p>
-    </section>
-
-    <div class="ledger-list">
-${lessonItems || '      <p class="empty">还没有可发布的 article.md。</p>'}
-    </div>
-  </main>`
+        <section class="timeline-section">
+          <div class="section-head">
+            <h2>Learning timeline</h2>
+            <p>${escapeHtml(latestTitle)}</p>
+          </div>
+          <div class="timeline-list">
+${lessonItems || '            <p class="empty">还没有可发布的 article.md。</p>'}
+          </div>
+        </section>
+      </section>
+    </main>`
 
   return renderShell({
     title: '学习日',
@@ -310,7 +322,7 @@ function renderDay(article: ParsedArticle): string {
               ${example.note ? `<span class="note">${escapeHtml(example.note)}</span>` : ''}
             </li>`).join('\n')
 
-  const body = `  <main id="content" class="page lesson-page">
+  const body = `    <main id="content" class="desk-surface lesson-desk">
     <section class="lesson-cover">
       <a class="back-link" href="../../">${icon('arrow-left')}<span>学习日</span></a>
       <div class="cover-grid">
@@ -324,31 +336,31 @@ function renderDay(article: ParsedArticle): string {
       </div>
     </section>
 
-    <section class="command-bar" aria-label="学习工具">
-      <button class="command primary" type="button" data-action="play-all">${icon('play')}<span>全文</span></button>
-      <button class="command" type="button" data-action="toggle-zh" aria-pressed="false">${icon('translate')}<span>译文</span></button>
-      <button class="command" type="button" data-action="toggle-practice" aria-pressed="false">${icon('eye')}<span>遮词</span></button>
-      <label class="done-toggle">
-        <input type="checkbox" data-action="mark-done">
-        ${icon('check')}
-        <span>完成</span>
-      </label>
-    </section>
+    <div class="lesson-workbench">
+      <aside class="study-dock" aria-label="学习工具">
+        <button class="desk-command primary" type="button" data-action="play-all">${icon('play')}<span>全文</span></button>
+        <button class="desk-command" type="button" data-action="toggle-zh" aria-pressed="false">${icon('translate')}<span>译文</span></button>
+        <button class="desk-command" type="button" data-action="toggle-practice" aria-pressed="false">${icon('eye')}<span>遮词</span></button>
+        <label class="done-toggle">
+          <input type="checkbox" data-action="mark-done">
+          ${icon('check')}
+          <span>完成</span>
+        </label>
+      </aside>
 
-    <div class="lesson-grid">
-      <article class="reader" aria-label="短文">
+      <article class="reading-paper" aria-label="短文">
 ${sentencesHtml}
       </article>
 
-      <aside class="study-panels" aria-label="目标词和语法点">
-        <section class="study-panel">
+      <aside class="notes-tray" aria-label="目标词和语法点">
+        <section class="note-panel">
           <h2>目标词</h2>
           <ol class="word-list">
 ${wordsHtml}
           </ol>
         </section>
 
-        <section class="study-panel">
+        <section class="note-panel">
           <h2>语法点</h2>
           <p class="grammar-title">${escapeHtml(article.grammarTitle || '未记录')}</p>
           ${article.grammarDescription ? `<p class="grammar-desc">${escapeHtml(article.grammarDescription)}</p>` : ''}
@@ -442,13 +454,13 @@ function renderMarkdown(md: string): string {
 
 function renderMistakesPage(kind: 'words' | 'grammar', markdown: string): string {
   const title = kind === 'words' ? '单词错题' : '语法错题'
-  const body = `  <main id="content" class="page mistakes-page">
+  const body = `    <main id="content" class="desk-surface mistakes-desk">
     <section class="lesson-cover compact">
       <a class="back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
       <p class="eyebrow">Mistakes</p>
       <h1>${title}</h1>
     </section>
-    <article class="markdown-body">
+    <article class="markdown-paper">
 ${renderMarkdown(markdown)}
     </article>
   </main>`
@@ -463,22 +475,22 @@ ${renderMarkdown(markdown)}
 }
 
 function renderMistakesIndex(): string {
-  const body = `  <main id="content" class="page mistakes-page">
+  const body = `    <main id="content" class="desk-surface mistakes-desk">
     <section class="lesson-cover compact">
       <a class="back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
       <p class="eyebrow">Mistakes</p>
       <h1>错题本</h1>
     </section>
-    <div class="ledger-list">
-      <a class="ledger-row" href="words.html">
+    <div class="timeline-list mistakes-list">
+      <a class="timeline-row" href="words.html">
         <span class="date-rail">Words</span>
         <span class="row-main"><strong>单词错题</strong><span>最近答错的目标词</span></span>
-        <span class="row-cue">${icon('arrow-left')}</span>
+        <span class="row-cue">${icon('arrow-right')}</span>
       </a>
-      <a class="ledger-row" href="grammar.html">
+      <a class="timeline-row" href="grammar.html">
         <span class="date-rail">Grammar</span>
         <span class="row-main"><strong>语法错题</strong><span>需要回看的语法点</span></span>
-        <span class="row-cue">${icon('arrow-left')}</span>
+        <span class="row-cue">${icon('arrow-right')}</span>
       </a>
     </div>
   </main>`
@@ -497,11 +509,11 @@ function renderNotFound(): string {
     title: '页面不存在',
     description: `${SITE_TITLE} not found`,
     prefix: '',
-    body: `  <main id="content" class="page home-ledger">
-    <section class="ledger-cover">
+    body: `    <main id="content" class="desk-surface desk-home">
+    <section class="today-panel">
       <p class="eyebrow">404</p>
       <h1>页面不存在</h1>
-      <div class="cover-actions"><a class="command primary" href="./">${icon('home')}<span>返回首页</span></a></div>
+      <div class="today-actions"><a class="desk-command primary" href="./">${icon('home')}<span>返回首页</span></a></div>
     </section>
   </main>`,
   })
@@ -530,58 +542,59 @@ function writePage(path: string, content: string): void {
 
 const SITE_CSS = `:root {
   color-scheme: light;
-  --canvas: #f7f8f5;
-  --paper: #ffffff;
-  --paper-quiet: #f1f4ef;
-  --ink: #171a1f;
-  --ink-soft: #4e5661;
-  --ink-faint: #77808b;
-  --rule: #d8ded6;
-  --rule-strong: #aeb8ae;
+  --desk: #edefe8;
+  --surface: #f8f7f1;
+  --paper: #fffdf7;
+  --ink: #111318;
+  --ink-2: #3f4652;
+  --ink-3: #767d86;
+  --line: #d4d8ce;
+  --line-2: #9fa79c;
   --accent: #0f766e;
-  --accent-ink: #0b4f4a;
-  --study: #4f46e5;
-  --review: #b45309;
-  --review-bg: #fff2cc;
-  --success: #15803d;
-  --danger: #b91c1c;
+  --accent-2: #0b4f4a;
+  --study: #4338ca;
+  --target: #a45c00;
+  --target-bg: #ffe8a3;
+  --done: #157f3b;
   --radius: 8px;
-  --page: min(1180px, calc(100% - 32px));
-  --transition: 150ms ease-out;
+  --rail: 72px;
+  --transition: 140ms ease-out;
 }
 
 * { box-sizing: border-box; }
 html {
   min-width: 320px;
-  scroll-padding-top: 96px;
   font-size: 16px;
+  scroll-padding-top: 24px;
 }
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--canvas);
+  background: var(--desk);
   color: var(--ink);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.55;
   text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+  overscroll-behavior: contain;
 }
 a { color: inherit; }
 button, input { font: inherit; }
-button, a, label { -webkit-tap-highlight-color: transparent; }
+button, a, label { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
 button { cursor: pointer; }
 
 .skip-link {
   position: fixed;
   left: 16px;
-  top: 10px;
-  z-index: 30;
-  translate: 0 -150%;
-  border: 1px solid var(--accent);
+  top: 12px;
+  z-index: 50;
+  translate: 0 -160%;
+  border: 2px solid var(--accent);
   border-radius: var(--radius);
   background: var(--paper);
-  color: var(--accent-ink);
+  color: var(--accent-2);
   padding: 10px 12px;
-  font-weight: 800;
+  font-weight: 900;
 }
 .skip-link:focus { translate: 0 0; }
 
@@ -591,164 +604,192 @@ button { cursor: pointer; }
   flex: 0 0 auto;
 }
 
-.ledger-shell {
+.app-frame {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: var(--rail) minmax(0, 1fr);
+}
+.desk-rail {
   position: sticky;
   top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 18px;
+  border-right: 2px solid var(--ink);
+  background: var(--paper);
+  padding: 14px 10px;
   z-index: 20;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  min-height: 60px;
-  padding: 8px max(16px, calc((100vw - 1180px) / 2));
-  background: var(--canvas);
-  border-bottom: 1px solid var(--rule);
 }
-.brand {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
+.rail-brand, .rail-link {
+  display: grid;
+  justify-items: center;
+  gap: 6px;
+  min-height: 54px;
+  border-radius: var(--radius);
   color: var(--ink);
-  font-weight: 900;
-  letter-spacing: 0;
   text-decoration: none;
+}
+.rail-brand {
+  align-content: center;
+  font-weight: 950;
 }
 .brand-mark {
-  display: inline-grid;
+  display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid var(--rule-strong);
+  width: 42px;
+  height: 42px;
+  border: 2px solid var(--ink);
   border-radius: var(--radius);
+  background: var(--surface);
+  color: var(--accent-2);
+}
+.brand-word {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+}
+.rail-nav {
+  display: grid;
+  align-content: start;
+  gap: 10px;
+}
+.rail-link {
+  border: 1px solid var(--line);
   background: var(--paper);
-  color: var(--accent-ink);
-}
-.nav {
-  display: flex;
-  gap: 6px;
-}
-.nav a {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 44px;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
-  color: var(--ink-soft);
-  padding: 0 12px;
-  text-decoration: none;
+  color: var(--ink-2);
+  padding: 8px 4px;
+  font-size: 0.72rem;
+  font-weight: 850;
   transition: background var(--transition), border-color var(--transition), color var(--transition);
 }
-.nav a:hover {
-  border-color: var(--rule);
-  background: var(--paper);
+.rail-link:hover {
+  border-color: var(--ink);
+  background: var(--surface);
   color: var(--ink);
 }
-.nav a[aria-current="page"] {
-  border-color: var(--rule-strong);
-  background: var(--paper-quiet);
-  color: var(--accent-ink);
+.rail-link[aria-current="page"] {
+  border-color: var(--accent);
+  background: #e4f3ef;
+  color: var(--accent-2);
+}
+.rail-status {
+  justify-self: center;
+  writing-mode: vertical-rl;
+  color: var(--ink-3);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.7rem;
   font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
-.page {
-  width: var(--page);
+.desk-surface {
+  min-width: 0;
+  width: min(1240px, calc(100% - 32px));
   margin: 0 auto;
-  padding: clamp(20px, 4vw, 46px) 0 56px;
+  padding: clamp(18px, 3vw, 34px) 0 64px;
 }
 
-.ledger-cover, .lesson-cover {
+.today-panel {
+  min-width: 0;
+  max-width: 100%;
   display: grid;
-  gap: 18px;
-  padding: 0 0 clamp(18px, 3vw, 32px);
-}
-.ledger-cover {
-  grid-template-columns: minmax(0, 1fr) auto;
-  align-items: end;
-  border-bottom: 1px solid var(--rule);
-}
-.lesson-cover {
-  border-bottom: 1px solid var(--rule);
-}
-.lesson-cover.compact {
-  max-width: 760px;
-}
-.cover-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 320px);
+  grid-template-columns: minmax(0, 1fr) minmax(180px, auto);
   gap: 18px;
   align-items: end;
+  min-height: min(44vh, 420px);
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: clamp(18px, 4vw, 42px);
+  position: relative;
+}
+.today-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 12px;
+  background: var(--accent);
+  border-radius: 6px 0 0 6px;
+}
+.today-copy {
+  min-width: 0;
+  max-width: 100%;
 }
 .eyebrow {
-  margin: 0 0 10px;
-  color: var(--accent-ink);
+  margin: 0 0 12px;
+  color: var(--accent-2);
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 950;
   letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 h1 {
   margin: 0;
   color: var(--ink);
-  font-size: clamp(2rem, 5vw, 4.4rem);
-  line-height: 0.98;
+  font-size: clamp(2.25rem, 6.5vw, 5.8rem);
+  line-height: 0.92;
   letter-spacing: 0;
-  max-width: 920px;
+  overflow-wrap: anywhere;
+  word-break: break-word;
 }
-.lesson-cover h1 {
-  font-size: clamp(1.95rem, 4vw, 3.8rem);
-}
-.cover-actions {
+.today-meta {
+  min-width: 0;
+  max-width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-end;
   gap: 8px;
+  margin-top: 18px;
 }
-
-.back-link {
+.today-meta span {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  width: fit-content;
-  color: var(--ink-soft);
-  font-weight: 800;
-  text-decoration: none;
+  gap: 7px;
+  min-height: 34px;
+  border: 1px solid var(--line-2);
+  border-radius: 999px;
+  background: var(--paper);
+  color: var(--ink-2);
+  padding: 0 11px;
+  font-size: 0.88rem;
+  font-weight: 850;
 }
-.back-link:hover {
-  color: var(--accent-ink);
+.today-actions {
+  display: grid;
+  gap: 10px;
 }
 
-.command, .done-toggle {
+.desk-command, .done-toggle {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  min-width: 0;
   min-height: 44px;
-  border: 1px solid var(--rule);
+  border: 2px solid var(--ink);
   border-radius: var(--radius);
   background: var(--paper);
   color: var(--ink);
   padding: 0 13px;
-  font-weight: 850;
+  font-weight: 900;
   line-height: 1;
   text-decoration: none;
   transition: background var(--transition), border-color var(--transition), color var(--transition);
 }
-.command:hover, .done-toggle:hover {
-  border-color: var(--rule-strong);
-  background: var(--paper-quiet);
+.desk-command:hover, .done-toggle:hover {
+  background: var(--surface);
 }
-.command.primary {
+.desk-command.primary {
   border-color: var(--accent);
   background: var(--accent);
   color: white;
 }
-.command[aria-pressed="true"] {
+.desk-command[aria-pressed="true"] {
   border-color: var(--accent);
-  background: var(--paper-quiet);
-  color: var(--accent-ink);
+  background: #e4f3ef;
+  color: var(--accent-2);
 }
 .done-toggle {
   cursor: pointer;
@@ -762,42 +803,61 @@ h1 {
   overflow: hidden;
 }
 .done-toggle:has(input:checked) {
-  border-color: var(--success);
-  background: #eef8ef;
-  color: var(--success);
+  border-color: var(--done);
+  background: #eaf7ee;
+  color: var(--done);
 }
 
-.ledger-metrics {
+.desk-grid {
+  min-width: 0;
+  max-width: 100%;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 12px;
-  margin: 16px 0 28px;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: 16px;
+  margin-top: 16px;
 }
-.ledger-metrics div {
-  min-height: 88px;
-  border: 1px solid var(--rule);
+.metric-strip {
+  min-width: 0;
+  max-width: 100%;
+  display: grid;
+  gap: 10px;
+}
+.metric-strip div {
+  min-height: 118px;
+  border: 2px solid var(--ink);
   border-radius: var(--radius);
   background: var(--paper);
   padding: 14px;
 }
-.ledger-metrics span {
+.metric-strip span {
   display: block;
-  font-size: clamp(1.35rem, 3vw, 2.25rem);
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 950;
+  line-height: 1;
+}
+.metric-strip small {
+  display: block;
+  margin-top: 8px;
+  color: var(--ink-3);
+  font-size: 0.8rem;
   font-weight: 900;
-  line-height: 1.1;
 }
-.ledger-metrics small {
-  color: var(--ink-faint);
-  font-size: 0.82rem;
-  font-weight: 800;
+.timeline-section {
+  min-width: 0;
+  max-width: 100%;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--paper);
+  padding: 14px;
 }
-
 .section-head {
   display: grid;
   grid-template-columns: auto minmax(0, 1fr);
   gap: 12px;
   align-items: end;
-  margin: 0 0 10px;
+  margin: 0 0 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--line);
 }
 .section-head h2 {
   margin: 0;
@@ -805,37 +865,38 @@ h1 {
 }
 .section-head p {
   margin: 0;
-  color: var(--ink-faint);
+  color: var(--ink-3);
   overflow-wrap: anywhere;
 }
-
-.ledger-list {
+.timeline-list {
+  min-width: 0;
+  max-width: 100%;
   display: grid;
   gap: 8px;
 }
-.ledger-row {
+.timeline-row {
   display: grid;
-  grid-template-columns: 132px minmax(0, 1fr) 36px;
-  gap: 14px;
+  grid-template-columns: 132px minmax(0, 1fr) 44px;
+  gap: 12px;
   align-items: center;
   min-height: 76px;
-  border: 1px solid var(--rule);
+  border: 1px solid var(--line);
   border-radius: var(--radius);
-  background: var(--paper);
-  padding: 12px 14px;
+  background: var(--surface);
+  padding: 10px 12px;
   text-decoration: none;
   cursor: pointer;
   transition: background var(--transition), border-color var(--transition);
 }
-.ledger-row:hover {
-  border-color: var(--rule-strong);
-  background: #fbfcfa;
+.timeline-row:hover {
+  border-color: var(--ink);
+  background: var(--paper);
 }
 .date-rail {
-  color: var(--accent-ink);
+  color: var(--accent-2);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 0.86rem;
-  font-weight: 900;
+  font-weight: 950;
 }
 .row-main {
   min-width: 0;
@@ -848,71 +909,108 @@ h1 {
   overflow-wrap: anywhere;
 }
 .row-main span {
-  color: var(--ink-faint);
+  color: var(--ink-3);
   font-size: 0.9rem;
 }
 .row-cue {
   display: grid;
   place-items: center;
-  width: 36px;
-  height: 36px;
-  color: var(--ink-faint);
-  transform: rotate(180deg);
+  width: 44px;
+  height: 44px;
+  color: var(--ink-2);
 }
 .empty {
-  color: var(--ink-faint);
+  color: var(--ink-3);
 }
 
+.lesson-cover {
+  min-width: 0;
+  max-width: 100%;
+  display: grid;
+  gap: 14px;
+  border: 2px solid var(--ink);
+  border-radius: var(--radius);
+  background: var(--surface);
+  padding: clamp(16px, 3vw, 28px);
+}
+.lesson-cover.compact {
+  max-width: 860px;
+}
+.cover-grid {
+  min-width: 0;
+  max-width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
+  gap: 20px;
+  align-items: end;
+}
+.lesson-cover h1 {
+  font-size: clamp(2rem, 4.8vw, 4.6rem);
+}
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  width: fit-content;
+  color: var(--ink-2);
+  font-weight: 900;
+  text-decoration: none;
+}
+.back-link:hover {
+  color: var(--accent-2);
+}
 .meta-stack {
   display: grid;
-  gap: 6px;
-  align-content: end;
+  gap: 8px;
 }
 .meta-stack span {
-  border-left: 3px solid var(--rule-strong);
-  color: var(--ink-soft);
-  padding-left: 10px;
+  border-left: 5px solid var(--accent);
+  background: var(--paper);
+  color: var(--ink-2);
+  padding: 8px 10px;
   font-size: 0.9rem;
-  font-weight: 750;
+  font-weight: 850;
 }
 
-.command-bar {
-  position: sticky;
-  top: 61px;
-  z-index: 15;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  align-items: center;
-  margin: 14px 0;
-  border: 1px solid var(--rule);
-  border-radius: var(--radius);
-  background: var(--canvas);
-  padding: 8px;
-}
-
-.lesson-grid {
+.lesson-workbench {
+  min-width: 0;
+  max-width: 100%;
   display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(280px, 360px);
+  grid-template-columns: 76px minmax(0, 1fr) 340px;
   gap: 16px;
   align-items: start;
+  margin-top: 16px;
 }
-.reader, .study-panel, .markdown-body {
-  border: 1px solid var(--rule);
+.study-dock {
+  position: sticky;
+  top: 16px;
+  display: grid;
+  gap: 10px;
+}
+.study-dock .desk-command, .study-dock .done-toggle {
+  min-height: 64px;
+  flex-direction: column;
+  padding: 8px 4px;
+  font-size: 0.78rem;
+}
+.reading-paper, .note-panel, .markdown-paper {
+  min-width: 0;
+  border: 2px solid var(--ink);
   border-radius: var(--radius);
   background: var(--paper);
 }
-.reader {
-  padding: clamp(14px, 3vw, 28px);
+.reading-paper {
+  padding: clamp(14px, 3vw, 30px);
 }
 .sentence {
   display: grid;
-  grid-template-columns: 44px 30px minmax(0, 1fr);
-  gap: 8px;
+  grid-template-columns: 44px 34px minmax(0, 1fr);
+  gap: 9px;
   align-items: start;
   margin: 0;
-  padding: 13px 0;
-  border-bottom: 1px solid #ecefeb;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line);
 }
 .sentence:last-child { border-bottom: 0; }
 .sentence-play {
@@ -920,19 +1018,19 @@ h1 {
   place-items: center;
   width: 44px;
   height: 44px;
-  border: 1px solid var(--rule);
+  border: 2px solid var(--line-2);
   border-radius: var(--radius);
-  background: var(--paper);
-  color: var(--accent-ink);
+  background: var(--surface);
+  color: var(--accent-2);
   transition: background var(--transition), border-color var(--transition);
 }
 .sentence-play:hover {
   border-color: var(--accent);
-  background: var(--paper-quiet);
+  background: #e4f3ef;
 }
 .num {
   color: var(--study);
-  font-weight: 900;
+  font-weight: 950;
   line-height: 44px;
 }
 .sentence-text {
@@ -943,53 +1041,55 @@ h1 {
 .en {
   color: var(--ink);
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.18rem;
-  line-height: 1.78;
+  font-size: 1.2rem;
+  line-height: 1.82;
+  overflow-wrap: anywhere;
 }
 .zh {
-  color: var(--ink-soft);
+  color: var(--ink-2);
   font-size: 0.96rem;
   line-height: 1.7;
 }
 body.hide-zh .zh { display: none; }
-
 .target {
   border-radius: 5px;
-  background: var(--review-bg);
-  color: var(--review);
+  background: var(--target-bg);
+  color: var(--target);
   cursor: pointer;
-  font-weight: 850;
+  font-weight: 900;
   padding: 0.04rem 0.18rem;
 }
 body.practice .target {
   color: transparent;
   text-shadow: none;
-  border-bottom: 2px solid var(--review);
+  border-bottom: 2px solid var(--target);
   background: transparent;
 }
 body.practice .target.revealed {
-  color: var(--review);
+  color: var(--target);
   border-bottom-color: transparent;
-  background: var(--review-bg);
+  background: var(--target-bg);
 }
 
-.study-panels {
+.notes-tray {
+  min-width: 0;
+  max-width: 100%;
   position: sticky;
-  top: 132px;
+  top: 16px;
   display: grid;
   gap: 12px;
 }
-.study-panel {
+.note-panel {
   padding: 14px;
 }
-.study-panel h2 {
-  margin: 0 0 10px;
+.note-panel h2 {
+  margin: 0 0 12px;
   font-size: 1rem;
 }
 .word-list {
   list-style: none;
   display: grid;
-  gap: 6px;
+  gap: 8px;
   margin: 0;
   padding: 0;
 }
@@ -998,8 +1098,8 @@ body.practice .target.revealed {
   grid-template-columns: minmax(0, 1fr) auto;
   gap: 4px 8px;
   align-items: center;
-  border-bottom: 1px solid #eef1ed;
-  padding: 0 0 7px;
+  border-bottom: 1px solid var(--line);
+  padding: 0 0 8px;
 }
 .word-list li:last-child {
   border-bottom: 0;
@@ -1014,19 +1114,17 @@ body.practice .target.revealed {
   overflow-wrap: anywhere;
   padding: 5px 0;
   text-align: left;
-  font-weight: 850;
+  font-weight: 900;
 }
-.word-button:hover {
-  color: var(--review);
-}
+.word-button:hover { color: var(--target); }
 .pos {
-  border: 1px solid #d9dcff;
+  border: 1px solid #c9c8ff;
   border-radius: 999px;
-  background: #f4f4ff;
+  background: #f0f0ff;
   color: #3730a3;
   padding: 0.08rem 0.42rem;
   font-size: 0.76rem;
-  font-weight: 900;
+  font-weight: 950;
 }
 .refs {
   grid-column: 1 / -1;
@@ -1035,22 +1133,20 @@ body.practice .target.revealed {
   gap: 4px;
 }
 .ref {
-  color: var(--accent-ink);
+  color: var(--accent-2);
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
   font-size: 0.78rem;
-  font-weight: 900;
+  font-weight: 950;
   text-decoration: none;
 }
-.ref:hover {
-  text-decoration: underline;
-}
+.ref:hover { text-decoration: underline; }
 .grammar-title {
   margin: 0 0 4px;
-  font-weight: 900;
+  font-weight: 950;
 }
 .grammar-desc {
   margin: 0 0 10px;
-  color: var(--ink-soft);
+  color: var(--ink-2);
 }
 .grammar-list {
   display: grid;
@@ -1058,38 +1154,42 @@ body.practice .target.revealed {
   margin: 0;
   padding-left: 18px;
 }
-.grammar-list code, .markdown-body code {
-  border: 1px solid var(--rule);
+.grammar-list code, .markdown-paper code {
+  border: 1px solid var(--line-2);
   border-radius: 5px;
-  background: var(--paper-quiet);
+  background: var(--surface);
   padding: 0.08rem 0.25rem;
 }
 .grammar-list .note {
   display: block;
-  color: var(--ink-soft);
+  color: var(--ink-2);
   font-size: 0.92rem;
 }
 
-.markdown-body {
-  max-width: 820px;
+.mistakes-desk {
+  display: grid;
+  gap: 16px;
+}
+.mistakes-list, .markdown-paper {
+  max-width: 860px;
+}
+.markdown-paper {
   padding: clamp(16px, 3vw, 30px);
 }
-.markdown-body h2, .markdown-body h3, .markdown-body h4 {
+.markdown-paper h2, .markdown-paper h3, .markdown-paper h4 {
   margin: 1.25rem 0 0.5rem;
 }
-.markdown-body h2:first-child { margin-top: 0; }
-.markdown-body p {
-  margin: 0.7rem 0;
-}
-.markdown-body blockquote {
+.markdown-paper h2:first-child { margin-top: 0; }
+.markdown-paper p { margin: 0.7rem 0; }
+.markdown-paper blockquote {
   margin: 0.9rem 0;
-  border-left: 3px solid var(--accent);
-  color: var(--ink-soft);
+  border-left: 5px solid var(--accent);
+  color: var(--ink-2);
   padding-left: 12px;
 }
-.markdown-body a {
-  color: var(--accent-ink);
-  font-weight: 800;
+.markdown-paper a {
+  color: var(--accent-2);
+  font-weight: 900;
 }
 
 :where(a, button, label, [tabindex]):focus-visible {
@@ -1097,42 +1197,84 @@ body.practice .target.revealed {
   outline-offset: 2px;
 }
 
-@media (hover: hover) {
-  .command:hover, .ledger-row:hover, .nav a:hover, .word-button:hover, .sentence-play:hover {
-    transition-duration: 120ms;
+@media (max-width: 1120px) {
+  .lesson-workbench {
+    grid-template-columns: 76px minmax(0, 1fr);
+  }
+  .notes-tray {
+    grid-column: 2;
+    position: static;
   }
 }
 
-@media (max-width: 900px) {
-  .ledger-shell {
-    padding-inline: 8px;
+@media (max-width: 820px) {
+  .app-frame {
+    display: block;
   }
-  .brand span:last-child {
+  .desk-rail {
+    position: fixed;
+    inset: auto 10px 10px;
+    height: 64px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    border: 2px solid var(--ink);
+    border-radius: var(--radius);
+    padding: 6px;
+    box-shadow: 0 10px 30px rgba(17, 19, 24, 0.14);
+  }
+  .rail-brand {
+    min-width: 52px;
+    min-height: 48px;
+  }
+  .brand-mark {
+    width: 38px;
+    height: 38px;
+  }
+  .brand-word, .rail-status {
     display: none;
   }
-  .nav a {
-    padding-inline: 10px;
+  .rail-nav {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
   }
-  .page {
+  .rail-link {
+    min-height: 48px;
+    grid-auto-flow: column;
+    align-content: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.82rem;
+  }
+  .desk-surface {
     width: min(100% - 16px, 720px);
-    padding-top: 18px;
+    padding: 12px 0 92px;
   }
-  .ledger-cover, .cover-grid {
+  .today-panel {
+    grid-template-columns: 1fr;
+    min-height: 0;
+    overflow: hidden;
+    padding: 16px 14px 18px 24px;
+  }
+  .today-actions {
     grid-template-columns: 1fr;
   }
-  .cover-actions {
-    justify-content: flex-start;
-  }
-  .ledger-metrics {
+  .desk-grid {
     grid-template-columns: 1fr;
+  }
+  .metric-strip {
+    grid-template-columns: 1fr;
+  }
+  .metric-strip div {
+    min-height: 86px;
   }
   .section-head {
     grid-template-columns: 1fr;
     gap: 2px;
   }
-  .ledger-row {
-    grid-template-columns: minmax(0, 1fr) 36px;
-    gap: 8px;
+  .timeline-row {
+    grid-template-columns: minmax(0, 1fr) 44px;
   }
   .date-rail {
     grid-column: 1 / -1;
@@ -1141,17 +1283,30 @@ body.practice .target.revealed {
     grid-column: 2;
     grid-row: 2;
   }
-  .command-bar {
-    top: 61px;
-  }
-  .command, .done-toggle {
-    flex: 1 1 calc(50% - 6px);
-  }
-  .lesson-grid {
+  .cover-grid {
     grid-template-columns: 1fr;
   }
-  .study-panels {
-    position: static;
+  .lesson-workbench {
+    grid-template-columns: 1fr;
+  }
+  .study-dock {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    background: var(--desk);
+    padding: 8px 0;
+  }
+  .study-dock .desk-command, .study-dock .done-toggle {
+    min-height: 56px;
+  }
+  .reading-paper {
+    order: 2;
+  }
+  .notes-tray {
+    order: 3;
+    grid-column: auto;
   }
   .sentence {
     grid-template-columns: 44px minmax(0, 1fr);
@@ -1169,18 +1324,15 @@ body.practice .target.revealed {
   .en {
     font-size: 1.1rem;
   }
+  h1 {
+    font-size: clamp(1.85rem, 8vw, 2.65rem);
+    line-height: 1;
+  }
 }
 
-@media (max-width: 420px) {
-  .nav a span {
-    display: none;
-  }
-  .nav a {
-    width: 44px;
-    justify-content: center;
-  }
-  .command, .done-toggle {
-    flex-basis: 100%;
+@media (max-width: 480px) {
+  h1 {
+    font-size: clamp(1.75rem, 7.6vw, 2.05rem);
   }
 }
 
@@ -1194,20 +1346,18 @@ body.practice .target.revealed {
 }
 
 @media print {
-  .ledger-shell, .command-bar, .sentence-play, .back-link {
+  .desk-rail, .study-dock, .sentence-play, .back-link {
     display: none !important;
   }
-  body {
-    background: white;
+  body { background: white; }
+  .app-frame, .lesson-workbench {
+    display: block;
   }
-  .page {
+  .desk-surface {
     width: auto;
     padding: 0;
   }
-  .lesson-grid {
-    display: block;
-  }
-  .reader, .study-panel, .markdown-body {
+  .today-panel, .lesson-cover, .reading-paper, .note-panel, .markdown-paper {
     border: 0;
   }
 }

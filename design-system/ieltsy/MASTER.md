@@ -1,28 +1,30 @@
-# IELTSY Design System: Study Ledger
+# IELTSY Design System: Exam Desk
 
 > Source of truth for GitHub Pages and future IELTSY web surfaces.
 > Page-specific files in `design-system/ieltsy/pages/` may override this file.
 
-## Design Pattern
+## Pattern
 
-**Pattern name:** Study Ledger
+**Pattern name:** Exam Desk
 
-IELTSY is an adult exam-prep study archive, not a marketing site. The interface should feel like a calm paper ledger with precise tool controls: readable, dense enough for repeated study, and quiet on mobile.
+IELTSY is an adult IELTS study cockpit. It should look like a compact exam desk: navigation rail, study surface, command dock, reading paper, and notes tray. This is not a landing page and not a generic card list.
 
-Use three layers consistently:
+The page anatomy is fixed:
 
-1. **Ledger Shell**: sticky compact header, restrained brand mark, page navigation.
-2. **Lesson Cover**: date, title, metadata, and primary continuation action.
-3. **Study Surface**: reading column plus companion panels for vocabulary, grammar, and mistakes.
+1. **Desk Rail**: persistent app navigation. Desktop uses a left rail; mobile uses a bottom rail.
+2. **Desk Surface**: the page canvas with strong grid alignment and visible sections.
+3. **Study Dock**: compact command controls, visually separate from content.
+4. **Reading Paper**: the article surface, optimized for long reading.
+5. **Notes Tray**: vocabulary, grammar, and mistakes panels.
 
-## Visual Principles
+## Visual Language
 
-- Reading comes first. Keep the article column visually dominant.
-- Use panels for tools and repeated records only; do not put cards inside cards.
-- Use strong contrast and matte surfaces. Avoid glass, gradients, decorative blobs, and marketing hero layouts.
-- Keep controls compact and predictable. Minimum touch target: 44px.
-- Use SVG icons for repeated tool commands; no emoji icons.
-- Motion is functional only: color, border, or opacity transitions between 120ms and 180ms.
+- Use a deliberate “desk” composition: left rail, large work surface, and side tray.
+- Use matte paper colors and high contrast ink.
+- Use one strong accent only for progress/action; use amber only for target words.
+- Use visible dividers, rails, and tracks. Avoid floating generic cards.
+- Use dense but calm layouts. The first viewport should show useful study content, not marketing copy.
+- No gradients, blobs, glass, hero illustration, or app-store landing sections.
 
 ## Tokens
 
@@ -30,129 +32,132 @@ Use three layers consistently:
 
 | Token | Value | Usage |
 |---|---:|---|
-| `--canvas` | `#F7F8F5` | App background |
-| `--paper` | `#FFFFFF` | Main reading/panel surface |
-| `--paper-quiet` | `#F1F4EF` | Subtle selected state |
-| `--ink` | `#171A1F` | Primary text |
-| `--ink-soft` | `#4E5661` | Secondary text |
-| `--ink-faint` | `#77808B` | Metadata |
-| `--rule` | `#D8DED6` | Borders and dividers |
-| `--rule-strong` | `#AEB8AE` | Active borders |
-| `--accent` | `#0F766E` | Primary action and focus |
-| `--accent-ink` | `#0B4F4A` | Accent text |
-| `--study` | `#4F46E5` | Sentence numbers and learning markers |
-| `--review` | `#B45309` | Target words |
-| `--review-bg` | `#FFF2CC` | Target highlight |
-| `--success` | `#15803D` | Completion state |
+| `--desk` | `#EDEFE8` | Whole app background |
+| `--surface` | `#F8F7F1` | Main desk surface |
+| `--paper` | `#FFFDF7` | Reading paper and notes |
+| `--ink` | `#111318` | Primary text |
+| `--ink-2` | `#3F4652` | Secondary text |
+| `--ink-3` | `#767D86` | Muted text |
+| `--line` | `#D4D8CE` | Standard dividers |
+| `--line-2` | `#9FA79C` | Strong dividers |
+| `--accent` | `#0F766E` | Primary action |
+| `--accent-2` | `#0B4F4A` | Accent text |
+| `--study` | `#4338CA` | Sentence/learning markers |
+| `--target` | `#A45C00` | Target word text |
+| `--target-bg` | `#FFE8A3` | Target word highlight |
+| `--done` | `#157F3B` | Completed state |
 
 ### Typography
 
-- **UI font:** `Inter`, `ui-sans-serif`, `system-ui`, `-apple-system`, `BlinkMacSystemFont`, `"Segoe UI"`, `sans-serif`
-- **Reading font:** `Georgia`, `"Times New Roman"`, `serif`
-- **Mono font:** `"SFMono-Regular"`, `Consolas`, `"Liberation Mono"`, monospace
+- **UI:** Inter/system sans.
+- **Reading:** Georgia / Times serif.
+- **Data rails:** SF Mono / Consolas.
+- Title text is large only in page covers. Panels use compact headings.
+- Letter spacing is `0`; uppercase micro labels may use `0.08em`.
 
-Scale:
+### Layout
 
-| Token | Value | Usage |
-|---|---:|---|
-| `--text-xs` | `0.78rem` | Micro metadata |
-| `--text-sm` | `0.9rem` | Labels, secondary UI |
-| `--text-md` | `1rem` | Body UI |
-| `--text-lg` | `1.125rem` | Panel headings |
-| `--text-read` | `1.18rem` | English reading text |
-| `--text-title` | `clamp(2rem, 5vw, 4.4rem)` | Page/lesson titles |
-
-Rules:
-
-- Letter spacing is `0` except small uppercase labels may use `0.08em`.
-- Do not scale fonts directly with viewport width outside the title token.
-- Reading line length should stay between 58 and 74 characters on desktop.
-
-### Shape And Spacing
-
-- Radius: `8px` max for panels and buttons.
-- Grid gap: `16px` desktop, `12px` mobile.
-- Page width: `min(1180px, calc(100% - 32px))`.
-- Reader width: prioritize `minmax(0, 1fr)` with a companion column capped at `360px`.
-- Sticky bars must have visible borders and not obscure content.
+- Desktop shell: `72px` left rail + flexible desk surface.
+- Desktop study page: `76px` command dock + article column + `340px` notes tray.
+- Mobile shell: bottom rail, page padding bottom at least `88px`.
+- Minimum touch target: `44px`.
+- Radius max: `8px`.
+- Use borders instead of shadows for structure.
 
 ## Components
 
-### Ledger Shell
+### Desk Rail
 
-- Sticky top header with brand at left and two navigation items at right.
-- Header background uses `--canvas` with a solid border; no floating blur-heavy nav.
-- Active nav item uses `--paper-quiet`, `--accent-ink`, and a clear border.
+- Desktop: fixed-width vertical rail with brand mark, two nav buttons, and repository/status slot.
+- Mobile: fixed bottom rail with icon + label nav items.
+- Active state uses filled paper background and accent border.
 
-### Command Button
+### Today Panel
 
-- Minimum height `44px`.
-- Border: `1px solid var(--rule)`.
-- Active: `var(--paper-quiet)` background, `var(--accent)` border.
-- Focus: `2px solid var(--accent)` outline plus 2px offset.
-- Icons use one consistent 24px SVG style.
+- Home page starts with a large latest-lesson panel.
+- It contains date, title, metadata, and primary continue action.
+- Timeline and metrics sit next to or below it as separate desk sections.
 
-### Lesson Row
+### Timeline Row
 
-- Repeated item card with date rail, title, and compact metadata.
-- Hover changes border/background only; no transform that shifts layout.
-- Entire row is clickable and has `cursor: pointer`.
+- Date rail at left, lesson title in the middle, compact metadata at right.
+- Hover changes background/border only.
+- Use a right arrow icon, not text arrows.
 
-### Reader Sentence
+### Study Dock
 
-- Three fixed zones on desktop: play button, circled number, text.
-- Mobile collapses to play button plus content.
-- Sentence play is an icon button with an accessible label.
-- Target words use `--review-bg`; in practice mode the word is hidden but occupies the same inline space.
+- A vertical stack on desktop; horizontal wrap on mobile.
+- Contains play all, translation, practice, done.
+- Active state must be obvious through border and background.
 
-### Study Panels
+### Reading Paper
 
-- Panels are direct children of page layout, never nested cards.
-- Vocabulary list uses compact rows with word, POS, and sentence refs.
-- Grammar notes use code styling with high contrast and no decorative background.
+- Article appears on a paper-like surface with a left sentence gutter.
+- Every sentence row has a 44px play button, circled number, English text, and optional Chinese text.
+- Practice mode hides target words without changing line height.
+
+### Notes Tray
+
+- Vocabulary and grammar are direct panels in a side tray.
+- Vocabulary rows show word, POS, and sentence refs.
+- Grammar examples use compact code styling.
 
 ## Page Templates
 
 ### Home
 
-- Use `home-ledger`: title, latest action, summary metrics, chronological lesson list.
-- The first viewport should immediately show the latest lesson and list start.
-- Do not use a marketing hero, feature explanation, screenshot carousel, testimonials, ratings, or app-store CTAs.
+Use:
+
+- `desk-home`
+- `today-panel`
+- `metric-strip`
+- `timeline-list`
+
+Do not use hero/marketing components.
 
 ### Lesson
 
-- Use `lesson-cover`, `command-bar`, and `lesson-grid`.
-- The command bar contains: play all, translation toggle, practice toggle, done marker.
-- The reader must appear before vocabulary panels in DOM order.
+Use:
+
+- `lesson-cover`
+- `lesson-workbench`
+- `study-dock`
+- `reading-paper`
+- `notes-tray`
+
+Reader must appear before notes in DOM order on mobile.
 
 ### Mistakes
 
-- Use the same `lesson-cover` and `ledger-list` patterns.
-- Markdown content uses the same panel style as the reader.
+Use:
 
-## Interaction Rules
+- `desk-page`
+- `lesson-cover`
+- `timeline-list`
+- `markdown-paper`
 
-- Respect `prefers-reduced-motion: reduce`.
-- Every clickable element needs a visible hover/focus state.
-- Keyboard users must be able to reveal and speak target words with Enter or Space.
-- Local-only completion state must be visually clear but not described as synced.
-- Browser speech is optional: if unsupported, controls remain stable.
+## Accessibility And Interaction
+
+- All interactive elements use SVG icons and visible text or `aria-label`.
+- Use `:focus-visible` with 2px accent outline.
+- Respect `prefers-reduced-motion`.
+- Do not rely on color alone for active states.
+- Mobile touch targets are at least 44px with 8px gaps.
 
 ## Anti-Patterns
 
-- No emoji icons.
-- No one-note purple, beige, dark slate, or orange-heavy palette.
-- No gradient orb or decorative blob backgrounds.
+- No generic top navbar.
+- No centered marketing hero.
 - No nested cards.
-- No hero-scale text inside compact panels.
-- No hidden focus outlines.
-- No layout-shifting hover transforms.
-- No text that explains the UI mechanics on screen.
+- No emoji icons.
+- No gradient/orb/blob decoration.
+- No hover transforms that shift layout.
+- No low-contrast gray text.
+- No all-purple, all-teal, dark slate, or beige-only UI.
 
-## Pre-Delivery Checklist
+## Verification
 
-- `pnpm exec tsc --noEmit` passes.
-- `pnpm pages:build` passes.
-- Generated `dist/index.html` and at least one `dist/days/YYYY-MM-DD/index.html` contain the Study Ledger classes.
-- Responsive breakpoints checked for 375px, 768px, 1024px, and 1440px by CSS inspection or browser QA.
-- Focus states, reduced motion, and 44px touch targets are present in CSS.
+- `pnpm exec tsc --noEmit`
+- `pnpm pages:build`
+- Generated pages contain `desk-rail`, `today-panel`, `lesson-workbench`, `study-dock`, `reading-paper`, and `notes-tray`.
+- Local HTTP checks return 200 for `/`, `/days/YYYY-MM-DD/`, and `/mistakes/`.
