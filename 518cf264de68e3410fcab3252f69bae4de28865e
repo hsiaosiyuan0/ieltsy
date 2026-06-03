@@ -1,0 +1,30 @@
+scripts/study/export-pages.ts
+  d5e780e1c6453f8d 76-81,245-246,249,251,257-262,267,271,275-276,278-279,302,305,309-323,331-332
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.8",
+  "base_commit_sha": "518cf264de68e3410fcab3252f69bae4de28865e",
+  "prompts": {
+    "d5e780e1c6453f8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e8b1b-53b0-7ec3-a33f-9e6cf20fd0c9",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 43,
+      "total_deletions": 16,
+      "accepted_lines": 43,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "scripts/study/export-pages.ts": {
+          "additions": 43,
+          "deletions": 16,
+          "accepted_lines": 43
+        }
+      }
+    }
+  }
+}
