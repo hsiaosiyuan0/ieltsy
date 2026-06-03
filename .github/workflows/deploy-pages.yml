@@ -36,6 +36,11 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
+      - name: Install Edge TTS
+        run: |
+          python3 -m pip install --user edge-tts
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
       - name: Build static site
         run: pnpm pages:build
 

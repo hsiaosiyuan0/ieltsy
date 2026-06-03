@@ -1,5 +1,7 @@
 import Database from 'better-sqlite3'
-import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
+import { spawnSync } from 'node:child_process'
+import { createHash } from 'node:crypto'
+import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 
@@ -12,6 +14,7 @@ interface Sentence {
   num: number
   text: string
   zh?: string
+  audio?: string
 }
 
 interface TargetWord {
@@ -19,6 +22,7 @@ interface TargetWord {
   pos: string
   refs: string
   zh?: string
+  audio?: string
 }
 
 interface GrammarExample {
@@ -34,6 +38,7 @@ interface ParsedArticle {
   genre: string
   sentences: Sentence[]
   targetWords: TargetWord[]
+  targetAudioByText?: Map<string, string>
   grammarTitle: string
   grammarDescription: string
   grammarExamples: GrammarExample[]
@@ -50,6 +55,10 @@ const OUT_DIR = resolve(values.out!)
 const SITE_TITLE = values.title!
 const STATIC_GLOSSARY_PATH = resolve('learning/glossary.zh.json')
 const DB_PATH = resolve('db/ieltsy.db')
+const AUDIO_CACHE_DIR = resolve('learning/audio-cache')
+const AUDIO_VOICE = process.env.IELTSY_AUDIO_VOICE || 'en-US-EmmaMultilingualNeural'
+const AUDIO_RATE = process.env.IELTSY_AUDIO_RATE || '+0%'
+const SKIP_AUDIO = process.env.IELTSY_SKIP_AUDIO === '1'
 
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) =>
@@ -155,19 +164,39 @@ function articleDisplayTitle(article: ParsedArticle): string {
   return article.title.split('·').slice(2).join('·').trim() || article.title.replace(/^#\s*/, '').trim() || article.date
 }
 
-function highlightTargets(text: string, targets: string[]): string {
+function audioAttr(prefix: string, audio?: string): string {
+  return audio ? ` data-audio="${prefix}assets/audio/${escapeHtml(audio)}"` : ''
+}
+
+function highlightTargets(text: string, targets: TargetWord[], targetAudioByText: Map<string, string>): string {
   let result = escapeHtml(text)
-  const sorted = [...targets].sort((a, b) => b.length - a.length)
+  const sorted = targets.map((target) => target.word).sort((a, b) => b.length - a.length)
   for (const word of sorted) {
     if (!word) continue
     const safe = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const pattern = new RegExp(`\\b(${safe}(?:s|es|ed|d|ing)?)\\b`, 'gi')
     result = result.replace(pattern, (_m, actual: string) => {
       const spoken = escapeHtml(actual)
-      return `<span class="target" role="button" tabindex="0" data-speak="${spoken}" title="显示 / 朗读">${spoken}</span>`
+      const audio = targetAudioByText.get(actual.toLowerCase()) ?? targetAudioByText.get(word.toLowerCase())
+      return `<span class="target" role="button" tabindex="0" data-speak="${spoken}"${audio ? ` data-audio="${escapeHtml(audio)}"` : ''} title="显示 / 朗读">${spoken}</span>`
     })
   }
   return result
+}
+
+function targetFormsInText(text: string, targets: TargetWord[]): string[] {
+  const forms = new Map<string, string>()
+  const sorted = targets.map((target) => target.word).sort((a, b) => b.length - a.length)
+  for (const word of sorted) {
+    if (!word) continue
+    const safe = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+    const pattern = new RegExp(`\\b(${safe}(?:s|es|ed|d|ing)?)\\b`, 'gi')
+    for (const match of text.matchAll(pattern)) {
+      const actual = match[1]?.trim()
+      if (actual) forms.set(actual.toLowerCase(), actual)
+    }
+  }
+  return [...forms.values()]
 }
 
 function renderRefs(refs: string): string {
@@ -264,6 +293,67 @@ function enrichTargetWords(
   for (const target of targetWords) {
     const staticZh = glossary.get(glossaryKey(target.word, target.pos)) ?? glossary.get(glossaryKey(target.word, normalizePos(target.pos)))
     target.zh = staticZh ?? dbLookup?.lookup(target.word, target.pos)
+  }
+}
+
+function audioCacheKey(text: string): string {
+  return createHash('md5').update(`${AUDIO_VOICE}|${AUDIO_RATE}|${text}`).digest('hex').slice(0, 12)
+}
+
+function ensureAudio(text: string): string | undefined {
+  const normalized = text.trim()
+  if (!normalized || SKIP_AUDIO) return undefined
+
+  mkdirSync(AUDIO_CACHE_DIR, { recursive: true })
+  const key = audioCacheKey(normalized)
+  const fileName = `${key}.mp3`
+  const cachePath = join(AUDIO_CACHE_DIR, fileName)
+  const outputPath = join(OUT_DIR, 'assets', 'audio', fileName)
+
+  if (!existsSync(cachePath)) {
+    const result = spawnSync(
+      'edge-tts',
+      ['--voice', AUDIO_VOICE, '--rate', AUDIO_RATE, '--text', normalized, '--write-media', cachePath],
+      { encoding: 'utf-8' }
+    )
+    if (result.status !== 0) {
+      throw new Error(`edge-tts failed for "${normalized.slice(0, 80)}": ${result.stderr || result.stdout || 'unknown error'}`)
+    }
+  }
+
+  copyFileSync(cachePath, outputPath)
+  return fileName
+}
+
+function prepareAudioAssets(articles: ParsedArticle[]): void {
+  mkdirSync(join(OUT_DIR, 'assets', 'audio'), { recursive: true })
+  const seen = new Map<string, string | undefined>()
+
+  function ensureOnce(text: string): string | undefined {
+    const normalized = text.trim()
+    if (!seen.has(normalized)) seen.set(normalized, ensureAudio(normalized))
+    return seen.get(normalized)
+  }
+
+  for (const article of articles) {
+    article.targetAudioByText = new Map()
+    for (const sentence of article.sentences) {
+      sentence.audio = ensureOnce(sentence.text)
+      for (const form of targetFormsInText(sentence.text, article.targetWords)) {
+        const audio = ensureOnce(form)
+        if (audio) article.targetAudioByText.set(form.toLowerCase(), `../../assets/audio/${audio}`)
+      }
+    }
+    for (const target of article.targetWords) {
+      target.audio = ensureOnce(target.word)
+      if (target.audio) article.targetAudioByText.set(target.word.toLowerCase(), `../../assets/audio/${target.audio}`)
+    }
+  }
+
+  if (SKIP_AUDIO) {
+    console.log('  Audio: skipped via IELTSY_SKIP_AUDIO=1')
+  } else {
+    console.log(`  Audio: ${[...seen.values()].filter(Boolean).length} mp3 assets (${AUDIO_VOICE}, ${AUDIO_RATE})`)
   }
 }
 
@@ -391,20 +481,20 @@ ${lessonItems || '            <p class="empty">还没有可发布的 article.md�
 }
 
 function renderDay(article: ParsedArticle): string {
-  const targets = article.targetWords.map((w) => w.word)
   const title = articleDisplayTitle(article)
   const metaParts = article.meta.split('|').map((part) => part.trim()).filter(Boolean)
-  const sentencesHtml = article.sentences.map((sentence) => `          <p class="sentence" id="sentence-${sentence.num}" data-text="${escapeHtml(sentence.text)}">
+  const targetAudioByText = article.targetAudioByText ?? new Map()
+  const sentencesHtml = article.sentences.map((sentence) => `          <p class="sentence" id="sentence-${sentence.num}" data-text="${escapeHtml(sentence.text)}"${audioAttr('../../', sentence.audio)}>
             <button class="sentence-play" type="button" data-action="play-sentence" aria-label="朗读第 ${sentence.num} 句">${icon('play')}</button>
             <span class="num">${CIRCLED[sentence.num - 1]}</span>
             <span class="sentence-text">
-              <span class="en">${highlightTargets(sentence.text, targets)}</span>
+              <span class="en">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</span>
               ${sentence.zh ? `<span class="zh">${escapeHtml(sentence.zh)}</span>` : ''}
             </span>
           </p>`).join('\n')
 
   const wordsHtml = article.targetWords.map((word) => `            <li>
-              <button type="button" class="word-button" data-speak="${escapeHtml(word.word)}">${escapeHtml(word.word)}</button>
+              <button type="button" class="word-button" data-speak="${escapeHtml(word.word)}"${audioAttr('../../', word.audio)}>${escapeHtml(word.word)}</button>
               <span class="pos">${escapeHtml(word.pos)}</span>
               ${word.zh ? `<span class="word-zh">${escapeHtml(word.zh)}</span>` : '<span class="word-zh missing">未收录中文释义</span>'}
               <span class="refs"><span class="refs-label">出现</span>${renderRefs(word.refs)}</span>
@@ -1489,13 +1579,100 @@ const SITE_JS = `(() => {
     },
   }
 
-  function speak(text) {
-    if (!text || !('speechSynthesis' in window)) return
-    window.speechSynthesis.cancel()
-    const utterance = new SpeechSynthesisUtterance(text)
-    utterance.lang = 'en-US'
-    utterance.rate = 0.9
-    window.speechSynthesis.speak(utterance)
+  const audioCache = new Map()
+  let currentAudio = null
+  let stopCurrent = null
+  let playbackToken = 0
+
+  function cancelPlayback() {
+    playbackToken += 1
+    if (currentAudio) {
+      currentAudio.pause()
+      try { currentAudio.currentTime = 0 } catch {}
+    }
+    if (stopCurrent) stopCurrent()
+    stopCurrent = null
+    currentAudio = null
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel()
+  }
+
+  function getAudio(src) {
+    if (audioCache.has(src)) return audioCache.get(src)
+    const audio = new Audio(src)
+    audio.preload = 'auto'
+    audioCache.set(src, audio)
+    return audio
+  }
+
+  function browserSpeak(text, token) {
+    return new Promise((resolve) => {
+      if (!text || token !== playbackToken || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
+        resolve()
+        return
+      }
+      window.speechSynthesis.cancel()
+      const utterance = new SpeechSynthesisUtterance(text)
+      utterance.lang = 'en-US'
+      utterance.rate = 0.9
+      utterance.onend = () => resolve()
+      utterance.onerror = () => resolve()
+      window.speechSynthesis.speak(utterance)
+    })
+  }
+
+  function playOne(text, src, token) {
+    if (!text || token !== playbackToken) return Promise.resolve()
+    if (!src) return browserSpeak(text, token)
+
+    return new Promise((resolve) => {
+      const audio = getAudio(src)
+      let settled = false
+
+      function clear() {
+        audio.onended = null
+        audio.onerror = null
+        if (currentAudio === audio) currentAudio = null
+        if (stopCurrent === finish) stopCurrent = null
+      }
+
+      function finish() {
+        if (settled) return
+        settled = true
+        clear()
+        resolve()
+      }
+
+      function fallback() {
+        if (settled) return
+        clear()
+        browserSpeak(text, token).then(finish)
+      }
+
+      currentAudio = audio
+      stopCurrent = finish
+      audio.onended = finish
+      audio.onerror = fallback
+      try { audio.currentTime = 0 } catch {}
+      audio.play().catch(fallback)
+    })
+  }
+
+  function speak(text, src) {
+    if (!text) return
+    cancelPlayback()
+    const token = playbackToken
+    void playOne(text, src, token)
+  }
+
+  function playSequence(items) {
+    cancelPlayback()
+    const token = playbackToken
+    void (async () => {
+      for (const item of items) {
+        if (token !== playbackToken) return
+        await playOne(item.text, item.audio, token)
+      }
+    })()
   }
 
   function setPressed(action, pressed) {
@@ -1528,7 +1705,7 @@ const SITE_JS = `(() => {
       if (document.body.classList.contains('practice') && speakable.classList.contains('target')) {
         speakable.classList.add('revealed')
       }
-      speak(speakable.getAttribute('data-speak') || speakable.textContent || '')
+      speak(speakable.getAttribute('data-speak') || speakable.textContent || '', speakable.getAttribute('data-audio'))
       event.stopPropagation()
       return
     }
@@ -1537,14 +1714,17 @@ const SITE_JS = `(() => {
     const actionName = action?.getAttribute('data-action')
 
     if (actionName === 'play-all') {
-      const text = Array.from(document.querySelectorAll('.sentence')).map((node) => node.getAttribute('data-text')).filter(Boolean).join(' ')
-      speak(text)
+      const items = Array.from(document.querySelectorAll('.sentence')).map((node) => ({
+        text: node.getAttribute('data-text') || '',
+        audio: node.getAttribute('data-audio'),
+      })).filter((item) => item.text)
+      playSequence(items)
       return
     }
 
     if (actionName === 'play-sentence') {
       const sentence = action?.closest('.sentence')
-      speak(sentence?.getAttribute('data-text') || '')
+      speak(sentence?.getAttribute('data-text') || '', sentence?.getAttribute('data-audio'))
       return
     }
 
@@ -1565,7 +1745,7 @@ const SITE_JS = `(() => {
 
     const sentence = target.closest('.sentence')
     if (sentence && !target.closest('a, button, input')) {
-      speak(sentence.getAttribute('data-text') || '')
+      speak(sentence.getAttribute('data-text') || '', sentence.getAttribute('data-audio'))
     }
   })
 
@@ -1592,6 +1772,7 @@ function main(): void {
   const articles = discoverArticles()
   rmSync(OUT_DIR, { recursive: true, force: true })
   mkdirSync(join(OUT_DIR, 'assets'), { recursive: true })
+  prepareAudioAssets(articles)
 
   writePage(join(OUT_DIR, '.nojekyll'), '')
   writePage(join(OUT_DIR, 'assets/site.css'), SITE_CSS)
