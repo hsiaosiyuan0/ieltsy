@@ -1,0 +1,152 @@
+.gitignore
+  s_34a6d05c7910ee::t_2903a7cb4d1a65 2
+learning/README.md
+  5cde7b4433f0b23f 25
+scripts/study/preview.ts
+  s_34a6d05c7910ee::t_e6910f050b37b9 68
+  s_34a6d05c7910ee::t_1d0aa388d791ea 659,663-664
+  s_34a6d05c7910ee::t_bd45c860d71c50 735-747,750-751,753
+  s_34a6d05c7910ee::t_63722a7e475833 202-211,226
+  s_34a6d05c7910ee::t_071dda536d63fe 617
+  s_34a6d05c7910ee::t_f856dbd645e5ac 377
+  s_34a6d05c7910ee::t_bb663807f380bd 443,490-498
+  s_34a6d05c7910ee::t_1e91714ea98088 758-759,761
+  s_34a6d05c7910ee::t_218a752997cbcb 618,623-629
+  s_34a6d05c7910ee::t_ac9f046bf58c48 332-341
+  s_34a6d05c7910ee::t_98a2052fdca045 748,752,756-757,760,762
+  s_34a6d05c7910ee::t_41fd883d10be90 619
+  s_34a6d05c7910ee::t_de495e52e412c8 718-733
+  s_34a6d05c7910ee::t_0aec4ab4857418 454
+  5cde7b4433f0b23f 11-12,14-20,35,37,41-42,46,565-574,576-578,621-622,631,633-642,644,671,774-775,785-793,795,797,864
+  s_34a6d05c7910ee::t_a1e55c52824ee7 678,684,689-690,698
+  s_34a6d05c7910ee::t_f63cec25b7dbc1 466-489
+  s_34a6d05c7910ee::t_eb66df6366a1a0 227
+  s_34a6d05c7910ee::t_6e901b1e961184 677,688
+  s_34a6d05c7910ee::t_bc8e0d90b33b35 812-825,845
+scripts/study/speak.ts
+  5cde7b4433f0b23f 10,15-17,23,25-27
+scripts/study/export-pages.ts
+  d5e780e1c6453f8d 1-1046
+learning/days/2026-06-02/article.md
+  5cde7b4433f0b23f 1-63
+learning/days/2026-05-12/article.md
+  s_34a6d05c7910ee::t_452c1a34fcc703 1-2,4-15,17-30,32-34,36-55,58-59,61-72
+  s_34a6d05c7910ee::t_274123d5812574 16
+  s_34a6d05c7910ee::t_03e7edfaeb855d 31
+  s_34a6d05c7910ee::t_938565497093ca 3
+  s_34a6d05c7910ee::t_33f28db0d761b7 35,56-57,60
+scripts/import-zh.ts
+  s_34a6d05c7910ee::t_7252b1dc0356c1 1-126
+scripts/cli.ts
+  d5e780e1c6453f8d 174-189
+  5cde7b4433f0b23f 135,139
+package.json
+  s_34a6d05c7910ee::t_02f35af4e7d0c7 13-14
+  d5e780e1c6453f8d 24-26
+README.md
+  d5e780e1c6453f8d 59,62-73
+  5cde7b4433f0b23f 57
+.github/workflows/deploy-pages.yml
+  d5e780e1c6453f8d 1-59
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.8",
+  "base_commit_sha": "3f9a9f9150113a4696560f5026e546323fd81d45",
+  "prompts": {
+    "34a6d05c7910ee8c": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "2c6a38a9-cd26-4138-9251-8d62f161489b",
+        "model": "claude-opus-4-7"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 770954,
+      "total_deletions": 12,
+      "accepted_lines": 0,
+      "overriden_lines": 0
+    },
+    "5cde7b4433f0b23f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e8710-7423-73f0-aa27-b6ea99d5d1ac",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 140,
+      "total_deletions": 38,
+      "accepted_lines": 133,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "learning/README.md": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "README.md": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        },
+        "scripts/cli.ts": {
+          "additions": 2,
+          "deletions": 2,
+          "accepted_lines": 2
+        },
+        "learning/days/2026-06-02/article.md": {
+          "additions": 66,
+          "deletions": 3,
+          "accepted_lines": 63
+        },
+        "scripts/study/preview.ts": {
+          "additions": 62,
+          "deletions": 26,
+          "accepted_lines": 58
+        },
+        "scripts/study/speak.ts": {
+          "additions": 8,
+          "deletions": 6,
+          "accepted_lines": 8
+        }
+      }
+    },
+    "d5e780e1c6453f8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e8b1b-53b0-7ec3-a33f-9e6cf20fd0c9",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 1147,
+      "total_deletions": 9,
+      "accepted_lines": 1139,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "package.json": {
+          "additions": 3,
+          "deletions": 1,
+          "accepted_lines": 3
+        },
+        "README.md": {
+          "additions": 14,
+          "accepted_lines": 14
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 1054,
+          "deletions": 8,
+          "accepted_lines": 1046
+        },
+        ".github/workflows/deploy-pages.yml": {
+          "additions": 59,
+          "accepted_lines": 59
+        },
+        "scripts/cli.ts": {
+          "additions": 17,
+          "accepted_lines": 17
+        }
+      }
+    }
+  }
+}
