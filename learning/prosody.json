@@ -2078,6 +2078,790 @@
           "confidence": 0.98
         }
       ]
+    },
+    "23efd0b768cc": {
+      "text": "The city library is turning a quiet upstairs room into a small learning centre, and its initial framework is already visible in the open layout.",
+      "date": "2026-06-03",
+      "num": 1,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "city",
+            "library",
+            "is",
+            "turning",
+            "a",
+            "quiet",
+            "upstairs",
+            "room"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.953,
+          "pitchStart": 169.3,
+          "pitchEnd": 155.3,
+          "confidence": 0.78
+        },
+        {
+          "tokens": [
+            "into",
+            "a",
+            "small",
+            "learning",
+            "centre"
+          ],
+          "tone": "↘",
+          "start": 2.953,
+          "end": 4.505,
+          "pitchStart": 213.3,
+          "pitchEnd": 119.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "its",
+            "initial",
+            "framework",
+            "is",
+            "already",
+            "visible"
+          ],
+          "tone": "↘",
+          "start": 4.505,
+          "end": 7.069,
+          "pitchStart": 235.3,
+          "pitchEnd": 183.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "in",
+            "the",
+            "open",
+            "layout"
+          ],
+          "tone": "↗",
+          "start": 7.069,
+          "end": 8,
+          "pitchStart": 149.5,
+          "pitchEnd": 159.2,
+          "confidence": 0.54
+        }
+      ]
+    },
+    "bca47458ea9a": {
+      "text": "A modest public fund is paying for movable desks, soft lamps, and a paper register where visitors are recording their study goals.",
+      "date": "2026-06-03",
+      "num": 2,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "A",
+            "modest",
+            "public",
+            "fund",
+            "is",
+            "paying",
+            "for",
+            "movable",
+            "desks"
+          ],
+          "tone": "↗",
+          "start": 0.13,
+          "end": 2.92,
+          "pitchStart": 168.4,
+          "pitchEnd": 166.7,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "soft",
+            "lamps"
+          ],
+          "tone": "↗",
+          "start": 2.92,
+          "end": 3.435,
+          "pitchStart": 238.8,
+          "pitchEnd": 296.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "a",
+            "paper",
+            "register"
+          ],
+          "tone": "↗",
+          "start": 3.435,
+          "end": 4.876,
+          "pitchStart": 125.5,
+          "pitchEnd": 264.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "where",
+            "visitors",
+            "are",
+            "recording",
+            "their",
+            "study",
+            "goals"
+          ],
+          "tone": "↘",
+          "start": 4.876,
+          "end": 7.49,
+          "pitchStart": 151.7,
+          "pitchEnd": 141.6,
+          "confidence": 0.56
+        }
+      ]
+    },
+    "f9fce2ab8704": {
+      "text": "Along the main wall, a sequence of simple diagrams is illustrating how learners are moving from silent reading to discussion and then to short writing tasks.",
+      "date": "2026-06-03",
+      "num": 3,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Along",
+            "the",
+            "main",
+            "wall"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.375,
+          "pitchStart": 219.2,
+          "pitchEnd": 123.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "a",
+            "sequence",
+            "of",
+            "simple",
+            "diagrams",
+            "is",
+            "illustrating",
+            "how",
+            "learners"
+          ],
+          "tone": "↘",
+          "start": 1.375,
+          "end": 5.17,
+          "pitchStart": 175.8,
+          "pitchEnd": 162.4,
+          "confidence": 0.74
+        },
+        {
+          "tokens": [
+            "are",
+            "moving",
+            "from",
+            "silent",
+            "reading",
+            "to",
+            "discussion",
+            "and",
+            "then"
+          ],
+          "tone": "↗",
+          "start": 5.17,
+          "end": 7.05,
+          "pitchStart": 153.8,
+          "pitchEnd": 168.4,
+          "confidence": 0.81
+        },
+        {
+          "tokens": [
+            "to",
+            "short",
+            "writing",
+            "tasks"
+          ],
+          "tone": "↘",
+          "start": 7.05,
+          "end": 8.87,
+          "pitchStart": 210.5,
+          "pitchEnd": 130.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "8bb968a082a2": {
+      "text": "The design philosophy is not to build a formal classroom; it is to let people interact naturally while still giving them enough structure.",
+      "date": "2026-06-03",
+      "num": 4,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "design",
+            "philosophy",
+            "is",
+            "not"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.7,
+          "pitchStart": 216.2,
+          "pitchEnd": 168.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "to",
+            "build",
+            "a",
+            "formal",
+            "classroom"
+          ],
+          "tone": "↘",
+          "start": 1.7,
+          "end": 3.37,
+          "pitchStart": 142.9,
+          "pitchEnd": 121.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "it",
+            "is",
+            "to",
+            "let",
+            "people",
+            "interact",
+            "naturally"
+          ],
+          "tone": "↘",
+          "start": 3.37,
+          "end": 5.86,
+          "pitchStart": 231.9,
+          "pitchEnd": 149.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "while",
+            "still",
+            "giving",
+            "them",
+            "enough",
+            "structure"
+          ],
+          "tone": "↘",
+          "start": 5.86,
+          "end": 7.81,
+          "pitchStart": 180.8,
+          "pitchEnd": 134.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "c23f7bf220cd": {
+      "text": "In one instance, two nurses are relying on the centre to practise English after work, while a retired teacher is helping them specify useful weekly targets.",
+      "date": "2026-06-03",
+      "num": 5,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "In",
+            "one",
+            "instance"
+          ],
+          "tone": "↘",
+          "start": 0.13,
+          "end": 1.06,
+          "pitchStart": 225.4,
+          "pitchEnd": 125,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "two",
+            "nurses",
+            "are",
+            "relying",
+            "on",
+            "the",
+            "centre"
+          ],
+          "tone": "↘",
+          "start": 1.06,
+          "end": 2.949,
+          "pitchStart": 170.2,
+          "pitchEnd": 153.8,
+          "confidence": 0.91
+        },
+        {
+          "tokens": [
+            "to",
+            "practise",
+            "English",
+            "after",
+            "work"
+          ],
+          "tone": "↗",
+          "start": 2.949,
+          "end": 4.67,
+          "pitchStart": 146.8,
+          "pitchEnd": 148.1,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "while",
+            "a",
+            "retired",
+            "teacher",
+            "is",
+            "helping",
+            "them",
+            "specify"
+          ],
+          "tone": "↗",
+          "start": 4.67,
+          "end": 7.339,
+          "pitchStart": 210.5,
+          "pitchEnd": 207.8,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "useful",
+            "weekly",
+            "targets"
+          ],
+          "tone": "↗",
+          "start": 7.339,
+          "end": 8.73,
+          "pitchStart": 166.7,
+          "pitchEnd": 183.9,
+          "confidence": 0.96
+        }
+      ]
+    },
+    "33423819b3e7": {
+      "text": "Their progress may look minor at first, but the growing proportion of repeat visitors is showing that the scheme is meeting a real need.",
+      "date": "2026-06-03",
+      "num": 6,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Their",
+            "progress",
+            "may",
+            "look",
+            "minor",
+            "at",
+            "first"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 2.34,
+          "pitchStart": 166.7,
+          "pitchEnd": 130.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "but",
+            "the",
+            "growing",
+            "proportion",
+            "of",
+            "repeat",
+            "visitors",
+            "is",
+            "showing"
+          ],
+          "tone": "↘",
+          "start": 2.34,
+          "end": 5.5,
+          "pitchStart": 206.5,
+          "pitchEnd": 181.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "the",
+            "scheme",
+            "is",
+            "meeting",
+            "a",
+            "real",
+            "need"
+          ],
+          "tone": "↘",
+          "start": 5.5,
+          "end": 6.9,
+          "pitchStart": 156.1,
+          "pitchEnd": 142.9,
+          "confidence": 0.74
+        }
+      ]
+    },
+    "b9c3bf2f69f2": {
+      "text": "Staff are collecting feedback every evening, because they are trying to justify the outcome before asking the council for more support.",
+      "date": "2026-06-03",
+      "num": 7,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Staff",
+            "are",
+            "collecting",
+            "feedback",
+            "every",
+            "evening"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.7,
+          "pitchStart": 172,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "because",
+            "they",
+            "are",
+            "trying"
+          ],
+          "tone": "↗",
+          "start": 2.7,
+          "end": 3.776,
+          "pitchStart": 235.3,
+          "pitchEnd": 237.2,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "to",
+            "justify",
+            "the",
+            "outcome",
+            "before",
+            "asking",
+            "the",
+            "council"
+          ],
+          "tone": "↗",
+          "start": 3.776,
+          "end": 6.477,
+          "pitchStart": 146.8,
+          "pitchEnd": 175.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "for",
+            "more",
+            "support"
+          ],
+          "tone": "↗",
+          "start": 6.477,
+          "end": 7.39,
+          "pitchStart": 133.3,
+          "pitchEnd": 183,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "3bc872cef9e5": {
+      "text": "The manager is not implying that technology alone can solve local education problems.",
+      "date": "2026-06-03",
+      "num": 8,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "manager",
+            "is",
+            "not",
+            "implying"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.895,
+          "pitchStart": 219.2,
+          "pitchEnd": 163.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "technology",
+            "alone",
+            "can",
+            "solve",
+            "local",
+            "education",
+            "problems"
+          ],
+          "tone": "↘",
+          "start": 1.895,
+          "end": 4.86,
+          "pitchStart": 168.4,
+          "pitchEnd": 144.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "309840421616": {
+      "text": "Instead, tablets, printed guides, and volunteer advice are working together, and the room is becoming calmer as people learn the routine.",
+      "date": "2026-06-03",
+      "num": 9,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Instead"
+          ],
+          "tone": "↗",
+          "start": 0.14,
+          "end": 0.715,
+          "pitchStart": 158.4,
+          "pitchEnd": 205.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "tablets"
+          ],
+          "tone": "↗",
+          "start": 0.715,
+          "end": 1.385,
+          "pitchStart": 145.5,
+          "pitchEnd": 246.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "printed",
+            "guides"
+          ],
+          "tone": "↘",
+          "start": 1.385,
+          "end": 2.105,
+          "pitchStart": 197.6,
+          "pitchEnd": 137.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "volunteer",
+            "advice",
+            "are",
+            "working",
+            "together"
+          ],
+          "tone": "↘",
+          "start": 2.105,
+          "end": 4.55,
+          "pitchStart": 164.9,
+          "pitchEnd": 127,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "the",
+            "room",
+            "is",
+            "becoming",
+            "calmer",
+            "as",
+            "people"
+          ],
+          "tone": "↘",
+          "start": 4.55,
+          "end": 6.676,
+          "pitchStart": 223.8,
+          "pitchEnd": 200,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "learn",
+            "the",
+            "routine"
+          ],
+          "tone": "↗",
+          "start": 6.676,
+          "end": 7.67,
+          "pitchStart": 146.8,
+          "pitchEnd": 164.9,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "4c6cef208520": {
+      "text": "During the first month, the centre is adjusting its timetable, moving noisy activities to the afternoon, and keeping mornings for focused study.",
+      "date": "2026-06-03",
+      "num": 10,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "During",
+            "the",
+            "first",
+            "month"
+          ],
+          "tone": "↘",
+          "start": 0.16,
+          "end": 1.235,
+          "pitchStart": 213.3,
+          "pitchEnd": 143.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "the",
+            "centre",
+            "is",
+            "adjusting",
+            "its",
+            "timetable"
+          ],
+          "tone": "↘",
+          "start": 1.235,
+          "end": 3.535,
+          "pitchStart": 170.2,
+          "pitchEnd": 158.4,
+          "confidence": 0.66
+        },
+        {
+          "tokens": [
+            "moving",
+            "noisy",
+            "activities",
+            "to",
+            "the",
+            "afternoon"
+          ],
+          "tone": "↘",
+          "start": 3.535,
+          "end": 6.19,
+          "pitchStart": 197.5,
+          "pitchEnd": 136.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "keeping",
+            "mornings",
+            "for",
+            "focused",
+            "study"
+          ],
+          "tone": "↘",
+          "start": 6.19,
+          "end": 8.34,
+          "pitchStart": 228.6,
+          "pitchEnd": 149.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "e09cab515854": {
+      "text": "By the end of June, the library is hoping to show that a modest fund, a clear framework, and patient interaction can create lasting change.",
+      "date": "2026-06-03",
+      "num": 11,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "By",
+            "the",
+            "end",
+            "of",
+            "June"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.19,
+          "pitchStart": 219.2,
+          "pitchEnd": 142.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "the",
+            "library",
+            "is",
+            "hoping",
+            "to",
+            "show"
+          ],
+          "tone": "↘",
+          "start": 1.19,
+          "end": 3.36,
+          "pitchStart": 202.5,
+          "pitchEnd": 146.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "a",
+            "modest",
+            "fund"
+          ],
+          "tone": "↗",
+          "start": 3.36,
+          "end": 3.925,
+          "confidence": 0.25
+        },
+        {
+          "tokens": [
+            "a",
+            "clear",
+            "framework"
+          ],
+          "tone": "↗",
+          "start": 3.925,
+          "end": 4.743,
+          "pitchStart": 173.9,
+          "pitchEnd": 291,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "patient",
+            "interaction",
+            "can",
+            "create",
+            "lasting",
+            "change"
+          ],
+          "tone": "↘",
+          "start": 4.743,
+          "end": 7.86,
+          "pitchStart": 179.8,
+          "pitchEnd": 136.8,
+          "confidence": 0.98
+        }
+      ]
     }
   }
 }
