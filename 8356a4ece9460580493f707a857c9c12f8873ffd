@@ -1,0 +1,50 @@
+learning/prosody.json
+  d5e780e1c6453f8d 1-2083
+scripts/study/export-pages.ts
+  d5e780e1c6453f8d 18,58,85-97,343-359,365,367,471-489,680,912,922
+package.json
+  d5e780e1c6453f8d 25
+scripts/study/analyze-prosody.ts
+  d5e780e1c6453f8d 1-545
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.8",
+  "base_commit_sha": "8356a4ece9460580493f707a857c9c12f8873ffd",
+  "prompts": {
+    "d5e780e1c6453f8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e8b1b-53b0-7ec3-a33f-9e6cf20fd0c9",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 3532,
+      "total_deletions": 853,
+      "accepted_lines": 2687,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "package.json": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "learning/prosody.json": {
+          "additions": 2925,
+          "deletions": 842,
+          "accepted_lines": 2083
+        },
+        "scripts/study/analyze-prosody.ts": {
+          "additions": 548,
+          "deletions": 3,
+          "accepted_lines": 545
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 58,
+          "deletions": 8,
+          "accepted_lines": 58
+        }
+      }
+    }
+  }
+}
