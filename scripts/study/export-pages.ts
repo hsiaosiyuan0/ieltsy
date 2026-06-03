@@ -59,6 +59,20 @@ const AUDIO_CACHE_DIR = resolve('learning/audio-cache')
 const AUDIO_VOICE = process.env.IELTSY_AUDIO_VOICE || 'en-US-EmmaMultilingualNeural'
 const AUDIO_RATE = process.env.IELTSY_AUDIO_RATE || '+0%'
 const SKIP_AUDIO = process.env.IELTSY_SKIP_AUDIO === '1'
+const WEAK_WORDS = new Set([
+  'a', 'an', 'the', 'and', 'or', 'but', 'if', 'that', 'which', 'who', 'whom', 'whose', 'when', 'where',
+  'while', 'unless', 'because', 'as', 'than', 'to', 'of', 'in', 'on', 'at', 'by', 'for', 'from', 'with',
+  'without', 'into', 'over', 'under', 'across', 'through', 'about', 'around', 'between', 'among', 'is',
+  'are', 'am', 'was', 'were', 'be', 'been', 'being', 'will', 'would', 'shall', 'should', 'can', 'could',
+  'may', 'might', 'must', 'do', 'does', 'did', 'have', 'has', 'had', 'it', 'its', 'this', 'these', 'those',
+  'they', 'them', 'their', 'he', 'him', 'his', 'she', 'her', 'we', 'us', 'our', 'you', 'your', 'i', 'my',
+  'not', 'so', 'very', 'also', 'still', 'just',
+])
+const CLAUSE_STARTERS = new Set([
+  'although', 'because', 'but', 'however', 'if', 'unless', 'when', 'where', 'which', 'while', 'who', 'that',
+  'whether',
+])
+const SOFT_BREAKERS = new Set(['and', 'but', 'because', 'while', 'when', 'unless', 'which', 'that', 'to', 'for', 'of'])
 
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) =>
@@ -197,6 +211,104 @@ function targetFormsInText(text: string, targets: TargetWord[]): string[] {
     }
   }
   return [...forms.values()]
+}
+
+function normalizeSpeechWord(raw: string): string {
+  return raw.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, '').toLowerCase()
+}
+
+function splitSpeechWords(text: string): string[] {
+  return text.match(/[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*|[.,;:!?—]/g) ?? []
+}
+
+function isPauseToken(token: string): boolean {
+  return /^[,;:—]$/.test(token)
+}
+
+function isEndToken(token: string): boolean {
+  return /^[.!?]$/.test(token)
+}
+
+function isStressWord(token: string): boolean {
+  const word = normalizeSpeechWord(token)
+  if (!word) return false
+  if (word === 'ai') return true
+  return !WEAK_WORDS.has(word) && word.length > 2
+}
+
+function prosodyGroups(text: string): string[][] {
+  const rawGroups: string[][] = []
+  let current: string[] = []
+
+  function pushGroup(): void {
+    if (current.length > 0) {
+      rawGroups.push(current)
+      current = []
+    }
+  }
+
+  for (const token of splitSpeechWords(text)) {
+    if (isPauseToken(token) || isEndToken(token)) {
+      pushGroup()
+      continue
+    }
+
+    const word = normalizeSpeechWord(token)
+    if (current.length >= 3 && CLAUSE_STARTERS.has(word)) pushGroup()
+    current.push(token)
+  }
+
+  pushGroup()
+  return rawGroups.flatMap(splitLongProsodyGroup)
+}
+
+function splitLongProsodyGroup(group: string[]): string[][] {
+  if (group.length <= 9) return [group]
+
+  const chunks: string[][] = []
+  let remaining = group
+  while (remaining.length > 9) {
+    const limit = Math.min(9, remaining.length - 3)
+    let cut = 0
+
+    for (let i = limit; i >= 4; i -= 1) {
+      const prev = normalizeSpeechWord(remaining[i - 1]!)
+      const next = normalizeSpeechWord(remaining[i]!)
+      if (SOFT_BREAKERS.has(next) && prev !== 'a' && prev !== 'an' && prev !== 'the') {
+        cut = i
+        break
+      }
+    }
+
+    if (cut === 0) {
+      for (let i = limit; i >= 5; i -= 1) {
+        if (isStressWord(remaining[i - 1]!)) {
+          cut = i
+          break
+        }
+      }
+    }
+
+    chunks.push(remaining.slice(0, cut || limit))
+    remaining = remaining.slice(cut || limit)
+  }
+  chunks.push(remaining)
+  return chunks
+}
+
+function renderFollowCue(text: string): string {
+  const groups = prosodyGroups(text)
+  if (groups.length === 0) return ''
+  const finalTone = text.trim().endsWith('?') ? '↗' : '↘'
+  const rendered = groups.map((group, index) => {
+    const tone = index === groups.length - 1 ? finalTone : '↗'
+    const words = group.map((word) => {
+      const klass = isStressWord(word) ? 'stress' : 'weak'
+      return `<span class="cue-word ${klass}">${escapeHtml(word)}</span>`
+    }).join(' ')
+    return `<span class="cue-group">${words}<span class="tone">${tone}</span></span>`
+  }).join('<span class="pause">/</span>')
+  return `<span class="follow-cue"><span class="follow-tag">跟读</span><span class="cue-line">${rendered}</span></span>`
 }
 
 function renderRefs(refs: string): string {
@@ -357,7 +469,7 @@ function prepareAudioAssets(articles: ParsedArticle[]): void {
   }
 }
 
-function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers'): string {
+function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers' | 'wave'): string {
   const paths: Record<typeof name, string> = {
     book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
@@ -370,6 +482,7 @@ function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' |
     check: '<path d="M20 6 9 17l-5-5"/>',
     calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/>',
     layers: '<path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
+    wave: '<path d="M2 12h2"/><path d="M6 9v6"/><path d="M10 5v14"/><path d="M14 8v8"/><path d="M18 10v4"/><path d="M22 12h-2"/>',
   }
   return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths[name]}</svg>`
 }
@@ -489,6 +602,7 @@ function renderDay(article: ParsedArticle): string {
             <span class="num">${CIRCLED[sentence.num - 1]}</span>
             <span class="sentence-text">
               <span class="en">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</span>
+              ${renderFollowCue(sentence.text)}
               ${sentence.zh ? `<span class="zh">${escapeHtml(sentence.zh)}</span>` : ''}
             </span>
           </p>`).join('\n')
@@ -524,6 +638,7 @@ function renderDay(article: ParsedArticle): string {
       <aside class="study-dock" aria-label="学习工具">
         <button class="desk-command primary" type="button" data-action="play-all">${icon('play')}<span>全文</span></button>
         <button class="desk-command" type="button" data-action="toggle-zh" aria-pressed="false">${icon('translate')}<span>译文</span></button>
+        <button class="desk-command" type="button" data-action="toggle-follow" aria-pressed="true">${icon('wave')}<span>跟读</span></button>
         <button class="desk-command" type="button" data-action="toggle-practice" aria-pressed="false">${icon('eye')}<span>遮词</span></button>
         <label class="done-toggle">
           <input type="checkbox" data-action="mark-done">
@@ -537,6 +652,17 @@ ${sentencesHtml}
       </article>
 
       <aside class="notes-tray" aria-label="目标词和语法点">
+        <section class="note-panel prosody-panel">
+          <h2>跟读规律</h2>
+          <div class="prosody-legend">
+            <span><strong>粗体</strong> 重读信息词</span>
+            <span><span class="cue-word weak">浅色</span> 弱读功能词</span>
+            <span><b>/</b> 意群停顿</span>
+            <span><b>↗</b> 话没说完，轻轻托住</span>
+            <span><b>↘</b> 句子结束，声音落下</span>
+          </div>
+        </section>
+
         <section class="note-panel">
           <h2>目标词</h2>
           <ol class="word-list">
@@ -1242,6 +1368,74 @@ h1 {
   line-height: 1.7;
 }
 body.hide-zh .zh { display: none; }
+.follow-cue {
+  display: grid;
+  gap: 5px;
+  border-left: 4px solid var(--study);
+  border-radius: var(--radius);
+  background: #f4f6ec;
+  padding: 9px 11px;
+  color: var(--ink-2);
+  font-size: 0.9rem;
+  line-height: 1.55;
+}
+body.hide-follow .follow-cue { display: none; }
+.follow-tag {
+  color: var(--accent-2);
+  font-size: 0.72rem;
+  font-weight: 950;
+  line-height: 1;
+  text-transform: uppercase;
+}
+.cue-line {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 7px;
+  align-items: baseline;
+}
+.cue-group {
+  display: inline-flex;
+  flex-wrap: wrap;
+  gap: 3px;
+  align-items: baseline;
+  min-width: 0;
+}
+.cue-word {
+  overflow-wrap: anywhere;
+}
+.cue-word.stress {
+  color: var(--ink);
+  font-weight: 950;
+}
+.cue-word.weak {
+  color: var(--ink-3);
+  font-weight: 750;
+}
+.tone {
+  color: var(--study);
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-weight: 950;
+  margin-left: 2px;
+}
+.pause {
+  color: var(--target);
+  font-weight: 950;
+  padding: 0 2px;
+}
+.prosody-panel {
+  background: #fbfbf5;
+}
+.prosody-legend {
+  display: grid;
+  gap: 7px;
+  color: var(--ink-2);
+  font-size: 0.86rem;
+  line-height: 1.45;
+}
+.prosody-legend strong, .prosody-legend b {
+  color: var(--ink);
+  font-weight: 950;
+}
 .target {
   border-radius: 5px;
   background: var(--target-bg);
@@ -1499,8 +1693,9 @@ body.practice .target.revealed {
     position: sticky;
     top: 0;
     z-index: 10;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-columns: repeat(5, minmax(56px, 1fr));
     gap: 8px;
+    overflow-x: auto;
     background: var(--desk);
     padding: 8px 0;
   }
@@ -1683,6 +1878,7 @@ const SITE_JS = `(() => {
 
   function syncControls() {
     setPressed('toggle-zh', !document.body.classList.contains('hide-zh'))
+    setPressed('toggle-follow', !document.body.classList.contains('hide-follow'))
     setPressed('toggle-practice', document.body.classList.contains('practice'))
   }
 
@@ -1690,6 +1886,7 @@ const SITE_JS = `(() => {
   const doneInput = document.querySelector('[data-action="mark-done"]')
 
   if (storage.get('ieltsy:show-zh') === '0') document.body.classList.add('hide-zh')
+  if (storage.get('ieltsy:show-follow') === '0') document.body.classList.add('hide-follow')
   if (storage.get('ieltsy:practice') === '1') document.body.classList.add('practice')
   if (date && doneInput instanceof HTMLInputElement) {
     doneInput.checked = storage.get('ieltsy:done:' + date) === '1'
@@ -1731,6 +1928,13 @@ const SITE_JS = `(() => {
     if (actionName === 'toggle-zh') {
       document.body.classList.toggle('hide-zh')
       storage.set('ieltsy:show-zh', document.body.classList.contains('hide-zh') ? '0' : '1')
+      syncControls()
+      return
+    }
+
+    if (actionName === 'toggle-follow') {
+      document.body.classList.toggle('hide-follow')
+      storage.set('ieltsy:show-follow', document.body.classList.contains('hide-follow') ? '0' : '1')
       syncControls()
       return
     }

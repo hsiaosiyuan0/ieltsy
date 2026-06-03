@@ -41,6 +41,14 @@ jobs:
           python3 -m pip install --user edge-tts
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
+      - name: Cache Edge TTS audio
+        uses: actions/cache@v4
+        with:
+          path: learning/audio-cache
+          key: edge-tts-${{ runner.os }}-${{ hashFiles('learning/days/**/article.md', 'scripts/study/export-pages.ts') }}
+          restore-keys: |
+            edge-tts-${{ runner.os }}-
+
       - name: Build static site
         run: pnpm pages:build
 
