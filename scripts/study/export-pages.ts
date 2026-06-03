@@ -73,6 +73,12 @@ const CLAUSE_STARTERS = new Set([
   'whether',
 ])
 const SOFT_BREAKERS = new Set(['and', 'but', 'because', 'while', 'when', 'unless', 'which', 'that', 'to', 'for', 'of'])
+const CONTRAST_STARTERS = new Set(['but', 'however', 'yet'])
+
+interface ProsodyGroup {
+  tokens: string[]
+  boundary: 'soft' | 'comma' | 'major' | 'end'
+}
 
 function escapeHtml(s: string): string {
   return s.replace(/[&<>"']/g, (c) =>
@@ -236,37 +242,41 @@ function isStressWord(token: string): boolean {
   return !WEAK_WORDS.has(word) && word.length > 2
 }
 
-function prosodyGroups(text: string): string[][] {
-  const rawGroups: string[][] = []
+function prosodyGroups(text: string): ProsodyGroup[] {
+  const rawGroups: ProsodyGroup[] = []
   let current: string[] = []
 
-  function pushGroup(): void {
+  function pushGroup(boundary: ProsodyGroup['boundary']): void {
     if (current.length > 0) {
-      rawGroups.push(current)
+      rawGroups.push({ tokens: current, boundary })
       current = []
     }
   }
 
   for (const token of splitSpeechWords(text)) {
-    if (isPauseToken(token) || isEndToken(token)) {
-      pushGroup()
+    if (isEndToken(token)) {
+      pushGroup('end')
+      continue
+    }
+    if (isPauseToken(token)) {
+      pushGroup(token === ',' ? 'comma' : 'major')
       continue
     }
 
     const word = normalizeSpeechWord(token)
-    if (current.length >= 3 && CLAUSE_STARTERS.has(word)) pushGroup()
+    if (current.length >= 3 && CLAUSE_STARTERS.has(word)) pushGroup('soft')
     current.push(token)
   }
 
-  pushGroup()
+  pushGroup('end')
   return rawGroups.flatMap(splitLongProsodyGroup)
 }
 
-function splitLongProsodyGroup(group: string[]): string[][] {
-  if (group.length <= 9) return [group]
+function splitLongProsodyGroup(group: ProsodyGroup): ProsodyGroup[] {
+  if (group.tokens.length <= 9) return [group]
 
-  const chunks: string[][] = []
-  let remaining = group
+  const chunks: ProsodyGroup[] = []
+  let remaining = group.tokens
   while (remaining.length > 9) {
     const limit = Math.min(9, remaining.length - 3)
     let cut = 0
@@ -289,11 +299,28 @@ function splitLongProsodyGroup(group: string[]): string[][] {
       }
     }
 
-    chunks.push(remaining.slice(0, cut || limit))
+    chunks.push({ tokens: remaining.slice(0, cut || limit), boundary: 'soft' })
     remaining = remaining.slice(cut || limit)
   }
-  chunks.push(remaining)
+  chunks.push({ tokens: remaining, boundary: group.boundary })
   return chunks
+}
+
+function firstWord(group: ProsodyGroup | undefined): string {
+  return normalizeSpeechWord(group?.tokens[0] ?? '')
+}
+
+function looksComplete(group: ProsodyGroup): boolean {
+  const stressCount = group.tokens.filter(isStressWord).length
+  const last = group.tokens[group.tokens.length - 1] ?? ''
+  return group.tokens.length >= 4 && stressCount >= 2 && isStressWord(last)
+}
+
+function toneForGroup(group: ProsodyGroup, index: number, groups: ProsodyGroup[], finalTone: string): string {
+  if (index === groups.length - 1 || group.boundary === 'end') return finalTone
+  if (group.boundary === 'major') return '↘'
+  if (group.boundary === 'comma' && CONTRAST_STARTERS.has(firstWord(groups[index + 1])) && looksComplete(group)) return '↘'
+  return '↗'
 }
 
 function renderFollowCue(text: string): string {
@@ -301,8 +328,8 @@ function renderFollowCue(text: string): string {
   if (groups.length === 0) return ''
   const finalTone = text.trim().endsWith('?') ? '↗' : '↘'
   const rendered = groups.map((group, index) => {
-    const tone = index === groups.length - 1 ? finalTone : '↗'
-    const words = group.map((word) => {
+    const tone = toneForGroup(group, index, groups, finalTone)
+    const words = group.tokens.map((word) => {
       const klass = isStressWord(word) ? 'stress' : 'weak'
       return `<span class="cue-word ${klass}">${escapeHtml(word)}</span>`
     }).join(' ')
