@@ -1,0 +1,2083 @@
+{
+  "version": 1,
+  "source": "edge-tts-audio-analysis-v1",
+  "voice": "en-US-EmmaMultilingualNeural",
+  "rate": "+0%",
+  "sentences": {
+    "627072809c0f": {
+      "text": "Maria works as a consultant in the financial sector.",
+      "date": "2026-05-11",
+      "num": 1,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Maria",
+            "works",
+            "as",
+            "a",
+            "consultant",
+            "in",
+            "the",
+            "financial",
+            "sector"
+          ],
+          "tone": "↘",
+          "start": 0.13,
+          "end": 3.1,
+          "pitchStart": 173,
+          "pitchEnd": 147.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "c772ec72c671": {
+      "text": "Her job requires her to assess complex business situations and interpret data for clients.",
+      "date": "2026-05-11",
+      "num": 2,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Her",
+            "job",
+            "requires",
+            "her",
+            "to",
+            "assess",
+            "complex",
+            "business",
+            "situations"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 3.695,
+          "pitchStart": 153.8,
+          "pitchEnd": 141.6,
+          "confidence": 0.68
+        },
+        {
+          "tokens": [
+            "and",
+            "interpret",
+            "data",
+            "for",
+            "clients"
+          ],
+          "tone": "↘",
+          "start": 3.695,
+          "end": 5.61,
+          "pitchStart": 213.3,
+          "pitchEnd": 190.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "f6c5ca28ac2f": {
+      "text": "Each morning, she reviews her contracts and proceeds with a careful approach to every project.",
+      "date": "2026-05-11",
+      "num": 3,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Each",
+            "morning"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.02,
+          "pitchStart": 188.2,
+          "pitchEnd": 118.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "she",
+            "reviews",
+            "her",
+            "contracts"
+          ],
+          "tone": "↘",
+          "start": 1.02,
+          "end": 2.417,
+          "pitchStart": 227,
+          "pitchEnd": 206.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "proceeds",
+            "with",
+            "a",
+            "careful",
+            "approach",
+            "to",
+            "every",
+            "project"
+          ],
+          "tone": "↘",
+          "start": 2.417,
+          "end": 5.48,
+          "pitchStart": 219.2,
+          "pitchEnd": 156.9,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "e6396719c9cb": {
+      "text": "She believes in one core principle: never assume anything without evidence.",
+      "date": "2026-05-11",
+      "num": 4,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "She",
+            "believes",
+            "in",
+            "one",
+            "core",
+            "principle"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.225,
+          "pitchStart": 217.7,
+          "pitchEnd": 148.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "never",
+            "assume",
+            "anything",
+            "without",
+            "evidence"
+          ],
+          "tone": "↘",
+          "start": 2.225,
+          "end": 4.71,
+          "pitchStart": 237.1,
+          "pitchEnd": 135.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "9dfc27e1148b": {
+      "text": "This principle guides how she works.",
+      "date": "2026-05-11",
+      "num": 5,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "This",
+            "principle",
+            "guides",
+            "how",
+            "she",
+            "works"
+          ],
+          "tone": "↘",
+          "start": 0.12,
+          "end": 2.01,
+          "pitchStart": 159.2,
+          "pitchEnd": 140.4,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "1fcb12d30e62": {
+      "text": "When companies need help, they often turn to Maria because her judgement is evident in every report she writes.",
+      "date": "2026-05-11",
+      "num": 6,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "When",
+            "companies",
+            "need",
+            "help"
+          ],
+          "tone": "↘",
+          "start": 0.13,
+          "end": 1.5,
+          "pitchStart": 250,
+          "pitchEnd": 195.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "they",
+            "often",
+            "turn",
+            "to",
+            "Maria"
+          ],
+          "tone": "↘",
+          "start": 1.5,
+          "end": 2.884,
+          "pitchStart": 250,
+          "pitchEnd": 165,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "because",
+            "her",
+            "judgement",
+            "is",
+            "evident",
+            "in",
+            "every"
+          ],
+          "tone": "↘",
+          "start": 2.884,
+          "end": 5.05,
+          "pitchStart": 192.8,
+          "pitchEnd": 159.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "report",
+            "she",
+            "writes"
+          ],
+          "tone": "↘",
+          "start": 5.05,
+          "end": 6.08,
+          "pitchStart": 141.6,
+          "pitchEnd": 102.3,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "d9959fe5dc60": {
+      "text": "Her income depends on the labour she puts in.",
+      "date": "2026-05-11",
+      "num": 7,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Her",
+            "income",
+            "depends",
+            "on",
+            "the",
+            "labour",
+            "she",
+            "puts",
+            "in"
+          ],
+          "tone": "↘",
+          "start": 0.16,
+          "end": 2.63,
+          "pitchStart": 159.2,
+          "pitchEnd": 139.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "06d82f06607a": {
+      "text": "She estimates her workload weekly and distributes tasks among her small team.",
+      "date": "2026-05-11",
+      "num": 8,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "She",
+            "estimates",
+            "her",
+            "workload",
+            "weekly"
+          ],
+          "tone": "↗",
+          "start": 0.14,
+          "end": 2.043,
+          "pitchStart": 164.1,
+          "pitchEnd": 198.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "distributes",
+            "tasks",
+            "among",
+            "her",
+            "small",
+            "team"
+          ],
+          "tone": "↘",
+          "start": 2.043,
+          "end": 4.29,
+          "pitchStart": 175.8,
+          "pitchEnd": 148.8,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "6ad3c67aa8a1": {
+      "text": "Every project starts with a clear concept, which she derives from talking to the client about their real needs.",
+      "date": "2026-05-11",
+      "num": 9,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Every",
+            "project",
+            "starts",
+            "with",
+            "a",
+            "clear",
+            "concept"
+          ],
+          "tone": "↗",
+          "start": 0.14,
+          "end": 2.54,
+          "pitchStart": 158.4,
+          "pitchEnd": 242.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "which",
+            "she",
+            "derives",
+            "from",
+            "talking"
+          ],
+          "tone": "↘",
+          "start": 2.54,
+          "end": 3.93,
+          "pitchStart": 219.2,
+          "pitchEnd": 169.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "to",
+            "the",
+            "client",
+            "about",
+            "their",
+            "real",
+            "needs"
+          ],
+          "tone": "↘",
+          "start": 3.93,
+          "end": 5.87,
+          "pitchStart": 145.5,
+          "pitchEnd": 148.1,
+          "confidence": 0.35
+        }
+      ]
+    },
+    "ec1674b7bba1": {
+      "text": "From this concept, she establishes a plan, a budget, and a timeline.",
+      "date": "2026-05-11",
+      "num": 10,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "From",
+            "this",
+            "concept"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.07,
+          "pitchStart": 235.3,
+          "pitchEnd": 161.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "she",
+            "establishes",
+            "a",
+            "plan"
+          ],
+          "tone": "↗",
+          "start": 1.07,
+          "end": 3.035,
+          "pitchStart": 179.8,
+          "pitchEnd": 186,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "a",
+            "budget"
+          ],
+          "tone": "↗",
+          "start": 3.035,
+          "end": 3.355,
+          "pitchStart": 192.8,
+          "pitchEnd": 190.5,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "and",
+            "a",
+            "timeline"
+          ],
+          "tone": "↘",
+          "start": 3.355,
+          "end": 3.93,
+          "pitchStart": 231.9,
+          "pitchEnd": 92.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "8f7bc4327aed": {
+      "text": "Finance is at the heart of her work.",
+      "date": "2026-05-11",
+      "num": 11,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Finance",
+            "is",
+            "at",
+            "the",
+            "heart",
+            "of",
+            "her",
+            "work"
+          ],
+          "tone": "↗",
+          "start": 0.15,
+          "end": 2.12,
+          "pitchStart": 152.4,
+          "pitchEnd": 164.1,
+          "confidence": 0.65
+        }
+      ]
+    },
+    "be2296c9155f": {
+      "text": "She helps companies that operate across different sectors — from technology to manufacturing.",
+      "date": "2026-05-11",
+      "num": 12,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "She",
+            "helps",
+            "companies"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.265,
+          "pitchStart": 248.1,
+          "pitchEnd": 145.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "operate",
+            "across",
+            "different",
+            "sectors"
+          ],
+          "tone": "↘",
+          "start": 1.265,
+          "end": 3.22,
+          "pitchStart": 151.7,
+          "pitchEnd": 141.2,
+          "confidence": 0.58
+        },
+        {
+          "tokens": [
+            "from",
+            "technology",
+            "to",
+            "manufacturing"
+          ],
+          "tone": "↘",
+          "start": 3.22,
+          "end": 5.34,
+          "pitchStart": 205.1,
+          "pitchEnd": 136.8,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "9c5a0ff9c597": {
+      "text": "The estimate she gives a client is rarely off by more than five percent, and this accuracy is evident to anyone who reads her final reports.",
+      "date": "2026-05-11",
+      "num": 13,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "estimate",
+            "she",
+            "gives",
+            "a",
+            "client",
+            "is",
+            "rarely",
+            "off"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.38,
+          "pitchStart": 200,
+          "pitchEnd": 175.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "by",
+            "more",
+            "than",
+            "five",
+            "percent"
+          ],
+          "tone": "↗",
+          "start": 2.38,
+          "end": 4.055,
+          "pitchStart": 146.8,
+          "pitchEnd": 222.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "this",
+            "accuracy",
+            "is",
+            "evident",
+            "to",
+            "anyone"
+          ],
+          "tone": "↗",
+          "start": 4.055,
+          "end": 6.402,
+          "pitchStart": 210.5,
+          "pitchEnd": 213.3,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "who",
+            "reads",
+            "her",
+            "final",
+            "reports"
+          ],
+          "tone": "↘",
+          "start": 6.402,
+          "end": 8.02,
+          "pitchStart": 153.8,
+          "pitchEnd": 141.6,
+          "confidence": 0.68
+        }
+      ]
+    },
+    "02789ee3c277": {
+      "text": "When a contract is signed, Maria proceeds quickly.",
+      "date": "2026-05-11",
+      "num": 14,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "When",
+            "a",
+            "contract",
+            "is",
+            "signed"
+          ],
+          "tone": "↗",
+          "start": 0.14,
+          "end": 1.475,
+          "pitchStart": 225.4,
+          "pitchEnd": 225.4,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "Maria",
+            "proceeds",
+            "quickly"
+          ],
+          "tone": "↗",
+          "start": 1.475,
+          "end": 2.95,
+          "pitchStart": 166.7,
+          "pitchEnd": 235.3,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "1271eb934808": {
+      "text": "She does not waste time.",
+      "date": "2026-05-11",
+      "num": 15,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "She",
+            "does",
+            "not",
+            "waste",
+            "time"
+          ],
+          "tone": "↘",
+          "start": 0.11,
+          "end": 1.44,
+          "pitchStart": 238.8,
+          "pitchEnd": 115.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "265a7bc5505b": {
+      "text": "Her approach is to gather data, interpret it honestly, and present the truth — even when the truth is uncomfortable.",
+      "date": "2026-05-11",
+      "num": 16,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Her",
+            "approach",
+            "is",
+            "to",
+            "gather",
+            "data"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 1.93,
+          "pitchStart": 179.9,
+          "pitchEnd": 143.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "interpret",
+            "it",
+            "honestly"
+          ],
+          "tone": "↘",
+          "start": 1.93,
+          "end": 3.43,
+          "pitchStart": 222.2,
+          "pitchEnd": 166.7,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "present",
+            "the",
+            "truth"
+          ],
+          "tone": "↘",
+          "start": 3.43,
+          "end": 4.775,
+          "pitchStart": 216.2,
+          "pitchEnd": 130.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "even",
+            "when",
+            "the",
+            "truth",
+            "is",
+            "uncomfortable"
+          ],
+          "tone": "↘",
+          "start": 4.775,
+          "end": 6.9,
+          "pitchStart": 230.2,
+          "pitchEnd": 142.9,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "c669dc7025b5": {
+      "text": "That is the principle she lives by, and it is why companies come back to her year after year.",
+      "date": "2026-05-11",
+      "num": 17,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "That",
+            "is",
+            "the",
+            "principle",
+            "she",
+            "lives",
+            "by"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 2.125,
+          "pitchStart": 183.9,
+          "pitchEnd": 129,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "it",
+            "is",
+            "why",
+            "companies",
+            "come",
+            "back"
+          ],
+          "tone": "↘",
+          "start": 2.125,
+          "end": 3.86,
+          "pitchStart": 216.2,
+          "pitchEnd": 150.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "to",
+            "her",
+            "year",
+            "after",
+            "year"
+          ],
+          "tone": "↘",
+          "start": 3.86,
+          "end": 5.1,
+          "pitchStart": 144.8,
+          "pitchEnd": 126,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "755d7b9ee581": {
+      "text": "Last year, the British government announced new rules that regulate how national museums purchase major works of art.",
+      "date": "2026-05-12",
+      "num": 1,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Last",
+            "year"
+          ],
+          "tone": "↘",
+          "start": 0.13,
+          "end": 0.935,
+          "pitchStart": 258.1,
+          "pitchEnd": 116.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "the",
+            "British",
+            "government",
+            "announced",
+            "new",
+            "rules"
+          ],
+          "tone": "↗",
+          "start": 0.935,
+          "end": 3.052,
+          "pitchStart": 170.2,
+          "pitchEnd": 191.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "regulate",
+            "how",
+            "national",
+            "museums",
+            "purchase",
+            "major"
+          ],
+          "tone": "↘",
+          "start": 3.052,
+          "end": 5.811,
+          "pitchStart": 202.5,
+          "pitchEnd": 153.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "works",
+            "of",
+            "art"
+          ],
+          "tone": "↘",
+          "start": 5.811,
+          "end": 6.42,
+          "pitchStart": 161.8,
+          "pitchEnd": 118.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "bf690e8e1170": {
+      "text": "This decision drew sharp criticism, but I believe it was an appropriate step.",
+      "date": "2026-05-12",
+      "num": 2,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "This",
+            "decision",
+            "drew",
+            "sharp",
+            "criticism"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 2.42,
+          "pitchStart": 161.6,
+          "pitchEnd": 139.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "but",
+            "I",
+            "believe",
+            "it",
+            "was",
+            "an",
+            "appropriate",
+            "step"
+          ],
+          "tone": "↘",
+          "start": 2.42,
+          "end": 4.57,
+          "pitchStart": 238.8,
+          "pitchEnd": 160,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "245b12372c42": {
+      "text": "Before the reform, each institute followed its own policy, and the conduct of buyers varied widely across the country.",
+      "date": "2026-05-12",
+      "num": 3,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Before",
+            "the",
+            "reform"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 1.27,
+          "pitchStart": 231.9,
+          "pitchEnd": 166.7,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "each",
+            "institute",
+            "followed",
+            "its",
+            "own",
+            "policy"
+          ],
+          "tone": "↗",
+          "start": 1.27,
+          "end": 3.665,
+          "pitchStart": 161.6,
+          "pitchEnd": 187.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "the",
+            "conduct",
+            "of",
+            "buyers",
+            "varied",
+            "widely"
+          ],
+          "tone": "↘",
+          "start": 3.665,
+          "end": 6.23,
+          "pitchStart": 210.5,
+          "pitchEnd": 177.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "across",
+            "the",
+            "country"
+          ],
+          "tone": "↘",
+          "start": 6.23,
+          "end": 6.85,
+          "pitchStart": 207.8,
+          "pitchEnd": 99.4,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "684b2ed33054": {
+      "text": "Some galleries quietly transferred public funds abroad to acquire paintings without any review.",
+      "date": "2026-05-12",
+      "num": 4,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Some",
+            "galleries",
+            "quietly",
+            "transferred",
+            "public",
+            "funds",
+            "abroad"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 3.426,
+          "pitchStart": 182.9,
+          "pitchEnd": 171.1,
+          "confidence": 0.65
+        },
+        {
+          "tokens": [
+            "to",
+            "acquire",
+            "paintings",
+            "without",
+            "any",
+            "review"
+          ],
+          "tone": "↘",
+          "start": 3.426,
+          "end": 5.47,
+          "pitchStart": 206.5,
+          "pitchEnd": 160,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "50d22a74fab4": {
+      "text": "Others commissioned new works from foreign artists, while a few constructed entire wings to display objects whose origin no one had evaluated.",
+      "date": "2026-05-12",
+      "num": 5,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Others",
+            "commissioned",
+            "new",
+            "works",
+            "from",
+            "foreign",
+            "artists"
+          ],
+          "tone": "↗",
+          "start": 0.14,
+          "end": 3.27,
+          "pitchStart": 163.3,
+          "pitchEnd": 209.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "while",
+            "a",
+            "few",
+            "constructed",
+            "entire",
+            "wings"
+          ],
+          "tone": "↘",
+          "start": 3.27,
+          "end": 5.265,
+          "pitchStart": 185,
+          "pitchEnd": 153.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "to",
+            "display",
+            "objects",
+            "whose",
+            "origin",
+            "no",
+            "one",
+            "had",
+            "evaluated"
+          ],
+          "tone": "↘",
+          "start": 5.265,
+          "end": 8,
+          "pitchStart": 181.8,
+          "pitchEnd": 158.4,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "2177b46ffe73": {
+      "text": "Critics argued that central oversight limited artistic freedom, but they ignored one significant aspect of the problem.",
+      "date": "2026-05-12",
+      "num": 6,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Critics",
+            "argued",
+            "that",
+            "central",
+            "oversight",
+            "limited",
+            "artistic",
+            "freedom"
+          ],
+          "tone": "↘",
+          "start": 0.17,
+          "end": 3.675,
+          "pitchStart": 170.2,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "but",
+            "they",
+            "ignored",
+            "one",
+            "significant",
+            "aspect",
+            "of",
+            "the",
+            "problem"
+          ],
+          "tone": "↘",
+          "start": 3.675,
+          "end": 6.73,
+          "pitchStart": 219.2,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "cc1296f1545f": {
+      "text": "Without clear rules, museums could not maintain public trust, nor could they secure long-term funding from taxpayers.",
+      "date": "2026-05-12",
+      "num": 7,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Without",
+            "clear",
+            "rules"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.218,
+          "pitchStart": 275.9,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "museums",
+            "could",
+            "not",
+            "maintain",
+            "public",
+            "trust"
+          ],
+          "tone": "↘",
+          "start": 1.218,
+          "end": 3.655,
+          "pitchStart": 198.8,
+          "pitchEnd": 131.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "nor",
+            "could",
+            "they",
+            "secure",
+            "long-term",
+            "funding",
+            "from",
+            "taxpayers"
+          ],
+          "tone": "↘",
+          "start": 3.655,
+          "end": 6.79,
+          "pitchStart": 195.1,
+          "pitchEnd": 142.2,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "c1654760df70": {
+      "text": "Under the new system, every purchase above one million pounds required a distinct review by an independent panel.",
+      "date": "2026-05-12",
+      "num": 8,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Under",
+            "the",
+            "new",
+            "system"
+          ],
+          "tone": "↘",
+          "start": 0.13,
+          "end": 1.46,
+          "pitchStart": 246.2,
+          "pitchEnd": 120.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "every",
+            "purchase",
+            "above",
+            "one",
+            "million",
+            "pounds",
+            "required",
+            "a",
+            "distinct"
+          ],
+          "tone": "↗",
+          "start": 1.46,
+          "end": 4.858,
+          "pitchStart": 172,
+          "pitchEnd": 187.1,
+          "confidence": 0.84
+        },
+        {
+          "tokens": [
+            "review",
+            "by",
+            "an",
+            "independent",
+            "panel"
+          ],
+          "tone": "↘",
+          "start": 4.858,
+          "end": 6.64,
+          "pitchStart": 155.6,
+          "pitchEnd": 149.5,
+          "confidence": 0.35
+        }
+      ]
+    },
+    "4ecf8cb76bd9": {
+      "text": "The panel evaluated the price, the provenance, and the cultural value of each item before approval.",
+      "date": "2026-05-12",
+      "num": 9,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "panel",
+            "evaluated",
+            "the",
+            "price"
+          ],
+          "tone": "↗",
+          "start": 0.13,
+          "end": 1.85,
+          "pitchStart": 178.8,
+          "pitchEnd": 175.8,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "the",
+            "provenance"
+          ],
+          "tone": "↘",
+          "start": 1.85,
+          "end": 2.62,
+          "pitchStart": 220.7,
+          "pitchEnd": 177.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "the",
+            "cultural",
+            "value",
+            "of",
+            "each",
+            "item",
+            "before",
+            "approval"
+          ],
+          "tone": "↘",
+          "start": 2.62,
+          "end": 5.26,
+          "pitchStart": 177.8,
+          "pitchEnd": 140.4,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "439e89a8fafb": {
+      "text": "Within a year, several museums obtained important pieces at fair prices, while a number of questionable acquisitions were stopped before any contract was signed.",
+      "date": "2026-05-12",
+      "num": 10,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Within",
+            "a",
+            "year"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.01,
+          "pitchStart": 285.7,
+          "pitchEnd": 132.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "several",
+            "museums",
+            "obtained",
+            "important",
+            "pieces",
+            "at",
+            "fair",
+            "prices"
+          ],
+          "tone": "↗",
+          "start": 1.01,
+          "end": 4.605,
+          "pitchStart": 161.6,
+          "pitchEnd": 161.6,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "while",
+            "a",
+            "number",
+            "of",
+            "questionable",
+            "acquisitions",
+            "were",
+            "stopped",
+            "before"
+          ],
+          "tone": "↘",
+          "start": 4.605,
+          "end": 7.385,
+          "pitchStart": 216.2,
+          "pitchEnd": 149.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "any",
+            "contract",
+            "was",
+            "signed"
+          ],
+          "tone": "↘",
+          "start": 7.385,
+          "end": 9.22,
+          "pitchStart": 225.4,
+          "pitchEnd": 158.4,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "cc088cf0344e": {
+      "text": "The reform was not perfect, yet it solved a problem that the sector had ignored for decades.",
+      "date": "2026-05-12",
+      "num": 11,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "reform",
+            "was",
+            "not",
+            "perfect"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.51,
+          "pitchStart": 254,
+          "pitchEnd": 225.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "yet",
+            "it",
+            "solved",
+            "a",
+            "problem"
+          ],
+          "tone": "↘",
+          "start": 1.51,
+          "end": 3.755,
+          "pitchStart": 242.4,
+          "pitchEnd": 149.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "the",
+            "sector",
+            "had",
+            "ignored",
+            "for",
+            "decades"
+          ],
+          "tone": "↘",
+          "start": 3.755,
+          "end": 5.28,
+          "pitchStart": 149.5,
+          "pitchEnd": 142.4,
+          "confidence": 0.4
+        }
+      ]
+    },
+    "2525e8d6580d": {
+      "text": "Regulation, in this case, did not weaken culture — it protected it.",
+      "date": "2026-05-12",
+      "num": 12,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Regulation"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 0.982,
+          "pitchStart": 187.1,
+          "pitchEnd": 146.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "in",
+            "this",
+            "case"
+          ],
+          "tone": "↘",
+          "start": 0.982,
+          "end": 1.596,
+          "pitchStart": 209.4,
+          "pitchEnd": 136.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "did",
+            "not",
+            "weaken",
+            "culture"
+          ],
+          "tone": "↘",
+          "start": 1.596,
+          "end": 3.475,
+          "pitchStart": 193.9,
+          "pitchEnd": 161.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "it",
+            "protected",
+            "it"
+          ],
+          "tone": "↘",
+          "start": 3.475,
+          "end": 3.91,
+          "pitchStart": 123.6,
+          "pitchEnd": 89.9,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "8da706288a69": {
+      "text": "In the next decade, corporate AI tools will dominate many classrooms unless schools set clear rules.",
+      "date": "2026-06-02",
+      "num": 1,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "In",
+            "the",
+            "next",
+            "decade"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.275,
+          "pitchStart": 210.5,
+          "pitchEnd": 123.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "corporate",
+            "AI",
+            "tools",
+            "will",
+            "dominate",
+            "many",
+            "classrooms"
+          ],
+          "tone": "↗",
+          "start": 1.275,
+          "end": 3.952,
+          "pitchStart": 161.6,
+          "pitchEnd": 235.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "unless",
+            "schools",
+            "set",
+            "clear",
+            "rules"
+          ],
+          "tone": "↘",
+          "start": 3.952,
+          "end": 5.63,
+          "pitchStart": 216.2,
+          "pitchEnd": 144.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "3f2fb8f9c2f9": {
+      "text": "Some people perceive this change as a threat, but under the right circumstances it will also create considerable potential benefits for learning.",
+      "date": "2026-06-02",
+      "num": 2,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Some",
+            "people",
+            "perceive",
+            "this",
+            "change",
+            "as",
+            "a",
+            "threat"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.56,
+          "pitchStart": 188.2,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "but",
+            "under",
+            "the",
+            "right",
+            "circumstances",
+            "it",
+            "will",
+            "also",
+            "create"
+          ],
+          "tone": "↘",
+          "start": 2.56,
+          "end": 5.5,
+          "pitchStart": 231.9,
+          "pitchEnd": 205.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "considerable",
+            "potential",
+            "benefits",
+            "for",
+            "learning"
+          ],
+          "tone": "↘",
+          "start": 5.5,
+          "end": 7.83,
+          "pitchStart": 211.9,
+          "pitchEnd": 146.8,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "d178a814e395": {
+      "text": "The key issue is not whether technology will enter education; it is which component of teaching it will replace and which it will support.",
+      "date": "2026-06-02",
+      "num": 3,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "key",
+            "issue",
+            "is",
+            "not"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.72,
+          "pitchStart": 216.2,
+          "pitchEnd": 166.7,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "whether",
+            "technology",
+            "will",
+            "enter",
+            "education"
+          ],
+          "tone": "↗",
+          "start": 1.72,
+          "end": 3.76,
+          "pitchStart": 140.4,
+          "pitchEnd": 181.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "it",
+            "is",
+            "which",
+            "component"
+          ],
+          "tone": "↗",
+          "start": 3.76,
+          "end": 5.21,
+          "pitchStart": 242.4,
+          "pitchEnd": 231.9,
+          "confidence": 0.48
+        },
+        {
+          "tokens": [
+            "of",
+            "teaching",
+            "it",
+            "will",
+            "replace",
+            "and"
+          ],
+          "tone": "↗",
+          "start": 5.21,
+          "end": 6.647,
+          "pitchStart": 150.9,
+          "pitchEnd": 188.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "which",
+            "it",
+            "will",
+            "support"
+          ],
+          "tone": "↘",
+          "start": 6.647,
+          "end": 7.7,
+          "pitchStart": 158.4,
+          "pitchEnd": 165.1,
+          "confidence": 0.37
+        }
+      ]
+    },
+    "54312ede17ba": {
+      "text": "Schools are going to seek tools that can select relevant exercises for each student and demonstrate weak points instantly.",
+      "date": "2026-06-02",
+      "num": 4,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Schools",
+            "are",
+            "going",
+            "to",
+            "seek",
+            "tools"
+          ],
+          "tone": "↘",
+          "start": 0.15,
+          "end": 1.25,
+          "pitchStart": 248.1,
+          "pitchEnd": 176.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "can",
+            "select",
+            "relevant",
+            "exercises",
+            "for",
+            "each",
+            "student"
+          ],
+          "tone": "↗",
+          "start": 1.25,
+          "end": 3.63,
+          "pitchStart": 155.3,
+          "pitchEnd": 148.8,
+          "confidence": 0.36
+        },
+        {
+          "tokens": [
+            "and",
+            "demonstrate",
+            "weak",
+            "points",
+            "instantly"
+          ],
+          "tone": "↘",
+          "start": 3.63,
+          "end": 6.3,
+          "pitchStart": 190.5,
+          "pitchEnd": 135.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "5408591874a2": {
+      "text": "These systems will contribute to better feedback, especially when teachers face constant pressure and limited time.",
+      "date": "2026-06-02",
+      "num": 5,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "These",
+            "systems",
+            "will",
+            "contribute",
+            "to",
+            "better",
+            "feedback"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.66,
+          "pitchStart": 164.9,
+          "pitchEnd": 135,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "especially",
+            "when",
+            "teachers",
+            "face",
+            "constant",
+            "pressure",
+            "and",
+            "limited",
+            "time"
+          ],
+          "tone": "↘",
+          "start": 2.66,
+          "end": 6.43,
+          "pitchStart": 200,
+          "pitchEnd": 164.9,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "9a13051f8215": {
+      "text": "However, education should not be designed around corporate profit.",
+      "date": "2026-06-02",
+      "num": 6,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "However"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 0.895,
+          "pitchStart": 235.3,
+          "pitchEnd": 135.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "education",
+            "should",
+            "not",
+            "be",
+            "designed",
+            "around",
+            "corporate",
+            "profit"
+          ],
+          "tone": "↘",
+          "start": 0.895,
+          "end": 4.13,
+          "pitchStart": 186,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "9b84670515d1": {
+      "text": "Governments will need to restrict the collection of student data and exclude companies that cannot ensure privacy.",
+      "date": "2026-06-02",
+      "num": 7,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Governments",
+            "will",
+            "need",
+            "to",
+            "restrict",
+            "the",
+            "collection"
+          ],
+          "tone": "↗",
+          "start": 0.13,
+          "end": 3.29,
+          "pitchStart": 166.7,
+          "pitchEnd": 160,
+          "confidence": 0.37
+        },
+        {
+          "tokens": [
+            "of",
+            "student",
+            "data",
+            "and",
+            "exclude",
+            "companies"
+          ],
+          "tone": "↘",
+          "start": 3.29,
+          "end": 4.67,
+          "pitchStart": 228.6,
+          "pitchEnd": 132.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "cannot",
+            "ensure",
+            "privacy"
+          ],
+          "tone": "↗",
+          "start": 4.67,
+          "end": 6.23,
+          "pitchStart": 180.8,
+          "pitchEnd": 192.8,
+          "confidence": 0.67
+        }
+      ]
+    },
+    "edbec236bf1c": {
+      "text": "Teachers shall remain the final decision-makers, because they understand context, emotion, and progress better than any platform.",
+      "date": "2026-06-02",
+      "num": 8,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Teachers",
+            "shall",
+            "remain",
+            "the",
+            "final",
+            "decision-makers"
+          ],
+          "tone": "↘",
+          "start": 0.13,
+          "end": 2.615,
+          "pitchStart": 156.1,
+          "pitchEnd": 134.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "because",
+            "they",
+            "understand",
+            "context"
+          ],
+          "tone": "↗",
+          "start": 2.615,
+          "end": 4.63,
+          "pitchStart": 222.2,
+          "pitchEnd": 254,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "emotion"
+          ],
+          "tone": "↗",
+          "start": 4.63,
+          "end": 5.308,
+          "pitchStart": 186,
+          "pitchEnd": 222.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "progress",
+            "better",
+            "than",
+            "any",
+            "platform"
+          ],
+          "tone": "↘",
+          "start": 5.308,
+          "end": 7.49,
+          "pitchStart": 164.9,
+          "pitchEnd": 164.9,
+          "confidence": 0.35
+        }
+      ]
+    },
+    "775592b52d88": {
+      "text": "A balanced policy will give emphasis to human judgement while still allowing useful software to assist routine practice.",
+      "date": "2026-06-02",
+      "num": 9,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "A",
+            "balanced",
+            "policy",
+            "will",
+            "give",
+            "emphasis",
+            "to",
+            "human",
+            "judgement"
+          ],
+          "tone": "↘",
+          "start": 0.13,
+          "end": 3.21,
+          "pitchStart": 163.3,
+          "pitchEnd": 148.1,
+          "confidence": 0.84
+        },
+        {
+          "tokens": [
+            "while",
+            "still",
+            "allowing",
+            "useful",
+            "software",
+            "to",
+            "assist",
+            "routine",
+            "practice"
+          ],
+          "tone": "↘",
+          "start": 3.21,
+          "end": 6.75,
+          "pitchStart": 219.2,
+          "pitchEnd": 164.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "eade6f19a335": {
+      "text": "If schools adopt this approach, AI will not replace teachers; it will become one practical tool among many.",
+      "date": "2026-06-02",
+      "num": 10,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "If",
+            "schools",
+            "adopt",
+            "this",
+            "approach"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.905,
+          "pitchStart": 179.8,
+          "pitchEnd": 146.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "AI",
+            "will",
+            "not",
+            "replace",
+            "teachers"
+          ],
+          "tone": "↘",
+          "start": 1.905,
+          "end": 4.01,
+          "pitchStart": 210.5,
+          "pitchEnd": 202.5,
+          "confidence": 0.42
+        },
+        {
+          "tokens": [
+            "it",
+            "will",
+            "become",
+            "one",
+            "practical",
+            "tool",
+            "among",
+            "many"
+          ],
+          "tone": "↘",
+          "start": 4.01,
+          "end": 6.58,
+          "pitchStart": 219.2,
+          "pitchEnd": 144.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "a900da628510": {
+      "text": "Therefore, the question is not whether AI is coming, but how we are going to govern it before it governs us.",
+      "date": "2026-06-02",
+      "num": 11,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Therefore"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 0.793,
+          "pitchStart": 258.1,
+          "pitchEnd": 150.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "the",
+            "question",
+            "is",
+            "not"
+          ],
+          "tone": "↘",
+          "start": 0.793,
+          "end": 2.395,
+          "pitchStart": 189.4,
+          "pitchEnd": 144.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "whether",
+            "AI",
+            "is",
+            "coming"
+          ],
+          "tone": "↘",
+          "start": 2.395,
+          "end": 2.96,
+          "pitchStart": 146.8,
+          "pitchEnd": 148.3,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "but",
+            "how",
+            "we",
+            "are",
+            "going"
+          ],
+          "tone": "↘",
+          "start": 2.96,
+          "end": 4.475,
+          "pitchStart": 242.5,
+          "pitchEnd": 173.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "to",
+            "govern",
+            "it",
+            "before",
+            "it",
+            "governs",
+            "us"
+          ],
+          "tone": "↘",
+          "start": 4.475,
+          "end": 5.46,
+          "pitchStart": 137.9,
+          "pitchEnd": 119.9,
+          "confidence": 0.98
+        }
+      ]
+    }
+  }
+}

@@ -15,6 +15,7 @@ interface Sentence {
   text: string
   zh?: string
   audio?: string
+  prosody?: ProsodyCue
 }
 
 interface TargetWord {
@@ -54,6 +55,7 @@ const { values } = parseArgs({
 const OUT_DIR = resolve(values.out!)
 const SITE_TITLE = values.title!
 const STATIC_GLOSSARY_PATH = resolve('learning/glossary.zh.json')
+const STATIC_PROSODY_PATH = resolve('learning/prosody.json')
 const DB_PATH = resolve('db/ieltsy.db')
 const AUDIO_CACHE_DIR = resolve('learning/audio-cache')
 const AUDIO_VOICE = process.env.IELTSY_AUDIO_VOICE || 'en-US-EmmaMultilingualNeural'
@@ -78,6 +80,21 @@ const CONTRAST_STARTERS = new Set(['but', 'however', 'yet'])
 interface ProsodyGroup {
   tokens: string[]
   boundary: 'soft' | 'comma' | 'major' | 'end'
+}
+
+interface ProsodyCueGroup {
+  tokens: string[]
+  tone: string
+  start?: number
+  end?: number
+  pitchStart?: number
+  pitchEnd?: number
+  confidence?: number
+}
+
+interface ProsodyCue {
+  source: string
+  groups: ProsodyCueGroup[]
 }
 
 function escapeHtml(s: string): string {
@@ -323,19 +340,31 @@ function toneForGroup(group: ProsodyGroup, index: number, groups: ProsodyGroup[]
   return '↗'
 }
 
-function renderFollowCue(text: string): string {
+function renderCueGroup(tokens: string[], tone: string): string {
+  const words = tokens.map((word) => {
+    const klass = isStressWord(word) ? 'stress' : 'weak'
+    return `<span class="cue-word ${klass}">${escapeHtml(word)}</span>`
+  }).join(' ')
+  return `<span class="cue-group">${words}<span class="tone">${escapeHtml(tone)}</span></span>`
+}
+
+function renderFollowCue(text: string, cue?: ProsodyCue): string {
+  if (cue?.groups?.length) {
+    const renderedCue = cue.groups
+      .filter((group) => group.tokens.length > 0)
+      .map((group) => renderCueGroup(group.tokens, group.tone || '→'))
+      .join('<span class="pause">/</span>')
+    return `<span class="follow-cue" data-prosody-source="${escapeHtml(cue.source)}"><span class="follow-tag">跟读</span><span class="cue-line">${renderedCue}</span></span>`
+  }
+
   const groups = prosodyGroups(text)
   if (groups.length === 0) return ''
   const finalTone = text.trim().endsWith('?') ? '↗' : '↘'
   const rendered = groups.map((group, index) => {
     const tone = toneForGroup(group, index, groups, finalTone)
-    const words = group.tokens.map((word) => {
-      const klass = isStressWord(word) ? 'stress' : 'weak'
-      return `<span class="cue-word ${klass}">${escapeHtml(word)}</span>`
-    }).join(' ')
-    return `<span class="cue-group">${words}<span class="tone">${tone}</span></span>`
+    return renderCueGroup(group.tokens, tone)
   }).join('<span class="pause">/</span>')
-  return `<span class="follow-cue"><span class="follow-tag">跟读</span><span class="cue-line">${rendered}</span></span>`
+  return `<span class="follow-cue" data-prosody-source="fallback"><span class="follow-tag">跟读</span><span class="cue-line">${rendered}</span></span>`
 }
 
 function renderRefs(refs: string): string {
@@ -437,6 +466,25 @@ function enrichTargetWords(
 
 function audioCacheKey(text: string): string {
   return createHash('md5').update(`${AUDIO_VOICE}|${AUDIO_RATE}|${text}`).digest('hex').slice(0, 12)
+}
+
+function loadStaticProsody(): Map<string, ProsodyCue> {
+  const prosody = new Map<string, ProsodyCue>()
+  if (!existsSync(STATIC_PROSODY_PATH)) return prosody
+
+  const raw = JSON.parse(readFileSync(STATIC_PROSODY_PATH, 'utf-8')) as {
+    sentences?: Record<string, ProsodyCue>
+  }
+  for (const [key, cue] of Object.entries(raw.sentences ?? {})) {
+    if (cue?.groups?.length) prosody.set(key, cue)
+  }
+  return prosody
+}
+
+function enrichSentencesWithProsody(sentences: Sentence[], prosody: Map<string, ProsodyCue>): void {
+  for (const sentence of sentences) {
+    sentence.prosody = prosody.get(audioCacheKey(sentence.text))
+  }
 }
 
 function ensureAudio(text: string): string | undefined {
@@ -629,7 +677,7 @@ function renderDay(article: ParsedArticle): string {
             <span class="num">${CIRCLED[sentence.num - 1]}</span>
             <span class="sentence-text">
               <span class="en">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</span>
-              ${renderFollowCue(sentence.text)}
+              ${renderFollowCue(sentence.text, sentence.prosody)}
               ${sentence.zh ? `<span class="zh">${escapeHtml(sentence.zh)}</span>` : ''}
             </span>
           </p>`).join('\n')
@@ -861,6 +909,7 @@ function discoverArticles(): ParsedArticle[] {
   if (!existsSync(daysDir)) return []
 
   const glossary = loadStaticGlossary()
+  const prosody = loadStaticProsody()
   const dbLookup = createDbGlossaryLookup()
   const articles: ParsedArticle[] = []
   try {
@@ -870,6 +919,7 @@ function discoverArticles(): ParsedArticle[] {
       if (!existsSync(articlePath)) continue
       const parsed = parseArticleMd(entry.name, readFileSync(articlePath, 'utf-8'))
       enrichTargetWords(parsed.targetWords, glossary, dbLookup)
+      enrichSentencesWithProsody(parsed.sentences, prosody)
       articles.push(parsed)
     }
   } finally {

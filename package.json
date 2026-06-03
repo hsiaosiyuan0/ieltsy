@@ -22,6 +22,7 @@
     "study:speak": "tsx scripts/cli.ts speak",
     "study:preview": "tsx scripts/cli.ts preview",
     "study:add-word": "tsx scripts/cli.ts add-word",
+    "study:prosody": "tsx scripts/study/analyze-prosody.ts",
     "study:export": "tsx scripts/study/export-pages.ts",
     "pages:build": "pnpm study:export"
   },
