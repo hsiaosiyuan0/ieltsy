@@ -1,0 +1,53 @@
+learning/README.md
+  d5e780e1c6453f8d 28
+learning/days/2026-06-04/article.md
+  d5e780e1c6453f8d 1-66
+learning/glossary.zh.json
+  d5e780e1c6453f8d 4-6,13,24,30,32,36,43-44,47-48,53,75,84,86-87
+learning/days/2026-06-04/session.md
+  d5e780e1c6453f8d 1-14
+learning/prosody.json
+  d5e780e1c6453f8d 2865-3572
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.8",
+  "base_commit_sha": "78ececa94c536c68378fe10f13f11c84807e66fc",
+  "prompts": {
+    "d5e780e1c6453f8d": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019e8b1b-53b0-7ec3-a33f-9e6cf20fd0c9",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 806,
+      "total_deletions": 0,
+      "accepted_lines": 806,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "learning/README.md": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "learning/days/2026-06-04/article.md": {
+          "additions": 66,
+          "accepted_lines": 66
+        },
+        "learning/days/2026-06-04/session.md": {
+          "additions": 14,
+          "accepted_lines": 14
+        },
+        "learning/glossary.zh.json": {
+          "additions": 17,
+          "accepted_lines": 17
+        },
+        "learning/prosody.json": {
+          "additions": 708,
+          "accepted_lines": 708
+        }
+      }
+    }
+  }
+}
