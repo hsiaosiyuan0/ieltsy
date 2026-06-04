@@ -2862,6 +2862,714 @@
           "confidence": 0.98
         }
       ]
+    },
+    "11793e930c06": {
+      "text": "Last winter, a city council was testing a new grant for households that were struggling with domestic energy costs.",
+      "date": "2026-06-04",
+      "num": 1,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Last",
+            "winter"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.125,
+          "pitchStart": 186,
+          "pitchEnd": 119,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "a",
+            "city",
+            "council",
+            "was",
+            "testing",
+            "a",
+            "new"
+          ],
+          "tone": "↘",
+          "start": 1.125,
+          "end": 2.678,
+          "pitchStart": 216.2,
+          "pitchEnd": 150.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "grant",
+            "for",
+            "households"
+          ],
+          "tone": "↗",
+          "start": 2.678,
+          "end": 3.912,
+          "pitchStart": 195.2,
+          "pitchEnd": 190.5,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "that",
+            "were",
+            "struggling",
+            "with",
+            "domestic",
+            "energy",
+            "costs"
+          ],
+          "tone": "↘",
+          "start": 3.912,
+          "end": 6.55,
+          "pitchStart": 166.7,
+          "pitchEnd": 141,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "deff3e13f089": {
+      "text": "Civil servants were trying to integrate billing data, home surveys, and community advice so that support would reach people with valid claims.",
+      "date": "2026-06-04",
+      "num": 2,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Civil",
+            "servants",
+            "were",
+            "trying",
+            "to",
+            "integrate",
+            "billing",
+            "data"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.96,
+          "pitchStart": 166.7,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "home",
+            "surveys"
+          ],
+          "tone": "↘",
+          "start": 2.96,
+          "end": 4.035,
+          "pitchStart": 301.9,
+          "pitchEnd": 144.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "community",
+            "advice",
+            "so"
+          ],
+          "tone": "↘",
+          "start": 4.035,
+          "end": 5.33,
+          "pitchStart": 190.5,
+          "pitchEnd": 131.7,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "support",
+            "would",
+            "reach",
+            "people",
+            "with",
+            "valid",
+            "claims"
+          ],
+          "tone": "↘",
+          "start": 5.33,
+          "end": 7.97,
+          "pitchStart": 201.3,
+          "pitchEnd": 145.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "7f2284323ffe": {
+      "text": "The annual budget looked adequate on paper, but staff were receiving a higher volume of applications than expected.",
+      "date": "2026-06-04",
+      "num": 3,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "annual",
+            "budget",
+            "looked",
+            "adequate",
+            "on",
+            "paper"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.595,
+          "pitchStart": 173.9,
+          "pitchEnd": 131.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "but",
+            "staff",
+            "were",
+            "receiving",
+            "a",
+            "higher",
+            "volume"
+          ],
+          "tone": "↘",
+          "start": 2.595,
+          "end": 4.796,
+          "pitchStart": 220.7,
+          "pitchEnd": 185,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "of",
+            "applications",
+            "than",
+            "expected"
+          ],
+          "tone": "↘",
+          "start": 4.796,
+          "end": 6.48,
+          "pitchStart": 140.4,
+          "pitchEnd": 146.8,
+          "confidence": 0.36
+        }
+      ]
+    },
+    "f27fa4e12dc5": {
+      "text": "It was becoming apparent that many ethnic minority families were not applying because the forms were only available in English.",
+      "date": "2026-06-04",
+      "num": 4,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "It",
+            "was",
+            "becoming",
+            "apparent"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.95,
+          "pitchStart": 222.2,
+          "pitchEnd": 200,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "many",
+            "ethnic",
+            "minority",
+            "families",
+            "were",
+            "not",
+            "applying"
+          ],
+          "tone": "↗",
+          "start": 1.95,
+          "end": 4.22,
+          "pitchStart": 142.9,
+          "pitchEnd": 181.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "because",
+            "the",
+            "forms",
+            "were",
+            "only",
+            "available",
+            "in",
+            "English"
+          ],
+          "tone": "↘",
+          "start": 4.22,
+          "end": 6.9,
+          "pitchStart": 225.4,
+          "pitchEnd": 140.4,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "edc4f93f9f3b": {
+      "text": "Hence, local volunteers were translating the guidance while officials were redesigning the website.",
+      "date": "2026-06-04",
+      "num": 5,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "Hence"
+          ],
+          "tone": "↗",
+          "start": 0.14,
+          "end": 0.66,
+          "confidence": 0.25
+        },
+        {
+          "tokens": [
+            "local",
+            "volunteers",
+            "were",
+            "translating",
+            "the",
+            "guidance"
+          ],
+          "tone": "↗",
+          "start": 0.66,
+          "end": 3.315,
+          "pitchStart": 164.9,
+          "pitchEnd": 156.9,
+          "confidence": 0.45
+        },
+        {
+          "tokens": [
+            "while",
+            "officials",
+            "were",
+            "redesigning",
+            "the",
+            "website"
+          ],
+          "tone": "↘",
+          "start": 3.315,
+          "end": 5.51,
+          "pitchStart": 178.8,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "3a0307aa0785": {
+      "text": "The council was also trying to retain basic checks, because some residents feared that faster approval would weaken accountability.",
+      "date": "2026-06-04",
+      "num": 6,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "council",
+            "was",
+            "also",
+            "trying",
+            "to",
+            "retain",
+            "basic",
+            "checks"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 2.99,
+          "pitchStart": 188.2,
+          "pitchEnd": 136.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "because",
+            "some",
+            "residents",
+            "feared"
+          ],
+          "tone": "↘",
+          "start": 2.99,
+          "end": 4.315,
+          "pitchStart": 246.2,
+          "pitchEnd": 155.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "faster",
+            "approval",
+            "would",
+            "weaken",
+            "accountability"
+          ],
+          "tone": "↘",
+          "start": 4.315,
+          "end": 7.06,
+          "pitchStart": 193.9,
+          "pitchEnd": 172,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "8b584f2834c0": {
+      "text": "During a public debate, critics argued that the city was about to impose another complicated system on poor households.",
+      "date": "2026-06-04",
+      "num": 7,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "During",
+            "a",
+            "public",
+            "debate"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.545,
+          "pitchStart": 214.8,
+          "pitchEnd": 148.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "critics",
+            "argued",
+            "that",
+            "the",
+            "city",
+            "was",
+            "about"
+          ],
+          "tone": "↗",
+          "start": 1.545,
+          "end": 3.381,
+          "pitchStart": 168.4,
+          "pitchEnd": 254,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "to",
+            "impose",
+            "another",
+            "complicated",
+            "system",
+            "on",
+            "poor",
+            "households"
+          ],
+          "tone": "↘",
+          "start": 3.381,
+          "end": 6.78,
+          "pitchStart": 166.7,
+          "pitchEnd": 145.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "f81583e6e28c": {
+      "text": "In response, the project team explained that it was implementing a simpler process, not adding new barriers.",
+      "date": "2026-06-04",
+      "num": 8,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "In",
+            "response"
+          ],
+          "tone": "↗",
+          "start": 0.14,
+          "end": 0.9,
+          "pitchStart": 177.8,
+          "pitchEnd": 172,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "the",
+            "project",
+            "team",
+            "explained"
+          ],
+          "tone": "↘",
+          "start": 0.9,
+          "end": 2.575,
+          "pitchStart": 225.4,
+          "pitchEnd": 145.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "it",
+            "was",
+            "implementing",
+            "a",
+            "simpler",
+            "process"
+          ],
+          "tone": "↘",
+          "start": 2.575,
+          "end": 4.485,
+          "pitchStart": 213.4,
+          "pitchEnd": 119.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "not",
+            "adding",
+            "new",
+            "barriers"
+          ],
+          "tone": "↘",
+          "start": 4.485,
+          "end": 6,
+          "pitchStart": 179.8,
+          "pitchEnd": 160.8,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "0888c8fc298d": {
+      "text": "As the pilot continued, new problems were emerging: rented homes often lacked sufficient insulation, and some landlords were refusing to cooperate.",
+      "date": "2026-06-04",
+      "num": 9,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "As",
+            "the",
+            "pilot",
+            "continued"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.595,
+          "pitchStart": 216.2,
+          "pitchEnd": 155.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "new",
+            "problems",
+            "were",
+            "emerging"
+          ],
+          "tone": "↘",
+          "start": 1.595,
+          "end": 3.505,
+          "pitchStart": 175.8,
+          "pitchEnd": 161.6,
+          "confidence": 0.79
+        },
+        {
+          "tokens": [
+            "rented",
+            "homes",
+            "often",
+            "lacked",
+            "sufficient",
+            "insulation"
+          ],
+          "tone": "↘",
+          "start": 3.505,
+          "end": 6.545,
+          "pitchStart": 183.9,
+          "pitchEnd": 142.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "some",
+            "landlords",
+            "were",
+            "refusing",
+            "to",
+            "cooperate"
+          ],
+          "tone": "↘",
+          "start": 6.545,
+          "end": 9.14,
+          "pitchStart": 205.1,
+          "pitchEnd": 149.5,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "55273dd7948a": {
+      "text": "By March, the evidence was showing that cash support alone was not enough unless repairs were happening at the same time.",
+      "date": "2026-06-04",
+      "num": 10,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "By",
+            "March"
+          ],
+          "tone": "↘",
+          "start": 0.16,
+          "end": 0.815,
+          "pitchStart": 202.5,
+          "pitchEnd": 149.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "the",
+            "evidence",
+            "was",
+            "showing"
+          ],
+          "tone": "↘",
+          "start": 0.815,
+          "end": 2.06,
+          "pitchStart": 262.3,
+          "pitchEnd": 164.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "that",
+            "cash",
+            "support",
+            "alone",
+            "was",
+            "not",
+            "enough"
+          ],
+          "tone": "↗",
+          "start": 2.06,
+          "end": 4.365,
+          "pitchStart": 152.4,
+          "pitchEnd": 172,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "unless",
+            "repairs",
+            "were",
+            "happening",
+            "at",
+            "the",
+            "same",
+            "time"
+          ],
+          "tone": "↘",
+          "start": 4.365,
+          "end": 6.21,
+          "pitchStart": 141.6,
+          "pitchEnd": 132.2,
+          "confidence": 0.52
+        }
+      ]
+    },
+    "125ac0c95a77": {
+      "text": "The main lesson was clear: a grant can help, but it works best when public services are integrating money, information, and practical action.",
+      "date": "2026-06-04",
+      "num": 11,
+      "source": "edge-tts-audio-analysis-v1",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "main",
+            "lesson",
+            "was",
+            "clear"
+          ],
+          "tone": "↘",
+          "start": 0.14,
+          "end": 1.68,
+          "pitchStart": 172,
+          "pitchEnd": 136.8,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "a",
+            "grant",
+            "can",
+            "help"
+          ],
+          "tone": "↗",
+          "start": 1.68,
+          "end": 3.095,
+          "pitchStart": 166.7,
+          "pitchEnd": 195.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "but",
+            "it",
+            "works",
+            "best"
+          ],
+          "tone": "↗",
+          "start": 3.095,
+          "end": 3.629,
+          "pitchStart": 222.2,
+          "pitchEnd": 222.4,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "when",
+            "public",
+            "services",
+            "are",
+            "integrating",
+            "money"
+          ],
+          "tone": "↗",
+          "start": 3.629,
+          "end": 6.635,
+          "pitchStart": 172,
+          "pitchEnd": 188.2,
+          "confidence": 0.9
+        },
+        {
+          "tokens": [
+            "information"
+          ],
+          "tone": "↗",
+          "start": 6.635,
+          "end": 8,
+          "pitchStart": 164.1,
+          "pitchEnd": 183.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "practical",
+            "action"
+          ],
+          "tone": "↘",
+          "start": 8,
+          "end": 8.8,
+          "pitchStart": 163.3,
+          "pitchEnd": 110.3,
+          "confidence": 0.98
+        }
+      ]
     }
   }
 }
