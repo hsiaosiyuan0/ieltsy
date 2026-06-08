@@ -1,0 +1,36 @@
+learning/days/2026-06-08/article.md
+  f4a671da413bd061 1-68
+learning/README.md
+  f4a671da413bd061 29
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "47ad96fdb1915d724cb8ffda1f96101af3937a0c",
+  "prompts": {
+    "f4a671da413bd061": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019ea67f-0125-7001-be52-2addfd2bf241",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 70,
+      "total_deletions": 1,
+      "accepted_lines": 69,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "learning/README.md": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "learning/days/2026-06-08/article.md": {
+          "additions": 69,
+          "deletions": 1,
+          "accepted_lines": 68
+        }
+      }
+    }
+  }
+}
