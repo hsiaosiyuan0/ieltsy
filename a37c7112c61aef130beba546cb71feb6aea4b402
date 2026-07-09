@@ -1,0 +1,30 @@
+learning/days/2026-07-09/article.md
+  6053c98014b20e2f 1-62
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "a37c7112c61aef130beba546cb71feb6aea4b402",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.5"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 64,
+      "total_deletions": 2,
+      "accepted_lines": 62,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "learning/days/2026-07-09/article.md": {
+          "additions": 64,
+          "deletions": 2,
+          "accepted_lines": 62
+        }
+      }
+    }
+  }
+}
