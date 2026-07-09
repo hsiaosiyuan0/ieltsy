@@ -1,17 +1,17 @@
 # IELTSY
 
-> 由 Claude Code 驱动的 IELTS Band 7 学习闭环工具。SQLite + Node CLI，没有前端，没有 LLM API 调用。
+> 由 Codex CLI 驱动的 IELTS Band 7 学习闭环工具。SQLite + Node CLI，没有前端，没有 LLM API 调用。
 
 ## 是什么
 
-在 Claude Code 终端里说一句"今天学什么"，AI 根据你的学习计划：
+在 Codex CLI 终端里说一句"今天学什么"，AI 根据你的学习计划：
 
 1. 从词库挑出 17 个新词 + 1 个语法点（按 CEFR / AWL / 重要度排序）
 2. 生成一篇 ~250 字短文，把所有目标词织进去（体裁按周几轮换：narrative / argumentative / descriptive / expository / dialogue）
 3. 出多空填词题让你考（每句 3–5 空）
 4. 记录错题到 SQLite，SM-2 算法自动调度间隔重复
 
-所有 AI 生成都在 Claude Code 的回复里完成；CLI 只负责读写数据库和外设（朗读 / 浏览器预览）。
+所有 AI 生成都在 Codex 的回复里完成；CLI 只负责读写数据库和外设（朗读 / 浏览器预览）。
 
 ## 内容规模
 
@@ -33,7 +33,7 @@ pnpm ielts init \
   --target-date 2026-12-01 \
   --baseline B1                        # 你的当前 CEFR
 
-# 之后每天，打开 Claude Code 说"今天学什么"
+# 之后每天，在本仓库打开 Codex CLI 说"今天学什么"
 ```
 
 ## CLI
@@ -76,7 +76,8 @@ pnpm pages:build
 
 ```
 ieltsy/
-├── CLAUDE.md             ← Claude Code 工作流手册（会话开始自动加载）
+├── AGENTS.md             ← Codex CLI 工作流手册（会话开始自动加载）
+├── CLAUDE.md             ← Claude Code 兼容工作流手册
 ├── README.md             ← 你正在看的这份
 ├── package.json
 ├── db/
@@ -95,13 +96,13 @@ ieltsy/
     └── audio-cache/      ← TTS 缓存（gitignored）
 ```
 
-数据库 schema 细节看 `db/schema.sql`，工作流细节看 `CLAUDE.md`。
+数据库 schema 细节看 `db/schema.sql`，Codex 工作流细节看 `AGENTS.md`。
 
 ## 一次学习的样子
 
 ```
 你: 今天学什么
-Claude:
+Codex:
   → 跑 pnpm ielts today
   → 看到 17 个新词 + 一般现在时 + 0 个待复习
   → 生成 narrative 短文 "Maria, the Consultant" (270 字)
@@ -109,25 +110,25 @@ Claude:
   → 在对话里展示文章 + 目标词位置 + 语法点示例
 
 你: 考一下我
-Claude:
+Codex:
   → 从短文里选 6 句，每句挖 3-5 空
-  → 逐句出题，你填，Claude 判分
+  → 逐句出题，你填，Codex 判分
 
 你: 保存
-Claude:
+Codex:
   → 整理 correct/incorrect 词 ID + 错题详情
   → 跑 pnpm ielts record --correct "..." --incorrect "..." --mistakes-json '[...]'
   → 跑 pnpm ielts mistakes 刷新错题本
   → SM-2 算法把错的词排到明天复习
 
 你: 预览
-Claude:
+Codex:
   → 后台跑 pnpm ielts preview
   → 浏览器自动打开 http://localhost:8765
   → 点击句子朗读（edge-tts 美音）、可切中/英文显示、Play All 朗读整篇
 
 你: consultant 这个词不会
-Claude:
+Codex:
   → 跑 pnpm ielts add-word --word consultant
   → 加入学习队列，明天复习时出现
 ```
@@ -146,7 +147,7 @@ Claude:
 | 层 | 实现 | 职责 |
 |---|---|---|
 | **存储** | SQLite + Markdown | 内容、用户进度、学习产物 |
-| **数据流转 / 编排** | CLI + LLM（Claude Code） | 自然语言指令 → 命令调用 + 智能生成 / 判分 |
+| **数据流转 / 编排** | CLI + LLM（Codex CLI） | 自然语言指令 → 命令调用 + 智能生成 / 判分 |
 | **重交互场景** | HTML 单点页面 | 视觉/操作密集的垂直场景；所有操作写回 SQLite + md |
 
 ### 存储分工
@@ -156,9 +157,9 @@ Claude:
 
 ### 数据流转 / 编排
 
-`pnpm ielts <cmd>` 是统一 CLI，每条命令自带 `help` 和 `--json` 元数据。**Claude Code 是默认编排器**，按 `CLAUDE.md` 工作流读用户意图、调命令、生成短文 / cloze / 判分。也可以裸跑 CLI 自动化（脚本、cron）。
+`pnpm ielts <cmd>` 是统一 CLI，每条命令自带 `help` 和 `--json` 元数据。**Codex CLI 是默认编排器**，按 `AGENTS.md` 工作流读用户意图、调命令、生成短文 / cloze / 判分。也可以裸跑 CLI 自动化（脚本、cron）。
 
-未来扩展：把高频工作流封装成 Claude Code Skill（`/ielts today` slash command），减少 LLM 触发负担。
+未来扩展：把高频工作流封装成 Codex Skill 或 slash command，减少 LLM 触发负担。
 
 ### 重交互场景：HTML 单点页面
 

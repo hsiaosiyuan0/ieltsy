@@ -375,6 +375,15 @@ function renderRefs(refs: string): string {
   }).join(' ')
 }
 
+function renderZhDefinition(word: TargetWord): string {
+  const definition = word.zh?.trim()
+  if (!definition) {
+    return `<span class="word-zh missing"><span class="word-zh-label">中文释义</span><span>未收录中文释义</span></span>`
+  }
+
+  return `<span class="word-zh"><span class="word-zh-label">中文释义</span><span>${escapeHtml(definition)}</span></span>`
+}
+
 function glossaryKey(word: string, pos: string): string {
   return `${word.trim().toLowerCase()}|${pos.trim().toLowerCase()}`
 }
@@ -462,6 +471,22 @@ function enrichTargetWords(
     const staticZh = glossary.get(glossaryKey(target.word, target.pos)) ?? glossary.get(glossaryKey(target.word, normalizePos(target.pos)))
     target.zh = staticZh ?? dbLookup?.lookup(target.word, target.pos)
   }
+}
+
+function reportDefinitionCoverage(articles: ParsedArticle[]): void {
+  const targets = articles.flatMap((article) => article.targetWords.map((word) => ({ article, word })))
+  const missing = targets.filter(({ word }) => !word.zh?.trim())
+  if (missing.length === 0) {
+    console.log(`  Definitions: ${targets.length}/${targets.length} target words have Chinese definitions`)
+    return
+  }
+
+  const sample = missing
+    .slice(0, 8)
+    .map(({ article, word }) => `${article.date}:${word.word}/${word.pos}`)
+    .join(', ')
+  console.warn(`  Definitions: ${targets.length - missing.length}/${targets.length} target words have Chinese definitions`)
+  console.warn(`  Missing Chinese definitions: ${sample}${missing.length > 8 ? ', ...' : ''}`)
 }
 
 function audioCacheKey(text: string): string {
@@ -579,26 +604,32 @@ function renderShell(opts: {
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="${escapeHtml(opts.description)}">
-  <meta name="theme-color" content="#0f766e">
+  <meta name="theme-color" content="#4f46e5">
   <title>${escapeHtml(opts.title)} · ${escapeHtml(SITE_TITLE)}</title>
+  <link rel="icon" href="${opts.prefix}favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${opts.prefix}assets/site.css">
   <link rel="manifest" href="${opts.prefix}manifest.webmanifest">
 </head>
 <body${opts.bodyAttrs ? ` ${opts.bodyAttrs}` : ''}>
   <a class="skip-link" href="#content">跳到正文</a>
-  <div class="app-frame">
-    <aside class="desk-rail" aria-label="应用导航">
-      <a class="rail-brand" href="${homeHref}" aria-label="IELTSY 首页">
+  <div class="app-shell">
+    <aside class="sh-sidebar" aria-label="应用导航">
+      <a class="brand" href="${homeHref}" aria-label="IELTSY 首页">
         <span class="brand-mark">${icon('book')}</span>
-        <span class="brand-word">IELTSY</span>
+        <span class="brand-copy"><strong>IELTSY</strong><span>Band 7 loop</span></span>
       </a>
-      <nav class="rail-nav" aria-label="主导航">
-        <a class="rail-link" href="${homeHref}" ${navHome}>${icon('home')}<span>学习日</span></a>
-        <a class="rail-link" href="${opts.prefix}mistakes/" ${navMistakes}>${icon('archive')}<span>错题本</span></a>
+      <nav class="sidebar-nav" aria-label="主导航">
+        <a class="nav-item" href="${homeHref}" ${navHome}>${icon('home')}<span>学习日</span></a>
+        <a class="nav-item" href="${opts.prefix}mistakes/" ${navMistakes}>${icon('archive')}<span>错题本</span></a>
       </nav>
-      <span class="rail-status">Pages</span>
+      <div class="sidebar-meta">
+        <span>Static Pages</span>
+        <span>Local first</span>
+      </div>
     </aside>
+    <div class="app-main">
 ${opts.body}
+    </div>
   </div>
   <script src="${opts.prefix}assets/site.js" defer></script>
 </body>
@@ -613,49 +644,47 @@ function renderIndex(articles: ParsedArticle[]): string {
   const latestHref = latest ? `days/${latest.date}/` : '#'
   const lessonItems = articles.map((article) => {
     const title = articleDisplayTitle(article)
-    return `        <a class="timeline-row" href="days/${article.date}/">
-          <span class="date-rail">${escapeHtml(article.date)}</span>
-          <span class="row-main">
+    return `            <a class="lesson-row" href="days/${article.date}/">
+          <span class="lesson-date">${escapeHtml(article.date)}</span>
+          <span class="lesson-row-main">
             <strong>${escapeHtml(title)}</strong>
             <span>${escapeHtml(article.genre)} · ${article.targetWords.length} 词 · ${escapeHtml(article.grammarTitle || '语法点')}</span>
           </span>
-          <span class="row-cue">${icon('arrow-right')}</span>
+          <span class="row-icon">${icon('arrow-right')}</span>
         </a>`
   }).join('\n')
 
-  const body = `    <main id="content" class="desk-surface desk-home">
-      <section class="today-panel">
-        <div class="today-copy">
-          <p class="eyebrow">Current desk</p>
+  const body = `      <main id="content" class="page-shell home-page">
+      <section class="sh-card home-hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Current lesson</p>
           <h1>${escapeHtml(latestTitle)}</h1>
-          <div class="today-meta">
-            <span>${icon('calendar')}${escapeHtml(latest?.date ?? '-')}</span>
-            <span>${icon('layers')}${escapeHtml(latest?.genre ?? 'lesson')}</span>
-            <span>${latest?.targetWords.length ?? 0} 词</span>
+          <div class="badge-row">
+            <span class="sh-badge secondary">${icon('calendar')}${escapeHtml(latest?.date ?? '-')}</span>
+            <span class="sh-badge secondary">${icon('layers')}${escapeHtml(latest?.genre ?? 'lesson')}</span>
+            <span class="sh-badge outline">${latest?.targetWords.length ?? 0} 词</span>
           </div>
         </div>
-        <div class="today-actions">
-          <a class="desk-command primary" href="${latestHref}">${icon('play')}<span>继续学习</span></a>
-          <a class="desk-command" href="mistakes/">${icon('archive')}<span>错题本</span></a>
+        <div class="hero-actions">
+          <a class="sh-button primary" href="${latestHref}">${icon('play')}<span>继续学习</span></a>
+          <a class="sh-button outline" href="mistakes/">${icon('archive')}<span>错题本</span></a>
         </div>
       </section>
 
-      <section class="desk-grid">
-        <div class="metric-strip" aria-label="学习统计">
-          <div><span>${articles.length}</span><small>学习日</small></div>
-          <div><span>${totalWords}</span><small>目标词</small></div>
-          <div><span>${escapeHtml(latest?.date ?? '-')}</span><small>最近更新</small></div>
-        </div>
+      <section class="stats-grid" aria-label="学习统计">
+        <div class="sh-card stat-card"><span>${articles.length}</span><small>学习日</small></div>
+        <div class="sh-card stat-card"><span>${totalWords}</span><small>目标词</small></div>
+        <div class="sh-card stat-card"><span>${escapeHtml(latest?.date ?? '-')}</span><small>最近更新</small></div>
+      </section>
 
-        <section class="timeline-section">
-          <div class="section-head">
+      <section class="sh-card lessons-card">
+        <div class="card-header">
             <h2>Learning timeline</h2>
             <p>${escapeHtml(latestTitle)}</p>
-          </div>
-          <div class="timeline-list">
+        </div>
+        <div class="lesson-list">
 ${lessonItems || '            <p class="empty">还没有可发布的 article.md。</p>'}
-          </div>
-        </section>
+        </div>
       </section>
     </main>`
 
@@ -684,8 +713,8 @@ function renderDay(article: ParsedArticle): string {
 
   const wordsHtml = article.targetWords.map((word) => `            <li>
               <button type="button" class="word-button" data-speak="${escapeHtml(word.word)}"${audioAttr('../../', word.audio)}>${escapeHtml(word.word)}</button>
-              <span class="pos">${escapeHtml(word.pos)}</span>
-              ${word.zh ? `<span class="word-zh">${escapeHtml(word.zh)}</span>` : '<span class="word-zh missing">未收录中文释义</span>'}
+              <span class="sh-badge secondary pos">${escapeHtml(word.pos)}</span>
+              ${renderZhDefinition(word)}
               <span class="refs"><span class="refs-label">出现</span>${renderRefs(word.refs)}</span>
             </li>`).join('\n')
 
@@ -695,40 +724,63 @@ function renderDay(article: ParsedArticle): string {
               ${example.note ? `<span class="note">${escapeHtml(example.note)}</span>` : ''}
             </li>`).join('\n')
 
-  const body = `    <main id="content" class="desk-surface lesson-desk">
-    <section class="lesson-cover">
-      <a class="back-link" href="../../">${icon('arrow-left')}<span>学习日</span></a>
-      <div class="cover-grid">
+  const body = `      <main id="content" class="page-shell lesson-page">
+    <section class="sh-card lesson-hero">
+      <div class="lesson-hero-top">
+        <a class="sh-button ghost back-link" href="../../">${icon('arrow-left')}<span>学习日</span></a>
+      </div>
+      <div class="lesson-hero-grid">
         <div>
           <p class="eyebrow">${escapeHtml(article.date)} · ${escapeHtml(article.genre)}</p>
           <h1>${escapeHtml(title)}</h1>
         </div>
-        <div class="meta-stack">
-          ${metaParts.map((part) => `<span>${escapeHtml(part)}</span>`).join('\n          ')}
+        <div class="badge-row hero-badges">
+          ${metaParts.map((part) => `<span class="sh-badge outline">${escapeHtml(part)}</span>`).join('\n          ')}
         </div>
       </div>
     </section>
 
-    <div class="lesson-workbench">
-      <aside class="study-dock" aria-label="学习工具">
-        <button class="desk-command primary" type="button" data-action="play-all">${icon('play')}<span>全文</span></button>
-        <button class="desk-command" type="button" data-action="toggle-zh" aria-pressed="false">${icon('translate')}<span>译文</span></button>
-        <button class="desk-command" type="button" data-action="toggle-follow" aria-pressed="true">${icon('wave')}<span>跟读</span></button>
-        <button class="desk-command" type="button" data-action="toggle-practice" aria-pressed="false">${icon('eye')}<span>遮词</span></button>
-        <label class="done-toggle">
+    <section class="command-bar" aria-label="学习工具">
+        <button class="sh-button primary tool-button" type="button" data-action="play-all">${icon('play')}<span>全文</span></button>
+        <button class="sh-button outline tool-button" type="button" data-action="toggle-zh" aria-pressed="false">${icon('translate')}<span>译文</span></button>
+        <button class="sh-button outline tool-button" type="button" data-action="toggle-follow" aria-pressed="true">${icon('wave')}<span>跟读</span></button>
+        <button class="sh-button outline tool-button" type="button" data-action="toggle-practice" aria-pressed="false">${icon('eye')}<span>遮词</span></button>
+        <label class="sh-button outline done-toggle">
           <input type="checkbox" data-action="mark-done">
           ${icon('check')}
           <span>完成</span>
         </label>
-      </aside>
+    </section>
 
-      <article class="reading-paper" aria-label="短文">
+    <div class="lesson-grid">
+      <article class="sh-card reader-card" aria-label="短文">
 ${sentencesHtml}
       </article>
 
-      <aside class="notes-tray" aria-label="目标词和语法点">
-        <section class="note-panel prosody-panel">
-          <h2>跟读规律</h2>
+      <aside class="side-stack" aria-label="目标词和语法点">
+        <section class="sh-card vocab-card">
+          <div class="card-header compact">
+            <h2>目标词</h2>
+            <span class="sh-badge secondary">${article.targetWords.length} words</span>
+          </div>
+          <ol class="word-list">
+${wordsHtml}
+          </ol>
+        </section>
+
+        <section class="sh-card grammar-card">
+          <div class="card-header compact">
+            <h2>语法点</h2>
+          </div>
+          <p class="grammar-title">${escapeHtml(article.grammarTitle || '未记录')}</p>
+          ${article.grammarDescription ? `<p class="grammar-desc">${escapeHtml(article.grammarDescription)}</p>` : ''}
+          <ul class="grammar-list">
+${grammarHtml}
+          </ul>
+        </section>
+
+        <section class="sh-card prosody-card">
+          <div class="card-header compact"><h2>跟读规律</h2></div>
           <div class="prosody-legend">
             <span><strong>粗体</strong> 重读信息词</span>
             <span><span class="cue-word weak">浅色</span> 弱读功能词</span>
@@ -736,22 +788,6 @@ ${sentencesHtml}
             <span><b>↗</b> 话没说完，轻轻托住</span>
             <span><b>↘</b> 句子结束，声音落下</span>
           </div>
-        </section>
-
-        <section class="note-panel">
-          <h2>目标词</h2>
-          <ol class="word-list">
-${wordsHtml}
-          </ol>
-        </section>
-
-        <section class="note-panel">
-          <h2>语法点</h2>
-          <p class="grammar-title">${escapeHtml(article.grammarTitle || '未记录')}</p>
-          ${article.grammarDescription ? `<p class="grammar-desc">${escapeHtml(article.grammarDescription)}</p>` : ''}
-          <ul class="grammar-list">
-${grammarHtml}
-          </ul>
         </section>
       </aside>
     </div>
@@ -839,13 +875,13 @@ function renderMarkdown(md: string): string {
 
 function renderMistakesPage(kind: 'words' | 'grammar', markdown: string): string {
   const title = kind === 'words' ? '单词错题' : '语法错题'
-  const body = `    <main id="content" class="desk-surface mistakes-desk">
-    <section class="lesson-cover compact">
-      <a class="back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
+  const body = `      <main id="content" class="page-shell mistakes-page">
+    <section class="sh-card page-hero compact">
+      <a class="sh-button ghost back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
       <p class="eyebrow">Mistakes</p>
       <h1>${title}</h1>
     </section>
-    <article class="markdown-paper">
+    <article class="sh-card markdown-card">
 ${renderMarkdown(markdown)}
     </article>
   </main>`
@@ -860,22 +896,22 @@ ${renderMarkdown(markdown)}
 }
 
 function renderMistakesIndex(): string {
-  const body = `    <main id="content" class="desk-surface mistakes-desk">
-    <section class="lesson-cover compact">
-      <a class="back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
+  const body = `      <main id="content" class="page-shell mistakes-page">
+    <section class="sh-card page-hero compact">
+      <a class="sh-button ghost back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
       <p class="eyebrow">Mistakes</p>
       <h1>错题本</h1>
     </section>
-    <div class="timeline-list mistakes-list">
-      <a class="timeline-row" href="words.html">
-        <span class="date-rail">Words</span>
-        <span class="row-main"><strong>单词错题</strong><span>最近答错的目标词</span></span>
-        <span class="row-cue">${icon('arrow-right')}</span>
+    <div class="lesson-list mistakes-list">
+      <a class="lesson-row" href="words.html">
+        <span class="lesson-date">Words</span>
+        <span class="lesson-row-main"><strong>单词错题</strong><span>最近答错的目标词</span></span>
+        <span class="row-icon">${icon('arrow-right')}</span>
       </a>
-      <a class="timeline-row" href="grammar.html">
-        <span class="date-rail">Grammar</span>
-        <span class="row-main"><strong>语法错题</strong><span>需要回看的语法点</span></span>
-        <span class="row-cue">${icon('arrow-right')}</span>
+      <a class="lesson-row" href="grammar.html">
+        <span class="lesson-date">Grammar</span>
+        <span class="lesson-row-main"><strong>语法错题</strong><span>需要回看的语法点</span></span>
+        <span class="row-icon">${icon('arrow-right')}</span>
       </a>
     </div>
   </main>`
@@ -894,11 +930,11 @@ function renderNotFound(): string {
     title: '页面不存在',
     description: `${SITE_TITLE} not found`,
     prefix: '',
-    body: `    <main id="content" class="desk-surface desk-home">
-    <section class="today-panel">
+    body: `      <main id="content" class="page-shell home-page">
+    <section class="sh-card home-hero">
       <p class="eyebrow">404</p>
       <h1>页面不存在</h1>
-      <div class="today-actions"><a class="desk-command primary" href="./">${icon('home')}<span>返回首页</span></a></div>
+      <div class="hero-actions"><a class="sh-button primary" href="./">${icon('home')}<span>返回首页</span></a></div>
     </section>
   </main>`,
   })
@@ -936,23 +972,28 @@ function writePage(path: string, content: string): void {
 
 const SITE_CSS = `:root {
   color-scheme: light;
-  --desk: #edefe8;
-  --surface: #f8f7f1;
-  --paper: #fffdf7;
-  --ink: #111318;
-  --ink-2: #3f4652;
-  --ink-3: #767d86;
-  --line: #d4d8ce;
-  --line-2: #9fa79c;
-  --accent: #0f766e;
-  --accent-2: #0b4f4a;
-  --study: #4338ca;
-  --target: #a45c00;
-  --target-bg: #ffe8a3;
-  --done: #157f3b;
+  --background: 236 100% 98%;
+  --foreground: 240 31% 12%;
+  --card: 0 0% 100%;
+  --card-foreground: 240 31% 12%;
+  --muted: 236 48% 96%;
+  --muted-foreground: 235 12% 43%;
+  --primary: 243 75% 59%;
+  --primary-foreground: 0 0% 100%;
+  --secondary: 238 84% 96%;
+  --secondary-foreground: 244 47% 32%;
+  --accent: 142 71% 45%;
+  --accent-foreground: 144 61% 15%;
+  --warning: 34 92% 50%;
+  --border: 229 30% 88%;
+  --ring: 243 75% 59%;
   --radius: 8px;
-  --rail: 72px;
-  --transition: 140ms ease-out;
+  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
+  --shadow-md: 0 18px 40px rgba(49, 46, 129, 0.10);
+  --shadow-lg: 0 24px 60px rgba(49, 46, 129, 0.14);
+  --target: hsl(32 95% 37%);
+  --target-bg: hsl(39 100% 92%);
+  --transition: 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
 * { box-sizing: border-box; }
@@ -964,8 +1005,9 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
-  background: var(--desk);
-  color: var(--ink);
+  background:
+    linear-gradient(180deg, hsl(236 100% 98%) 0%, hsl(236 88% 97%) 48%, hsl(220 43% 97%) 100%);
+  color: hsl(var(--foreground));
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   line-height: 1.55;
   text-rendering: optimizeLegibility;
@@ -981,14 +1023,15 @@ button { cursor: pointer; }
   position: fixed;
   left: 16px;
   top: 12px;
-  z-index: 50;
+  z-index: 80;
   translate: 0 -160%;
-  border: 2px solid var(--accent);
+  border: 1px solid hsl(var(--ring));
   border-radius: var(--radius);
-  background: var(--paper);
-  color: var(--accent-2);
+  background: hsl(var(--card));
+  color: hsl(var(--primary));
   padding: 10px 12px;
-  font-weight: 900;
+  font-weight: 700;
+  box-shadow: var(--shadow-md);
 }
 .skip-link:focus { translate: 0 0; }
 
@@ -998,192 +1041,378 @@ button { cursor: pointer; }
   flex: 0 0 auto;
 }
 
-.app-frame {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: var(--rail) minmax(0, 1fr);
-}
-.desk-rail {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 18px;
-  border-right: 2px solid var(--ink);
-  background: var(--paper);
-  padding: 14px 10px;
-  z-index: 20;
-}
-.rail-brand, .rail-link {
-  display: grid;
-  justify-items: center;
-  gap: 6px;
-  min-height: 54px;
+.sh-card {
+  border: 1px solid hsl(var(--border));
   border-radius: var(--radius);
-  color: var(--ink);
-  text-decoration: none;
+  background: hsl(var(--card));
+  color: hsl(var(--card-foreground));
+  box-shadow: var(--shadow-sm);
 }
-.rail-brand {
-  align-content: center;
-  font-weight: 950;
-}
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 42px;
-  height: 42px;
-  border: 2px solid var(--ink);
-  border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--accent-2);
-}
-.brand-word {
-  writing-mode: vertical-rl;
-  text-orientation: mixed;
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-}
-.rail-nav {
-  display: grid;
-  align-content: start;
-  gap: 10px;
-}
-.rail-link {
-  border: 1px solid var(--line);
-  background: var(--paper);
-  color: var(--ink-2);
-  padding: 8px 4px;
-  font-size: 0.72rem;
-  font-weight: 850;
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
-}
-.rail-link:hover {
-  border-color: var(--ink);
-  background: var(--surface);
-  color: var(--ink);
-}
-.rail-link[aria-current="page"] {
-  border-color: var(--accent);
-  background: #e4f3ef;
-  color: var(--accent-2);
-}
-.rail-status {
-  justify-self: center;
-  writing-mode: vertical-rl;
-  color: var(--ink-3);
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 0.7rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-
-.desk-surface {
-  min-width: 0;
-  width: min(1240px, calc(100% - 32px));
-  margin: 0 auto;
-  padding: clamp(18px, 3vw, 34px) 0 64px;
-}
-
-.today-panel {
-  min-width: 0;
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(180px, auto);
-  gap: 18px;
-  align-items: end;
-  min-height: min(44vh, 420px);
-  border: 2px solid var(--ink);
-  border-radius: var(--radius);
-  background: var(--surface);
-  padding: clamp(18px, 4vw, 42px);
-  position: relative;
-}
-.today-panel::before {
-  content: "";
-  position: absolute;
-  inset: 0 auto 0 0;
-  width: 12px;
-  background: var(--accent);
-  border-radius: 6px 0 0 6px;
-}
-.today-copy {
-  min-width: 0;
-  max-width: 100%;
-}
-.eyebrow {
-  margin: 0 0 12px;
-  color: var(--accent-2);
-  font-size: 0.78rem;
-  font-weight: 950;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-h1 {
-  margin: 0;
-  color: var(--ink);
-  font-size: clamp(2.25rem, 6.5vw, 5.8rem);
-  line-height: 0.92;
-  letter-spacing: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-.today-meta {
-  min-width: 0;
-  max-width: 100%;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
-}
-.today-meta span {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  min-height: 34px;
-  border: 1px solid var(--line-2);
-  border-radius: 999px;
-  background: var(--paper);
-  color: var(--ink-2);
-  padding: 0 11px;
-  font-size: 0.88rem;
-  font-weight: 850;
-}
-.today-actions {
-  display: grid;
-  gap: 10px;
-}
-
-.desk-command, .done-toggle {
+.sh-button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   min-width: 0;
-  min-height: 44px;
-  border: 2px solid var(--ink);
+  min-height: 40px;
+  border: 1px solid transparent;
   border-radius: var(--radius);
-  background: var(--paper);
-  color: var(--ink);
-  padding: 0 13px;
-  font-weight: 900;
+  padding: 0 14px;
+  font-size: 0.875rem;
+  font-weight: 700;
   line-height: 1;
   text-decoration: none;
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
+  cursor: pointer;
+  transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
 }
-.desk-command:hover, .done-toggle:hover {
-  background: var(--surface);
+.sh-button:hover { box-shadow: var(--shadow-sm); }
+.sh-button.primary {
+  border-color: hsl(var(--primary));
+  background: hsl(var(--primary));
+  color: hsl(var(--primary-foreground));
 }
-.desk-command.primary {
-  border-color: var(--accent);
-  background: var(--accent);
-  color: white;
+.sh-button.primary:hover { background: hsl(243 75% 54%); }
+.sh-button.outline {
+  border-color: hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--foreground));
 }
-.desk-command[aria-pressed="true"] {
-  border-color: var(--accent);
-  background: #e4f3ef;
-  color: var(--accent-2);
+.sh-button.outline:hover {
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+.sh-button.ghost {
+  background: transparent;
+  color: hsl(var(--muted-foreground));
+}
+.sh-button.ghost:hover {
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+.sh-button[aria-pressed="true"] {
+  border-color: hsl(var(--primary) / 0.28);
+  background: hsl(var(--secondary));
+  color: hsl(var(--primary));
+}
+.sh-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  width: fit-content;
+  min-height: 24px;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 0 9px;
+  font-size: 0.76rem;
+  font-weight: 750;
+  line-height: 1;
+  white-space: nowrap;
+}
+.sh-badge.secondary {
+  border-color: hsl(var(--secondary));
+  background: hsl(var(--secondary));
+  color: hsl(var(--secondary-foreground));
+}
+.sh-badge.outline {
+  border-color: hsl(var(--border));
+  background: hsl(var(--card));
+  color: hsl(var(--muted-foreground));
+}
+
+.app-shell {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 248px minmax(0, 1fr);
+}
+.app-main {
+  min-width: 0;
+}
+.sh-sidebar {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  gap: 24px;
+  border-right: 1px solid hsl(var(--border));
+  background: hsl(var(--card) / 0.86);
+  backdrop-filter: blur(18px);
+  padding: 20px 14px;
+  z-index: 30;
+}
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 44px;
+  padding: 0 8px;
+  color: hsl(var(--foreground));
+  text-decoration: none;
+}
+.brand-mark {
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border: 1px solid hsl(var(--primary) / 0.24);
+  border-radius: var(--radius);
+  background: hsl(var(--secondary));
+  color: hsl(var(--primary));
+}
+.brand-copy {
+  min-width: 0;
+  display: grid;
+  gap: 1px;
+}
+.brand-copy strong {
+  font-size: 0.95rem;
+  line-height: 1;
+}
+.brand-copy span {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+.sidebar-nav {
+  display: grid;
+  align-content: start;
+  gap: 6px;
+}
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 40px;
+  border-radius: var(--radius);
+  color: hsl(var(--muted-foreground));
+  padding: 0 10px;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: background var(--transition), color var(--transition);
+}
+.nav-item:hover,
+.nav-item[aria-current="page"] {
+  background: hsl(var(--secondary));
+  color: hsl(var(--primary));
+}
+.sidebar-meta {
+  display: grid;
+  gap: 4px;
+  border-top: 1px solid hsl(var(--border));
+  color: hsl(var(--muted-foreground));
+  padding: 14px 10px 0;
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.page-shell {
+  width: min(1180px, calc(100% - 40px));
+  margin: 0 auto;
+  padding: 28px 0 72px;
+}
+.home-page, .mistakes-page {
+  display: grid;
+  gap: 16px;
+}
+
+.home-hero, .lesson-hero, .page-hero {
+  padding: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.home-hero::before, .lesson-hero::before, .page-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--warning)));
+}
+.home-hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 24px;
+  align-items: end;
+  min-height: 320px;
+}
+.hero-copy {
+  min-width: 0;
+}
+.eyebrow {
+  margin: 0 0 12px;
+  color: hsl(var(--primary));
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+h1 {
+  margin: 0;
+  color: hsl(var(--foreground));
+  font-size: 3.7rem;
+  line-height: 1;
+  letter-spacing: 0;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+.badge-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+.hero-actions {
+  display: grid;
+  gap: 10px;
+  min-width: 180px;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+.stat-card {
+  display: grid;
+  gap: 8px;
+  min-height: 112px;
+  padding: 18px;
+}
+.stat-card span {
+  color: hsl(var(--primary));
+  font-size: 2.6rem;
+  font-weight: 850;
+  line-height: 1;
+}
+.stat-card small {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.84rem;
+  font-weight: 750;
+}
+.lessons-card, .markdown-card {
+  padding: 18px;
+}
+.card-header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 12px;
+  border-bottom: 1px solid hsl(var(--border));
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+}
+.card-header.compact {
+  align-items: center;
+}
+.card-header h2 {
+  margin: 0;
+  font-size: 1rem;
+}
+.card-header p {
+  margin: 0;
+  color: hsl(var(--muted-foreground));
+}
+.lesson-list {
+  display: grid;
+  gap: 8px;
+}
+.lesson-row {
+  display: grid;
+  grid-template-columns: 132px minmax(0, 1fr) 40px;
+  gap: 12px;
+  align-items: center;
+  min-height: 72px;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  background: hsl(var(--card));
+  padding: 10px 12px;
+  text-decoration: none;
+  transition: border-color var(--transition), box-shadow var(--transition), translate var(--transition);
+}
+.lesson-row:hover {
+  border-color: hsl(var(--primary) / 0.32);
+  box-shadow: var(--shadow-md);
+  translate: 0 -1px;
+}
+.lesson-date {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 24px;
+  width: fit-content;
+  border: 1px solid hsl(var(--border));
+  border-radius: 999px;
+  color: hsl(var(--muted-foreground));
+  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+  font-size: 0.78rem;
+  font-weight: 750;
+  padding: 0 9px;
+}
+.lesson-row-main {
+  min-width: 0;
+  display: grid;
+  gap: 2px;
+}
+.lesson-row-main strong {
+  color: hsl(var(--foreground));
+  line-height: 1.25;
+  overflow-wrap: anywhere;
+}
+.lesson-row-main span {
+  color: hsl(var(--muted-foreground));
+  font-size: 0.9rem;
+}
+.row-icon {
+  display: grid;
+  place-items: center;
+  color: hsl(var(--muted-foreground));
+}
+.empty {
+  color: hsl(var(--muted-foreground));
+}
+
+.lesson-page {
+  display: grid;
+  gap: 16px;
+}
+.lesson-hero {
+  display: grid;
+  gap: 20px;
+}
+.lesson-hero-top {
+  display: flex;
+}
+.back-link {
+  width: fit-content;
+}
+.lesson-hero-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 360px);
+  gap: 24px;
+  align-items: end;
+}
+.lesson-hero h1 {
+  font-size: 3.2rem;
+}
+.hero-badges {
+  justify-content: flex-end;
+  margin-top: 0;
+}
+.command-bar {
+  position: sticky;
+  top: 12px;
+  z-index: 20;
+  display: flex;
+  gap: 8px;
+  border: 1px solid hsl(var(--border));
+  border-radius: var(--radius);
+  background: hsl(var(--card) / 0.92);
+  box-shadow: var(--shadow-sm);
+  backdrop-filter: blur(16px);
+  padding: 8px;
+}
+.tool-button {
+  min-width: 92px;
 }
 .done-toggle {
   cursor: pointer;
@@ -1197,250 +1426,73 @@ h1 {
   overflow: hidden;
 }
 .done-toggle:has(input:checked) {
-  border-color: var(--done);
-  background: #eaf7ee;
-  color: var(--done);
+  border-color: hsl(var(--accent) / 0.42);
+  background: hsl(142 76% 94%);
+  color: hsl(var(--accent-foreground));
 }
-
-.desk-grid {
-  min-width: 0;
-  max-width: 100%;
+.lesson-grid {
   display: grid;
-  grid-template-columns: 260px minmax(0, 1fr);
-  gap: 16px;
-  margin-top: 16px;
-}
-.metric-strip {
-  min-width: 0;
-  max-width: 100%;
-  display: grid;
-  gap: 10px;
-}
-.metric-strip div {
-  min-height: 118px;
-  border: 2px solid var(--ink);
-  border-radius: var(--radius);
-  background: var(--paper);
-  padding: 14px;
-}
-.metric-strip span {
-  display: block;
-  font-size: clamp(1.8rem, 4vw, 3.2rem);
-  font-weight: 950;
-  line-height: 1;
-}
-.metric-strip small {
-  display: block;
-  margin-top: 8px;
-  color: var(--ink-3);
-  font-size: 0.8rem;
-  font-weight: 900;
-}
-.timeline-section {
-  min-width: 0;
-  max-width: 100%;
-  border: 2px solid var(--ink);
-  border-radius: var(--radius);
-  background: var(--paper);
-  padding: 14px;
-}
-.section-head {
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 12px;
-  align-items: end;
-  margin: 0 0 12px;
-  padding-bottom: 12px;
-  border-bottom: 1px solid var(--line);
-}
-.section-head h2 {
-  margin: 0;
-  font-size: 1rem;
-}
-.section-head p {
-  margin: 0;
-  color: var(--ink-3);
-  overflow-wrap: anywhere;
-}
-.timeline-list {
-  min-width: 0;
-  max-width: 100%;
-  display: grid;
-  gap: 8px;
-}
-.timeline-row {
-  display: grid;
-  grid-template-columns: 132px minmax(0, 1fr) 44px;
-  gap: 12px;
-  align-items: center;
-  min-height: 76px;
-  border: 1px solid var(--line);
-  border-radius: var(--radius);
-  background: var(--surface);
-  padding: 10px 12px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background var(--transition), border-color var(--transition);
-}
-.timeline-row:hover {
-  border-color: var(--ink);
-  background: var(--paper);
-}
-.date-rail {
-  color: var(--accent-2);
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 0.86rem;
-  font-weight: 950;
-}
-.row-main {
-  min-width: 0;
-  display: grid;
-  gap: 2px;
-}
-.row-main strong {
-  color: var(--ink);
-  line-height: 1.25;
-  overflow-wrap: anywhere;
-}
-.row-main span {
-  color: var(--ink-3);
-  font-size: 0.9rem;
-}
-.row-cue {
-  display: grid;
-  place-items: center;
-  width: 44px;
-  height: 44px;
-  color: var(--ink-2);
-}
-.empty {
-  color: var(--ink-3);
-}
-
-.lesson-cover {
-  min-width: 0;
-  max-width: 100%;
-  display: grid;
-  gap: 14px;
-  border: 2px solid var(--ink);
-  border-radius: var(--radius);
-  background: var(--surface);
-  padding: clamp(16px, 3vw, 28px);
-}
-.lesson-cover.compact {
-  max-width: 860px;
-}
-.cover-grid {
-  min-width: 0;
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 340px);
-  gap: 20px;
-  align-items: end;
-}
-.lesson-cover h1 {
-  font-size: clamp(2rem, 4.8vw, 4.6rem);
-}
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  min-height: 44px;
-  width: fit-content;
-  color: var(--ink-2);
-  font-weight: 900;
-  text-decoration: none;
-}
-.back-link:hover {
-  color: var(--accent-2);
-}
-.meta-stack {
-  display: grid;
-  gap: 8px;
-}
-.meta-stack span {
-  border-left: 5px solid var(--accent);
-  background: var(--paper);
-  color: var(--ink-2);
-  padding: 8px 10px;
-  font-size: 0.9rem;
-  font-weight: 850;
-}
-
-.lesson-workbench {
-  min-width: 0;
-  max-width: 100%;
-  display: grid;
-  grid-template-columns: 76px minmax(0, 1fr) 340px;
+  grid-template-columns: minmax(0, 1fr) 360px;
   gap: 16px;
   align-items: start;
-  margin-top: 16px;
 }
-.study-dock {
+.reader-card {
+  padding: 30px;
+}
+.side-stack {
   position: sticky;
-  top: 16px;
+  top: 80px;
   display: grid;
-  gap: 10px;
+  gap: 12px;
 }
-.study-dock .desk-command, .study-dock .done-toggle {
-  min-height: 64px;
-  flex-direction: column;
-  padding: 8px 4px;
-  font-size: 0.78rem;
+.vocab-card, .grammar-card, .prosody-card {
+  padding: 16px;
 }
-.reading-paper, .note-panel, .markdown-paper {
-  min-width: 0;
-  border: 2px solid var(--ink);
-  border-radius: var(--radius);
-  background: var(--paper);
-}
-.reading-paper {
-  padding: clamp(14px, 3vw, 30px);
-}
+
 .sentence {
   display: grid;
-  grid-template-columns: 44px 34px minmax(0, 1fr);
-  gap: 9px;
+  grid-template-columns: 42px 34px minmax(0, 1fr);
+  gap: 10px;
   align-items: start;
   margin: 0;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line);
+  padding: 17px 0;
+  border-bottom: 1px solid hsl(var(--border));
 }
 .sentence:last-child { border-bottom: 0; }
 .sentence-play {
   display: inline-grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 2px solid var(--line-2);
+  width: 40px;
+  height: 40px;
+  border: 1px solid hsl(var(--border));
   border-radius: var(--radius);
-  background: var(--surface);
-  color: var(--accent-2);
-  transition: background var(--transition), border-color var(--transition);
+  background: hsl(var(--card));
+  color: hsl(var(--primary));
+  transition: background var(--transition), border-color var(--transition), color var(--transition);
 }
 .sentence-play:hover {
-  border-color: var(--accent);
-  background: #e4f3ef;
+  border-color: hsl(var(--primary) / 0.32);
+  background: hsl(var(--secondary));
 }
 .num {
-  color: var(--study);
-  font-weight: 950;
-  line-height: 44px;
+  color: hsl(var(--primary));
+  font-weight: 850;
+  line-height: 40px;
 }
 .sentence-text {
   min-width: 0;
   display: grid;
-  gap: 5px;
+  gap: 7px;
 }
 .en {
-  color: var(--ink);
+  color: hsl(var(--foreground));
   font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.2rem;
+  font-size: 1.18rem;
   line-height: 1.82;
   overflow-wrap: anywhere;
 }
 .zh {
-  color: var(--ink-2);
+  color: hsl(var(--muted-foreground));
   font-size: 0.96rem;
   line-height: 1.7;
 }
@@ -1448,19 +1500,20 @@ body.hide-zh .zh { display: none; }
 .follow-cue {
   display: grid;
   gap: 5px;
-  border-left: 4px solid var(--study);
+  border: 1px solid hsl(var(--primary) / 0.16);
+  border-left: 4px solid hsl(var(--primary));
   border-radius: var(--radius);
-  background: #f4f6ec;
-  padding: 9px 11px;
-  color: var(--ink-2);
+  background: hsl(var(--secondary));
+  padding: 10px 12px;
+  color: hsl(var(--secondary-foreground));
   font-size: 0.9rem;
   line-height: 1.55;
 }
 body.hide-follow .follow-cue { display: none; }
 .follow-tag {
-  color: var(--accent-2);
+  color: hsl(var(--primary));
   font-size: 0.72rem;
-  font-weight: 950;
+  font-weight: 850;
   line-height: 1;
   text-transform: uppercase;
 }
@@ -1481,44 +1534,30 @@ body.hide-follow .follow-cue { display: none; }
   overflow-wrap: anywhere;
 }
 .cue-word.stress {
-  color: var(--ink);
-  font-weight: 950;
+  color: hsl(var(--foreground));
+  font-weight: 850;
 }
 .cue-word.weak {
-  color: var(--ink-3);
-  font-weight: 750;
+  color: hsl(var(--muted-foreground));
+  font-weight: 650;
 }
 .tone {
-  color: var(--study);
+  color: hsl(var(--primary));
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-weight: 950;
+  font-weight: 850;
   margin-left: 2px;
 }
 .pause {
   color: var(--target);
-  font-weight: 950;
+  font-weight: 850;
   padding: 0 2px;
-}
-.prosody-panel {
-  background: #fbfbf5;
-}
-.prosody-legend {
-  display: grid;
-  gap: 7px;
-  color: var(--ink-2);
-  font-size: 0.86rem;
-  line-height: 1.45;
-}
-.prosody-legend strong, .prosody-legend b {
-  color: var(--ink);
-  font-weight: 950;
 }
 .target {
   border-radius: 5px;
   background: var(--target-bg);
   color: var(--target);
   cursor: pointer;
-  font-weight: 900;
+  font-weight: 850;
   padding: 0.04rem 0.18rem;
 }
 body.practice .target {
@@ -1533,21 +1572,6 @@ body.practice .target.revealed {
   background: var(--target-bg);
 }
 
-.notes-tray {
-  min-width: 0;
-  max-width: 100%;
-  position: sticky;
-  top: 16px;
-  display: grid;
-  gap: 12px;
-}
-.note-panel {
-  padding: 14px;
-}
-.note-panel h2 {
-  margin: 0 0 12px;
-  font-size: 1rem;
-}
 .word-list {
   list-style: none;
   display: grid;
@@ -1558,10 +1582,10 @@ body.practice .target.revealed {
 .word-list li {
   display: grid;
   grid-template-columns: minmax(0, 1fr) auto;
-  gap: 4px 8px;
+  gap: 6px 8px;
   align-items: center;
-  border-bottom: 1px solid var(--line);
-  padding: 0 0 8px;
+  border-bottom: 1px solid hsl(var(--border));
+  padding: 0 0 10px;
 }
 .word-list li:last-child {
   border-bottom: 0;
@@ -1571,22 +1595,16 @@ body.practice .target.revealed {
   min-width: 0;
   border: 0;
   background: transparent;
-  color: var(--ink);
+  color: hsl(var(--foreground));
   cursor: pointer;
   overflow-wrap: anywhere;
-  padding: 5px 0;
+  padding: 3px 0;
   text-align: left;
-  font-weight: 900;
+  font-weight: 850;
 }
 .word-button:hover { color: var(--target); }
 .pos {
-  border: 1px solid #c9c8ff;
-  border-radius: 999px;
-  background: #f0f0ff;
-  color: #3730a3;
-  padding: 0.08rem 0.42rem;
-  font-size: 0.76rem;
-  font-weight: 950;
+  text-transform: lowercase;
 }
 .refs {
   grid-column: 1 / -1;
@@ -1596,34 +1614,49 @@ body.practice .target.revealed {
   align-items: center;
 }
 .refs-label {
-  color: var(--ink-3);
+  color: hsl(var(--muted-foreground));
   font-size: 0.76rem;
-  font-weight: 900;
+  font-weight: 750;
 }
 .word-zh {
   grid-column: 1 / -1;
-  color: var(--ink-2);
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 8px;
+  color: hsl(var(--muted-foreground));
   font-size: 0.86rem;
-  line-height: 1.45;
+  line-height: 1.48;
+}
+.word-zh-label {
+  color: hsl(var(--primary));
+  font-size: 0.74rem;
+  font-weight: 850;
+  white-space: nowrap;
 }
 .word-zh.missing {
-  color: var(--ink-3);
+  color: hsl(var(--muted-foreground));
 }
 .ref {
-  color: var(--accent-2);
+  display: inline-flex;
+  align-items: center;
+  min-height: 22px;
+  border-radius: 999px;
+  background: hsl(var(--secondary));
+  color: hsl(var(--primary));
   font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 0.78rem;
-  font-weight: 950;
+  font-size: 0.76rem;
+  font-weight: 750;
+  padding: 0 7px;
   text-decoration: none;
 }
 .ref:hover { text-decoration: underline; }
 .grammar-title {
   margin: 0 0 4px;
-  font-weight: 950;
+  font-weight: 850;
 }
 .grammar-desc {
   margin: 0 0 10px;
-  color: var(--ink-2);
+  color: hsl(var(--muted-foreground));
 }
 .grammar-list {
   display: grid;
@@ -1631,163 +1664,177 @@ body.practice .target.revealed {
   margin: 0;
   padding-left: 18px;
 }
-.grammar-list code, .markdown-paper code {
-  border: 1px solid var(--line-2);
+.grammar-list code, .markdown-card code {
+  border: 1px solid hsl(var(--border));
   border-radius: 5px;
-  background: var(--surface);
+  background: hsl(var(--muted));
   padding: 0.08rem 0.25rem;
 }
 .grammar-list .note {
   display: block;
-  color: var(--ink-2);
+  color: hsl(var(--muted-foreground));
   font-size: 0.92rem;
 }
-
-.mistakes-desk {
+.prosody-card {
+  background: hsl(142 76% 96%);
+}
+.prosody-legend {
   display: grid;
-  gap: 16px;
+  gap: 7px;
+  color: hsl(var(--muted-foreground));
+  font-size: 0.86rem;
+  line-height: 1.45;
 }
-.mistakes-list, .markdown-paper {
-  max-width: 860px;
+.prosody-legend strong, .prosody-legend b {
+  color: hsl(var(--foreground));
+  font-weight: 850;
 }
-.markdown-paper {
-  padding: clamp(16px, 3vw, 30px);
+
+.mistakes-page {
+  max-width: 900px;
 }
-.markdown-paper h2, .markdown-paper h3, .markdown-paper h4 {
+.page-hero.compact {
+  display: grid;
+  gap: 12px;
+}
+.markdown-card {
+  padding: 30px;
+}
+.markdown-card h2, .markdown-card h3, .markdown-card h4 {
   margin: 1.25rem 0 0.5rem;
 }
-.markdown-paper h2:first-child { margin-top: 0; }
-.markdown-paper p { margin: 0.7rem 0; }
-.markdown-paper blockquote {
+.markdown-card h2:first-child { margin-top: 0; }
+.markdown-card p { margin: 0.7rem 0; }
+.markdown-card blockquote {
   margin: 0.9rem 0;
-  border-left: 5px solid var(--accent);
-  color: var(--ink-2);
+  border-left: 4px solid hsl(var(--primary));
+  color: hsl(var(--muted-foreground));
   padding-left: 12px;
 }
-.markdown-paper a {
-  color: var(--accent-2);
-  font-weight: 900;
+.markdown-card a {
+  color: hsl(var(--primary));
+  font-weight: 750;
 }
 
 :where(a, button, label, [tabindex]):focus-visible {
-  outline: 2px solid var(--accent);
+  outline: 2px solid hsl(var(--ring));
   outline-offset: 2px;
 }
 
 @media (max-width: 1120px) {
-  .lesson-workbench {
-    grid-template-columns: 76px minmax(0, 1fr);
+  .app-shell {
+    grid-template-columns: 220px minmax(0, 1fr);
   }
-  .notes-tray {
-    grid-column: 2;
+  .lesson-grid {
+    grid-template-columns: 1fr;
+  }
+  .side-stack {
     position: static;
+  }
+  .vocab-card .word-list {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .vocab-card .word-list li {
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+    padding: 10px;
   }
 }
 
 @media (max-width: 820px) {
-  .app-frame {
+  .app-shell {
     display: block;
   }
-  .desk-rail {
+  .app-main {
+    padding-bottom: 88px;
+  }
+  .sh-sidebar {
     position: fixed;
     inset: auto 10px 10px;
     height: 64px;
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: auto 1fr;
     align-items: center;
-    border: 2px solid var(--ink);
+    gap: 8px;
+    border: 1px solid hsl(var(--border));
     border-radius: var(--radius);
+    box-shadow: var(--shadow-lg);
     padding: 6px;
-    box-shadow: 0 10px 30px rgba(17, 19, 24, 0.14);
   }
-  .rail-brand {
-    min-width: 52px;
-    min-height: 48px;
+  .brand {
+    width: 52px;
+    padding: 0;
+    justify-content: center;
   }
   .brand-mark {
     width: 38px;
     height: 38px;
   }
-  .brand-word, .rail-status {
+  .brand-copy, .sidebar-meta {
     display: none;
   }
-  .rail-nav {
+  .sidebar-nav {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 6px;
   }
-  .rail-link {
-    min-height: 48px;
-    grid-auto-flow: column;
-    align-content: center;
+  .nav-item {
     justify-content: center;
-    gap: 6px;
-    font-size: 0.82rem;
+    min-height: 48px;
+    font-size: 0.84rem;
   }
-  .desk-surface {
-    width: min(100% - 16px, 720px);
-    padding: 12px 0 92px;
+  .page-shell {
+    width: min(100% - 20px, 720px);
+    padding: 12px 0 20px;
   }
-  .today-panel {
+  .home-hero, .lesson-hero, .page-hero {
+    padding: 22px;
+  }
+  .home-hero {
     grid-template-columns: 1fr;
     min-height: 0;
-    overflow: hidden;
-    padding: 16px 14px 18px 24px;
   }
-  .today-actions {
+  .hero-actions {
     grid-template-columns: 1fr;
   }
-  .desk-grid {
+  .stats-grid {
     grid-template-columns: 1fr;
   }
-  .metric-strip {
-    grid-template-columns: 1fr;
+  .lesson-row {
+    grid-template-columns: minmax(0, 1fr) 40px;
   }
-  .metric-strip div {
-    min-height: 86px;
-  }
-  .section-head {
-    grid-template-columns: 1fr;
-    gap: 2px;
-  }
-  .timeline-row {
-    grid-template-columns: minmax(0, 1fr) 44px;
-  }
-  .date-rail {
+  .lesson-date {
     grid-column: 1 / -1;
   }
-  .row-cue {
+  .row-icon {
     grid-column: 2;
     grid-row: 2;
   }
-  .cover-grid {
+  .lesson-hero-grid {
     grid-template-columns: 1fr;
   }
-  .lesson-workbench {
-    grid-template-columns: 1fr;
+  .hero-badges {
+    justify-content: flex-start;
   }
-  .study-dock {
-    position: sticky;
+  .command-bar {
     top: 0;
-    z-index: 10;
-    grid-template-columns: repeat(5, minmax(56px, 1fr));
-    gap: 8px;
-    overflow-x: auto;
-    background: var(--desk);
-    padding: 8px 0;
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    overflow: visible;
   }
-  .study-dock .desk-command, .study-dock .done-toggle {
+  .tool-button, .done-toggle {
+    min-width: 0;
     min-height: 56px;
+    flex-direction: column;
+    gap: 5px;
+    padding: 6px 4px;
+    font-size: 0.78rem;
   }
-  .reading-paper {
-    order: 2;
-  }
-  .notes-tray {
-    order: 3;
-    grid-column: auto;
+  .reader-card {
+    padding: 18px;
   }
   .sentence {
-    grid-template-columns: 44px minmax(0, 1fr);
+    grid-template-columns: 42px minmax(0, 1fr);
   }
   .sentence-play {
     grid-row: span 2;
@@ -1800,17 +1847,33 @@ body.practice .target.revealed {
     grid-column: 2;
   }
   .en {
-    font-size: 1.1rem;
+    font-size: 1.08rem;
+  }
+  .vocab-card .word-list {
+    grid-template-columns: 1fr;
   }
   h1 {
-    font-size: clamp(1.85rem, 8vw, 2.65rem);
+    font-size: 2.4rem;
     line-height: 1;
+  }
+  .lesson-hero h1 {
+    font-size: 2.24rem;
   }
 }
 
 @media (max-width: 480px) {
+  .home-hero, .lesson-hero, .page-hero {
+    padding: 18px;
+  }
   h1 {
-    font-size: clamp(1.75rem, 7.6vw, 2.05rem);
+    font-size: 2rem;
+  }
+  .lesson-hero h1 {
+    font-size: 1.95rem;
+  }
+  .word-zh {
+    grid-template-columns: 1fr;
+    gap: 2px;
   }
 }
 
@@ -1824,19 +1887,20 @@ body.practice .target.revealed {
 }
 
 @media print {
-  .desk-rail, .study-dock, .sentence-play, .back-link {
+  .sh-sidebar, .command-bar, .sentence-play, .back-link {
     display: none !important;
   }
   body { background: white; }
-  .app-frame, .lesson-workbench {
+  .app-shell, .lesson-grid {
     display: block;
   }
-  .desk-surface {
+  .page-shell {
     width: auto;
     padding: 0;
   }
-  .today-panel, .lesson-cover, .reading-paper, .note-panel, .markdown-paper {
+  .sh-card {
     border: 0;
+    box-shadow: none;
   }
 }
 `
@@ -2051,6 +2115,7 @@ const SITE_JS = `(() => {
 
 function main(): void {
   const articles = discoverArticles()
+  reportDefinitionCoverage(articles)
   rmSync(OUT_DIR, { recursive: true, force: true })
   mkdirSync(join(OUT_DIR, 'assets'), { recursive: true })
   prepareAudioAssets(articles)
@@ -2058,6 +2123,12 @@ function main(): void {
   writePage(join(OUT_DIR, '.nojekyll'), '')
   writePage(join(OUT_DIR, 'assets/site.css'), SITE_CSS)
   writePage(join(OUT_DIR, 'assets/site.js'), SITE_JS)
+  writePage(join(OUT_DIR, 'favicon.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <rect width="64" height="64" rx="14" fill="#4f46e5"/>
+  <path d="M20 16h18a6 6 0 0 1 6 6v26H24a6 6 0 0 0-6 6V22a6 6 0 0 1 6-6Z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M24 26h14M24 34h12" stroke="#c7d2fe" stroke-width="4" stroke-linecap="round"/>
+</svg>
+`)
   writePage(join(OUT_DIR, 'manifest.webmanifest'), JSON.stringify({
     name: SITE_TITLE,
     short_name: SITE_TITLE,

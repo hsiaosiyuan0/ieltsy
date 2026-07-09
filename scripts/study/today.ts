@@ -51,7 +51,7 @@ if (!state) {
 
 const today = new Date().toISOString().split('T')[0]!
 
-// 为当日学习产物建好文件夹（Claude Code 之后会往里写 article.md / session.md）
+// 为当日学习产物建好文件夹（Codex/LLM 编排器之后会往里写 article.md / session.md）
 const dayFolder = resolve('learning/days', today)
 mkdirSync(dayFolder, { recursive: true })
 
@@ -255,7 +255,7 @@ if (values.json) {
     console.log(`🔄 今日无复习任务\n`)
   }
 
-  // Compact JSON for Claude Code consumption
+  // Compact JSON for Codex/LLM consumption
   console.log('--- DATA (JSON) ---')
   console.log(
     JSON.stringify({
