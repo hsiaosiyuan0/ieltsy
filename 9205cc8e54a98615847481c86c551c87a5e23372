@@ -1,0 +1,205 @@
+.codex/skills/ui-ux-pro-max/data/typography.csv
+  6053c98014b20e2f 1-58
+.codex/skills/ui-ux-pro-max/data/stacks/swiftui.csv
+  6053c98014b20e2f 1-51
+.codex/skills/ui-ux-pro-max/data/ui-reasoning.csv
+  6053c98014b20e2f 1-101
+.codex/skills/ui-ux-pro-max/data/stacks/svelte.csv
+  6053c98014b20e2f 1-14,17-44,47-54
+.codex/skills/ui-ux-pro-max/data/products.csv
+  6053c98014b20e2f 1-97
+.codex/skills/ui-ux-pro-max/data/charts.csv
+  6053c98014b20e2f 1-26
+.codex/skills/ui-ux-pro-max/data/stacks/html-tailwind.csv
+  6053c98014b20e2f 1-55
+.codex/skills/ui-ux-pro-max/data/stacks/jetpack-compose.csv
+  6053c98014b20e2f 1-53
+.codex/skills/ui-ux-pro-max/data/web-interface.csv
+  6053c98014b20e2f 1-31
+.codex/skills/ui-ux-pro-max/data/colors.csv
+  6053c98014b20e2f 1-97
+.gitignore
+  6053c98014b20e2f 2-3
+.codex/skills/ui-ux-pro-max/data/stacks/react-native.csv
+  6053c98014b20e2f 1-52
+.codex/skills/ui-ux-pro-max/data/stacks/nuxtjs.csv
+  6053c98014b20e2f 1-59
+.codex/skills/ui-ux-pro-max/data/stacks/nextjs.csv
+  6053c98014b20e2f 1-7,11-53
+.codex/skills/ui-ux-pro-max/data/styles.csv
+  6053c98014b20e2f 1-68
+.codex/skills/ui-ux-pro-max/data/react-performance.csv
+  6053c98014b20e2f 1-45
+.codex/skills/ui-ux-pro-max/data/ux-guidelines.csv
+  6053c98014b20e2f 3-11,39-100
+.codex/skills/ui-ux-pro-max/data/stacks/astro.csv
+  6053c98014b20e2f 1-54
+.codex/skills/ui-ux-pro-max/scripts/core.py
+  6053c98014b20e2f 1-253
+.codex/skills/ui-ux-pro-max/data/icons.csv
+  6053c98014b20e2f 1-101
+.codex/skills/ui-ux-pro-max/data/stacks/flutter.csv
+  6053c98014b20e2f 1-53
+.codex/skills/ui-ux-pro-max/scripts/search.py
+  6053c98014b20e2f 1-114
+.codex/skills/ui-ux-pro-max/data/stacks/vue.csv
+  6053c98014b20e2f 1-13,16-50
+.codex/skills/ui-ux-pro-max/data/stacks/nuxt-ui.csv
+  6053c98014b20e2f 1-51
+.codex/skills/ui-ux-pro-max/data/landing.csv
+  6053c98014b20e2f 1-30
+.codex/skills/ui-ux-pro-max/scripts/design_system.py
+  6053c98014b20e2f 1-1067
+.codex/skills/ui-ux-pro-max/data/stacks/react.csv
+  6053c98014b20e2f 1-54
+.codex/skills/ui-ux-pro-max/data/stacks/shadcn.csv
+  6053c98014b20e2f 1-61
+.codex/skills/ui-ux-pro-max/SKILL.md
+  6053c98014b20e2f 1-292
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "9205cc8e54a98615847481c86c551c87a5e23372",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 3361,
+      "total_deletions": 177,
+      "accepted_lines": 3144,
+      "overriden_lines": 15,
+      "per_file_stats": {
+        ".codex/skills/ui-ux-pro-max/scripts/core.py": {
+          "additions": 253,
+          "accepted_lines": 253
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/nextjs.csv": {
+          "additions": 53,
+          "accepted_lines": 50,
+          "overriden_lines": 3
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/flutter.csv": {
+          "additions": 53,
+          "accepted_lines": 53
+        },
+        ".codex/skills/ui-ux-pro-max/data/typography.csv": {
+          "additions": 58,
+          "accepted_lines": 58
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/shadcn.csv": {
+          "additions": 61,
+          "accepted_lines": 61
+        },
+        ".codex/skills/ui-ux-pro-max/data/landing.csv": {
+          "additions": 31,
+          "accepted_lines": 30,
+          "overriden_lines": 1
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/nuxtjs.csv": {
+          "additions": 59,
+          "accepted_lines": 59
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/nuxt-ui.csv": {
+          "additions": 51,
+          "accepted_lines": 51
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/react.csv": {
+          "additions": 54,
+          "accepted_lines": 54
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/vue.csv": {
+          "additions": 50,
+          "accepted_lines": 48,
+          "overriden_lines": 2
+        },
+        ".codex/skills/ui-ux-pro-max/scripts/design_system.py": {
+          "additions": 1130,
+          "deletions": 63,
+          "accepted_lines": 1067
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/svelte.csv": {
+          "additions": 54,
+          "accepted_lines": 50,
+          "overriden_lines": 4
+        },
+        ".codex/skills/ui-ux-pro-max/data/react-performance.csv": {
+          "additions": 45,
+          "accepted_lines": 45
+        },
+        ".codex/skills/ui-ux-pro-max/SKILL.md": {
+          "additions": 292,
+          "accepted_lines": 292
+        },
+        ".codex/skills/ui-ux-pro-max/data/products.csv": {
+          "additions": 97,
+          "accepted_lines": 97
+        },
+        ".codex/skills/ui-ux-pro-max/data/styles.csv": {
+          "additions": 68,
+          "accepted_lines": 68
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/react-native.csv": {
+          "additions": 52,
+          "accepted_lines": 52
+        },
+        ".gitignore": {
+          "additions": 2,
+          "accepted_lines": 2
+        },
+        ".codex/skills/ui-ux-pro-max/data/web-interface.csv": {
+          "additions": 31,
+          "accepted_lines": 31
+        },
+        ".codex/skills/ui-ux-pro-max/scripts/search.py": {
+          "additions": 228,
+          "deletions": 114,
+          "accepted_lines": 114
+        },
+        ".codex/skills/ui-ux-pro-max/data/ui-reasoning.csv": {
+          "additions": 101,
+          "accepted_lines": 101
+        },
+        ".codex/skills/ui-ux-pro-max/data/charts.csv": {
+          "additions": 26,
+          "accepted_lines": 26
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/astro.csv": {
+          "additions": 54,
+          "accepted_lines": 54
+        },
+        ".codex/skills/ui-ux-pro-max/data/colors.csv": {
+          "additions": 97,
+          "accepted_lines": 97
+        },
+        ".codex/skills/ui-ux-pro-max/data/ux-guidelines.csv": {
+          "additions": 100,
+          "accepted_lines": 71,
+          "overriden_lines": 4
+        },
+        ".codex/skills/ui-ux-pro-max/data/icons.csv": {
+          "additions": 101,
+          "accepted_lines": 101
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/jetpack-compose.csv": {
+          "additions": 53,
+          "accepted_lines": 53
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/html-tailwind.csv": {
+          "additions": 56,
+          "accepted_lines": 55,
+          "overriden_lines": 1
+        },
+        ".codex/skills/ui-ux-pro-max/data/stacks/swiftui.csv": {
+          "additions": 51,
+          "accepted_lines": 51
+        }
+      }
+    }
+  }
+}
