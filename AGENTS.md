@@ -161,6 +161,10 @@ Only enable this when the user asks for it.
 | `data/` | External vocabulary sources such as AWL JSON and Oxford CSV. |
 | `scripts/cli.ts` | Main CLI entry for `pnpm ielts`. |
 | `scripts/study/*.ts` | Subcommand implementations; do not call directly for normal workflows. |
+| `design-system/ieltsy/pattern.css` | Canonical static-page tokens, components, layouts, states, and responsive rules. |
+| `design-system/ieltsy/runtime.js` | Canonical static-page interaction runtime. |
+| `scripts/study/check-design-pattern.ts` | Structural design gate run by `pnpm pages:build`. |
+| `scripts/study/audit-static-pages.mjs` | Chrome-based multi-viewport and interaction audit. |
 | `learning/days/YYYY-MM-DD/` | Daily article and session output. |
 | `learning/mistakes/` | Mistake markdown generated from database views; do not edit manually. |
 | `learning/audio-cache/` | TTS MP3 cache, gitignored. |
@@ -170,6 +174,8 @@ Only enable this when the user asks for it.
 - TypeScript + `tsx`; there is no build step.
 - SQLite access uses `better-sqlite3` synchronous APIs.
 - Dates are ISO `YYYY-MM-DD`.
+- Static pages must consume `design-system/ieltsy/pattern.css` and `runtime.js` directly; do not duplicate them in the exporter or add inline page styles.
+- Run `IELTSY_SKIP_AUDIO=1 pnpm pages:build` after static-page changes. Run `pnpm design:audit` for layout, responsive, or interaction changes; it requires local Chrome/Chromium.
 - For content changes, edit markdown sources and rerun the relevant `pnpm db:import:*` command.
 - For schema changes, either add backward-compatible `ALTER TABLE` migrations or tell the user to run `pnpm db:reset`.
 - Use `pnpm ielts help --json` when automating or parsing command metadata.

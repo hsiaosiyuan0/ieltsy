@@ -58,6 +58,8 @@ const STATIC_GLOSSARY_PATH = resolve('learning/glossary.zh.json')
 const STATIC_PROSODY_PATH = resolve('learning/prosody.json')
 const DB_PATH = resolve('db/ieltsy.db')
 const AUDIO_CACHE_DIR = resolve('learning/audio-cache')
+const DESIGN_PATTERN_CSS_PATH = resolve('design-system/ieltsy/pattern.css')
+const DESIGN_RUNTIME_JS_PATH = resolve('design-system/ieltsy/runtime.js')
 const AUDIO_VOICE = process.env.IELTSY_AUDIO_VOICE || 'en-US-EmmaMultilingualNeural'
 const AUDIO_RATE = process.env.IELTSY_AUDIO_RATE || '+0%'
 const SKIP_AUDIO = process.env.IELTSY_SKIP_AUDIO === '1'
@@ -201,24 +203,31 @@ function articleDisplayTitle(article: ParsedArticle): string {
   return article.title.split('·').slice(2).join('·').trim() || article.title.replace(/^#\s*/, '').trim() || article.date
 }
 
+function displayText(value: string): string {
+  return value.replace(/[`*_]/g, '').replace(/\s+/g, ' ').trim()
+}
+
 function audioAttr(prefix: string, audio?: string): string {
   return audio ? ` data-audio="${prefix}assets/audio/${escapeHtml(audio)}"` : ''
 }
 
 function highlightTargets(text: string, targets: TargetWord[], targetAudioByText: Map<string, string>): string {
-  let result = escapeHtml(text)
   const sorted = targets.map((target) => target.word).sort((a, b) => b.length - a.length)
-  for (const word of sorted) {
-    if (!word) continue
-    const safe = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-    const pattern = new RegExp(`\\b(${safe}(?:s|es|ed|d|ing)?)\\b`, 'gi')
-    result = result.replace(pattern, (_m, actual: string) => {
-      const spoken = escapeHtml(actual)
-      const audio = targetAudioByText.get(actual.toLowerCase()) ?? targetAudioByText.get(word.toLowerCase())
-      return `<span class="target" role="button" tabindex="0" data-speak="${spoken}"${audio ? ` data-audio="${escapeHtml(audio)}"` : ''} title="显示 / 朗读">${spoken}</span>`
-    })
-  }
-  return result
+  const alternatives = sorted
+    .filter(Boolean)
+    .map((word) => word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'))
+  if (alternatives.length === 0) return escapeHtml(text)
+
+  const pattern = new RegExp(`\\b(?:${alternatives.join('|')})(?:s|es|ed|d|ing)?\\b`, 'gi')
+  return escapeHtml(text).replace(pattern, (actual: string) => {
+    const base = sorted.find((word) => {
+      const safe = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+      return new RegExp(`^${safe}(?:s|es|ed|d|ing)?$`, 'i').test(actual)
+    }) ?? actual
+    const spoken = escapeHtml(actual)
+    const audio = targetAudioByText.get(actual.toLowerCase()) ?? targetAudioByText.get(base.toLowerCase())
+    return `<button class="target" type="button" data-speak="${spoken}"${audio ? ` data-audio="${escapeHtml(audio)}"` : ''} aria-label="朗读词汇 ${spoken}">${spoken}</button>`
+  })
 }
 
 function targetFormsInText(text: string, targets: TargetWord[]): string[] {
@@ -345,7 +354,7 @@ function renderCueGroup(tokens: string[], tone: string): string {
     const klass = isStressWord(word) ? 'stress' : 'weak'
     return `<span class="cue-word ${klass}">${escapeHtml(word)}</span>`
   }).join(' ')
-  return `<span class="cue-group">${words}<span class="tone">${escapeHtml(tone)}</span></span>`
+  return `<span class="cue-group">${words}<span class="cue-tone">${escapeHtml(tone)}</span></span>`
 }
 
 function renderFollowCue(text: string, cue?: ProsodyCue): string {
@@ -353,8 +362,8 @@ function renderFollowCue(text: string, cue?: ProsodyCue): string {
     const renderedCue = cue.groups
       .filter((group) => group.tokens.length > 0)
       .map((group) => renderCueGroup(group.tokens, group.tone || '→'))
-      .join('<span class="pause">/</span>')
-    return `<span class="follow-cue" data-prosody-source="${escapeHtml(cue.source)}"><span class="follow-tag">跟读</span><span class="cue-line">${renderedCue}</span></span>`
+      .join('')
+    return `<div class="follow-cue" data-prosody-source="${escapeHtml(cue.source)}">${renderedCue}</div>`
   }
 
   const groups = prosodyGroups(text)
@@ -363,25 +372,25 @@ function renderFollowCue(text: string, cue?: ProsodyCue): string {
   const rendered = groups.map((group, index) => {
     const tone = toneForGroup(group, index, groups, finalTone)
     return renderCueGroup(group.tokens, tone)
-  }).join('<span class="pause">/</span>')
-  return `<span class="follow-cue" data-prosody-source="fallback"><span class="follow-tag">跟读</span><span class="cue-line">${rendered}</span></span>`
+  }).join('')
+  return `<div class="follow-cue" data-prosody-source="fallback">${rendered}</div>`
 }
 
 function renderRefs(refs: string): string {
   return refs.split(/\s+/).filter(Boolean).map((tok) => {
     const num = CIRCLED_NUM_TO_INT[tok]
-    if (num) return `<a href="#sentence-${num}" class="ref">${tok}</a>`
-    return `<span class="ref">${escapeHtml(tok)}</span>`
+    if (num) return `<a href="#sentence-${num}" class="sentence-ref" data-target="${num}" aria-label="跳到第 ${num} 句">${tok}</a>`
+    return `<span class="ref-label">${escapeHtml(tok)}</span>`
   }).join(' ')
 }
 
 function renderZhDefinition(word: TargetWord): string {
   const definition = word.zh?.trim()
   if (!definition) {
-    return `<span class="word-zh missing"><span class="word-zh-label">中文释义</span><span>未收录中文释义</span></span>`
+    return '<p class="vocab-definition definition-missing">未收录中文释义</p>'
   }
 
-  return `<span class="word-zh"><span class="word-zh-label">中文释义</span><span>${escapeHtml(definition)}</span></span>`
+  return `<p class="vocab-definition">${escapeHtml(definition)}</p>`
 }
 
 function glossaryKey(word: string, pos: string): string {
@@ -569,14 +578,15 @@ function prepareAudioAssets(articles: ParsedArticle[]): void {
   }
 }
 
-function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers' | 'wave'): string {
+function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'pause' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers' | 'wave'): string {
   const paths: Record<typeof name, string> = {
-    book: '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"/>',
+    book: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h5a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3Z"/><path d="M21 18a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2h-5a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3Z"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
     archive: '<path d="M3 5h18"/><path d="M5 5v14h14V5"/><path d="M9 9h6"/>',
     'arrow-left': '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
     'arrow-right': '<path d="m12 5 7 7-7 7"/><path d="M5 12h14"/>',
     play: '<path d="m8 5 11 7-11 7V5z"/>',
+    pause: '<path d="M9 5v14"/><path d="M15 5v14"/>',
     translate: '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>',
     eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
     check: '<path d="M20 6 9 17l-5-5"/>',
@@ -587,50 +597,59 @@ function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' |
   return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths[name]}</svg>`
 }
 
+function issueNumber(value: number): string {
+  return String(Math.max(1, value)).padStart(2, '0')
+}
+
 function renderShell(opts: {
   title: string
   description: string
   prefix: string
+  page: 'home' | 'lesson' | 'mistakes' | 'mistake-detail' | 'not-found'
   current?: 'home' | 'mistakes'
-  bodyAttrs?: string
+  bodyClass?: string
+  date?: string
   body: string
 }): string {
-  const navHome = opts.current === 'home' ? 'aria-current="page"' : ''
-  const navMistakes = opts.current === 'mistakes' ? 'aria-current="page"' : ''
+  const navHome = opts.current === 'home' ? ' aria-current="page"' : ''
+  const navMistakes = opts.current === 'mistakes' ? ' aria-current="page"' : ''
   const homeHref = opts.prefix || './'
+  const bodyClass = opts.bodyClass ? ` class="${escapeHtml(opts.bodyClass)}"` : ''
+  const dateAttr = opts.date ? ` data-date="${escapeHtml(opts.date)}"` : ''
+
   return `<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="${escapeHtml(opts.description)}">
-  <meta name="theme-color" content="#4f46e5">
+  <meta name="theme-color" content="#c74632">
   <title>${escapeHtml(opts.title)} · ${escapeHtml(SITE_TITLE)}</title>
   <link rel="icon" href="${opts.prefix}favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="${opts.prefix}assets/site.css">
   <link rel="manifest" href="${opts.prefix}manifest.webmanifest">
 </head>
-<body${opts.bodyAttrs ? ` ${opts.bodyAttrs}` : ''}>
+<body${bodyClass} data-page="${opts.page}"${dateAttr}>
   <a class="skip-link" href="#content">跳到正文</a>
-  <div class="app-shell">
-    <aside class="sh-sidebar" aria-label="应用导航">
+  <div class="site-shell">
+    <header class="masthead">
       <a class="brand" href="${homeHref}" aria-label="IELTSY 首页">
-        <span class="brand-mark">${icon('book')}</span>
-        <span class="brand-copy"><strong>IELTSY</strong><span>Band 7 loop</span></span>
+        <span class="brand__mark">${icon('book')}</span>
+        <span class="brand__copy"><strong>IELTSY</strong><small>READING SYSTEM · BAND 7</small></span>
       </a>
-      <nav class="sidebar-nav" aria-label="主导航">
-        <a class="nav-item" href="${homeHref}" ${navHome}>${icon('home')}<span>学习日</span></a>
-        <a class="nav-item" href="${opts.prefix}mistakes/" ${navMistakes}>${icon('archive')}<span>错题本</span></a>
+      <nav class="masthead__nav" aria-label="主导航">
+        <a class="nav-tab" href="${homeHref}"${navHome}><span class="nav-tab__index">01</span><span>学习日</span></a>
+        <a class="nav-tab" href="${opts.prefix}mistakes/"${navMistakes}><span class="nav-tab__index">02</span><span>错题本</span></a>
       </nav>
-      <div class="sidebar-meta">
-        <span>Static Pages</span>
-        <span>Local first</span>
-      </div>
-    </aside>
-    <div class="app-main">
+      <div class="masthead__status"><span class="status-dot" aria-hidden="true"></span><span>Local archive</span></div>
+    </header>
 ${opts.body}
-    </div>
+    <footer class="site-footer">
+      <span><strong>IELTSY</strong> · Local-first IELTS study loop</span>
+      <span>READ · RECALL · REVIEW</span>
+    </footer>
   </div>
+  <span class="sr-only" aria-live="polite" data-reader-status></span>
   <script src="${opts.prefix}assets/site.js" defer></script>
 </body>
 </html>
@@ -640,164 +659,212 @@ ${opts.body}
 function renderIndex(articles: ParsedArticle[]): string {
   const latest = articles[0]
   const totalWords = articles.reduce((sum, article) => sum + article.targetWords.length, 0)
-  const latestTitle = latest ? articleDisplayTitle(latest) : '暂无学习日'
-  const latestHref = latest ? `days/${latest.date}/` : '#'
-  const lessonItems = articles.map((article) => {
+  const latestTitle = latest ? articleDisplayTitle(latest) : '今天还没有学习短文'
+  const latestHref = latest ? `days/${latest.date}/` : ''
+  const latestIssue = issueNumber(articles.length)
+  const lessonItems = articles.map((article, index) => {
     const title = articleDisplayTitle(article)
-    return `            <a class="lesson-row" href="days/${article.date}/">
-          <span class="lesson-date">${escapeHtml(article.date)}</span>
-          <span class="lesson-row-main">
-            <strong>${escapeHtml(title)}</strong>
-            <span>${escapeHtml(article.genre)} · ${article.targetWords.length} 词 · ${escapeHtml(article.grammarTitle || '语法点')}</span>
-          </span>
-          <span class="row-icon">${icon('arrow-right')}</span>
+    const number = issueNumber(articles.length - index)
+    return `        <a class="archive-entry" href="days/${article.date}/">
+          <time class="archive-entry__date" datetime="${escapeHtml(article.date)}">${escapeHtml(article.date)}<span>${escapeHtml(article.genre)}</span></time>
+          <div class="archive-entry__main">
+            <span class="archive-entry__number">LESSON ${number}</span>
+            <h3>${escapeHtml(title)}</h3>
+            <p>${escapeHtml(article.grammarTitle || '语法点待补充')}</p>
+          </div>
+          <span class="archive-entry__count"><strong>${article.targetWords.length}</strong>targets</span>
+          <span class="archive-entry__arrow">${icon('arrow-right')}</span>
         </a>`
   }).join('\n')
 
-  const body = `      <main id="content" class="page-shell home-page">
-      <section class="sh-card home-hero">
-        <div class="hero-copy">
-          <p class="eyebrow">Current lesson</p>
-          <h1>${escapeHtml(latestTitle)}</h1>
-          <div class="badge-row">
-            <span class="sh-badge secondary">${icon('calendar')}${escapeHtml(latest?.date ?? '-')}</span>
-            <span class="sh-badge secondary">${icon('layers')}${escapeHtml(latest?.genre ?? 'lesson')}</span>
-            <span class="sh-badge outline">${latest?.targetWords.length ?? 0} 词</span>
+  const latestActions = latest
+    ? `          <div class="home-lead__actions">
+            <a class="button button--primary" href="${latestHref}">${icon('play')}<span>继续学习</span></a>
+            <a class="button" href="mistakes/">${icon('archive')}<span>查看错题</span></a>
+          </div>`
+    : ''
+
+  const latestDeck = latest
+    ? escapeHtml('本课聚焦 ' + (latest.grammarTitle || '核心语法') + (latest.grammarDescription ? '：' + displayText(latest.grammarDescription) : '') + '，在完整语境中复习目标词。')
+    : '运行每日学习流程后，最新短文会出现在这里。'
+
+  const body = `
+    <main id="content" class="page page--home">
+      <section class="home-lead" aria-labelledby="latest-lesson-title">
+        <div class="home-lead__story">
+          <p class="kicker">Latest lesson</p>
+          <h1 id="latest-lesson-title">${escapeHtml(latestTitle)}</h1>
+          <p class="home-lead__deck">${latestDeck}</p>
+          <div class="home-lead__meta">
+            <span class="meta-chip">${icon('calendar')}${escapeHtml(latest?.date ?? '尚未开始')}</span>
+            <span class="meta-chip">${icon('layers')}${escapeHtml(latest?.genre ?? 'lesson')}</span>
+            <span class="meta-chip">${latest?.sentences.length ?? 0} sentences</span>
           </div>
+${latestActions}
         </div>
-        <div class="hero-actions">
-          <a class="sh-button primary" href="${latestHref}">${icon('play')}<span>继续学习</span></a>
-          <a class="sh-button outline" href="mistakes/">${icon('archive')}<span>错题本</span></a>
-        </div>
+
+        <aside class="lesson-brief" aria-label="最新课程摘要">
+          <div>
+            <div class="lesson-brief__folio"><span>Current issue</span><strong>${latestIssue}</strong></div>
+            <dl>
+              <div><dt>发布日期</dt><dd>${escapeHtml(latest?.date ?? '—')}</dd></div>
+              <div><dt>文章体裁</dt><dd>${escapeHtml((latest?.genre ?? '—').toUpperCase())}</dd></div>
+              <div><dt>目标词</dt><dd>${latest?.targetWords.length ?? 0}</dd></div>
+              <div><dt>句子</dt><dd>${latest?.sentences.length ?? 0}</dd></div>
+            </dl>
+          </div>
+          <div class="lesson-brief__note">
+            <span>Grammar focus</span>
+            <p>${escapeHtml(latest?.grammarTitle || '等待下一课')}${latest?.grammarDescription ? ' · ' + escapeHtml(displayText(latest.grammarDescription)) : ''}</p>
+          </div>
+        </aside>
       </section>
 
-      <section class="stats-grid" aria-label="学习统计">
-        <div class="sh-card stat-card"><span>${articles.length}</span><small>学习日</small></div>
-        <div class="sh-card stat-card"><span>${totalWords}</span><small>目标词</small></div>
-        <div class="sh-card stat-card"><span>${escapeHtml(latest?.date ?? '-')}</span><small>最近更新</small></div>
-      </section>
-
-      <section class="sh-card lessons-card">
-        <div class="card-header">
-            <h2>Learning timeline</h2>
-            <p>${escapeHtml(latestTitle)}</p>
-        </div>
-        <div class="lesson-list">
-${lessonItems || '            <p class="empty">还没有可发布的 article.md。</p>'}
+      <section class="archive-section" aria-labelledby="archive-title">
+        <header class="archive-overview">
+          <p class="kicker">Study archive</p>
+          <h2 id="archive-title">学习课程账簿</h2>
+          <p>按学习日期倒序排列，每一课都保留原文、目标词、语法和跟读标记。</p>
+          <div class="archive-metrics" aria-label="学习统计">
+            <div class="archive-metric"><strong>${articles.length}</strong><span>Lessons</span></div>
+            <div class="archive-metric"><strong>${totalWords}</strong><span>Target words</span></div>
+          </div>
+        </header>
+        <div class="archive-ledger">
+${lessonItems || '          <p class="archive-empty">还没有可发布的 article.md。</p>'}
         </div>
       </section>
     </main>`
 
   return renderShell({
     title: '学习日',
-    description: 'IELTSY mobile study archive',
+    description: 'IELTSY 双语阅读学习档案',
     prefix: '',
+    page: 'home',
     current: 'home',
     body,
   })
 }
 
-function renderDay(article: ParsedArticle): string {
+function renderDay(article: ParsedArticle, number: number): string {
   const title = articleDisplayTitle(article)
-  const metaParts = article.meta.split('|').map((part) => part.trim()).filter(Boolean)
+  const metaParts = article.meta.split('|').map((part) => displayText(part)).filter(Boolean)
   const targetAudioByText = article.targetAudioByText ?? new Map()
-  const sentencesHtml = article.sentences.map((sentence) => `          <p class="sentence" id="sentence-${sentence.num}" data-text="${escapeHtml(sentence.text)}"${audioAttr('../../', sentence.audio)}>
-            <button class="sentence-play" type="button" data-action="play-sentence" aria-label="朗读第 ${sentence.num} 句">${icon('play')}</button>
-            <span class="num">${CIRCLED[sentence.num - 1]}</span>
-            <span class="sentence-text">
-              <span class="en">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</span>
-              ${renderFollowCue(sentence.text, sentence.prosody)}
-              ${sentence.zh ? `<span class="zh">${escapeHtml(sentence.zh)}</span>` : ''}
-            </span>
-          </p>`).join('\n')
+  const sentencesHtml = article.sentences.map((sentence) => `        <div class="sentence" id="sentence-${sentence.num}" data-number="${sentence.num}" data-text="${escapeHtml(sentence.text)}"${audioAttr('../../', sentence.audio)}>
+          <div class="sentence__gutter">
+            <button class="sentence__play" type="button" data-action="play-sentence" aria-label="朗读第 ${sentence.num} 句">${icon('play')}</button>
+            <span class="sentence__number">${String(sentence.num).padStart(2, '0')}</span>
+          </div>
+          <div class="sentence__copy">
+            <p class="sentence__english">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</p>
+            ${renderFollowCue(sentence.text, sentence.prosody)}
+            ${sentence.zh ? '<p class="sentence__translation"><span class="translation-label">译</span><span>' + escapeHtml(sentence.zh) + '</span></p>' : ''}
+          </div>
+        </div>`).join('\n')
 
-  const wordsHtml = article.targetWords.map((word) => `            <li>
-              <button type="button" class="word-button" data-speak="${escapeHtml(word.word)}"${audioAttr('../../', word.audio)}>${escapeHtml(word.word)}</button>
-              <span class="sh-badge secondary pos">${escapeHtml(word.pos)}</span>
+  const wordsHtml = article.targetWords.map((word) => `            <li class="vocab-entry">
+              <div class="vocab-entry__term">
+                <button type="button" class="word-button" data-speak="${escapeHtml(word.word)}"${audioAttr('../../', word.audio)} aria-label="朗读 ${escapeHtml(word.word)}">${escapeHtml(word.word)}</button>
+                <span class="word-pos">${escapeHtml(word.pos)}</span>
+              </div>
               ${renderZhDefinition(word)}
-              <span class="refs"><span class="refs-label">出现</span>${renderRefs(word.refs)}</span>
+              <div class="vocab-entry__refs"><span class="vocab-entry__refs-label">句子</span>${renderRefs(word.refs)}</div>
             </li>`).join('\n')
 
-  const grammarHtml = article.grammarExamples.map((example) => `            <li>
-              <span class="sent-num">${CIRCLED[example.sentenceNum - 1]}</span>
-              <code>${escapeHtml(example.excerpt)}</code>
-              ${example.note ? `<span class="note">${escapeHtml(example.note)}</span>` : ''}
+  const grammarHtml = article.grammarExamples.map((example) => `            <li class="grammar-example">
+              <span class="grammar-example__number">${String(example.sentenceNum).padStart(2, '0')}</span>
+              <div><code>${escapeHtml(example.excerpt)}</code>${example.note ? '<p>' + escapeHtml(example.note) + '</p>' : ''}</div>
             </li>`).join('\n')
 
-  const body = `      <main id="content" class="page-shell lesson-page">
-    <section class="sh-card lesson-hero">
-      <div class="lesson-hero-top">
-        <a class="sh-button ghost back-link" href="../../">${icon('arrow-left')}<span>学习日</span></a>
-      </div>
-      <div class="lesson-hero-grid">
-        <div>
-          <p class="eyebrow">${escapeHtml(article.date)} · ${escapeHtml(article.genre)}</p>
-          <h1>${escapeHtml(title)}</h1>
+  const body = `
+    <main id="content" class="page page--lesson">
+      <header class="lesson-intro">
+        <div class="lesson-intro__back"><a class="text-link" href="../../">${icon('arrow-left')}<span>返回学习日</span></a></div>
+        <div class="lesson-intro__grid">
+          <div class="lesson-folio"><span>Lesson</span><strong>${issueNumber(number)}</strong><span>${escapeHtml(article.genre)}</span></div>
+          <div class="lesson-title-block">
+            <p class="kicker">${escapeHtml(article.date)} · ${escapeHtml(article.genre)}</p>
+            <h1 id="article-title">${escapeHtml(title)}</h1>
+            <p class="lesson-title-block__deck">${escapeHtml(article.grammarTitle || '语法点')}${article.grammarDescription ? ' · ' + escapeHtml(displayText(article.grammarDescription)) : ''}</p>
+            <div class="lesson-title-block__meta">
+              ${metaParts.map((part) => '<span class="meta-chip">' + escapeHtml(part) + '</span>').join('\n              ')}
+            </div>
+          </div>
         </div>
-        <div class="badge-row hero-badges">
-          ${metaParts.map((part) => `<span class="sh-badge outline">${escapeHtml(part)}</span>`).join('\n          ')}
+      </header>
+
+      <nav class="study-toolbar" aria-label="阅读工具">
+        <div class="study-toolbar__group">
+          <span class="study-toolbar__label">Reader tools</span>
+          <button class="button button--primary" type="button" data-action="play-all" aria-pressed="false" aria-label="朗读全文">
+            <span class="when-idle">${icon('play')}</span><span class="when-playing">${icon('pause')}</span><span>全文</span>
+          </button>
+          <button class="button" type="button" data-action="toggle-zh" aria-controls="reading-content" aria-pressed="false" aria-label="显示或隐藏译文" title="译文">${icon('translate')}<span>译文</span></button>
+          <button class="button" type="button" data-action="toggle-follow" aria-controls="reading-content" aria-pressed="true" aria-label="显示或隐藏跟读标记" title="跟读">${icon('wave')}<span>跟读</span></button>
+          <button class="button" type="button" data-action="toggle-practice" aria-controls="reading-content" aria-pressed="false" aria-label="开启或关闭遮词练习" title="遮词">${icon('eye')}<span>遮词</span></button>
         </div>
-      </div>
-    </section>
+        <div class="study-toolbar__group">
+          <button class="button" type="button" data-action="mark-done" aria-pressed="false" aria-label="标记本课完成" title="完成">${icon('check')}<span>完成</span></button>
+        </div>
+      </nav>
 
-    <section class="command-bar" aria-label="学习工具">
-        <button class="sh-button primary tool-button" type="button" data-action="play-all">${icon('play')}<span>全文</span></button>
-        <button class="sh-button outline tool-button" type="button" data-action="toggle-zh" aria-pressed="false">${icon('translate')}<span>译文</span></button>
-        <button class="sh-button outline tool-button" type="button" data-action="toggle-follow" aria-pressed="true">${icon('wave')}<span>跟读</span></button>
-        <button class="sh-button outline tool-button" type="button" data-action="toggle-practice" aria-pressed="false">${icon('eye')}<span>遮词</span></button>
-        <label class="sh-button outline done-toggle">
-          <input type="checkbox" data-action="mark-done">
-          ${icon('check')}
-          <span>完成</span>
-        </label>
-    </section>
-
-    <div class="lesson-grid">
-      <article class="sh-card reader-card" aria-label="短文">
+      <div class="lesson-layout">
+        <article class="reading-sheet" aria-labelledby="article-title">
+          <header class="reading-sheet__header"><strong>Reading passage</strong><span>${article.sentences.length} sentences</span></header>
+          <div id="reading-content">
 ${sentencesHtml}
-      </article>
-
-      <aside class="side-stack" aria-label="目标词和语法点">
-        <section class="sh-card vocab-card">
-          <div class="card-header compact">
-            <h2>目标词</h2>
-            <span class="sh-badge secondary">${article.targetWords.length} words</span>
           </div>
-          <ol class="word-list">
+          <footer class="reading-sheet__footer"><span>End of passage</span><span>${article.targetWords.length} target words</span></footer>
+        </article>
+
+        <aside class="annotation-rail" aria-label="课程注释">
+          <div class="annotation-sticky">
+            <div class="annotation-tabs" role="tablist" aria-label="注释类型">
+              <button class="annotation-tab" id="tab-words" type="button" role="tab" data-tab="words" aria-controls="panel-words" aria-selected="true">词汇</button>
+              <button class="annotation-tab" id="tab-grammar" type="button" role="tab" data-tab="grammar" aria-controls="panel-grammar" aria-selected="false" tabindex="-1">语法</button>
+              <button class="annotation-tab" id="tab-prosody" type="button" role="tab" data-tab="prosody" aria-controls="panel-prosody" aria-selected="false" tabindex="-1">跟读</button>
+            </div>
+
+            <section class="annotation-panel" id="panel-words" role="tabpanel" aria-labelledby="tab-words" data-panel="words">
+              <header class="annotation-panel__header"><h2>目标词</h2><span>${article.targetWords.length} WORDS</span></header>
+              <ol class="vocab-index">
 ${wordsHtml}
-          </ol>
-        </section>
+              </ol>
+            </section>
 
-        <section class="sh-card grammar-card">
-          <div class="card-header compact">
-            <h2>语法点</h2>
-          </div>
-          <p class="grammar-title">${escapeHtml(article.grammarTitle || '未记录')}</p>
-          ${article.grammarDescription ? `<p class="grammar-desc">${escapeHtml(article.grammarDescription)}</p>` : ''}
-          <ul class="grammar-list">
-${grammarHtml}
-          </ul>
-        </section>
+            <section class="annotation-panel" id="panel-grammar" role="tabpanel" aria-labelledby="tab-grammar" data-panel="grammar" hidden>
+              <header class="annotation-panel__header"><h2>语法点</h2><span>FOCUS</span></header>
+              <div class="grammar-summary">
+                <strong>${escapeHtml(article.grammarTitle || '未记录')}</strong>
+                ${article.grammarDescription ? '<p>' + escapeHtml(displayText(article.grammarDescription)) + '</p>' : ''}
+              </div>
+              <ol class="grammar-examples">
+${grammarHtml || '                <li class="grammar-example"><span class="grammar-example__number">—</span><div><p>暂无语法例句。</p></div></li>'}
+              </ol>
+            </section>
 
-        <section class="sh-card prosody-card">
-          <div class="card-header compact"><h2>跟读规律</h2></div>
-          <div class="prosody-legend">
-            <span><strong>粗体</strong> 重读信息词</span>
-            <span><span class="cue-word weak">浅色</span> 弱读功能词</span>
-            <span><b>/</b> 意群停顿</span>
-            <span><b>↗</b> 话没说完，轻轻托住</span>
-            <span><b>↘</b> 句子结束，声音落下</span>
+            <section class="annotation-panel" id="panel-prosody" role="tabpanel" aria-labelledby="tab-prosody" data-panel="prosody" hidden>
+              <header class="annotation-panel__header"><h2>跟读标记</h2><span>RHYTHM</span></header>
+              <div class="prosody-guide">
+                <div class="prosody-guide__item"><span class="prosody-guide__sample">BOLD</span><p>重读信息词</p></div>
+                <div class="prosody-guide__item"><span class="prosody-guide__sample cue-word weak">light</span><p>弱读功能词</p></div>
+                <div class="prosody-guide__item"><span class="prosody-guide__sample">/</span><p>意群停顿</p></div>
+                <div class="prosody-guide__item"><span class="prosody-guide__sample">↗ ↘</span><p>语调承接与收束</p></div>
+              </div>
+            </section>
           </div>
-        </section>
-      </aside>
-    </div>
-  </main>`
+        </aside>
+      </div>
+    </main>`
 
   return renderShell({
     title,
     description: `${article.date} IELTSY lesson`,
     prefix: '../../',
-    bodyAttrs: `data-date="${escapeHtml(article.date)}"`,
+    page: 'lesson',
+    current: 'home',
+    bodyClass: 'hide-zh',
+    date: article.date,
     body,
   })
 }
@@ -875,68 +942,97 @@ function renderMarkdown(md: string): string {
 
 function renderMistakesPage(kind: 'words' | 'grammar', markdown: string): string {
   const title = kind === 'words' ? '单词错题' : '语法错题'
-  const body = `      <main id="content" class="page-shell mistakes-page">
-    <section class="sh-card page-hero compact">
-      <a class="sh-button ghost back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
-      <p class="eyebrow">Mistakes</p>
-      <h1>${title}</h1>
-    </section>
-    <article class="sh-card markdown-card">
+  const label = kind === 'words' ? 'WORD REVIEW' : 'GRAMMAR REVIEW'
+  const description = kind === 'words'
+    ? '集中回看答错的目标词、原句和作答记录。'
+    : '集中回看需要再次确认的语法点和上下文。'
+  const body = `
+    <main id="content" class="page page--mistake-detail">
+      <header class="page-intro">
+        <div>
+          <a class="text-link" href="./">${icon('arrow-left')}<span>返回错题本</span></a>
+          <p class="kicker">${label}</p>
+          <h1>${title}</h1>
+        </div>
+        <p class="page-intro__aside">${description}</p>
+      </header>
+
+      <div class="mistake-detail-layout">
+        <aside class="mistake-detail__rail">
+          <strong>Review file</strong>
+          <p>内容由学习记录自动生成，完成下一轮练习后会同步更新。</p>
+        </aside>
+        <article class="markdown-sheet">
 ${renderMarkdown(markdown)}
-    </article>
-  </main>`
+        </article>
+      </div>
+    </main>`
 
   return renderShell({
     title,
     description: `${SITE_TITLE} ${title}`,
     prefix: '../',
+    page: 'mistake-detail',
     current: 'mistakes',
     body,
   })
 }
 
 function renderMistakesIndex(): string {
-  const body = `      <main id="content" class="page-shell mistakes-page">
-    <section class="sh-card page-hero compact">
-      <a class="sh-button ghost back-link" href="../">${icon('arrow-left')}<span>学习日</span></a>
-      <p class="eyebrow">Mistakes</p>
-      <h1>错题本</h1>
-    </section>
-    <div class="lesson-list mistakes-list">
-      <a class="lesson-row" href="words.html">
-        <span class="lesson-date">Words</span>
-        <span class="lesson-row-main"><strong>单词错题</strong><span>最近答错的目标词</span></span>
-        <span class="row-icon">${icon('arrow-right')}</span>
-      </a>
-      <a class="lesson-row" href="grammar.html">
-        <span class="lesson-date">Grammar</span>
-        <span class="lesson-row-main"><strong>语法错题</strong><span>需要回看的语法点</span></span>
-        <span class="row-icon">${icon('arrow-right')}</span>
-      </a>
-    </div>
-  </main>`
+  const body = `
+    <main id="content" class="page page--archive">
+      <header class="page-intro">
+        <div>
+          <p class="kicker">Review archive</p>
+          <h1>错题本</h1>
+        </div>
+        <p class="page-intro__aside">把错误留在语境里复习。词汇和语法分开归档，但都回到原句中确认。</p>
+      </header>
+
+      <section class="mistake-directory" aria-label="错题分类">
+        <a class="directory-entry" href="words.html">
+          <span class="directory-entry__index">01</span>
+          <div class="directory-entry__main"><h2>单词错题</h2><p>最近答错、混淆或尚未掌握的目标词。</p></div>
+          <span class="directory-entry__arrow">${icon('arrow-right')}</span>
+        </a>
+        <a class="directory-entry" href="grammar.html">
+          <span class="directory-entry__index">02</span>
+          <div class="directory-entry__main"><h2>语法错题</h2><p>需要回到句子里重新理解的语法结构。</p></div>
+          <span class="directory-entry__arrow">${icon('arrow-right')}</span>
+        </a>
+      </section>
+    </main>`
 
   return renderShell({
     title: '错题本',
     description: `${SITE_TITLE} mistake archive`,
     prefix: '../',
+    page: 'mistakes',
     current: 'mistakes',
     body,
   })
 }
 
 function renderNotFound(): string {
+  const body = `
+    <main id="content" class="page page--not-found">
+      <section class="not-found">
+        <p class="not-found__code">404</p>
+        <div class="not-found__copy">
+          <p class="kicker">Page not found</p>
+          <h1>这一页不在学习档案里</h1>
+          <p>地址可能已经变化，回到课程账簿继续学习。</p>
+          <a class="button button--primary" href="./">${icon('home')}<span>返回首页</span></a>
+        </div>
+      </section>
+    </main>`
+
   return renderShell({
     title: '页面不存在',
     description: `${SITE_TITLE} not found`,
     prefix: '',
-    body: `      <main id="content" class="page-shell home-page">
-    <section class="sh-card home-hero">
-      <p class="eyebrow">404</p>
-      <h1>页面不存在</h1>
-      <div class="hero-actions"><a class="sh-button primary" href="./">${icon('home')}<span>返回首页</span></a></div>
-    </section>
-  </main>`,
+    page: 'not-found',
+    body,
   })
 }
 
@@ -970,1148 +1066,8 @@ function writePage(path: string, content: string): void {
   writeFileSync(path, content, 'utf-8')
 }
 
-const SITE_CSS = `:root {
-  color-scheme: light;
-  --background: 236 100% 98%;
-  --foreground: 240 31% 12%;
-  --card: 0 0% 100%;
-  --card-foreground: 240 31% 12%;
-  --muted: 236 48% 96%;
-  --muted-foreground: 235 12% 43%;
-  --primary: 243 75% 59%;
-  --primary-foreground: 0 0% 100%;
-  --secondary: 238 84% 96%;
-  --secondary-foreground: 244 47% 32%;
-  --accent: 142 71% 45%;
-  --accent-foreground: 144 61% 15%;
-  --warning: 34 92% 50%;
-  --border: 229 30% 88%;
-  --ring: 243 75% 59%;
-  --radius: 8px;
-  --shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.05);
-  --shadow-md: 0 18px 40px rgba(49, 46, 129, 0.10);
-  --shadow-lg: 0 24px 60px rgba(49, 46, 129, 0.14);
-  --target: hsl(32 95% 37%);
-  --target-bg: hsl(39 100% 92%);
-  --transition: 180ms cubic-bezier(0.2, 0.8, 0.2, 1);
-}
-
-* { box-sizing: border-box; }
-html {
-  min-width: 320px;
-  font-size: 16px;
-  scroll-padding-top: 24px;
-}
-body {
-  margin: 0;
-  min-height: 100vh;
-  background:
-    linear-gradient(180deg, hsl(236 100% 98%) 0%, hsl(236 88% 97%) 48%, hsl(220 43% 97%) 100%);
-  color: hsl(var(--foreground));
-  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  line-height: 1.55;
-  text-rendering: optimizeLegibility;
-  overflow-x: hidden;
-  overscroll-behavior: contain;
-}
-a { color: inherit; }
-button, input { font: inherit; }
-button, a, label { -webkit-tap-highlight-color: transparent; touch-action: manipulation; }
-button { cursor: pointer; }
-
-.skip-link {
-  position: fixed;
-  left: 16px;
-  top: 12px;
-  z-index: 80;
-  translate: 0 -160%;
-  border: 1px solid hsl(var(--ring));
-  border-radius: var(--radius);
-  background: hsl(var(--card));
-  color: hsl(var(--primary));
-  padding: 10px 12px;
-  font-weight: 700;
-  box-shadow: var(--shadow-md);
-}
-.skip-link:focus { translate: 0 0; }
-
-.icon {
-  width: 1.05em;
-  height: 1.05em;
-  flex: 0 0 auto;
-}
-
-.sh-card {
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
-  background: hsl(var(--card));
-  color: hsl(var(--card-foreground));
-  box-shadow: var(--shadow-sm);
-}
-.sh-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  min-width: 0;
-  min-height: 40px;
-  border: 1px solid transparent;
-  border-radius: var(--radius);
-  padding: 0 14px;
-  font-size: 0.875rem;
-  font-weight: 700;
-  line-height: 1;
-  text-decoration: none;
-  cursor: pointer;
-  transition: background var(--transition), border-color var(--transition), color var(--transition), box-shadow var(--transition);
-}
-.sh-button:hover { box-shadow: var(--shadow-sm); }
-.sh-button.primary {
-  border-color: hsl(var(--primary));
-  background: hsl(var(--primary));
-  color: hsl(var(--primary-foreground));
-}
-.sh-button.primary:hover { background: hsl(243 75% 54%); }
-.sh-button.outline {
-  border-color: hsl(var(--border));
-  background: hsl(var(--card));
-  color: hsl(var(--foreground));
-}
-.sh-button.outline:hover {
-  background: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-}
-.sh-button.ghost {
-  background: transparent;
-  color: hsl(var(--muted-foreground));
-}
-.sh-button.ghost:hover {
-  background: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-}
-.sh-button[aria-pressed="true"] {
-  border-color: hsl(var(--primary) / 0.28);
-  background: hsl(var(--secondary));
-  color: hsl(var(--primary));
-}
-.sh-badge {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 6px;
-  width: fit-content;
-  min-height: 24px;
-  border: 1px solid transparent;
-  border-radius: 999px;
-  padding: 0 9px;
-  font-size: 0.76rem;
-  font-weight: 750;
-  line-height: 1;
-  white-space: nowrap;
-}
-.sh-badge.secondary {
-  border-color: hsl(var(--secondary));
-  background: hsl(var(--secondary));
-  color: hsl(var(--secondary-foreground));
-}
-.sh-badge.outline {
-  border-color: hsl(var(--border));
-  background: hsl(var(--card));
-  color: hsl(var(--muted-foreground));
-}
-
-.app-shell {
-  min-height: 100vh;
-  display: grid;
-  grid-template-columns: 248px minmax(0, 1fr);
-}
-.app-main {
-  min-width: 0;
-}
-.sh-sidebar {
-  position: sticky;
-  top: 0;
-  height: 100vh;
-  display: grid;
-  grid-template-rows: auto 1fr auto;
-  gap: 24px;
-  border-right: 1px solid hsl(var(--border));
-  background: hsl(var(--card) / 0.86);
-  backdrop-filter: blur(18px);
-  padding: 20px 14px;
-  z-index: 30;
-}
-.brand {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 44px;
-  padding: 0 8px;
-  color: hsl(var(--foreground));
-  text-decoration: none;
-}
-.brand-mark {
-  display: grid;
-  place-items: center;
-  width: 38px;
-  height: 38px;
-  border: 1px solid hsl(var(--primary) / 0.24);
-  border-radius: var(--radius);
-  background: hsl(var(--secondary));
-  color: hsl(var(--primary));
-}
-.brand-copy {
-  min-width: 0;
-  display: grid;
-  gap: 1px;
-}
-.brand-copy strong {
-  font-size: 0.95rem;
-  line-height: 1;
-}
-.brand-copy span {
-  color: hsl(var(--muted-foreground));
-  font-size: 0.76rem;
-  font-weight: 650;
-}
-.sidebar-nav {
-  display: grid;
-  align-content: start;
-  gap: 6px;
-}
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  min-height: 40px;
-  border-radius: var(--radius);
-  color: hsl(var(--muted-foreground));
-  padding: 0 10px;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-decoration: none;
-  transition: background var(--transition), color var(--transition);
-}
-.nav-item:hover,
-.nav-item[aria-current="page"] {
-  background: hsl(var(--secondary));
-  color: hsl(var(--primary));
-}
-.sidebar-meta {
-  display: grid;
-  gap: 4px;
-  border-top: 1px solid hsl(var(--border));
-  color: hsl(var(--muted-foreground));
-  padding: 14px 10px 0;
-  font-size: 0.76rem;
-  font-weight: 650;
-}
-
-.page-shell {
-  width: min(1180px, calc(100% - 40px));
-  margin: 0 auto;
-  padding: 28px 0 72px;
-}
-.home-page, .mistakes-page {
-  display: grid;
-  gap: 16px;
-}
-
-.home-hero, .lesson-hero, .page-hero {
-  padding: 28px;
-  position: relative;
-  overflow: hidden;
-}
-.home-hero::before, .lesson-hero::before, .page-hero::before {
-  content: "";
-  position: absolute;
-  inset: 0 0 auto;
-  height: 4px;
-  background: linear-gradient(90deg, hsl(var(--primary)), hsl(var(--accent)), hsl(var(--warning)));
-}
-.home-hero {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 24px;
-  align-items: end;
-  min-height: 320px;
-}
-.hero-copy {
-  min-width: 0;
-}
-.eyebrow {
-  margin: 0 0 12px;
-  color: hsl(var(--primary));
-  font-size: 0.78rem;
-  font-weight: 800;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-}
-h1 {
-  margin: 0;
-  color: hsl(var(--foreground));
-  font-size: 3.7rem;
-  line-height: 1;
-  letter-spacing: 0;
-  overflow-wrap: anywhere;
-  word-break: break-word;
-}
-.badge-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 18px;
-}
-.hero-actions {
-  display: grid;
-  gap: 10px;
-  min-width: 180px;
-}
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
-}
-.stat-card {
-  display: grid;
-  gap: 8px;
-  min-height: 112px;
-  padding: 18px;
-}
-.stat-card span {
-  color: hsl(var(--primary));
-  font-size: 2.6rem;
-  font-weight: 850;
-  line-height: 1;
-}
-.stat-card small {
-  color: hsl(var(--muted-foreground));
-  font-size: 0.84rem;
-  font-weight: 750;
-}
-.lessons-card, .markdown-card {
-  padding: 18px;
-}
-.card-header {
-  display: flex;
-  align-items: end;
-  justify-content: space-between;
-  gap: 12px;
-  border-bottom: 1px solid hsl(var(--border));
-  margin-bottom: 12px;
-  padding-bottom: 12px;
-}
-.card-header.compact {
-  align-items: center;
-}
-.card-header h2 {
-  margin: 0;
-  font-size: 1rem;
-}
-.card-header p {
-  margin: 0;
-  color: hsl(var(--muted-foreground));
-}
-.lesson-list {
-  display: grid;
-  gap: 8px;
-}
-.lesson-row {
-  display: grid;
-  grid-template-columns: 132px minmax(0, 1fr) 40px;
-  gap: 12px;
-  align-items: center;
-  min-height: 72px;
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
-  background: hsl(var(--card));
-  padding: 10px 12px;
-  text-decoration: none;
-  transition: border-color var(--transition), box-shadow var(--transition), translate var(--transition);
-}
-.lesson-row:hover {
-  border-color: hsl(var(--primary) / 0.32);
-  box-shadow: var(--shadow-md);
-  translate: 0 -1px;
-}
-.lesson-date {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 24px;
-  width: fit-content;
-  border: 1px solid hsl(var(--border));
-  border-radius: 999px;
-  color: hsl(var(--muted-foreground));
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 0.78rem;
-  font-weight: 750;
-  padding: 0 9px;
-}
-.lesson-row-main {
-  min-width: 0;
-  display: grid;
-  gap: 2px;
-}
-.lesson-row-main strong {
-  color: hsl(var(--foreground));
-  line-height: 1.25;
-  overflow-wrap: anywhere;
-}
-.lesson-row-main span {
-  color: hsl(var(--muted-foreground));
-  font-size: 0.9rem;
-}
-.row-icon {
-  display: grid;
-  place-items: center;
-  color: hsl(var(--muted-foreground));
-}
-.empty {
-  color: hsl(var(--muted-foreground));
-}
-
-.lesson-page {
-  display: grid;
-  gap: 16px;
-}
-.lesson-hero {
-  display: grid;
-  gap: 20px;
-}
-.lesson-hero-top {
-  display: flex;
-}
-.back-link {
-  width: fit-content;
-}
-.lesson-hero-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) minmax(220px, 360px);
-  gap: 24px;
-  align-items: end;
-}
-.lesson-hero h1 {
-  font-size: 3.2rem;
-}
-.hero-badges {
-  justify-content: flex-end;
-  margin-top: 0;
-}
-.command-bar {
-  position: sticky;
-  top: 12px;
-  z-index: 20;
-  display: flex;
-  gap: 8px;
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
-  background: hsl(var(--card) / 0.92);
-  box-shadow: var(--shadow-sm);
-  backdrop-filter: blur(16px);
-  padding: 8px;
-}
-.tool-button {
-  min-width: 92px;
-}
-.done-toggle {
-  cursor: pointer;
-}
-.done-toggle input {
-  position: absolute;
-  inline-size: 1px;
-  block-size: 1px;
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  overflow: hidden;
-}
-.done-toggle:has(input:checked) {
-  border-color: hsl(var(--accent) / 0.42);
-  background: hsl(142 76% 94%);
-  color: hsl(var(--accent-foreground));
-}
-.lesson-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 360px;
-  gap: 16px;
-  align-items: start;
-}
-.reader-card {
-  padding: 30px;
-}
-.side-stack {
-  position: sticky;
-  top: 80px;
-  display: grid;
-  gap: 12px;
-}
-.vocab-card, .grammar-card, .prosody-card {
-  padding: 16px;
-}
-
-.sentence {
-  display: grid;
-  grid-template-columns: 42px 34px minmax(0, 1fr);
-  gap: 10px;
-  align-items: start;
-  margin: 0;
-  padding: 17px 0;
-  border-bottom: 1px solid hsl(var(--border));
-}
-.sentence:last-child { border-bottom: 0; }
-.sentence-play {
-  display: inline-grid;
-  place-items: center;
-  width: 40px;
-  height: 40px;
-  border: 1px solid hsl(var(--border));
-  border-radius: var(--radius);
-  background: hsl(var(--card));
-  color: hsl(var(--primary));
-  transition: background var(--transition), border-color var(--transition), color var(--transition);
-}
-.sentence-play:hover {
-  border-color: hsl(var(--primary) / 0.32);
-  background: hsl(var(--secondary));
-}
-.num {
-  color: hsl(var(--primary));
-  font-weight: 850;
-  line-height: 40px;
-}
-.sentence-text {
-  min-width: 0;
-  display: grid;
-  gap: 7px;
-}
-.en {
-  color: hsl(var(--foreground));
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: 1.18rem;
-  line-height: 1.82;
-  overflow-wrap: anywhere;
-}
-.zh {
-  color: hsl(var(--muted-foreground));
-  font-size: 0.96rem;
-  line-height: 1.7;
-}
-body.hide-zh .zh { display: none; }
-.follow-cue {
-  display: grid;
-  gap: 5px;
-  border: 1px solid hsl(var(--primary) / 0.16);
-  border-left: 4px solid hsl(var(--primary));
-  border-radius: var(--radius);
-  background: hsl(var(--secondary));
-  padding: 10px 12px;
-  color: hsl(var(--secondary-foreground));
-  font-size: 0.9rem;
-  line-height: 1.55;
-}
-body.hide-follow .follow-cue { display: none; }
-.follow-tag {
-  color: hsl(var(--primary));
-  font-size: 0.72rem;
-  font-weight: 850;
-  line-height: 1;
-  text-transform: uppercase;
-}
-.cue-line {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 7px;
-  align-items: baseline;
-}
-.cue-group {
-  display: inline-flex;
-  flex-wrap: wrap;
-  gap: 3px;
-  align-items: baseline;
-  min-width: 0;
-}
-.cue-word {
-  overflow-wrap: anywhere;
-}
-.cue-word.stress {
-  color: hsl(var(--foreground));
-  font-weight: 850;
-}
-.cue-word.weak {
-  color: hsl(var(--muted-foreground));
-  font-weight: 650;
-}
-.tone {
-  color: hsl(var(--primary));
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-weight: 850;
-  margin-left: 2px;
-}
-.pause {
-  color: var(--target);
-  font-weight: 850;
-  padding: 0 2px;
-}
-.target {
-  border-radius: 5px;
-  background: var(--target-bg);
-  color: var(--target);
-  cursor: pointer;
-  font-weight: 850;
-  padding: 0.04rem 0.18rem;
-}
-body.practice .target {
-  color: transparent;
-  text-shadow: none;
-  border-bottom: 2px solid var(--target);
-  background: transparent;
-}
-body.practice .target.revealed {
-  color: var(--target);
-  border-bottom-color: transparent;
-  background: var(--target-bg);
-}
-
-.word-list {
-  list-style: none;
-  display: grid;
-  gap: 8px;
-  margin: 0;
-  padding: 0;
-}
-.word-list li {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) auto;
-  gap: 6px 8px;
-  align-items: center;
-  border-bottom: 1px solid hsl(var(--border));
-  padding: 0 0 10px;
-}
-.word-list li:last-child {
-  border-bottom: 0;
-  padding-bottom: 0;
-}
-.word-button {
-  min-width: 0;
-  border: 0;
-  background: transparent;
-  color: hsl(var(--foreground));
-  cursor: pointer;
-  overflow-wrap: anywhere;
-  padding: 3px 0;
-  text-align: left;
-  font-weight: 850;
-}
-.word-button:hover { color: var(--target); }
-.pos {
-  text-transform: lowercase;
-}
-.refs {
-  grid-column: 1 / -1;
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  align-items: center;
-}
-.refs-label {
-  color: hsl(var(--muted-foreground));
-  font-size: 0.76rem;
-  font-weight: 750;
-}
-.word-zh {
-  grid-column: 1 / -1;
-  display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
-  gap: 8px;
-  color: hsl(var(--muted-foreground));
-  font-size: 0.86rem;
-  line-height: 1.48;
-}
-.word-zh-label {
-  color: hsl(var(--primary));
-  font-size: 0.74rem;
-  font-weight: 850;
-  white-space: nowrap;
-}
-.word-zh.missing {
-  color: hsl(var(--muted-foreground));
-}
-.ref {
-  display: inline-flex;
-  align-items: center;
-  min-height: 22px;
-  border-radius: 999px;
-  background: hsl(var(--secondary));
-  color: hsl(var(--primary));
-  font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
-  font-size: 0.76rem;
-  font-weight: 750;
-  padding: 0 7px;
-  text-decoration: none;
-}
-.ref:hover { text-decoration: underline; }
-.grammar-title {
-  margin: 0 0 4px;
-  font-weight: 850;
-}
-.grammar-desc {
-  margin: 0 0 10px;
-  color: hsl(var(--muted-foreground));
-}
-.grammar-list {
-  display: grid;
-  gap: 8px;
-  margin: 0;
-  padding-left: 18px;
-}
-.grammar-list code, .markdown-card code {
-  border: 1px solid hsl(var(--border));
-  border-radius: 5px;
-  background: hsl(var(--muted));
-  padding: 0.08rem 0.25rem;
-}
-.grammar-list .note {
-  display: block;
-  color: hsl(var(--muted-foreground));
-  font-size: 0.92rem;
-}
-.prosody-card {
-  background: hsl(142 76% 96%);
-}
-.prosody-legend {
-  display: grid;
-  gap: 7px;
-  color: hsl(var(--muted-foreground));
-  font-size: 0.86rem;
-  line-height: 1.45;
-}
-.prosody-legend strong, .prosody-legend b {
-  color: hsl(var(--foreground));
-  font-weight: 850;
-}
-
-.mistakes-page {
-  max-width: 900px;
-}
-.page-hero.compact {
-  display: grid;
-  gap: 12px;
-}
-.markdown-card {
-  padding: 30px;
-}
-.markdown-card h2, .markdown-card h3, .markdown-card h4 {
-  margin: 1.25rem 0 0.5rem;
-}
-.markdown-card h2:first-child { margin-top: 0; }
-.markdown-card p { margin: 0.7rem 0; }
-.markdown-card blockquote {
-  margin: 0.9rem 0;
-  border-left: 4px solid hsl(var(--primary));
-  color: hsl(var(--muted-foreground));
-  padding-left: 12px;
-}
-.markdown-card a {
-  color: hsl(var(--primary));
-  font-weight: 750;
-}
-
-:where(a, button, label, [tabindex]):focus-visible {
-  outline: 2px solid hsl(var(--ring));
-  outline-offset: 2px;
-}
-
-@media (max-width: 1120px) {
-  .app-shell {
-    grid-template-columns: 220px minmax(0, 1fr);
-  }
-  .lesson-grid {
-    grid-template-columns: 1fr;
-  }
-  .side-stack {
-    position: static;
-  }
-  .vocab-card .word-list {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-  .vocab-card .word-list li {
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
-    padding: 10px;
-  }
-}
-
-@media (max-width: 820px) {
-  .app-shell {
-    display: block;
-  }
-  .app-main {
-    padding-bottom: 88px;
-  }
-  .sh-sidebar {
-    position: fixed;
-    inset: auto 10px 10px;
-    height: 64px;
-    display: grid;
-    grid-template-columns: auto 1fr;
-    align-items: center;
-    gap: 8px;
-    border: 1px solid hsl(var(--border));
-    border-radius: var(--radius);
-    box-shadow: var(--shadow-lg);
-    padding: 6px;
-  }
-  .brand {
-    width: 52px;
-    padding: 0;
-    justify-content: center;
-  }
-  .brand-mark {
-    width: 38px;
-    height: 38px;
-  }
-  .brand-copy, .sidebar-meta {
-    display: none;
-  }
-  .sidebar-nav {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 6px;
-  }
-  .nav-item {
-    justify-content: center;
-    min-height: 48px;
-    font-size: 0.84rem;
-  }
-  .page-shell {
-    width: min(100% - 20px, 720px);
-    padding: 12px 0 20px;
-  }
-  .home-hero, .lesson-hero, .page-hero {
-    padding: 22px;
-  }
-  .home-hero {
-    grid-template-columns: 1fr;
-    min-height: 0;
-  }
-  .hero-actions {
-    grid-template-columns: 1fr;
-  }
-  .stats-grid {
-    grid-template-columns: 1fr;
-  }
-  .lesson-row {
-    grid-template-columns: minmax(0, 1fr) 40px;
-  }
-  .lesson-date {
-    grid-column: 1 / -1;
-  }
-  .row-icon {
-    grid-column: 2;
-    grid-row: 2;
-  }
-  .lesson-hero-grid {
-    grid-template-columns: 1fr;
-  }
-  .hero-badges {
-    justify-content: flex-start;
-  }
-  .command-bar {
-    top: 0;
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    overflow: visible;
-  }
-  .tool-button, .done-toggle {
-    min-width: 0;
-    min-height: 56px;
-    flex-direction: column;
-    gap: 5px;
-    padding: 6px 4px;
-    font-size: 0.78rem;
-  }
-  .reader-card {
-    padding: 18px;
-  }
-  .sentence {
-    grid-template-columns: 42px minmax(0, 1fr);
-  }
-  .sentence-play {
-    grid-row: span 2;
-  }
-  .num {
-    grid-column: 2;
-    line-height: 1.2;
-  }
-  .sentence-text {
-    grid-column: 2;
-  }
-  .en {
-    font-size: 1.08rem;
-  }
-  .vocab-card .word-list {
-    grid-template-columns: 1fr;
-  }
-  h1 {
-    font-size: 2.4rem;
-    line-height: 1;
-  }
-  .lesson-hero h1 {
-    font-size: 2.24rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .home-hero, .lesson-hero, .page-hero {
-    padding: 18px;
-  }
-  h1 {
-    font-size: 2rem;
-  }
-  .lesson-hero h1 {
-    font-size: 1.95rem;
-  }
-  .word-zh {
-    grid-template-columns: 1fr;
-    gap: 2px;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    scroll-behavior: auto !important;
-    transition-duration: 0.01ms !important;
-  }
-}
-
-@media print {
-  .sh-sidebar, .command-bar, .sentence-play, .back-link {
-    display: none !important;
-  }
-  body { background: white; }
-  .app-shell, .lesson-grid {
-    display: block;
-  }
-  .page-shell {
-    width: auto;
-    padding: 0;
-  }
-  .sh-card {
-    border: 0;
-    box-shadow: none;
-  }
-}
-`
-
-const SITE_JS = `(() => {
-  const storage = {
-    get(key) {
-      try { return window.localStorage.getItem(key) } catch { return null }
-    },
-    set(key, value) {
-      try { window.localStorage.setItem(key, value) } catch {}
-    },
-  }
-
-  const audioCache = new Map()
-  let currentAudio = null
-  let stopCurrent = null
-  let playbackToken = 0
-
-  function cancelPlayback() {
-    playbackToken += 1
-    if (currentAudio) {
-      currentAudio.pause()
-      try { currentAudio.currentTime = 0 } catch {}
-    }
-    if (stopCurrent) stopCurrent()
-    stopCurrent = null
-    currentAudio = null
-    if ('speechSynthesis' in window) window.speechSynthesis.cancel()
-  }
-
-  function getAudio(src) {
-    if (audioCache.has(src)) return audioCache.get(src)
-    const audio = new Audio(src)
-    audio.preload = 'auto'
-    audioCache.set(src, audio)
-    return audio
-  }
-
-  function browserSpeak(text, token) {
-    return new Promise((resolve) => {
-      if (!text || token !== playbackToken || !('speechSynthesis' in window) || !('SpeechSynthesisUtterance' in window)) {
-        resolve()
-        return
-      }
-      window.speechSynthesis.cancel()
-      const utterance = new SpeechSynthesisUtterance(text)
-      utterance.lang = 'en-US'
-      utterance.rate = 0.9
-      utterance.onend = () => resolve()
-      utterance.onerror = () => resolve()
-      window.speechSynthesis.speak(utterance)
-    })
-  }
-
-  function playOne(text, src, token) {
-    if (!text || token !== playbackToken) return Promise.resolve()
-    if (!src) return browserSpeak(text, token)
-
-    return new Promise((resolve) => {
-      const audio = getAudio(src)
-      let settled = false
-
-      function clear() {
-        audio.onended = null
-        audio.onerror = null
-        if (currentAudio === audio) currentAudio = null
-        if (stopCurrent === finish) stopCurrent = null
-      }
-
-      function finish() {
-        if (settled) return
-        settled = true
-        clear()
-        resolve()
-      }
-
-      function fallback() {
-        if (settled) return
-        clear()
-        browserSpeak(text, token).then(finish)
-      }
-
-      currentAudio = audio
-      stopCurrent = finish
-      audio.onended = finish
-      audio.onerror = fallback
-      try { audio.currentTime = 0 } catch {}
-      audio.play().catch(fallback)
-    })
-  }
-
-  function speak(text, src) {
-    if (!text) return
-    cancelPlayback()
-    const token = playbackToken
-    void playOne(text, src, token)
-  }
-
-  function playSequence(items) {
-    cancelPlayback()
-    const token = playbackToken
-    void (async () => {
-      for (const item of items) {
-        if (token !== playbackToken) return
-        await playOne(item.text, item.audio, token)
-      }
-    })()
-  }
-
-  function setPressed(action, pressed) {
-    document.querySelectorAll('[data-action="' + action + '"]').forEach((button) => {
-      button.setAttribute('aria-pressed', String(pressed))
-    })
-  }
-
-  function syncControls() {
-    setPressed('toggle-zh', !document.body.classList.contains('hide-zh'))
-    setPressed('toggle-follow', !document.body.classList.contains('hide-follow'))
-    setPressed('toggle-practice', document.body.classList.contains('practice'))
-  }
-
-  const date = document.body.dataset.date
-  const doneInput = document.querySelector('[data-action="mark-done"]')
-
-  if (storage.get('ieltsy:show-zh') === '0') document.body.classList.add('hide-zh')
-  if (storage.get('ieltsy:show-follow') === '0') document.body.classList.add('hide-follow')
-  if (storage.get('ieltsy:practice') === '1') document.body.classList.add('practice')
-  if (date && doneInput instanceof HTMLInputElement) {
-    doneInput.checked = storage.get('ieltsy:done:' + date) === '1'
-  }
-  syncControls()
-
-  document.addEventListener('click', (event) => {
-    const target = event.target
-    if (!(target instanceof Element)) return
-
-    const speakable = target.closest('[data-speak]')
-    if (speakable) {
-      if (document.body.classList.contains('practice') && speakable.classList.contains('target')) {
-        speakable.classList.add('revealed')
-      }
-      speak(speakable.getAttribute('data-speak') || speakable.textContent || '', speakable.getAttribute('data-audio'))
-      event.stopPropagation()
-      return
-    }
-
-    const action = target.closest('[data-action]')
-    const actionName = action?.getAttribute('data-action')
-
-    if (actionName === 'play-all') {
-      const items = Array.from(document.querySelectorAll('.sentence')).map((node) => ({
-        text: node.getAttribute('data-text') || '',
-        audio: node.getAttribute('data-audio'),
-      })).filter((item) => item.text)
-      playSequence(items)
-      return
-    }
-
-    if (actionName === 'play-sentence') {
-      const sentence = action?.closest('.sentence')
-      speak(sentence?.getAttribute('data-text') || '', sentence?.getAttribute('data-audio'))
-      return
-    }
-
-    if (actionName === 'toggle-zh') {
-      document.body.classList.toggle('hide-zh')
-      storage.set('ieltsy:show-zh', document.body.classList.contains('hide-zh') ? '0' : '1')
-      syncControls()
-      return
-    }
-
-    if (actionName === 'toggle-follow') {
-      document.body.classList.toggle('hide-follow')
-      storage.set('ieltsy:show-follow', document.body.classList.contains('hide-follow') ? '0' : '1')
-      syncControls()
-      return
-    }
-
-    if (actionName === 'toggle-practice') {
-      document.body.classList.toggle('practice')
-      document.querySelectorAll('.target.revealed').forEach((node) => node.classList.remove('revealed'))
-      storage.set('ieltsy:practice', document.body.classList.contains('practice') ? '1' : '0')
-      syncControls()
-      return
-    }
-
-    const sentence = target.closest('.sentence')
-    if (sentence && !target.closest('a, button, input')) {
-      speak(sentence.getAttribute('data-text') || '', sentence.getAttribute('data-audio'))
-    }
-  })
-
-  document.addEventListener('change', (event) => {
-    const target = event.target
-    if (!(target instanceof HTMLInputElement)) return
-    if (target.getAttribute('data-action') === 'mark-done' && date) {
-      storage.set('ieltsy:done:' + date, target.checked ? '1' : '0')
-    }
-  })
-
-  document.addEventListener('keydown', (event) => {
-    const target = event.target
-    if (!(target instanceof Element)) return
-    if (!target.classList.contains('target')) return
-    if (event.key !== 'Enter' && event.key !== ' ') return
-    event.preventDefault()
-    target.dispatchEvent(new MouseEvent('click', { bubbles: true }))
-  })
-})()
-`
+const SITE_CSS = readFileSync(DESIGN_PATTERN_CSS_PATH, 'utf-8')
+const SITE_JS = readFileSync(DESIGN_RUNTIME_JS_PATH, 'utf-8')
 
 function main(): void {
   const articles = discoverArticles()
@@ -2124,9 +1080,9 @@ function main(): void {
   writePage(join(OUT_DIR, 'assets/site.css'), SITE_CSS)
   writePage(join(OUT_DIR, 'assets/site.js'), SITE_JS)
   writePage(join(OUT_DIR, 'favicon.svg'), `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#4f46e5"/>
-  <path d="M20 16h18a6 6 0 0 1 6 6v26H24a6 6 0 0 0-6 6V22a6 6 0 0 1 6-6Z" fill="none" stroke="#fff" stroke-width="4" stroke-linejoin="round"/>
-  <path d="M24 26h14M24 34h12" stroke="#c7d2fe" stroke-width="4" stroke-linecap="round"/>
+  <rect width="64" height="64" rx="32" fill="#c74632"/>
+  <path d="M18 17h21a7 7 0 0 1 7 7v25H24a7 7 0 0 0-7 7V24a7 7 0 0 1 7-7Z" fill="none" stroke="#fffdf8" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M24 28h15M24 37h12" stroke="#fffdf8" stroke-width="3" stroke-linecap="round"/>
 </svg>
 `)
   writePage(join(OUT_DIR, 'manifest.webmanifest'), JSON.stringify({
@@ -2134,15 +1090,15 @@ function main(): void {
     short_name: SITE_TITLE,
     start_url: './',
     display: 'standalone',
-    background_color: '#f6f8fb',
-    theme_color: '#0f766e',
+    background_color: '#e8ece8',
+    theme_color: '#c74632',
   }, null, 2))
 
   writePage(join(OUT_DIR, 'index.html'), renderIndex(articles))
   writePage(join(OUT_DIR, '404.html'), renderNotFound())
 
-  for (const article of articles) {
-    writePage(join(OUT_DIR, 'days', article.date, 'index.html'), renderDay(article))
+  for (const [index, article] of articles.entries()) {
+    writePage(join(OUT_DIR, 'days', article.date, 'index.html'), renderDay(article, articles.length - index))
   }
 
   writePage(join(OUT_DIR, 'mistakes', 'index.html'), renderMistakesIndex())
