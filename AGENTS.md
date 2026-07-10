@@ -41,6 +41,7 @@ After `pnpm ielts today` returns JSON:
 4. Use every new word at least once in a natural context.
 5. Use the grammar point at least once.
 6. Write both daily files under `learning/days/YYYY-MM-DD/`, using JSON fields `article_path` and `session_path`.
+7. Run `pnpm study:sync-glossary` so CI can render every target word definition without the gitignored SQLite database.
 
 ### `article.md` Template
 
@@ -165,6 +166,7 @@ Only enable this when the user asks for it.
 | `design-system/ieltsy/runtime.js` | Canonical static-page interaction runtime. |
 | `scripts/study/check-design-pattern.ts` | Structural design gate run by `pnpm pages:build`. |
 | `scripts/study/audit-static-pages.mjs` | Chrome-based multi-viewport and interaction audit. |
+| `scripts/study/sync-static-glossary.ts` | Sync published target-word definitions from local SQLite into the tracked static glossary. |
 | `learning/days/YYYY-MM-DD/` | Daily article and session output. |
 | `learning/mistakes/` | Mistake markdown generated from database views; do not edit manually. |
 | `learning/audio-cache/` | TTS MP3 cache, gitignored. |
@@ -175,6 +177,7 @@ Only enable this when the user asks for it.
 - SQLite access uses `better-sqlite3` synchronous APIs.
 - Dates are ISO `YYYY-MM-DD`.
 - Static pages must consume `design-system/ieltsy/pattern.css` and `runtime.js` directly; do not duplicate them in the exporter or add inline page styles.
+- After adding or changing a published article, run `pnpm study:sync-glossary` and commit `learning/glossary.zh.json`; CI does not have `db/ieltsy.db`.
 - Run `IELTSY_SKIP_AUDIO=1 pnpm pages:build` after static-page changes. Run `pnpm design:audit` for layout, responsive, or interaction changes; it requires local Chrome/Chromium.
 - For content changes, edit markdown sources and rerun the relevant `pnpm db:import:*` command.
 - For schema changes, either add backward-compatible `ALTER TABLE` migrations or tell the user to run `pnpm db:reset`.

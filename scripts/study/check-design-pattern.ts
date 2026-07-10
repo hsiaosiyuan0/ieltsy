@@ -163,6 +163,9 @@ if (existsSync(notFoundPath)) {
 if (failures.length > 0) {
   console.error(`Design pattern check failed (${failures.length})`)
   for (const failure of failures) console.error(`  - ${failure}`)
+  if (failures.some((failure) => failure.includes('Chinese definition'))) {
+    console.error('  Hint: run pnpm study:sync-glossary and commit learning/glossary.zh.json')
+  }
   process.exitCode = 1
 } else {
   console.log(`✓ Design pattern: ${htmlFiles.length} pages follow the IELTSY pattern`)
