@@ -1,4 +1,6 @@
 node_modules/
+__pycache__/
+*.py[cod]
 data/ecdict.csv
 db/*.db
 db/*.db-shm
