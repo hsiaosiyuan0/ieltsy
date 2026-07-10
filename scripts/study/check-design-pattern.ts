@@ -65,6 +65,7 @@ if (existsSync(patternPath) && existsSync(builtCssPath)) {
     '--scrollbar-size:',
     '--measure-reading:',
     '.masthead',
+    '.nav-tab__icon',
     '.home-lead',
     '.archive-ledger',
     '.lesson-intro',
@@ -78,6 +79,7 @@ if (existsSync(patternPath) && existsSync(builtCssPath)) {
     '@media (max-width: 74rem)',
     '@media (max-width: 60rem)',
     '@media (max-width: 45rem)',
+    '--mobile-dock-height:',
     '@media (prefers-reduced-motion: reduce)',
     '@media print',
   ], 'pattern.css')

@@ -59,6 +59,7 @@
     --site-max: 96rem;
     --content-pad: 4rem;
     --header-height: 5.25rem;
+    --mobile-dock-height: 3.75rem;
     --shadow-paper: 0 1px 0 rgb(23 26 29 / 8%), 0 24px 70px rgb(23 26 29 / 8%);
     --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
   }
@@ -475,6 +476,10 @@
     font-size: 0.6875rem;
   }
 
+  .nav-tab__icon {
+    display: none;
+  }
+
   .masthead__status {
     display: flex;
     align-items: center;
@@ -889,8 +894,8 @@
     padding: var(--space-3) var(--content-pad);
     border-top: 1px solid var(--color-line-strong);
     border-bottom: 1px solid var(--color-line-strong);
-    background: rgb(255 253 248 / 96%);
-    backdrop-filter: blur(10px);
+    background: var(--color-paper);
+    backdrop-filter: none;
   }
 
   .study-toolbar__group {
@@ -1785,6 +1790,7 @@
     .masthead {
       grid-template-columns: 1fr;
       padding: 0;
+      border-bottom: 0;
     }
 
     .brand {
@@ -1793,21 +1799,54 @@
     }
 
     .masthead__nav {
-      border-right: 0;
-      border-bottom: 1px solid var(--color-line-strong);
-      border-left: 0;
+      position: fixed;
+      z-index: 50;
+      right: var(--space-4);
+      bottom: calc(var(--space-3) + env(safe-area-inset-bottom));
+      left: var(--space-4);
+      height: var(--mobile-dock-height);
+      align-items: center;
+      gap: var(--space-1);
+      padding: var(--space-1);
+      border: 1px solid var(--color-line-strong);
+      border-radius: var(--radius-surface);
+      background: var(--color-paper);
+      box-shadow: 0 12px 36px rgb(23 26 29 / 18%);
+      backdrop-filter: none;
     }
 
     .nav-tab {
       min-width: 0;
-      min-height: 3.5rem;
+      min-height: calc(var(--mobile-dock-height) - var(--space-2));
       flex: 1;
       padding: 0 var(--space-3);
+      border-radius: var(--radius-control);
     }
 
     .nav-tab::after {
-      right: var(--space-4);
-      left: var(--space-4);
+      display: none;
+    }
+
+    .nav-tab__index {
+      display: none;
+    }
+
+    .nav-tab__icon {
+      display: inline-flex;
+    }
+
+    .nav-tab__icon .icon {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .nav-tab[aria-current="page"] {
+      background: var(--color-ink);
+      color: var(--color-paper);
+    }
+
+    .nav-tab[aria-current="page"] .nav-tab__icon {
+      color: var(--color-paper);
     }
 
     .page--home,
@@ -2041,6 +2080,7 @@
       align-items: flex-start;
       flex-direction: column;
       margin-top: var(--space-12);
+      margin-bottom: calc(var(--mobile-dock-height) + var(--space-6) + env(safe-area-inset-bottom));
     }
   }
 }

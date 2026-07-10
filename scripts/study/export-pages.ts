@@ -638,8 +638,8 @@ function renderShell(opts: {
         <span class="brand__copy"><strong>IELTSY</strong><small>READING SYSTEM · BAND 7</small></span>
       </a>
       <nav class="masthead__nav" aria-label="主导航">
-        <a class="nav-tab" href="${homeHref}"${navHome}><span class="nav-tab__index">01</span><span>学习日</span></a>
-        <a class="nav-tab" href="${opts.prefix}mistakes/"${navMistakes}><span class="nav-tab__index">02</span><span>错题本</span></a>
+        <a class="nav-tab" href="${homeHref}"${navHome}><span class="nav-tab__index">01</span><span class="nav-tab__icon">${icon('home')}</span><span>学习日</span></a>
+        <a class="nav-tab" href="${opts.prefix}mistakes/"${navMistakes}><span class="nav-tab__index">02</span><span class="nav-tab__icon">${icon('archive')}</span><span>错题本</span></a>
       </nav>
       <div class="masthead__status"><span class="status-dot" aria-hidden="true"></span><span>Local archive</span></div>
     </header>
