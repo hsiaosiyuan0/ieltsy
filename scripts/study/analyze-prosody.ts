@@ -3,6 +3,13 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
+import {
+  AUDIO_RATE,
+  AUDIO_VOICE,
+  PROSODY_SCHEMA_VERSION,
+  PROSODY_SOURCE,
+  sentenceAudioCacheKey,
+} from './speech-config'
 
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
 const CIRCLED_NUM_TO_INT: Record<string, number> = Object.fromEntries(
@@ -11,12 +18,11 @@ const CIRCLED_NUM_TO_INT: Record<string, number> = Object.fromEntries(
 
 const AUDIO_CACHE_DIR = resolve('learning/audio-cache')
 const OUT_PATH = resolve('learning/prosody.json')
+const BOUNDARY_AUDIO_HELPER = resolve('scripts/study/generate-boundary-audio.py')
 const SAMPLE_RATE = 16_000
 const FRAME_SIZE = 640
 const HOP_SIZE = 160
-const MIN_GROUP_SECONDS = 0.32
-const AUDIO_VOICE = process.env.IELTSY_AUDIO_VOICE || 'en-US-EmmaMultilingualNeural'
-const AUDIO_RATE = process.env.IELTSY_AUDIO_RATE || '+0%'
+const MIN_AUDIBLE_PAUSE = 0.055
 
 const WEAK_WORDS = new Set([
   'a', 'an', 'the', 'and', 'or', 'but', 'if', 'that', 'which', 'who', 'whom', 'whose', 'when', 'where',
@@ -27,11 +33,6 @@ const WEAK_WORDS = new Set([
   'they', 'them', 'their', 'he', 'him', 'his', 'she', 'her', 'we', 'us', 'our', 'you', 'your', 'i', 'my',
   'not', 'so', 'very', 'also', 'still', 'just',
 ])
-const CLAUSE_STARTERS = new Set([
-  'although', 'because', 'but', 'however', 'if', 'unless', 'when', 'where', 'which', 'while', 'who', 'that',
-  'whether',
-])
-const SOFT_BREAKERS = new Set(['and', 'but', 'because', 'while', 'when', 'unless', 'which', 'that', 'to', 'for', 'of'])
 const CONTRAST_STARTERS = new Set(['but', 'however', 'yet'])
 
 interface Sentence {
@@ -42,19 +43,35 @@ interface Sentence {
 
 interface TextGroup {
   tokens: string[]
+  starts: number[]
+  ends: number[]
+  stress: boolean[]
   boundary: 'soft' | 'comma' | 'major' | 'end'
 }
 
-interface RmsFrame {
-  start: number
-  end: number
-  rms: number
+interface TextWord {
+  text: string
+  boundary: TextGroup['boundary'] | 'none'
 }
 
-interface Silence {
+interface WordTiming {
+  text: string
   start: number
   end: number
-  mid: number
+}
+
+interface AlignedWord extends TextWord, WordTiming {}
+
+interface BoundaryFile {
+  version: number
+  voice: string
+  rate: string
+  text: string
+  words: WordTiming[]
+}
+
+interface RmsFrame {
+  rms: number
 }
 
 interface PitchPoint {
@@ -65,6 +82,9 @@ interface PitchPoint {
 
 interface AnalyzedGroup {
   tokens: string[]
+  starts: number[]
+  ends: number[]
+  stress: boolean[]
   tone: string
   start: number
   end: number
@@ -73,10 +93,28 @@ interface AnalyzedGroup {
   confidence: number
 }
 
+interface ProsodyEntry {
+  text: string
+  date: string
+  num: number
+  source: string
+  audioHash: string
+  groups: AnalyzedGroup[]
+}
+
+interface ProsodyFile {
+  version: number
+  source: string
+  voice: string
+  rate: string
+  sentences: Record<string, ProsodyEntry>
+}
+
 const { values } = parseArgs({
   options: {
     date: { type: 'string' },
     out: { type: 'string', default: OUT_PATH },
+    force: { type: 'boolean', default: false },
   },
 })
 
@@ -105,10 +143,6 @@ function isStressWord(token: string): boolean {
   if (!word) return false
   if (word === 'ai') return true
   return !WEAK_WORDS.has(word) && word.length > 2
-}
-
-function sentenceKey(text: string): string {
-  return createHash('md5').update(`${AUDIO_VOICE}|${AUDIO_RATE}|${text}`).digest('hex').slice(0, 12)
 }
 
 function parseSentences(date: string, md: string): Sentence[] {
@@ -143,7 +177,6 @@ function discoverSentences(): Sentence[] {
 
   for (const entry of readdirSync(daysDir, { withFileTypes: true })) {
     if (!entry.isDirectory() || !/^\d{4}-\d{2}-\d{2}$/.test(entry.name)) continue
-    if (values.date && entry.name !== values.date) continue
     const articlePath = join(daysDir, entry.name, 'article.md')
     if (!existsSync(articlePath)) continue
     sentences.push(...parseSentences(entry.name, readFileSync(articlePath, 'utf-8')))
@@ -153,23 +186,66 @@ function discoverSentences(): Sentence[] {
 }
 
 function audioPath(text: string): string {
-  return join(AUDIO_CACHE_DIR, `${sentenceKey(text)}.mp3`)
+  return join(AUDIO_CACHE_DIR, `${sentenceAudioCacheKey(text)}.mp3`)
 }
 
-function ensureAudio(text: string): string {
+function boundaryPath(text: string): string {
+  return join(AUDIO_CACHE_DIR, `${sentenceAudioCacheKey(text)}.words.json`)
+}
+
+function readBoundaryFile(path: string, text: string): BoundaryFile | undefined {
+  if (!existsSync(path)) return undefined
+  try {
+    const parsed = JSON.parse(readFileSync(path, 'utf-8')) as BoundaryFile
+    if (
+      parsed.version !== 1
+      || parsed.voice !== AUDIO_VOICE
+      || parsed.rate !== AUDIO_RATE
+      || parsed.text !== text
+      || !Array.isArray(parsed.words)
+      || parsed.words.length === 0
+    ) return undefined
+    return parsed
+  } catch {
+    return undefined
+  }
+}
+
+function ensureBoundaryAudio(text: string): { path: string; words: WordTiming[] } {
   mkdirSync(AUDIO_CACHE_DIR, { recursive: true })
   const path = audioPath(text)
-  if (existsSync(path)) return path
+  const timingsPath = boundaryPath(text)
+  const cached = existsSync(path) ? readBoundaryFile(timingsPath, text) : undefined
+  if (cached) return { path, words: cached.words }
+
+  if (!existsSync(BOUNDARY_AUDIO_HELPER)) {
+    throw new Error(`Word-boundary audio helper is missing: ${BOUNDARY_AUDIO_HELPER}`)
+  }
 
   const result = spawnSync(
-    'edge-tts',
-    ['--voice', AUDIO_VOICE, '--rate', AUDIO_RATE, '--text', text, '--write-media', path],
-    { encoding: 'utf-8' }
+    'python3',
+    [
+      BOUNDARY_AUDIO_HELPER,
+      '--voice', AUDIO_VOICE,
+      '--rate', AUDIO_RATE,
+      '--write-media', path,
+      '--write-boundaries', timingsPath,
+    ],
+    { encoding: 'utf-8', input: text }
   )
   if (result.status !== 0) {
-    throw new Error(`edge-tts failed for "${text.slice(0, 80)}": ${result.stderr || result.stdout || 'unknown error'}`)
+    throw new Error(`Word-boundary TTS failed for "${text.slice(0, 80)}": ${result.stderr || result.stdout || 'unknown error'}`)
   }
-  return path
+
+  const generated = readBoundaryFile(timingsPath, text)
+  if (!existsSync(path) || !generated) {
+    throw new Error(`Word-boundary TTS returned incomplete output for "${text.slice(0, 80)}"`)
+  }
+  return { path, words: generated.words }
+}
+
+function fileHash(path: string): string {
+  return createHash('sha256').update(readFileSync(path)).digest('hex')
 }
 
 function decodeMp3(path: string): Float32Array {
@@ -211,8 +287,6 @@ function rmsFrames(samples: Float32Array, frameSize = 320, hopSize = 160): RmsFr
       sum += value * value
     }
     frames.push({
-      start: start / SAMPLE_RATE,
-      end: (start + frameSize) / SAMPLE_RATE,
       rms: Math.sqrt(sum / frameSize),
     })
   }
@@ -225,102 +299,90 @@ function silenceThreshold(frames: RmsFrame[]): number {
   return Math.max(0.0025, max * 0.035, percentile(values, 0.18) * 1.8)
 }
 
-function speechBounds(frames: RmsFrame[], threshold: number, duration: number): { start: number; end: number } {
-  const first = frames.find((frame) => frame.rms > threshold * 1.25)
-  const last = [...frames].reverse().find((frame) => frame.rms > threshold * 1.25)
-  return {
-    start: Math.max(0, first?.start ?? 0),
-    end: Math.min(duration, last?.end ?? duration),
-  }
+function compactWord(raw: string): string {
+  return raw.toLowerCase().replace(/[^a-z0-9]/g, '')
 }
 
-function detectSilences(frames: RmsFrame[], threshold: number, speechStart: number, speechEnd: number): Silence[] {
-  const silences: Silence[] = []
-  let runStart: number | null = null
-  let runEnd = 0
-
-  function flush(): void {
-    if (runStart === null) return
-    if (runEnd - runStart >= 0.075 && runEnd > speechStart + 0.06 && runStart < speechEnd - 0.06) {
-      silences.push({ start: runStart, end: runEnd, mid: (runStart + runEnd) / 2 })
-    }
-    runStart = null
-  }
-
-  for (const frame of frames) {
-    if (frame.rms <= threshold) {
-      if (runStart === null) runStart = frame.start
-      runEnd = frame.end
-    } else {
-      flush()
-    }
-  }
-  flush()
-  return silences
-}
-
-function prosodyGroups(text: string): TextGroup[] {
-  const rawGroups: TextGroup[] = []
-  let current: string[] = []
-
-  function pushGroup(boundary: TextGroup['boundary']): void {
-    if (current.length > 0) {
-      rawGroups.push({ tokens: current, boundary })
-      current = []
-    }
-  }
-
+function textWords(text: string): TextWord[] {
+  const words: TextWord[] = []
   for (const token of splitSpeechWords(text)) {
-    if (isEndToken(token)) {
-      pushGroup('end')
+    if (isPauseToken(token) || isEndToken(token)) {
+      const previous = words[words.length - 1]
+      if (previous) previous.boundary = isEndToken(token) ? 'end' : token === ',' ? 'comma' : 'major'
       continue
     }
-    if (isPauseToken(token)) {
-      pushGroup(token === ',' ? 'comma' : 'major')
-      continue
-    }
-
-    const word = normalizeSpeechWord(token)
-    if (current.length >= 3 && CLAUSE_STARTERS.has(word)) pushGroup('soft')
-    current.push(token)
+    words.push({ text: token, boundary: 'none' })
   }
-
-  pushGroup('end')
-  return rawGroups.flatMap(splitLongProsodyGroup)
+  const last = words[words.length - 1]
+  if (last && last.boundary === 'none') last.boundary = 'end'
+  return words
 }
 
-function splitLongProsodyGroup(group: TextGroup): TextGroup[] {
-  if (group.tokens.length <= 9) return [group]
-  const chunks: TextGroup[] = []
-  let remaining = group.tokens
+function alignWordTimings(text: string, timings: WordTiming[]): AlignedWord[] {
+  const words = textWords(text)
+  const aligned: AlignedWord[] = []
+  let timingIndex = 0
 
-  while (remaining.length > 9) {
-    const limit = Math.min(9, remaining.length - 3)
-    let cut = 0
+  for (const word of words) {
+    const expected = compactWord(word.text)
+    let actual = ''
+    let start = 0
+    let end = 0
 
-    for (let i = limit; i >= 4; i -= 1) {
-      const prev = normalizeSpeechWord(remaining[i - 1]!)
-      const next = normalizeSpeechWord(remaining[i]!)
-      if (SOFT_BREAKERS.has(next) && prev !== 'a' && prev !== 'an' && prev !== 'the') {
-        cut = i
-        break
-      }
-    }
-    if (cut === 0) {
-      for (let i = limit; i >= 5; i -= 1) {
-        if (isStressWord(remaining[i - 1]!)) {
-          cut = i
-          break
-        }
-      }
+    while (timingIndex < timings.length && actual.length < expected.length) {
+      const timing = timings[timingIndex]!
+      const piece = compactWord(timing.text)
+      const combined = actual + piece
+      if (!piece || !expected.startsWith(combined)) break
+      if (!actual) start = timing.start
+      actual = combined
+      end = timing.end
+      timingIndex += 1
     }
 
-    chunks.push({ tokens: remaining.slice(0, cut || limit), boundary: 'soft' })
-    remaining = remaining.slice(cut || limit)
+    if (!expected || actual !== expected) {
+      const received = timings.slice(Math.max(0, timingIndex - 1), timingIndex + 2).map((item) => item.text).join(' ')
+      throw new Error(`Cannot align Edge TTS word boundaries near "${word.text}" (received: "${received}")`)
+    }
+    aligned.push({ ...word, start, end })
   }
 
-  chunks.push({ tokens: remaining, boundary: group.boundary })
-  return chunks
+  const remaining = timings.slice(timingIndex).filter((timing) => compactWord(timing.text))
+  if (remaining.length > 0) {
+    throw new Error(`Edge TTS returned unmatched words: ${remaining.map((word) => word.text).join(' ')}`)
+  }
+  return aligned
+}
+
+function prosodyGroups(words: AlignedWord[]): TextGroup[] {
+  if (words.length === 0) return []
+  const gaps = words.slice(0, -1).map((word, index) => Math.max(0, words[index + 1]!.start - word.end))
+  const baselineGap = median(gaps) ?? 0
+  const pauseThreshold = Math.max(MIN_AUDIBLE_PAUSE, baselineGap + 0.035)
+  const punctuationThreshold = Math.max(0.035, baselineGap + 0.02)
+  const groups: TextGroup[] = []
+  let current: AlignedWord[] = []
+
+  for (let index = 0; index < words.length; index += 1) {
+    const word = words[index]!
+    const next = words[index + 1]
+    current.push(word)
+
+    const gap = next ? Math.max(0, next.start - word.end) : 0
+    const punctuationPause = word.boundary !== 'none' && word.boundary !== 'end' && gap >= punctuationThreshold
+    const audiblePause = Boolean(next) && gap >= pauseThreshold
+    if (next && !punctuationPause && !audiblePause) continue
+
+    groups.push({
+      tokens: current.map((item) => item.text),
+      starts: current.map((item) => round(item.start)),
+      ends: current.map((item) => round(item.end)),
+      stress: current.map((item) => isStressWord(item.text)),
+      boundary: next ? (word.boundary === 'none' || word.boundary === 'end' ? 'soft' : word.boundary) : 'end',
+    })
+    current = []
+  }
+  return groups
 }
 
 function firstWord(group: TextGroup | undefined): string {
@@ -338,52 +400,6 @@ function fallbackTone(group: TextGroup, index: number, groups: TextGroup[], fina
   if (group.boundary === 'major') return '↘'
   if (group.boundary === 'comma' && CONTRAST_STARTERS.has(firstWord(groups[index + 1])) && looksComplete(group)) return '↘'
   return '↗'
-}
-
-function groupWeight(group: TextGroup): number {
-  return group.tokens.reduce((sum, token) => {
-    const word = normalizeSpeechWord(token)
-    if (!word) return sum
-    return sum + Math.max(0.8, word.length * (WEAK_WORDS.has(word) ? 0.55 : 1))
-  }, 0)
-}
-
-function alignBoundaries(groups: TextGroup[], silences: Silence[], speechStart: number, speechEnd: number): number[] {
-  if (groups.length <= 1) return []
-  const weights = groups.map(groupWeight)
-  const total = weights.reduce((sum, weight) => sum + weight, 0) || groups.length
-  const usableSilences = silences.filter((silence) => silence.mid > speechStart + 0.08 && silence.mid < speechEnd - 0.08)
-  const boundaries: number[] = []
-  let previous = speechStart
-  let usedSilenceIndex = -1
-  let cumulative = 0
-
-  for (let i = 0; i < groups.length - 1; i += 1) {
-    cumulative += weights[i] ?? 1
-    const expected = speechStart + ((speechEnd - speechStart) * cumulative) / total
-    let chosen: Silence | undefined
-    let chosenIndex = -1
-    const minBoundary = previous + MIN_GROUP_SECONDS
-    const maxBoundary = speechEnd - MIN_GROUP_SECONDS * (groups.length - i - 1)
-
-    for (let j = usedSilenceIndex + 1; j < usableSilences.length; j += 1) {
-      const silence = usableSilences[j]!
-      if (silence.mid <= minBoundary || silence.mid >= maxBoundary) continue
-      const distance = Math.abs(silence.mid - expected)
-      if (distance > 0.85) continue
-      if (!chosen || distance < Math.abs(chosen.mid - expected)) {
-        chosen = silence
-        chosenIndex = j
-      }
-    }
-
-    const boundary = chosen?.mid ?? expected
-    boundaries.push(Math.min(maxBoundary, Math.max(minBoundary, boundary)))
-    previous = boundaries[boundaries.length - 1]!
-    if (chosenIndex >= 0) usedSilenceIndex = chosenIndex
-  }
-
-  return boundaries
 }
 
 function estimateF0(samples: Float32Array, start: number): { f0: number; confidence: number } | undefined {
@@ -480,66 +496,121 @@ function toneFromAudio(
   }
 }
 
-function analyzeSentence(sentence: Sentence): AnalyzedGroup[] {
-  const path = ensureAudio(sentence.text)
-  const samples = decodeMp3(path)
-  const duration = samples.length / SAMPLE_RATE
+function analyzeSentence(sentence: Sentence): { audioHash: string; groups: AnalyzedGroup[] } {
+  const media = ensureBoundaryAudio(sentence.text)
+  const samples = decodeMp3(media.path)
   const frames = rmsFrames(samples)
   const threshold = silenceThreshold(frames)
-  const bounds = speechBounds(frames, threshold, duration)
-  const silences = detectSilences(frames, threshold, bounds.start, bounds.end)
   const pitch = pitchTrack(samples, threshold)
-  const groups = prosodyGroups(sentence.text)
-  const boundaries = alignBoundaries(groups, silences, bounds.start, bounds.end)
+  const groups = prosodyGroups(alignWordTimings(sentence.text, media.words))
   const finalTone = sentence.text.trim().endsWith('?') ? '↗' : '↘'
 
-  return groups.map((group, index) => {
-    const start = index === 0 ? bounds.start : boundaries[index - 1] ?? bounds.start
-    const end = index === groups.length - 1 ? bounds.end : boundaries[index] ?? bounds.end
-    const tone = toneFromAudio(group, index, groups, start, end, pitch, finalTone)
-    return {
-      tokens: group.tokens,
-      tone: tone.tone,
-      start: round(start),
-      end: round(end),
-      pitchStart: tone.pitchStart,
-      pitchEnd: tone.pitchEnd,
-      confidence: tone.confidence,
-    }
-  })
+  return {
+    audioHash: fileHash(media.path),
+    groups: groups.map((group, index) => {
+      const start = group.starts[0] ?? 0
+      const end = group.ends[group.ends.length - 1] ?? start
+      const tone = toneFromAudio(group, index, groups, start, end, pitch, finalTone)
+      return {
+        tokens: group.tokens,
+        starts: group.starts,
+        ends: group.ends,
+        stress: group.stress,
+        tone: tone.tone,
+        start: round(start),
+        end: round(end),
+        pitchStart: tone.pitchStart,
+        pitchEnd: tone.pitchEnd,
+        confidence: tone.confidence,
+      }
+    }),
+  }
+}
+
+function loadExisting(path: string): ProsodyFile | undefined {
+  if (!existsSync(path)) return undefined
+  try {
+    const parsed = JSON.parse(readFileSync(path, 'utf-8')) as ProsodyFile
+    if (
+      parsed.version !== PROSODY_SCHEMA_VERSION
+      || parsed.source !== PROSODY_SOURCE
+      || parsed.voice !== AUDIO_VOICE
+      || parsed.rate !== AUDIO_RATE
+      || !parsed.sentences
+    ) return undefined
+    return parsed
+  } catch {
+    return undefined
+  }
+}
+
+function reusableEntry(entry: ProsodyEntry | undefined, sentence: Sentence): entry is ProsodyEntry {
+  if (
+    values.force
+    || !entry
+    || entry.text !== sentence.text
+    || entry.source !== PROSODY_SOURCE
+    || !entry.audioHash
+    || !entry.groups?.length
+  ) return false
+  const path = audioPath(sentence.text)
+  return existsSync(path) && fileHash(path) === entry.audioHash
 }
 
 function main(): void {
   const sentences = discoverSentences()
-  const out: {
-    version: number
-    source: string
-    voice: string
-    rate: string
-    sentences: Record<string, { text: string; date: string; num: number; source: string; groups: AnalyzedGroup[] }>
-  } = {
-    version: 1,
-    source: 'edge-tts-audio-analysis-v1',
+  const outPath = resolve(values.out!)
+  const existing = loadExisting(outPath)
+  if (values.date && existsSync(outPath) && !existing) {
+    throw new Error('Existing prosody data uses an incompatible schema; run pnpm study:prosody once without --date')
+  }
+
+  const out: ProsodyFile = {
+    version: PROSODY_SCHEMA_VERSION,
+    source: PROSODY_SOURCE,
     voice: AUDIO_VOICE,
     rate: AUDIO_RATE,
     sentences: {},
   }
+  let analyzed = 0
+  let reused = 0
 
   for (const sentence of sentences) {
-    const key = sentenceKey(sentence.text)
-    const groups = analyzeSentence(sentence)
+    const key = sentenceAudioCacheKey(sentence.text)
+    const previous = existing?.sentences[key]
+    const selected = !values.date || sentence.date === values.date
+    if (!selected && previous) {
+      out.sentences[key] = { ...previous, date: sentence.date, num: sentence.num }
+      continue
+    }
+    if (!selected) continue
+
+    if (reusableEntry(previous, sentence)) {
+      out.sentences[key] = { ...previous, date: sentence.date, num: sentence.num }
+      reused += 1
+      continue
+    }
+
+    const analysis = analyzeSentence(sentence)
     out.sentences[key] = {
       text: sentence.text,
       date: sentence.date,
       num: sentence.num,
       source: out.source,
-      groups,
+      audioHash: analysis.audioHash,
+      groups: analysis.groups,
     }
-    console.log(`${sentence.date} ${CIRCLED[sentence.num - 1]} ${groups.map((group) => `${group.tokens.join(' ')}${group.tone}`).join(' / ')}`)
+    analyzed += 1
+    console.log(`${sentence.date} ${CIRCLED[sentence.num - 1]} ${analysis.groups.map((group) => `${group.tokens.join(' ')}${group.tone}`).join(' / ')}`)
   }
 
-  writeFileSync(resolve(values.out!), `${JSON.stringify(out, null, 2)}\n`, 'utf-8')
-  console.log(`Wrote ${sentences.length} analyzed sentences to ${resolve(values.out!)}`)
+  if (values.date && !sentences.some((sentence) => sentence.date === values.date)) {
+    throw new Error(`No article sentences found for ${values.date}`)
+  }
+
+  writeFileSync(outPath, `${JSON.stringify(out, null, 2)}\n`, 'utf-8')
+  console.log(`Wrote ${Object.keys(out.sentences).length} analyzed sentences to ${outPath}`)
+  console.log(`  Reused: ${reused} · Analyzed: ${analyzed} · Voice: ${AUDIO_VOICE} ${AUDIO_RATE}`)
 }
 
 main()

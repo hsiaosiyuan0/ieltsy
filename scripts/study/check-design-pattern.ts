@@ -1,6 +1,7 @@
 import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
+import { PROSODY_SOURCE } from './speech-config'
 
 const { values } = parseArgs({
   options: {
@@ -75,6 +76,8 @@ if (existsSync(patternPath) && existsSync(builtCssPath)) {
     'html::-webkit-scrollbar',
     '.annotation-panel::-webkit-scrollbar',
     'scrollbar-gutter: stable',
+    'html.is-scrolling',
+    '.dictation-mode',
     '.mistake-directory',
     '@media (max-width: 74rem)',
     '@media (max-width: 60rem)',
@@ -134,7 +137,22 @@ for (const file of lessonFiles) {
     'data-panel="words"',
     'data-panel="grammar"',
     'data-panel="prosody"',
+    'data-action="toggle-dictation"',
+    `data-prosody-source="${PROSODY_SOURCE}"`,
   ], scope)
+
+  const sentences = count(html, /<div class="sentence"(?:\s|>)/g)
+  const analyzedCues = count(html, new RegExp(`data-prosody-source="${PROSODY_SOURCE}"`, 'g'))
+  const timedCueWords = count(html, /class="cue-word [^"]+" data-start="[^"]+" data-end="[^"]+"/g)
+  check(sentences > 0, `${scope}: lesson has no sentences`)
+  check(sentences === analyzedCues, `${scope}: ${sentences} sentences but ${analyzedCues} audio-derived RHYTHM cues`)
+  check(timedCueWords >= sentences, `${scope}: RHYTHM cues are missing word timing data`)
+  check(!html.includes('data-prosody-source="fallback"'), `${scope}: fallback RHYTHM is forbidden`)
+  check(!html.includes('data-action="mark-done"'), `${scope}: obsolete completion button found`)
+  if (process.env.IELTSY_SKIP_AUDIO !== '1') {
+    const sentenceAudio = count(html, /<div class="sentence"[^>]*\bdata-audio="[^"]+"/g)
+    check(sentences === sentenceAudio, `${scope}: ${sentences} sentences but ${sentenceAudio} matched audio assets`)
+  }
 
   const vocabEntries = count(html, /class="vocab-entry"/g)
   const definitions = count(html, /class="vocab-definition(?:\s[^"]*)?"/g)

@@ -16,6 +16,23 @@
   let currentAudio = null
   let stopCurrent = null
   let activeSentence = null
+  const scrollbarTimers = new WeakMap()
+
+  function revealScrollbar(element) {
+    element.classList.add('is-scrolling')
+    const previous = scrollbarTimers.get(element)
+    if (previous) window.clearTimeout(previous)
+    const timer = window.setTimeout(() => {
+      element.classList.remove('is-scrolling')
+      scrollbarTimers.delete(element)
+    }, 700)
+    scrollbarTimers.set(element, timer)
+  }
+
+  window.addEventListener('scroll', () => revealScrollbar(document.documentElement), { passive: true })
+  document.querySelectorAll('.annotation-panel').forEach((panel) => {
+    panel.addEventListener('scroll', () => revealScrollbar(panel), { passive: true })
+  })
 
   function announce(message) {
     if (liveRegion) liveRegion.textContent = message
@@ -24,6 +41,13 @@
   function setPressed(action, pressed) {
     document.querySelectorAll('[data-action="' + action + '"]').forEach((control) => {
       control.setAttribute('aria-pressed', String(pressed))
+    })
+  }
+
+  function setDisabled(action, disabled) {
+    document.querySelectorAll('[data-action="' + action + '"]').forEach((control) => {
+      if (control instanceof HTMLButtonElement) control.disabled = disabled
+      control.setAttribute('aria-disabled', String(disabled))
     })
   }
 
@@ -87,6 +111,11 @@
     if (item.number) announce('正在朗读第 ' + item.number + ' 句')
 
     if (!src) {
+      if (item.requireAudio) {
+        announce('句子音频不可用，已停止朗读')
+        if (token === playbackToken) setActiveSentence(null)
+        return Promise.resolve()
+      }
       return browserSpeak(text, token).finally(() => {
         if (token === playbackToken) setActiveSentence(null)
       })
@@ -114,6 +143,11 @@
       function fallback() {
         if (settled) return
         clear()
+        if (item.requireAudio) {
+          announce('句子音频加载失败，已停止朗读')
+          finish()
+          return
+        }
         browserSpeak(text, token).then(finish)
       }
 
@@ -153,9 +187,18 @@
   }
 
   function syncViewControls() {
-    setPressed('toggle-zh', !document.body.classList.contains('hide-zh'))
-    setPressed('toggle-follow', !document.body.classList.contains('hide-follow'))
-    setPressed('toggle-practice', document.body.classList.contains('practice'))
+    const dictation = document.body.classList.contains('dictation-mode')
+    setPressed('toggle-zh', dictation || !document.body.classList.contains('hide-zh'))
+    setPressed('toggle-follow', !dictation && !document.body.classList.contains('hide-follow'))
+    setPressed('toggle-practice', !dictation && document.body.classList.contains('practice'))
+    setPressed('toggle-dictation', dictation)
+    for (const action of ['play-all', 'toggle-zh', 'toggle-follow', 'toggle-practice']) {
+      setDisabled(action, dictation)
+    }
+    const dictationButton = document.querySelector('[data-action="toggle-dictation"]')
+    if (dictationButton) {
+      dictationButton.setAttribute('aria-label', dictation ? '退出中译英默写模式' : '开启中译英默写模式')
+    }
   }
 
   function initializeLessonState() {
@@ -170,8 +213,9 @@
     if (storage.get('ieltsy:practice') === '1') document.body.classList.add('practice')
     else document.body.classList.remove('practice')
 
-    const date = document.body.dataset.date
-    if (date) setPressed('mark-done', storage.get('ieltsy:done:' + date) === '1')
+    if (storage.get('ieltsy:dictation') === '1') document.body.classList.add('dictation-mode')
+    else document.body.classList.remove('dictation-mode')
+
     syncViewControls()
   }
 
@@ -216,6 +260,7 @@
 
     const speakable = target.closest('[data-speak]')
     if (speakable) {
+      if (document.body.classList.contains('dictation-mode')) return
       if (document.body.classList.contains('practice') && speakable.classList.contains('target')) {
         speakable.classList.add('revealed')
       }
@@ -242,6 +287,7 @@
       const items = Array.from(document.querySelectorAll('.sentence')).map((sentence) => ({
         text: sentence.getAttribute('data-text') || '',
         audio: sentence.getAttribute('data-audio'),
+        requireAudio: true,
         number: sentence.getAttribute('data-number'),
         sentence,
       })).filter((item) => item.text)
@@ -250,10 +296,12 @@
     }
 
     if (action === 'play-sentence') {
+      if (document.body.classList.contains('dictation-mode')) return
       const sentence = control?.closest('.sentence')
       speak({
         text: sentence?.getAttribute('data-text') || '',
         audio: sentence?.getAttribute('data-audio'),
+        requireAudio: true,
         number: sentence?.getAttribute('data-number'),
         sentence,
       })
@@ -288,20 +336,22 @@
       return
     }
 
-    if (action === 'mark-done') {
-      const date = document.body.dataset.date
-      const done = control?.getAttribute('aria-pressed') !== 'true'
-      setPressed('mark-done', done)
-      if (date) storage.set('ieltsy:done:' + date, done ? '1' : '0')
-      announce(done ? '本课已标记完成' : '已取消完成标记')
+    if (action === 'toggle-dictation') {
+      document.body.classList.toggle('dictation-mode')
+      const active = document.body.classList.contains('dictation-mode')
+      if (active) cancelPlayback()
+      storage.set('ieltsy:dictation', active ? '1' : '0')
+      syncViewControls()
+      announce(active ? '中译英默写模式已开启' : '中译英默写模式已关闭')
       return
     }
 
     const sentence = target.closest('.sentence')
-    if (sentence && !target.closest('a, button, input')) {
+    if (sentence && !document.body.classList.contains('dictation-mode') && !target.closest('a, button, input')) {
       speak({
         text: sentence.getAttribute('data-text') || '',
         audio: sentence.getAttribute('data-audio'),
+        requireAudio: true,
         number: sentence.getAttribute('data-number'),
         sentence,
       })

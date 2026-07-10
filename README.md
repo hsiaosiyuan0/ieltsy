@@ -61,12 +61,14 @@ pnpm ielts help --json       # 全套 metadata as JSON（LLM-friendly）
 
 ## GitHub Pages 发布
 
-发布版是**纯静态只读站点**：从 `learning/days/YYYY-MM-DD/article.md` 和 `learning/mistakes/*.md` 生成 HTML，适合手机继续阅读、浏览器朗读、遮词练习和本地标记完成。SQLite 进度、SM-2 调度和错题写入仍在本地 CLI 里完成。
+发布版是**纯静态只读站点**：从 `learning/days/YYYY-MM-DD/article.md` 和 `learning/mistakes/*.md` 生成 HTML，适合手机继续阅读、跟读、遮词和中译英默写。SQLite 进度、SM-2 调度和错题写入仍在本地 CLI 里完成。
 
 ```bash
 pnpm pages:build
 # 输出 dist/，可直接打开 dist/index.html 预览
 ```
+
+构建会先通过 Edge TTS 的逐词时间轴分析句子音频，再用同一份音频导出 `RHYTHM`。本机需要 Python 3、`edge-tts` 和 `ffmpeg`；已有且音频哈希一致的分析会自动复用。
 
 仓库已包含 `.github/workflows/deploy-pages.yml`。推送到 GitHub 后，在仓库 Settings → Pages 里把 Source 设为 **GitHub Actions**；之后每次 push `main` 都会自动发布 `dist/`。
 

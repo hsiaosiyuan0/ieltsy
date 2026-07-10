@@ -184,7 +184,7 @@ SM-2: 答对 → interval *= ease, ease += 0.1, reps++；答错 → interval=1, 
       'pnpm pages:build',
     ],
     notes: `从 learning/days/YYYY-MM-DD/article.md 和 learning/mistakes/*.md 生成纯静态 HTML。
-发布版支持手机阅读、浏览器朗读、遮词练习和 localStorage 完成标记；SM-2 进度仍由本地 record 命令写入 SQLite。`,
+发布版支持手机阅读、音频对齐的 RHYTHM、遮词练习和中译英默写；SM-2 进度仍由本地 record 命令写入 SQLite。`,
   },
 
   // ──────────────────────────────────────────────────────────────────────────

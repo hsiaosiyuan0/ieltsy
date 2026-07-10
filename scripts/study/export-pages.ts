@@ -4,6 +4,14 @@ import { createHash } from 'node:crypto'
 import { copyFileSync, existsSync, mkdirSync, readFileSync, readdirSync, rmSync, writeFileSync } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
+import {
+  AUDIO_RATE,
+  AUDIO_VOICE,
+  lexicalAudioCacheKey,
+  PROSODY_SCHEMA_VERSION,
+  PROSODY_SOURCE,
+  sentenceAudioCacheKey,
+} from './speech-config'
 
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
 const CIRCLED_NUM_TO_INT: Record<string, number> = Object.fromEntries(
@@ -60,32 +68,12 @@ const DB_PATH = resolve('db/ieltsy.db')
 const AUDIO_CACHE_DIR = resolve('learning/audio-cache')
 const DESIGN_PATTERN_CSS_PATH = resolve('design-system/ieltsy/pattern.css')
 const DESIGN_RUNTIME_JS_PATH = resolve('design-system/ieltsy/runtime.js')
-const AUDIO_VOICE = process.env.IELTSY_AUDIO_VOICE || 'en-US-EmmaMultilingualNeural'
-const AUDIO_RATE = process.env.IELTSY_AUDIO_RATE || '+0%'
 const SKIP_AUDIO = process.env.IELTSY_SKIP_AUDIO === '1'
-const WEAK_WORDS = new Set([
-  'a', 'an', 'the', 'and', 'or', 'but', 'if', 'that', 'which', 'who', 'whom', 'whose', 'when', 'where',
-  'while', 'unless', 'because', 'as', 'than', 'to', 'of', 'in', 'on', 'at', 'by', 'for', 'from', 'with',
-  'without', 'into', 'over', 'under', 'across', 'through', 'about', 'around', 'between', 'among', 'is',
-  'are', 'am', 'was', 'were', 'be', 'been', 'being', 'will', 'would', 'shall', 'should', 'can', 'could',
-  'may', 'might', 'must', 'do', 'does', 'did', 'have', 'has', 'had', 'it', 'its', 'this', 'these', 'those',
-  'they', 'them', 'their', 'he', 'him', 'his', 'she', 'her', 'we', 'us', 'our', 'you', 'your', 'i', 'my',
-  'not', 'so', 'very', 'also', 'still', 'just',
-])
-const CLAUSE_STARTERS = new Set([
-  'although', 'because', 'but', 'however', 'if', 'unless', 'when', 'where', 'which', 'while', 'who', 'that',
-  'whether',
-])
-const SOFT_BREAKERS = new Set(['and', 'but', 'because', 'while', 'when', 'unless', 'which', 'that', 'to', 'for', 'of'])
-const CONTRAST_STARTERS = new Set(['but', 'however', 'yet'])
-
-interface ProsodyGroup {
-  tokens: string[]
-  boundary: 'soft' | 'comma' | 'major' | 'end'
-}
-
 interface ProsodyCueGroup {
   tokens: string[]
+  starts: number[]
+  ends: number[]
+  stress: boolean[]
   tone: string
   start?: number
   end?: number
@@ -96,6 +84,7 @@ interface ProsodyCueGroup {
 
 interface ProsodyCue {
   source: string
+  audioHash: string
   groups: ProsodyCueGroup[]
 }
 
@@ -245,135 +234,26 @@ function targetFormsInText(text: string, targets: TargetWord[]): string[] {
   return [...forms.values()]
 }
 
-function normalizeSpeechWord(raw: string): string {
-  return raw.replace(/^[^A-Za-z0-9]+|[^A-Za-z0-9]+$/g, '').toLowerCase()
-}
-
-function splitSpeechWords(text: string): string[] {
-  return text.match(/[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*|[.,;:!?—]/g) ?? []
-}
-
-function isPauseToken(token: string): boolean {
-  return /^[,;:—]$/.test(token)
-}
-
-function isEndToken(token: string): boolean {
-  return /^[.!?]$/.test(token)
-}
-
-function isStressWord(token: string): boolean {
-  const word = normalizeSpeechWord(token)
-  if (!word) return false
-  if (word === 'ai') return true
-  return !WEAK_WORDS.has(word) && word.length > 2
-}
-
-function prosodyGroups(text: string): ProsodyGroup[] {
-  const rawGroups: ProsodyGroup[] = []
-  let current: string[] = []
-
-  function pushGroup(boundary: ProsodyGroup['boundary']): void {
-    if (current.length > 0) {
-      rawGroups.push({ tokens: current, boundary })
-      current = []
-    }
-  }
-
-  for (const token of splitSpeechWords(text)) {
-    if (isEndToken(token)) {
-      pushGroup('end')
-      continue
-    }
-    if (isPauseToken(token)) {
-      pushGroup(token === ',' ? 'comma' : 'major')
-      continue
-    }
-
-    const word = normalizeSpeechWord(token)
-    if (current.length >= 3 && CLAUSE_STARTERS.has(word)) pushGroup('soft')
-    current.push(token)
-  }
-
-  pushGroup('end')
-  return rawGroups.flatMap(splitLongProsodyGroup)
-}
-
-function splitLongProsodyGroup(group: ProsodyGroup): ProsodyGroup[] {
-  if (group.tokens.length <= 9) return [group]
-
-  const chunks: ProsodyGroup[] = []
-  let remaining = group.tokens
-  while (remaining.length > 9) {
-    const limit = Math.min(9, remaining.length - 3)
-    let cut = 0
-
-    for (let i = limit; i >= 4; i -= 1) {
-      const prev = normalizeSpeechWord(remaining[i - 1]!)
-      const next = normalizeSpeechWord(remaining[i]!)
-      if (SOFT_BREAKERS.has(next) && prev !== 'a' && prev !== 'an' && prev !== 'the') {
-        cut = i
-        break
-      }
-    }
-
-    if (cut === 0) {
-      for (let i = limit; i >= 5; i -= 1) {
-        if (isStressWord(remaining[i - 1]!)) {
-          cut = i
-          break
-        }
-      }
-    }
-
-    chunks.push({ tokens: remaining.slice(0, cut || limit), boundary: 'soft' })
-    remaining = remaining.slice(cut || limit)
-  }
-  chunks.push({ tokens: remaining, boundary: group.boundary })
-  return chunks
-}
-
-function firstWord(group: ProsodyGroup | undefined): string {
-  return normalizeSpeechWord(group?.tokens[0] ?? '')
-}
-
-function looksComplete(group: ProsodyGroup): boolean {
-  const stressCount = group.tokens.filter(isStressWord).length
-  const last = group.tokens[group.tokens.length - 1] ?? ''
-  return group.tokens.length >= 4 && stressCount >= 2 && isStressWord(last)
-}
-
-function toneForGroup(group: ProsodyGroup, index: number, groups: ProsodyGroup[], finalTone: string): string {
-  if (index === groups.length - 1 || group.boundary === 'end') return finalTone
-  if (group.boundary === 'major') return '↘'
-  if (group.boundary === 'comma' && CONTRAST_STARTERS.has(firstWord(groups[index + 1])) && looksComplete(group)) return '↘'
-  return '↗'
-}
-
-function renderCueGroup(tokens: string[], tone: string): string {
-  const words = tokens.map((word) => {
-    const klass = isStressWord(word) ? 'stress' : 'weak'
-    return `<span class="cue-word ${klass}">${escapeHtml(word)}</span>`
+function renderCueGroup(group: ProsodyCueGroup): string {
+  const words = group.tokens.map((word, index) => {
+    const klass = group.stress[index] ? 'stress' : 'weak'
+    const start = group.starts[index]
+    const end = group.ends[index]
+    const timing = Number.isFinite(start) && Number.isFinite(end)
+      ? ` data-start="${start}" data-end="${end}"`
+      : ''
+    return `<span class="cue-word ${klass}"${timing}>${escapeHtml(word)}</span>`
   }).join(' ')
-  return `<span class="cue-group">${words}<span class="cue-tone">${escapeHtml(tone)}</span></span>`
+  return `<span class="cue-group">${words}<span class="cue-tone">${escapeHtml(group.tone || '→')}</span></span>`
 }
 
-function renderFollowCue(text: string, cue?: ProsodyCue): string {
-  if (cue?.groups?.length) {
-    const renderedCue = cue.groups
-      .filter((group) => group.tokens.length > 0)
-      .map((group) => renderCueGroup(group.tokens, group.tone || '→'))
-      .join('')
-    return `<div class="follow-cue" data-prosody-source="${escapeHtml(cue.source)}">${renderedCue}</div>`
-  }
-
-  const groups = prosodyGroups(text)
-  if (groups.length === 0) return ''
-  const finalTone = text.trim().endsWith('?') ? '↗' : '↘'
-  const rendered = groups.map((group, index) => {
-    const tone = toneForGroup(group, index, groups, finalTone)
-    return renderCueGroup(group.tokens, tone)
-  }).join('')
-  return `<div class="follow-cue" data-prosody-source="fallback">${rendered}</div>`
+function renderFollowCue(cue?: ProsodyCue): string {
+  if (!cue?.groups?.length) return ''
+  const renderedCue = cue.groups
+    .filter((group) => group.tokens.length > 0)
+    .map(renderCueGroup)
+    .join('')
+  return `<div class="follow-cue" data-prosody-source="${escapeHtml(cue.source)}">${renderedCue}</div>`
 }
 
 function renderRefs(refs: string): string {
@@ -498,8 +378,8 @@ function reportDefinitionCoverage(articles: ParsedArticle[]): void {
   console.warn(`  Missing Chinese definitions: ${sample}${missing.length > 8 ? ', ...' : ''}`)
 }
 
-function audioCacheKey(text: string): string {
-  return createHash('md5').update(`${AUDIO_VOICE}|${AUDIO_RATE}|${text}`).digest('hex').slice(0, 12)
+function fileHash(path: string): string {
+  return createHash('sha256').update(readFileSync(path)).digest('hex')
 }
 
 function loadStaticProsody(): Map<string, ProsodyCue> {
@@ -507,26 +387,99 @@ function loadStaticProsody(): Map<string, ProsodyCue> {
   if (!existsSync(STATIC_PROSODY_PATH)) return prosody
 
   const raw = JSON.parse(readFileSync(STATIC_PROSODY_PATH, 'utf-8')) as {
+    version?: number
+    source?: string
+    voice?: string
+    rate?: string
     sentences?: Record<string, ProsodyCue>
   }
+  if (
+    raw.version !== PROSODY_SCHEMA_VERSION
+    || raw.source !== PROSODY_SOURCE
+    || raw.voice !== AUDIO_VOICE
+    || raw.rate !== AUDIO_RATE
+  ) {
+    throw new Error('Prosody data does not match the current audio profile; run pnpm study:prosody')
+  }
   for (const [key, cue] of Object.entries(raw.sentences ?? {})) {
-    if (cue?.groups?.length) prosody.set(key, cue)
+    if (cue?.audioHash && cue.groups?.length) prosody.set(key, cue)
   }
   return prosody
 }
 
 function enrichSentencesWithProsody(sentences: Sentence[], prosody: Map<string, ProsodyCue>): void {
   for (const sentence of sentences) {
-    sentence.prosody = prosody.get(audioCacheKey(sentence.text))
+    sentence.prosody = prosody.get(sentenceAudioCacheKey(sentence.text))
   }
 }
 
-function ensureAudio(text: string): string | undefined {
+function cueMatchesSentence(text: string, cue: ProsodyCue): boolean {
+  const sourceWords = text.match(/[A-Za-z0-9]+(?:[-'][A-Za-z0-9]+)*/g) ?? []
+  const cueWords: string[] = []
+  let previousEnd = -1
+
+  for (const group of cue.groups) {
+    if (
+      group.tokens.length === 0
+      || group.tokens.length !== group.starts.length
+      || group.tokens.length !== group.ends.length
+      || group.tokens.length !== group.stress.length
+    ) return false
+
+    for (let index = 0; index < group.tokens.length; index += 1) {
+      const start = group.starts[index]
+      const end = group.ends[index]
+      if (!Number.isFinite(start) || !Number.isFinite(end) || start! < previousEnd || end! <= start!) return false
+      previousEnd = end!
+      cueWords.push(group.tokens[index]!)
+    }
+  }
+
+  return sourceWords.length === cueWords.length
+    && sourceWords.every((word, index) => word.toLowerCase() === cueWords[index]!.toLowerCase())
+}
+
+function reportProsodyAudioCoverage(articles: ParsedArticle[]): void {
+  const failures: string[] = []
+  const total = articles.reduce((sum, article) => sum + article.sentences.length, 0)
+  let count = 0
+  for (const article of articles) {
+    for (const sentence of article.sentences) {
+      const key = sentenceAudioCacheKey(sentence.text)
+      const path = join(AUDIO_CACHE_DIR, `${key}.mp3`)
+      if (!sentence.prosody) {
+        failures.push(`${article.date} sentence ${sentence.num}: missing analysis`)
+      } else if (!cueMatchesSentence(sentence.text, sentence.prosody)) {
+        failures.push(`${article.date} sentence ${sentence.num}: word timing does not match sentence text`)
+      } else if (!existsSync(path)) {
+        failures.push(`${article.date} sentence ${sentence.num}: analyzed audio is missing`)
+      } else if (fileHash(path) !== sentence.prosody.audioHash) {
+        failures.push(`${article.date} sentence ${sentence.num}: audio hash does not match RHYTHM`)
+      } else {
+        count += 1
+      }
+    }
+  }
+  if (failures.length > 0) {
+    throw new Error(`Prosody/audio validation failed:\n  - ${failures.slice(0, 8).join('\n  - ')}${failures.length > 8 ? '\n  - ...' : ''}\nRun pnpm study:prosody before exporting.`)
+  }
+  console.log(`  RHYTHM: ${count}/${total} sentences match analyzed audio (${PROSODY_SOURCE})`)
+}
+
+function copySentenceAudio(text: string): string | undefined {
+  if (SKIP_AUDIO) return undefined
+  const key = sentenceAudioCacheKey(text)
+  const fileName = `${key}.mp3`
+  copyFileSync(join(AUDIO_CACHE_DIR, fileName), join(OUT_DIR, 'assets', 'audio', fileName))
+  return fileName
+}
+
+function ensureLexicalAudio(text: string): string | undefined {
   const normalized = text.trim()
   if (!normalized || SKIP_AUDIO) return undefined
 
   mkdirSync(AUDIO_CACHE_DIR, { recursive: true })
-  const key = audioCacheKey(normalized)
+  const key = lexicalAudioCacheKey(normalized)
   const fileName = `${key}.mp3`
   const cachePath = join(AUDIO_CACHE_DIR, fileName)
   const outputPath = join(OUT_DIR, 'assets', 'audio', fileName)
@@ -549,17 +502,19 @@ function ensureAudio(text: string): string | undefined {
 function prepareAudioAssets(articles: ParsedArticle[]): void {
   mkdirSync(join(OUT_DIR, 'assets', 'audio'), { recursive: true })
   const seen = new Map<string, string | undefined>()
+  const sentenceFiles = new Set<string>()
 
   function ensureOnce(text: string): string | undefined {
     const normalized = text.trim()
-    if (!seen.has(normalized)) seen.set(normalized, ensureAudio(normalized))
+    if (!seen.has(normalized)) seen.set(normalized, ensureLexicalAudio(normalized))
     return seen.get(normalized)
   }
 
   for (const article of articles) {
     article.targetAudioByText = new Map()
     for (const sentence of article.sentences) {
-      sentence.audio = ensureOnce(sentence.text)
+      sentence.audio = copySentenceAudio(sentence.text)
+      if (sentence.audio) sentenceFiles.add(sentence.audio)
       for (const form of targetFormsInText(sentence.text, article.targetWords)) {
         const audio = ensureOnce(form)
         if (audio) article.targetAudioByText.set(form.toLowerCase(), `../../assets/audio/${audio}`)
@@ -574,11 +529,12 @@ function prepareAudioAssets(articles: ParsedArticle[]): void {
   if (SKIP_AUDIO) {
     console.log('  Audio: skipped via IELTSY_SKIP_AUDIO=1')
   } else {
-    console.log(`  Audio: ${[...seen.values()].filter(Boolean).length} mp3 assets (${AUDIO_VOICE}, ${AUDIO_RATE})`)
+    const lexicalCount = [...seen.values()].filter(Boolean).length
+    console.log(`  Audio: ${sentenceFiles.size} sentence + ${lexicalCount} lexical mp3 assets (${AUDIO_VOICE}, ${AUDIO_RATE})`)
   }
 }
 
-function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'pause' | 'translate' | 'eye' | 'check' | 'calendar' | 'layers' | 'wave'): string {
+function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'pause' | 'translate' | 'eye' | 'calendar' | 'layers' | 'wave' | 'pen-line'): string {
   const paths: Record<typeof name, string> = {
     book: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h5a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3Z"/><path d="M21 18a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2h-5a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3Z"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
@@ -589,10 +545,10 @@ function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' |
     pause: '<path d="M9 5v14"/><path d="M15 5v14"/>',
     translate: '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>',
     eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
-    check: '<path d="M20 6 9 17l-5-5"/>',
     calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/>',
     layers: '<path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
     wave: '<path d="M2 12h2"/><path d="M6 9v6"/><path d="M10 5v14"/><path d="M14 8v8"/><path d="M18 10v4"/><path d="M22 12h-2"/>',
+    'pen-line': '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
   }
   return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths[name]}</svg>`
 }
@@ -608,14 +564,12 @@ function renderShell(opts: {
   page: 'home' | 'lesson' | 'mistakes' | 'mistake-detail' | 'not-found'
   current?: 'home' | 'mistakes'
   bodyClass?: string
-  date?: string
   body: string
 }): string {
   const navHome = opts.current === 'home' ? ' aria-current="page"' : ''
   const navMistakes = opts.current === 'mistakes' ? ' aria-current="page"' : ''
   const homeHref = opts.prefix || './'
   const bodyClass = opts.bodyClass ? ` class="${escapeHtml(opts.bodyClass)}"` : ''
-  const dateAttr = opts.date ? ` data-date="${escapeHtml(opts.date)}"` : ''
 
   return `<!DOCTYPE html>
 <html lang="zh-CN">
@@ -629,7 +583,7 @@ function renderShell(opts: {
   <link rel="stylesheet" href="${opts.prefix}assets/site.css">
   <link rel="manifest" href="${opts.prefix}manifest.webmanifest">
 </head>
-<body${bodyClass} data-page="${opts.page}"${dateAttr}>
+<body${bodyClass} data-page="${opts.page}">
   <a class="skip-link" href="#content">跳到正文</a>
   <div class="site-shell">
     <header class="masthead">
@@ -757,7 +711,7 @@ function renderDay(article: ParsedArticle, number: number): string {
           </div>
           <div class="sentence__copy">
             <p class="sentence__english">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</p>
-            ${renderFollowCue(sentence.text, sentence.prosody)}
+            ${renderFollowCue(sentence.prosody)}
             ${sentence.zh ? '<p class="sentence__translation"><span class="translation-label">译</span><span>' + escapeHtml(sentence.zh) + '</span></p>' : ''}
           </div>
         </div>`).join('\n')
@@ -802,9 +756,7 @@ function renderDay(article: ParsedArticle, number: number): string {
           <button class="button" type="button" data-action="toggle-zh" aria-controls="reading-content" aria-pressed="false" aria-label="显示或隐藏译文" title="译文">${icon('translate')}<span>译文</span></button>
           <button class="button" type="button" data-action="toggle-follow" aria-controls="reading-content" aria-pressed="true" aria-label="显示或隐藏跟读标记" title="跟读">${icon('wave')}<span>跟读</span></button>
           <button class="button" type="button" data-action="toggle-practice" aria-controls="reading-content" aria-pressed="false" aria-label="开启或关闭遮词练习" title="遮词">${icon('eye')}<span>遮词</span></button>
-        </div>
-        <div class="study-toolbar__group">
-          <button class="button" type="button" data-action="mark-done" aria-pressed="false" aria-label="标记本课完成" title="完成">${icon('check')}<span>完成</span></button>
+          <button class="button" type="button" data-action="toggle-dictation" aria-controls="reading-content" aria-pressed="false" aria-label="开启中译英默写模式" title="默写">${icon('pen-line')}<span>默写</span></button>
         </div>
       </nav>
 
@@ -864,7 +816,6 @@ ${grammarHtml || '                <li class="grammar-example"><span class="gramm
     page: 'lesson',
     current: 'home',
     bodyClass: 'hide-zh',
-    date: article.date,
     body,
   })
 }
@@ -1072,6 +1023,7 @@ const SITE_JS = readFileSync(DESIGN_RUNTIME_JS_PATH, 'utf-8')
 function main(): void {
   const articles = discoverArticles()
   reportDefinitionCoverage(articles)
+  reportProsodyAudioCoverage(articles)
   rmSync(OUT_DIR, { recursive: true, force: true })
   mkdirSync(join(OUT_DIR, 'assets'), { recursive: true })
   prepareAudioAssets(articles)

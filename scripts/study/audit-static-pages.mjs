@@ -280,23 +280,64 @@ const auditExpression = String.raw`(() => {
   }
 })()`
 
-const interactionExpression = String.raw`(() => {
+const interactionExpression = String.raw`(async () => {
   const zh = document.querySelector('[data-action="toggle-zh"]')
   const practice = document.querySelector('[data-action="toggle-practice"]')
-  const done = document.querySelector('[data-action="mark-done"]')
   const grammarTab = document.querySelector('[data-tab="grammar"]')
+  const dictation = document.querySelector('[data-action="toggle-dictation"]')
+  const wordsPanel = document.querySelector('[data-panel="words"]')
+
+  const previousScrollBehavior = document.documentElement.style.scrollBehavior
+  document.documentElement.style.scrollBehavior = 'auto'
+  window.scrollTo(0, 120)
+  if (wordsPanel) wordsPanel.scrollTop = 80
+  await new Promise((resolve) => setTimeout(resolve, 100))
+  const pageScrollbarShown = document.documentElement.classList.contains('is-scrolling')
+  const panelScrollbarShown = Boolean(wordsPanel?.classList.contains('is-scrolling'))
+  await new Promise((resolve) => setTimeout(resolve, 800))
+  const pageScrollbarHidden = !document.documentElement.classList.contains('is-scrolling')
+  const panelScrollbarHidden = !wordsPanel?.classList.contains('is-scrolling')
+  window.scrollTo(0, 0)
+  await new Promise((resolve) => setTimeout(resolve, 800))
+  document.documentElement.style.scrollBehavior = previousScrollBehavior
+
   zh?.click()
   practice?.click()
-  done?.click()
   grammarTab?.click()
+  const translationVisible = !document.body.classList.contains('hide-zh') && zh?.getAttribute('aria-pressed') === 'true'
+  const practiceActive = document.body.classList.contains('practice') && practice?.getAttribute('aria-pressed') === 'true'
+  dictation?.click()
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
 
   return {
-    translationVisible: !document.body.classList.contains('hide-zh') && zh?.getAttribute('aria-pressed') === 'true',
-    practiceActive: document.body.classList.contains('practice') && practice?.getAttribute('aria-pressed') === 'true',
-    doneActive: done?.getAttribute('aria-pressed') === 'true',
+    translationVisible,
+    practiceActive,
     grammarSelected: grammarTab?.getAttribute('aria-selected') === 'true',
     grammarPanelVisible: !document.querySelector('[data-panel="grammar"]')?.hidden,
     wordsPanelHidden: Boolean(document.querySelector('[data-panel="words"]')?.hidden),
+    dictationActive: document.body.classList.contains('dictation-mode') && dictation?.getAttribute('aria-pressed') === 'true',
+    englishHidden: getComputedStyle(document.querySelector('.sentence__english')).display === 'none',
+    chineseVisible: getComputedStyle(document.querySelector('.sentence__translation')).display !== 'none',
+    annotationHidden: getComputedStyle(document.querySelector('.annotation-rail')).display === 'none',
+    lessonIntroHidden: getComputedStyle(document.querySelector('.lesson-intro')).display === 'none',
+    playbackDisabled: Boolean(document.querySelector('[data-action="play-all"]')?.disabled),
+    preferencesPreserved: document.body.classList.contains('practice') && !document.body.classList.contains('hide-zh'),
+    pageScrollbarShown,
+    pageScrollbarHidden,
+    panelScrollbarShown,
+    panelScrollbarHidden,
+  }
+})()`
+
+const restoreInteractionExpression = String.raw`(() => {
+  const dictation = document.querySelector('[data-action="toggle-dictation"]')
+  dictation?.click()
+  return {
+    dictationClosed: !document.body.classList.contains('dictation-mode') && dictation?.getAttribute('aria-pressed') === 'false',
+    playbackEnabled: !document.querySelector('[data-action="play-all"]')?.disabled,
+    translationRestored: document.querySelector('[data-action="toggle-zh"]')?.getAttribute('aria-pressed') === 'true',
+    practiceRestored: document.querySelector('[data-action="toggle-practice"]')?.getAttribute('aria-pressed') === 'true',
+    annotationRestored: getComputedStyle(document.querySelector('.annotation-rail')).display !== 'none',
   }
 })()`
 
@@ -382,8 +423,43 @@ try {
   const interactionPage = await openPage(debugPort, staticServer.baseUrl + latestLessonPath, 1280, 900)
   const interactions = await evaluate(interactionPage.cdp, interactionExpression)
   assert(Object.values(interactions).every(Boolean), `lesson-interactions: ${JSON.stringify(interactions)}`)
+  const dictationScreenshot = await interactionPage.cdp.send('Page.captureScreenshot', {
+    format: 'png',
+    fromSurface: true,
+    captureBeyondViewport: false,
+  })
+  const dictationScreenshotPath = join(SCREENSHOT_DIR, 'lesson-dictation-1280.png')
+  writeFileSync(dictationScreenshotPath, Buffer.from(dictationScreenshot.data, 'base64'))
+  assert(readFileSync(dictationScreenshotPath).length > 10000, 'lesson-dictation-1280: screenshot appears blank')
+  const restoredInteractions = await evaluate(interactionPage.cdp, restoreInteractionExpression)
+  assert(Object.values(restoredInteractions).every(Boolean), `lesson-restore: ${JSON.stringify(restoredInteractions)}`)
   await interactionPage.cdp.send('Target.closeTarget', { targetId: interactionPage.targetId }).catch(() => {})
   interactionPage.cdp.close()
+
+  const mobileDictationPage = await openPage(debugPort, staticServer.baseUrl + latestLessonPath, 375, 812)
+  const mobileDictation = await evaluate(mobileDictationPage.cdp, String.raw`(async () => {
+    document.querySelector('[data-action="toggle-dictation"]')?.click()
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    return {
+      active: document.body.classList.contains('dictation-mode'),
+      englishHidden: getComputedStyle(document.querySelector('.sentence__english')).display === 'none',
+      chineseVisible: getComputedStyle(document.querySelector('.sentence__translation')).display !== 'none',
+      annotationHidden: getComputedStyle(document.querySelector('.annotation-rail')).display === 'none',
+      lessonIntroHidden: getComputedStyle(document.querySelector('.lesson-intro')).display === 'none',
+      noHorizontalOverflow: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+    }
+  })()`)
+  assert(Object.values(mobileDictation).every(Boolean), `lesson-mobile-dictation: ${JSON.stringify(mobileDictation)}`)
+  const mobileDictationScreenshot = await mobileDictationPage.cdp.send('Page.captureScreenshot', {
+    format: 'png',
+    fromSurface: true,
+    captureBeyondViewport: false,
+  })
+  const mobileDictationScreenshotPath = join(SCREENSHOT_DIR, 'lesson-dictation-375.png')
+  writeFileSync(mobileDictationScreenshotPath, Buffer.from(mobileDictationScreenshot.data, 'base64'))
+  assert(readFileSync(mobileDictationScreenshotPath).length > 10000, 'lesson-dictation-375: screenshot appears blank')
+  await mobileDictationPage.cdp.send('Target.closeTarget', { targetId: mobileDictationPage.targetId }).catch(() => {})
+  mobileDictationPage.cdp.close()
 
   for (const result of results) {
     const { metrics } = result

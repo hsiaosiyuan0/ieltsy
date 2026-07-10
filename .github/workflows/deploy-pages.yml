@@ -36,16 +36,18 @@ jobs:
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      - name: Install Edge TTS
+      - name: Install audio tooling
         run: |
-          python3 -m pip install --user edge-tts
+          sudo apt-get update
+          sudo apt-get install --yes ffmpeg
+          python3 -m pip install --user edge-tts==7.2.8
           echo "$HOME/.local/bin" >> "$GITHUB_PATH"
 
       - name: Cache Edge TTS audio
         uses: actions/cache@v4
         with:
           path: learning/audio-cache
-          key: edge-tts-${{ runner.os }}-${{ hashFiles('learning/days/**/article.md', 'scripts/study/export-pages.ts') }}
+          key: edge-tts-${{ runner.os }}-${{ hashFiles('learning/days/**/article.md', 'scripts/study/speech-config.ts', 'scripts/study/generate-boundary-audio.py') }}
           restore-keys: |
             edge-tts-${{ runner.os }}-
 
