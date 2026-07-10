@@ -1,0 +1,76 @@
+scripts/study/export-pages.ts
+  6053c98014b20e2f 61-62,206-209,216-230,357,365-366,375-376,382-383,390,393,581,583,589,600-603,608,610-611,614-615,617-619,626,632,634-635,637-638,640-642,644-645,647-650,652,662-665,667-676,680-701,703,706-720,723-734,741,743,749,751,753-769,771,774-776,779-792,794-804,806-809,811-814,817-830,832-854,856-858,864-867,945-965,967-969,975,982-1004,1010,1017-1029,1034-1035,1069-1070,1083-1085,1093-1094,1100-1101
+package.json
+  6053c98014b20e2f 27-29
+scripts/study/check-design-pattern.ts
+  6053c98014b20e2f 1-171
+scripts/study/audit-static-pages.mjs
+  6053c98014b20e2f 1-411
+design-system/ieltsy/MASTER.md
+  6053c98014b20e2f 1,3,5,7-9,11,13,15-20,22,26,30,34,36,38,40,42-47,51-54,56
+design-system/ieltsy/runtime.js
+  6053c98014b20e2f 1-324
+AGENTS.md
+  6053c98014b20e2f 164-167,177-178
+design-system/ieltsy/pattern.css
+  6053c98014b20e2f 1-2100
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "4a2fbf3fe4a8adfe51d4d7a36527f3ab1bbcccee",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 3399,
+      "total_deletions": 1536,
+      "accepted_lines": 3349,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "design-system/ieltsy/pattern.css": {
+          "additions": 2115,
+          "deletions": 15,
+          "accepted_lines": 2100
+        },
+        "scripts/study/audit-static-pages.mjs": {
+          "additions": 433,
+          "deletions": 22,
+          "accepted_lines": 411
+        },
+        "design-system/ieltsy/runtime.js": {
+          "additions": 324,
+          "accepted_lines": 324
+        },
+        "scripts/study/check-design-pattern.ts": {
+          "additions": 171,
+          "accepted_lines": 171
+        },
+        "package.json": {
+          "additions": 3,
+          "deletions": 1,
+          "accepted_lines": 3
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 314,
+          "deletions": 1358,
+          "accepted_lines": 301
+        },
+        "AGENTS.md": {
+          "additions": 6,
+          "accepted_lines": 6
+        },
+        "design-system/ieltsy/MASTER.md": {
+          "additions": 33,
+          "deletions": 140,
+          "accepted_lines": 33
+        }
+      }
+    }
+  }
+}
