@@ -823,7 +823,7 @@ ${grammarHtml || '                <li class="grammar-example"><span class="gramm
                 <div class="prosody-guide__item"><span class="prosody-guide__sample">BOLD</span><p>重读信息词</p></div>
                 <div class="prosody-guide__item"><span class="prosody-guide__sample cue-word weak">light</span><p>弱读功能词</p></div>
                 <div class="prosody-guide__item"><span class="prosody-guide__sample">/</span><p>意群停顿</p></div>
-                <div class="prosody-guide__item"><span class="prosody-guide__sample">↗ ↘</span><p>语调承接与收束</p></div>
+                <div class="prosody-guide__item"><span class="prosody-guide__sample">↗ → ↘</span><p>语调上扬、平稳与收束</p></div>
               </div>
             </section>
           </div>

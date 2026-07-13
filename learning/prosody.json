@@ -1,6 +1,6 @@
 {
-  "version": 2,
-  "source": "edge-tts-word-boundary-analysis-v2",
+  "version": 3,
+  "source": "edge-tts-nuclear-tone-analysis-v3",
   "voice": "en-US-EmmaMultilingualNeural",
   "rate": "+0%",
   "sentences": {
@@ -8,7 +8,7 @@
       "text": "Maria works as a consultant in the financial sector.",
       "date": "2026-05-11",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "602dbd74e3ee49012eaef625f410a662219e6428cd145ba3ece6a70aa8cdf644",
       "groups": [
         {
@@ -59,9 +59,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.087,
-          "pitchStart": 175.8,
-          "pitchEnd": 148.1,
-          "confidence": 0.98
+          "pitchStart": 125.5,
+          "pitchEnd": 99.7,
+          "confidence": 0.58
         }
       ]
     },
@@ -69,7 +69,7 @@
       "text": "Her job requires her to assess complex business situations and interpret data for clients.",
       "date": "2026-05-11",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "043ec22c372810e4a1d04d9b385318ffbd3a472110615769bc7ab899152b9056",
       "groups": [
         {
@@ -117,12 +117,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 3.5,
-          "pitchStart": 152.4,
-          "pitchEnd": 142.9,
-          "confidence": 0.53
+          "pitchStart": 131.7,
+          "pitchEnd": 141,
+          "confidence": 0.65
         },
         {
           "tokens": [
@@ -156,9 +156,9 @@
           "tone": "↘",
           "start": 3.775,
           "end": 5.625,
-          "pitchStart": 205.1,
-          "pitchEnd": 197.8,
-          "confidence": 0.4
+          "pitchStart": 173.4,
+          "pitchEnd": 136.4,
+          "confidence": 0.7
         }
       ]
     },
@@ -166,7 +166,7 @@
       "text": "Each morning, she reviews her contracts and proceeds with a careful approach to every project.",
       "date": "2026-05-11",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "bf6c51fb8e47172e3d80e1e956dd2f7b1bc9854dd14cb536aace3f637bf14d74",
       "groups": [
         {
@@ -189,9 +189,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.762,
-          "pitchStart": 258.1,
-          "pitchEnd": 153.1,
-          "confidence": 0.98
+          "pitchStart": 201.3,
+          "pitchEnd": 117.2,
+          "confidence": 0.81
         },
         {
           "tokens": [
@@ -254,12 +254,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 1.163,
           "end": 5.475,
-          "pitchStart": 177.8,
-          "pitchEnd": 163.3,
-          "confidence": 0.81
+          "pitchStart": 156.9,
+          "pitchEnd": 152.4,
+          "confidence": 0.54
         }
       ]
     },
@@ -267,7 +267,7 @@
       "text": "She believes in one core principle: never assume anything without evidence.",
       "date": "2026-05-11",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "58dbae989f715d1994b4114fef4d3fa68392c2b9a2b5c028d0cbfcb1af49ad64",
       "groups": [
         {
@@ -306,9 +306,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.887,
-          "pitchStart": 222.2,
-          "pitchEnd": 187.1,
-          "confidence": 0.98
+          "pitchStart": 219.2,
+          "pitchEnd": 115.1,
+          "confidence": 0.66
         },
         {
           "tokens": [
@@ -330,9 +330,9 @@
           "tone": "↘",
           "start": 2.475,
           "end": 3.15,
-          "pitchStart": 275.9,
-          "pitchEnd": 207.8,
-          "confidence": 0.98
+          "pitchStart": 290.9,
+          "pitchEnd": 181.8,
+          "confidence": 0.89
         },
         {
           "tokens": [
@@ -355,12 +355,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 3.225,
           "end": 4.725,
-          "pitchStart": 135.6,
-          "pitchEnd": 161.6,
-          "confidence": 0.98
+          "pitchStart": 210.5,
+          "pitchEnd": 111.1,
+          "confidence": 0.7
         }
       ]
     },
@@ -368,7 +368,7 @@
       "text": "This principle guides how she works.",
       "date": "2026-05-11",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "e257a2b0ab402544aa66cfa7893ee6b4e627bcd43f929b2ce92027718839695a",
       "groups": [
         {
@@ -404,12 +404,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.075,
           "end": 2.075,
-          "pitchStart": 159.2,
-          "pitchEnd": 139.7,
-          "confidence": 0.98
+          "pitchStart": 135.6,
+          "pitchEnd": 135.6,
+          "confidence": 0.44
         }
       ]
     },
@@ -417,7 +417,7 @@
       "text": "When companies need help, they often turn to Maria because her judgement is evident in every report she writes.",
       "date": "2026-05-11",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "1f9ad7ab83d9643d008031e3a2453c9303dd399e6cb074e55dacea05376966de",
       "groups": [
         {
@@ -445,12 +445,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 1.325,
-          "pitchStart": 258.1,
-          "pitchEnd": 157.6,
-          "confidence": 0.98
+          "pitchStart": 149.5,
+          "pitchEnd": 161.6,
+          "confidence": 0.55
         },
         {
           "tokens": [
@@ -524,9 +524,9 @@
           "tone": "↘",
           "start": 1.637,
           "end": 6.088,
-          "pitchStart": 175.8,
-          "pitchEnd": 146.8,
-          "confidence": 0.98
+          "pitchStart": 118.5,
+          "pitchEnd": 99.4,
+          "confidence": 0.64
         }
       ]
     },
@@ -534,7 +534,7 @@
       "text": "Her income depends on the labour she puts in.",
       "date": "2026-05-11",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "24818632338c3e2baf35f1e723d7f4007261586427676d1253d1b13e46d5ee1a",
       "groups": [
         {
@@ -585,9 +585,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.6,
-          "pitchStart": 160,
-          "pitchEnd": 141,
-          "confidence": 0.98
+          "pitchStart": 139.1,
+          "pitchEnd": 109.6,
+          "confidence": 0.69
         }
       ]
     },
@@ -595,7 +595,7 @@
       "text": "She estimates her workload weekly and distributes tasks among her small team.",
       "date": "2026-05-11",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "53559c3ff3d468725d27ef227a66b82663ef1caf3fcbf0c139571eaa327ebf6b",
       "groups": [
         {
@@ -658,9 +658,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 4.263,
-          "pitchStart": 168.4,
-          "pitchEnd": 150.2,
-          "confidence": 0.98
+          "pitchStart": 228.6,
+          "pitchEnd": 121.2,
+          "confidence": 0.74
         }
       ]
     },
@@ -668,7 +668,7 @@
       "text": "Every project starts with a clear concept, which she derives from talking to the client about their real needs.",
       "date": "2026-05-11",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "863aff88d16287e585ec52b9f823e1715a271e176ff0393c73bc28406d777de1",
       "groups": [
         {
@@ -708,12 +708,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 2.337,
-          "pitchStart": 161.6,
-          "pitchEnd": 240.6,
-          "confidence": 0.98
+          "pitchStart": 242.4,
+          "pitchEnd": 111.9,
+          "confidence": 0.85
         },
         {
           "tokens": [
@@ -775,9 +775,9 @@
           "tone": "↘",
           "start": 2.638,
           "end": 5.912,
-          "pitchStart": 183.9,
-          "pitchEnd": 137.9,
-          "confidence": 0.98
+          "pitchStart": 154.6,
+          "pitchEnd": 107.8,
+          "confidence": 0.81
         }
       ]
     },
@@ -785,7 +785,7 @@
       "text": "From this concept, she establishes a plan, a budget, and a timeline.",
       "date": "2026-05-11",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "f7e485fc226fb4d239edff17fedf3ad95810f1014f86822fa57ce4aa4fb2e925",
       "groups": [
         {
@@ -845,12 +845,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.075,
           "end": 3.9,
-          "pitchStart": 181.8,
-          "pitchEnd": 196.3,
-          "confidence": 0.81
+          "pitchStart": 225.4,
+          "pitchEnd": 102.6,
+          "confidence": 0.77
         }
       ]
     },
@@ -858,7 +858,7 @@
       "text": "Finance is at the heart of her work.",
       "date": "2026-05-11",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "d609b7c81b677000ba08fc2c789d88a59ff396ed095dca532606cde06356e490",
       "groups": [
         {
@@ -902,12 +902,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 2.15,
-          "pitchStart": 154.6,
-          "pitchEnd": 164.1,
-          "confidence": 0.53
+          "pitchStart": 149.5,
+          "pitchEnd": 133.5,
+          "confidence": 0.82
         }
       ]
     },
@@ -915,7 +915,7 @@
       "text": "She helps companies that operate across different sectors — from technology to manufacturing.",
       "date": "2026-05-11",
       "num": 12,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "f01a660bb4b17099b5f4f882fd868c29a3ccfd4a339fbe0bd0a6fd7bdc98175c",
       "groups": [
         {
@@ -962,9 +962,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3,
-          "pitchStart": 172,
-          "pitchEnd": 143.5,
-          "confidence": 0.98
+          "pitchStart": 246.2,
+          "pitchEnd": 104.6,
+          "confidence": 0.62
         },
         {
           "tokens": [
@@ -994,9 +994,9 @@
           "tone": "↘",
           "start": 3.337,
           "end": 5.313,
-          "pitchStart": 207.8,
-          "pitchEnd": 137.3,
-          "confidence": 0.98
+          "pitchStart": 155.3,
+          "pitchEnd": 111.1,
+          "confidence": 0.78
         }
       ]
     },
@@ -1004,7 +1004,7 @@
       "text": "The estimate she gives a client is rarely off by more than five percent, and this accuracy is evident to anyone who reads her final reports.",
       "date": "2026-05-11",
       "num": 13,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "fb462f1e9f09074f89945e99d4c63f8a5d3f923c58aa2a15cc8f0b987527c17d",
       "groups": [
         {
@@ -1072,12 +1072,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.087,
           "end": 3.75,
-          "pitchStart": 190.5,
-          "pitchEnd": 144.8,
-          "confidence": 0.98
+          "pitchStart": 138.5,
+          "pitchEnd": 136.4,
+          "confidence": 0.4
         },
         {
           "tokens": [
@@ -1136,12 +1136,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 4.287,
           "end": 8.037,
-          "pitchStart": 186,
-          "pitchEnd": 150.2,
-          "confidence": 0.98
+          "pitchStart": 135.6,
+          "pitchEnd": 185,
+          "confidence": 0.79
         }
       ]
     },
@@ -1149,7 +1149,7 @@
       "text": "When a contract is signed, Maria proceeds quickly.",
       "date": "2026-05-11",
       "num": 14,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "bd4f60b6dcb3ba92be4afa41e6961c13b2c64f716cd27b25d4e4cc3c5efc68a6",
       "groups": [
         {
@@ -1196,9 +1196,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.925,
-          "pitchStart": 181.8,
-          "pitchEnd": 179.8,
-          "confidence": 0.35
+          "pitchStart": 238.8,
+          "pitchEnd": 104.6,
+          "confidence": 0.59
         }
       ]
     },
@@ -1206,7 +1206,7 @@
       "text": "She does not waste time.",
       "date": "2026-05-11",
       "num": 15,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "3e1f0f7d487cfa380f848d6c98bce2949c5c137b0af395a60e1315fe4ae41c45",
       "groups": [
         {
@@ -1241,9 +1241,9 @@
           "tone": "↘",
           "start": 0.05,
           "end": 1.413,
-          "pitchStart": 238.8,
-          "pitchEnd": 119.5,
-          "confidence": 0.98
+          "pitchStart": 143.6,
+          "pitchEnd": 100.9,
+          "confidence": 0.62
         }
       ]
     },
@@ -1251,7 +1251,7 @@
       "text": "Her approach is to gather data, interpret it honestly, and present the truth — even when the truth is uncomfortable.",
       "date": "2026-05-11",
       "num": 16,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "97fa484f0f3853f42b6d7799243989c73e0fd16b4271dc8f50abb3364468ce91",
       "groups": [
         {
@@ -1290,9 +1290,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.75,
-          "pitchStart": 196.3,
-          "pitchEnd": 146.8,
-          "confidence": 0.98
+          "pitchStart": 136.8,
+          "pitchEnd": 118.5,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -1334,9 +1334,9 @@
           "tone": "↘",
           "start": 2,
           "end": 4.525,
-          "pitchStart": 210.5,
-          "pitchEnd": 211.9,
-          "confidence": 0.35
+          "pitchStart": 216.2,
+          "pitchEnd": 117.6,
+          "confidence": 0.73
         },
         {
           "tokens": [
@@ -1374,9 +1374,9 @@
           "tone": "↘",
           "start": 5.05,
           "end": 6.9,
-          "pitchStart": 200,
-          "pitchEnd": 142.9,
-          "confidence": 0.98
+          "pitchStart": 142.9,
+          "pitchEnd": 122.1,
+          "confidence": 0.79
         }
       ]
     },
@@ -1384,7 +1384,7 @@
       "text": "That is the principle she lives by, and it is why companies come back to her year after year.",
       "date": "2026-05-11",
       "num": 17,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "f5cc20f0b6a83a3f14ff20aa937cb97e6d079b869b23446397aa1b7c4b653568",
       "groups": [
         {
@@ -1427,9 +1427,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.925,
-          "pitchStart": 214.9,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 145.5,
+          "pitchEnd": 113.5,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -1491,9 +1491,9 @@
           "tone": "↘",
           "start": 2.2,
           "end": 5.088,
-          "pitchStart": 200,
-          "pitchEnd": 140.4,
-          "confidence": 0.98
+          "pitchStart": 127,
+          "pitchEnd": 108.1,
+          "confidence": 0.76
         }
       ]
     },
@@ -1501,7 +1501,7 @@
       "text": "Last year, the British government announced new rules that regulate how national museums purchase major works of art.",
       "date": "2026-05-12",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "ed8a1866c78003f4d15640b4f29ac47a0d09c34b1a91b1080d0d9339df405b40",
       "groups": [
         {
@@ -1524,9 +1524,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.725,
-          "pitchStart": 262.3,
-          "pitchEnd": 132.2,
-          "confidence": 0.98
+          "pitchStart": 161.6,
+          "pitchEnd": 113.5,
+          "confidence": 0.7
         },
         {
           "tokens": [
@@ -1604,9 +1604,9 @@
           "tone": "↘",
           "start": 1,
           "end": 6.45,
-          "pitchStart": 170.2,
-          "pitchEnd": 149.5,
-          "confidence": 0.98
+          "pitchStart": 173.9,
+          "pitchEnd": 118.6,
+          "confidence": 0.73
         }
       ]
     },
@@ -1614,7 +1614,7 @@
       "text": "This decision drew sharp criticism, but I believe it was an appropriate step.",
       "date": "2026-05-12",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "0df025264165b0b7d7f97d1bceb2e968a29bb6f6d989bf21d95b972b2a42b3a1",
       "groups": [
         {
@@ -1649,9 +1649,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.212,
-          "pitchStart": 158.4,
-          "pitchEnd": 165.8,
-          "confidence": 0.41
+          "pitchStart": 238.8,
+          "pitchEnd": 119.4,
+          "confidence": 0.74
         },
         {
           "tokens": [
@@ -1697,9 +1697,9 @@
           "tone": "↘",
           "start": 2.5,
           "end": 4.65,
-          "pitchStart": 230.2,
-          "pitchEnd": 134.5,
-          "confidence": 0.98
+          "pitchStart": 159.2,
+          "pitchEnd": 101.6,
+          "confidence": 0.51
         }
       ]
     },
@@ -1707,7 +1707,7 @@
       "text": "Before the reform, each institute followed its own policy, and the conduct of buyers varied widely across the country.",
       "date": "2026-05-12",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "2b46a9d54aa08b141b9ae6f14173536f2ee182710e3440dd546a437dcdff0276",
       "groups": [
         {
@@ -1734,9 +1734,9 @@
           "tone": "↘",
           "start": 0.1,
           "end": 1.188,
-          "pitchStart": 231.9,
-          "pitchEnd": 170.3,
-          "confidence": 0.98
+          "pitchStart": 172,
+          "pitchEnd": 146.8,
+          "confidence": 0.83
         },
         {
           "tokens": [
@@ -1771,12 +1771,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 1.225,
           "end": 3.438,
-          "pitchStart": 163.3,
-          "pitchEnd": 191.6,
-          "confidence": 0.98
+          "pitchStart": 214.8,
+          "pitchEnd": 115.5,
+          "confidence": 0.77
         },
         {
           "tokens": [
@@ -1830,9 +1830,9 @@
           "tone": "↘",
           "start": 3.763,
           "end": 6.838,
-          "pitchStart": 183.9,
-          "pitchEnd": 145.5,
-          "confidence": 0.98
+          "pitchStart": 200,
+          "pitchEnd": 106,
+          "confidence": 0.67
         }
       ]
     },
@@ -1840,7 +1840,7 @@
       "text": "Some galleries quietly transferred public funds abroad to acquire paintings without any review.",
       "date": "2026-05-12",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "c1d76d38d4e0fad7725c49c4a6bf3daa637713559a822a24b03340b073aff265",
       "groups": [
         {
@@ -1904,12 +1904,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.087,
           "end": 5.45,
-          "pitchStart": 177.8,
-          "pitchEnd": 164.9,
-          "confidence": 0.71
+          "pitchStart": 158.4,
+          "pitchEnd": 153.8,
+          "confidence": 0.57
         }
       ]
     },
@@ -1917,7 +1917,7 @@
       "text": "Others commissioned new works from foreign artists, while a few constructed entire wings to display objects whose origin no one had evaluated.",
       "date": "2026-05-12",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "364376249e94dc74536dbcd86291279953b2dd5ce40d0ba23d9d09d900bef11a",
       "groups": [
         {
@@ -1957,12 +1957,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 2.563,
-          "pitchStart": 166.7,
-          "pitchEnd": 174.9,
-          "confidence": 0.46
+          "pitchStart": 175.8,
+          "pitchEnd": 131.1,
+          "confidence": 0.8
         },
         {
           "tokens": [
@@ -2036,9 +2036,9 @@
           "tone": "↘",
           "start": 2.888,
           "end": 8.063,
-          "pitchStart": 176.8,
-          "pitchEnd": 172,
-          "confidence": 0.35
+          "pitchStart": 161.6,
+          "pitchEnd": 108.5,
+          "confidence": 0.75
         }
       ]
     },
@@ -2046,7 +2046,7 @@
       "text": "Critics argued that central oversight limited artistic freedom, but they ignored one significant aspect of the problem.",
       "date": "2026-05-12",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "825d3651a7fbced26f5c737381c16485692517f953be89fb0fed5463151986ef",
       "groups": [
         {
@@ -2093,8 +2093,8 @@
           "tone": "↘",
           "start": 0.1,
           "end": 3.425,
-          "pitchStart": 172,
-          "pitchEnd": 159.2,
+          "pitchStart": 258.1,
+          "pitchEnd": 113.5,
           "confidence": 0.71
         },
         {
@@ -2145,9 +2145,9 @@
           "tone": "↘",
           "start": 3.763,
           "end": 6.7,
-          "pitchStart": 216.2,
-          "pitchEnd": 141.6,
-          "confidence": 0.98
+          "pitchStart": 173.9,
+          "pitchEnd": 103.2,
+          "confidence": 0.62
         }
       ]
     },
@@ -2155,7 +2155,7 @@
       "text": "Without clear rules, museums could not maintain public trust, nor could they secure long-term funding from taxpayers.",
       "date": "2026-05-12",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "4c6ee5d2f05bf351ec60259b57f6dc524f7f7258f38c2f13f3b82f76ad26c38f",
       "groups": [
         {
@@ -2206,9 +2206,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.362,
-          "pitchStart": 200,
-          "pitchEnd": 165.9,
-          "confidence": 0.98
+          "pitchStart": 211.9,
+          "pitchEnd": 121.8,
+          "confidence": 0.55
         },
         {
           "tokens": [
@@ -2254,9 +2254,9 @@
           "tone": "↘",
           "start": 3.85,
           "end": 6.813,
-          "pitchStart": 179.8,
-          "pitchEnd": 139.7,
-          "confidence": 0.98
+          "pitchStart": 140.4,
+          "pitchEnd": 118.5,
+          "confidence": 0.69
         }
       ]
     },
@@ -2264,7 +2264,7 @@
       "text": "Under the new system, every purchase above one million pounds required a distinct review by an independent panel.",
       "date": "2026-05-12",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "ea13d9aa2ba2bc73430960c468a0a5801ab438ff970c6ce256f41c52035c74b6",
       "groups": [
         {
@@ -2295,9 +2295,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.163,
-          "pitchStart": 262.3,
-          "pitchEnd": 123.6,
-          "confidence": 0.98
+          "pitchStart": 296.4,
+          "pitchEnd": 115.9,
+          "confidence": 0.7
         },
         {
           "tokens": [
@@ -2367,9 +2367,9 @@
           "tone": "↘",
           "start": 1.65,
           "end": 6.638,
-          "pitchStart": 168.4,
-          "pitchEnd": 175.8,
-          "confidence": 0.41
+          "pitchStart": 190.5,
+          "pitchEnd": 118.5,
+          "confidence": 0.79
         }
       ]
     },
@@ -2377,7 +2377,7 @@
       "text": "The panel evaluated the price, the provenance, and the cultural value of each item before approval.",
       "date": "2026-05-12",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "34d8fc97cebd4793adc74067719f8b688ff2a242fa8357c0048a0156ef63dbf6",
       "groups": [
         {
@@ -2453,12 +2453,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.075,
           "end": 5.275,
-          "pitchStart": 179.8,
-          "pitchEnd": 168.4,
-          "confidence": 0.63
+          "pitchStart": 129,
+          "pitchEnd": 126.6,
+          "confidence": 0.48
         }
       ]
     },
@@ -2466,7 +2466,7 @@
       "text": "Within a year, several museums obtained important pieces at fair prices, while a number of questionable acquisitions were stopped before any contract was signed.",
       "date": "2026-05-12",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "73f8f95cdd3cea185c0cb4de53ca7105d114f815fcdf24546b79d3053f14d77a",
       "groups": [
         {
@@ -2493,9 +2493,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.863,
-          "pitchStart": 296.3,
-          "pitchEnd": 141.6,
-          "confidence": 0.98
+          "pitchStart": 250.2,
+          "pitchEnd": 128,
+          "confidence": 0.82
         },
         {
           "tokens": [
@@ -2538,12 +2538,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 1.075,
           "end": 4.4,
-          "pitchStart": 163.3,
-          "pitchEnd": 170.2,
-          "confidence": 0.39
+          "pitchStart": 210.5,
+          "pitchEnd": 121.8,
+          "confidence": 0.83
         },
         {
           "tokens": [
@@ -2606,12 +2606,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 4.75,
           "end": 9.25,
-          "pitchStart": 166.7,
-          "pitchEnd": 202.5,
-          "confidence": 0.98
+          "pitchStart": 207.8,
+          "pitchEnd": 130.1,
+          "confidence": 0.76
         }
       ]
     },
@@ -2619,7 +2619,7 @@
       "text": "The reform was not perfect, yet it solved a problem that the sector had ignored for decades.",
       "date": "2026-05-12",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "933f32b242f49e9abcd9d45d17e81d657b6bb9918b5658680e18b9bb44b766d8",
       "groups": [
         {
@@ -2654,8 +2654,8 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.55,
-          "pitchStart": 238.8,
-          "pitchEnd": 223.8,
+          "pitchStart": 225.4,
+          "pitchEnd": 112.7,
           "confidence": 0.7
         },
         {
@@ -2718,9 +2718,9 @@
           "tone": "↘",
           "start": 2.013,
           "end": 5.3,
-          "pitchStart": 228.6,
-          "pitchEnd": 146.8,
-          "confidence": 0.98
+          "pitchStart": 139.1,
+          "pitchEnd": 120.4,
+          "confidence": 0.72
         }
       ]
     },
@@ -2728,7 +2728,7 @@
       "text": "Regulation, in this case, did not weaken culture — it protected it.",
       "date": "2026-05-12",
       "num": 12,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "2934973e4a572799991a98748f17ce23a511a3d2e9377e6469685164c37da763",
       "groups": [
         {
@@ -2787,9 +2787,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.913,
-          "pitchStart": 190.5,
-          "pitchEnd": 164.1,
-          "confidence": 0.98
+          "pitchStart": 168.4,
+          "pitchEnd": 114.3,
+          "confidence": 0.67
         }
       ]
     },
@@ -2797,7 +2797,7 @@
       "text": "In the next decade, corporate AI tools will dominate many classrooms unless schools set clear rules.",
       "date": "2026-06-02",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "8efbcaa7828a700bd92819252bc2e2a49fb095c67c512f3c9bf5e8e45a82be6e",
       "groups": [
         {
@@ -2828,9 +2828,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.125,
-          "pitchStart": 213.3,
-          "pitchEnd": 130.1,
-          "confidence": 0.98
+          "pitchStart": 148.2,
+          "pitchEnd": 122.1,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -2892,9 +2892,9 @@
           "tone": "↘",
           "start": 1.363,
           "end": 5.7,
-          "pitchStart": 172,
-          "pitchEnd": 152.4,
-          "confidence": 0.98
+          "pitchStart": 143.5,
+          "pitchEnd": 115.9,
+          "confidence": 0.8
         }
       ]
     },
@@ -2902,7 +2902,7 @@
       "text": "Some people perceive this change as a threat, but under the right circumstances it will also create considerable potential benefits for learning.",
       "date": "2026-06-02",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "d0dad5c7dc0f3c81b4ff7bebf85399f6f9115ad700211331cc25d7014663ecf7",
       "groups": [
         {
@@ -2946,12 +2946,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 2.263,
-          "pitchStart": 195.1,
-          "pitchEnd": 144.1,
-          "confidence": 0.98
+          "pitchStart": 125,
+          "pitchEnd": 227.2,
+          "confidence": 0.77
         },
         {
           "tokens": [
@@ -3021,9 +3021,9 @@
           "tone": "↘",
           "start": 2.75,
           "end": 7.8,
-          "pitchStart": 186,
-          "pitchEnd": 174.9,
-          "confidence": 0.62
+          "pitchStart": 144.1,
+          "pitchEnd": 119.4,
+          "confidence": 0.82
         }
       ]
     },
@@ -3031,7 +3031,7 @@
       "text": "The key issue is not whether technology will enter education; it is which component of teaching it will replace and which it will support.",
       "date": "2026-06-02",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "f99063c40556b23c57e27f6cc17f102ede1f709f5135d895e525db6a426730b3",
       "groups": [
         {
@@ -3083,12 +3083,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 3.375,
-          "pitchStart": 166.7,
-          "pitchEnd": 141.6,
-          "confidence": 0.98
+          "pitchStart": 127,
+          "pitchEnd": 213.3,
+          "confidence": 0.68
         },
         {
           "tokens": [
@@ -3158,9 +3158,9 @@
           "tone": "↘",
           "start": 4.037,
           "end": 7.7,
-          "pitchStart": 205.2,
-          "pitchEnd": 186,
-          "confidence": 0.98
+          "pitchStart": 157.7,
+          "pitchEnd": 131.3,
+          "confidence": 0.71
         }
       ]
     },
@@ -3168,7 +3168,7 @@
       "text": "Schools are going to seek tools that can select relevant exercises for each student and demonstrate weak points instantly.",
       "date": "2026-06-02",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "09e2b0efb3229530214da412080ad5d5fea3f73fa8dde757a2910f7c68f85d04",
       "groups": [
         {
@@ -3256,12 +3256,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 6.287,
-          "pitchStart": 164.1,
-          "pitchEnd": 177.8,
-          "confidence": 0.76
+          "pitchStart": 207.8,
+          "pitchEnd": 107.4,
+          "confidence": 0.66
         }
       ]
     },
@@ -3269,7 +3269,7 @@
       "text": "These systems will contribute to better feedback, especially when teachers face constant pressure and limited time.",
       "date": "2026-06-02",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "be1b0713a389e8925524b2950a1a29e3cccb1163521dc3fc4a5c86559424959b",
       "groups": [
         {
@@ -3312,9 +3312,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.4,
-          "pitchStart": 165.8,
-          "pitchEnd": 137.9,
-          "confidence": 0.98
+          "pitchStart": 129,
+          "pitchEnd": 117.6,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -3364,9 +3364,9 @@
           "tone": "↘",
           "start": 2.925,
           "end": 6.4,
-          "pitchStart": 193.9,
-          "pitchEnd": 164.9,
-          "confidence": 0.98
+          "pitchStart": 164.9,
+          "pitchEnd": 121.2,
+          "confidence": 0.71
         }
       ]
     },
@@ -3374,7 +3374,7 @@
       "text": "However, education should not be designed around corporate profit.",
       "date": "2026-06-02",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "ab181397dc7ec9d0ced46f3baa6ccf8903768cad6e405442c2e946deda75fe40",
       "groups": [
         {
@@ -3393,9 +3393,9 @@
           "tone": "↘",
           "start": 0.075,
           "end": 0.613,
-          "pitchStart": 222.2,
-          "pitchEnd": 172,
-          "confidence": 0.98
+          "pitchStart": 219.2,
+          "pitchEnd": 131.2,
+          "confidence": 0.87
         },
         {
           "tokens": [
@@ -3441,9 +3441,9 @@
           "tone": "↘",
           "start": 1.087,
           "end": 4.125,
-          "pitchStart": 174.9,
-          "pitchEnd": 146.8,
-          "confidence": 0.98
+          "pitchStart": 207.8,
+          "pitchEnd": 115.9,
+          "confidence": 0.85
         }
       ]
     },
@@ -3451,7 +3451,7 @@
       "text": "Governments will need to restrict the collection of student data and exclude companies that cannot ensure privacy.",
       "date": "2026-06-02",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "0b949a79001fb196a244b81471712a890372198480fb4fe9ba7ab383e79671df",
       "groups": [
         {
@@ -3503,12 +3503,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 3.025,
-          "pitchStart": 169.3,
-          "pitchEnd": 167.5,
-          "confidence": 0.35
+          "pitchStart": 166.7,
+          "pitchEnd": 111.5,
+          "confidence": 0.66
         },
         {
           "tokens": [
@@ -3547,12 +3547,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 3.45,
           "end": 6.213,
-          "pitchStart": 153.8,
-          "pitchEnd": 195.1,
-          "confidence": 0.98
+          "pitchStart": 192.8,
+          "pitchEnd": 134.6,
+          "confidence": 0.78
         }
       ]
     },
@@ -3560,7 +3560,7 @@
       "text": "Teachers shall remain the final decision-makers, because they understand context, emotion, and progress better than any platform.",
       "date": "2026-06-02",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "446cf80a936b0976c9ca65ac201244d1cee5c35d3eb14e4b4311da531195f29d",
       "groups": [
         {
@@ -3599,9 +3599,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.4,
-          "pitchStart": 156.9,
-          "pitchEnd": 141,
-          "confidence": 0.88
+          "pitchStart": 141,
+          "pitchEnd": 111.9,
+          "confidence": 0.74
         },
         {
           "tokens": [
@@ -3631,9 +3631,9 @@
           "tone": "↗",
           "start": 2.712,
           "end": 4.438,
-          "pitchStart": 228.6,
-          "pitchEnd": 254,
-          "confidence": 0.98
+          "pitchStart": 217.7,
+          "pitchEnd": 258.1,
+          "confidence": 0.9
         },
         {
           "tokens": [
@@ -3675,9 +3675,9 @@
           "tone": "↘",
           "start": 4.725,
           "end": 7.45,
-          "pitchStart": 205.1,
-          "pitchEnd": 161.6,
-          "confidence": 0.98
+          "pitchStart": 166.7,
+          "pitchEnd": 114.3,
+          "confidence": 0.66
         }
       ]
     },
@@ -3685,7 +3685,7 @@
       "text": "A balanced policy will give emphasis to human judgement while still allowing useful software to assist routine practice.",
       "date": "2026-06-02",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "0e45ac20be9e2428b7fb9c7f96432d9cc6cffa7dea8569baf8843dba33d6fc6b",
       "groups": [
         {
@@ -3717,12 +3717,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.087,
           "end": 1.4,
-          "pitchStart": 216.3,
-          "pitchEnd": 144.1,
-          "confidence": 0.98
+          "pitchStart": 140.4,
+          "pitchEnd": 139.1,
+          "confidence": 0.45
         },
         {
           "tokens": [
@@ -3752,9 +3752,9 @@
           "tone": "↘",
           "start": 1.462,
           "end": 2.95,
-          "pitchStart": 164.9,
-          "pitchEnd": 140.4,
-          "confidence": 0.98
+          "pitchStart": 133.3,
+          "pitchEnd": 116.4,
+          "confidence": 0.71
         },
         {
           "tokens": [
@@ -3804,9 +3804,9 @@
           "tone": "↘",
           "start": 3.375,
           "end": 6.875,
-          "pitchStart": 198.8,
-          "pitchEnd": 155.3,
-          "confidence": 0.98
+          "pitchStart": 145.5,
+          "pitchEnd": 119.4,
+          "confidence": 0.81
         }
       ]
     },
@@ -3814,7 +3814,7 @@
       "text": "If schools adopt this approach, AI will not replace teachers; it will become one practical tool among many.",
       "date": "2026-06-02",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "2f7588181b2de8b54d9d2f4150a7ec7bf201789c214121f59811b5f8d33efefc",
       "groups": [
         {
@@ -3846,12 +3846,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 1.65,
-          "pitchStart": 219.2,
-          "pitchEnd": 142.9,
-          "confidence": 0.98
+          "pitchStart": 136.8,
+          "pitchEnd": 160,
+          "confidence": 0.78
         },
         {
           "tokens": [
@@ -3885,9 +3885,9 @@
           "tone": "↘",
           "start": 2.087,
           "end": 3.788,
-          "pitchStart": 192.8,
-          "pitchEnd": 136.8,
-          "confidence": 0.98
+          "pitchStart": 216.2,
+          "pitchEnd": 106.7,
+          "confidence": 0.67
         },
         {
           "tokens": [
@@ -3933,9 +3933,9 @@
           "tone": "↘",
           "start": 4.125,
           "end": 6.563,
-          "pitchStart": 219.2,
-          "pitchEnd": 144.1,
-          "confidence": 0.98
+          "pitchStart": 149.5,
+          "pitchEnd": 119.4,
+          "confidence": 0.82
         }
       ]
     },
@@ -3943,7 +3943,7 @@
       "text": "Therefore, the question is not whether AI is coming, but how we are going to govern it before it governs us.",
       "date": "2026-06-02",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "ca5777010d57aba77f442fc4b4c486eb12502447ea8acf2c772e52c36f03050a",
       "groups": [
         {
@@ -3994,9 +3994,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.8,
-          "pitchStart": 186,
-          "pitchEnd": 144.1,
-          "confidence": 0.98
+          "pitchStart": 160,
+          "pitchEnd": 129.1,
+          "confidence": 0.75
         },
         {
           "tokens": [
@@ -4058,9 +4058,9 @@
           "tone": "↘",
           "start": 2.987,
           "end": 5.6,
-          "pitchStart": 195.1,
-          "pitchEnd": 129,
-          "confidence": 0.98
+          "pitchStart": 131.1,
+          "pitchEnd": 118.5,
+          "confidence": 0.66
         }
       ]
     },
@@ -4068,7 +4068,7 @@
       "text": "The city library is turning a quiet upstairs room into a small learning centre, and its initial framework is already visible in the open layout.",
       "date": "2026-06-03",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "b77b1aa8ffd46334f4ae01bbfaae75ab9de2bc9ab1e63c577a3dc269f5063562",
       "groups": [
         {
@@ -4139,9 +4139,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 4.225,
-          "pitchStart": 180.8,
-          "pitchEnd": 156.9,
-          "confidence": 0.98
+          "pitchStart": 128.1,
+          "pitchEnd": 119,
+          "confidence": 0.59
         },
         {
           "tokens": [
@@ -4199,9 +4199,9 @@
           "tone": "↘",
           "start": 4.737,
           "end": 8.113,
-          "pitchStart": 192.8,
-          "pitchEnd": 150.9,
-          "confidence": 0.98
+          "pitchStart": 156.9,
+          "pitchEnd": 114.3,
+          "confidence": 0.83
         }
       ]
     },
@@ -4209,7 +4209,7 @@
       "text": "A modest public fund is paying for movable desks, soft lamps, and a paper register where visitors are recording their study goals.",
       "date": "2026-06-03",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "709d28812d5fe389c500a2bdb1bdf71b75c64af7a917ee48e8db8fd1f654629a",
       "groups": [
         {
@@ -4260,9 +4260,9 @@
           "tone": "↗",
           "start": 0.087,
           "end": 2.75,
-          "pitchStart": 163.3,
-          "pitchEnd": 163.3,
-          "confidence": 0.35
+          "pitchStart": 129,
+          "pitchEnd": 216.2,
+          "confidence": 0.73
         },
         {
           "tokens": [
@@ -4284,9 +4284,9 @@
           "tone": "↘",
           "start": 3.063,
           "end": 3.788,
-          "pitchStart": 266.7,
-          "pitchEnd": 123.1,
-          "confidence": 0.98
+          "pitchStart": 139.8,
+          "pitchEnd": 125.5,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -4344,9 +4344,9 @@
           "tone": "↘",
           "start": 4.088,
           "end": 7.513,
-          "pitchStart": 190.5,
-          "pitchEnd": 156.9,
-          "confidence": 0.98
+          "pitchStart": 135,
+          "pitchEnd": 107.8,
+          "confidence": 0.71
         }
       ]
     },
@@ -4354,7 +4354,7 @@
       "text": "Along the main wall, a sequence of simple diagrams is illustrating how learners are moving from silent reading to discussion and then to short writing tasks.",
       "date": "2026-06-03",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "8c4744822074e6b189aaaa29aba3da7a11e2d94cea9679c602b04bb6794543b8",
       "groups": [
         {
@@ -4385,9 +4385,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.1,
-          "pitchStart": 235.3,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 145.5,
+          "pitchEnd": 119.4,
+          "confidence": 0.78
         },
         {
           "tokens": [
@@ -4465,9 +4465,9 @@
           "tone": "↗",
           "start": 1.575,
           "end": 6.825,
-          "pitchStart": 162.4,
-          "pitchEnd": 157.6,
-          "confidence": 0.35
+          "pitchStart": 134.5,
+          "pitchEnd": 142.9,
+          "confidence": 0.62
         },
         {
           "tokens": [
@@ -4505,9 +4505,9 @@
           "tone": "↘",
           "start": 7.15,
           "end": 8.963,
-          "pitchStart": 207.8,
-          "pitchEnd": 128,
-          "confidence": 0.98
+          "pitchStart": 128,
+          "pitchEnd": 101.3,
+          "confidence": 0.56
         }
       ]
     },
@@ -4515,7 +4515,7 @@
       "text": "The design philosophy is not to build a formal classroom; it is to let people interact naturally while still giving them enough structure.",
       "date": "2026-06-03",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "75342b9ac5466a1a23d82785e684fbf9bcb13f63b2f441fbad7d0779c7a7907e",
       "groups": [
         {
@@ -4570,9 +4570,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.987,
-          "pitchStart": 178.8,
-          "pitchEnd": 146.8,
-          "confidence": 0.98
+          "pitchStart": 202.5,
+          "pitchEnd": 119.4,
+          "confidence": 0.7
         },
         {
           "tokens": [
@@ -4614,9 +4614,9 @@
           "tone": "↘",
           "start": 3.638,
           "end": 5.65,
-          "pitchStart": 231.9,
-          "pitchEnd": 171.2,
-          "confidence": 0.98
+          "pitchStart": 183.9,
+          "pitchEnd": 113.5,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -4654,9 +4654,9 @@
           "tone": "↘",
           "start": 5.912,
           "end": 7.8,
-          "pitchStart": 179.8,
-          "pitchEnd": 133.3,
-          "confidence": 0.98
+          "pitchStart": 149.5,
+          "pitchEnd": 110.7,
+          "confidence": 0.62
         }
       ]
     },
@@ -4664,7 +4664,7 @@
       "text": "In one instance, two nurses are relying on the centre to practise English after work, while a retired teacher is helping them specify useful weekly targets.",
       "date": "2026-06-03",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "c32a400dd0d157cd2c36846537faee9b2750d930fbe29f73649512600c8293d4",
       "groups": [
         {
@@ -4691,9 +4691,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.975,
-          "pitchStart": 230.3,
-          "pitchEnd": 125.5,
-          "confidence": 0.98
+          "pitchStart": 285.7,
+          "pitchEnd": 124,
+          "confidence": 0.76
         },
         {
           "tokens": [
@@ -4752,12 +4752,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 1.038,
           "end": 4.375,
-          "pitchStart": 161.6,
-          "pitchEnd": 149.5,
-          "confidence": 0.67
+          "pitchStart": 129,
+          "pitchEnd": 188.2,
+          "confidence": 0.77
         },
         {
           "tokens": [
@@ -4812,12 +4812,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 4.85,
           "end": 8.75,
-          "pitchStart": 217.7,
-          "pitchEnd": 170.2,
-          "confidence": 0.98
+          "pitchStart": 153.8,
+          "pitchEnd": 148.1,
+          "confidence": 0.57
         }
       ]
     },
@@ -4825,7 +4825,7 @@
       "text": "Their progress may look minor at first, but the growing proportion of repeat visitors is showing that the scheme is meeting a real need.",
       "date": "2026-06-03",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "8bb9dcac68872a2539dd2806cc2d3d1e13ea467dfc4db02d69dc9f4df7a9a926",
       "groups": [
         {
@@ -4868,9 +4868,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.125,
-          "pitchStart": 172,
-          "pitchEnd": 146.8,
-          "confidence": 0.98
+          "pitchStart": 235.3,
+          "pitchEnd": 115.9,
+          "confidence": 0.58
         },
         {
           "tokens": [
@@ -4952,9 +4952,9 @@
           "tone": "↘",
           "start": 2.45,
           "end": 6.95,
-          "pitchStart": 186,
-          "pitchEnd": 150.9,
-          "confidence": 0.98
+          "pitchStart": 149.5,
+          "pitchEnd": 108.8,
+          "confidence": 0.82
         }
       ]
     },
@@ -4962,7 +4962,7 @@
       "text": "Staff are collecting feedback every evening, because they are trying to justify the outcome before asking the council for more support.",
       "date": "2026-06-03",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "e7e8d762e38ebce3995a6c27996c3b3ff0a8ce768e633cb3e888e746b9ce3b4f",
       "groups": [
         {
@@ -5001,9 +5001,9 @@
           "tone": "↘",
           "start": 0.075,
           "end": 2.362,
-          "pitchStart": 188.2,
-          "pitchEnd": 142.9,
-          "confidence": 0.98
+          "pitchStart": 210.5,
+          "pitchEnd": 108.8,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -5077,9 +5077,9 @@
           "tone": "↘",
           "start": 2.875,
           "end": 7.388,
-          "pitchStart": 171.1,
-          "pitchEnd": 147.5,
-          "confidence": 0.98
+          "pitchStart": 134.5,
+          "pitchEnd": 118.5,
+          "confidence": 0.66
         }
       ]
     },
@@ -5087,7 +5087,7 @@
       "text": "The manager is not implying that technology alone can solve local education problems.",
       "date": "2026-06-03",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "33546f3ad3376fcbc3b396595122c8e4f9fd580cad4a1d7251f6a325a63046a3",
       "groups": [
         {
@@ -5154,9 +5154,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 5,
-          "pitchStart": 172,
-          "pitchEnd": 165.8,
-          "confidence": 0.35
+          "pitchStart": 128,
+          "pitchEnd": 95.6,
+          "confidence": 0.62
         }
       ]
     },
@@ -5164,7 +5164,7 @@
       "text": "Instead, tablets, printed guides, and volunteer advice are working together, and the room is becoming calmer as people learn the routine.",
       "date": "2026-06-03",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "6c36f3d34455e3dccedc6f09f48af0bff2121debb931b7a25b17b2af242f2e6e",
       "groups": [
         {
@@ -5184,8 +5184,8 @@
           "start": 0.087,
           "end": 0.65,
           "pitchStart": 160,
-          "pitchEnd": 186,
-          "confidence": 0.98
+          "pitchEnd": 222.2,
+          "confidence": 0.83
         },
         {
           "tokens": [
@@ -5232,12 +5232,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.713,
           "end": 4.237,
-          "pitchStart": 164.1,
-          "pitchEnd": 156.9,
-          "confidence": 0.4
+          "pitchStart": 153.8,
+          "pitchEnd": 110.3,
+          "confidence": 0.66
         },
         {
           "tokens": [
@@ -5295,9 +5295,9 @@
           "tone": "↘",
           "start": 4.775,
           "end": 7.638,
-          "pitchStart": 190.5,
-          "pitchEnd": 150.9,
-          "confidence": 0.98
+          "pitchStart": 142.9,
+          "pitchEnd": 130.2,
+          "confidence": 0.77
         }
       ]
     },
@@ -5305,7 +5305,7 @@
       "text": "During the first month, the centre is adjusting its timetable, moving noisy activities to the afternoon, and keeping mornings for focused study.",
       "date": "2026-06-03",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "75cdab64d505066de0c9e810acb26c3f6bee14a2e8daf25fe24ceade33c6642f",
       "groups": [
         {
@@ -5336,9 +5336,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.175,
-          "pitchStart": 258.1,
-          "pitchEnd": 143.5,
-          "confidence": 0.98
+          "pitchStart": 167.6,
+          "pitchEnd": 139.2,
+          "confidence": 0.78
         },
         {
           "tokens": [
@@ -5373,12 +5373,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 1.212,
           "end": 3.313,
-          "pitchStart": 185,
-          "pitchEnd": 227,
-          "confidence": 0.98
+          "pitchStart": 250,
+          "pitchEnd": 109.6,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -5413,12 +5413,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 3.625,
           "end": 5.987,
-          "pitchStart": 200,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 131.1,
+          "pitchEnd": 130.1,
+          "confidence": 0.45
         },
         {
           "tokens": [
@@ -5456,9 +5456,9 @@
           "tone": "↘",
           "start": 6.3,
           "end": 8.325,
-          "pitchStart": 231.9,
-          "pitchEnd": 149.5,
-          "confidence": 0.98
+          "pitchStart": 201.3,
+          "pitchEnd": 105,
+          "confidence": 0.68
         }
       ]
     },
@@ -5466,7 +5466,7 @@
       "text": "By the end of June, the library is hoping to show that a modest fund, a clear framework, and patient interaction can create lasting change.",
       "date": "2026-06-03",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "0a21b60bf0732574c597f17595fc826009b3ea25a00808d460ca1616d6964b8a",
       "groups": [
         {
@@ -5501,9 +5501,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.025,
-          "pitchStart": 207.8,
-          "pitchEnd": 166.7,
-          "confidence": 0.98
+          "pitchStart": 173.9,
+          "pitchEnd": 132.2,
+          "confidence": 0.82
         },
         {
           "tokens": [
@@ -5554,12 +5554,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 1.2,
           "end": 3.65,
-          "pitchStart": 191.6,
-          "pitchEnd": 144.1,
-          "confidence": 0.98
+          "pitchStart": 131.7,
+          "pitchEnd": 168.6,
+          "confidence": 0.73
         },
         {
           "tokens": [
@@ -5585,9 +5585,9 @@
           "tone": "↘",
           "start": 4.125,
           "end": 5.063,
-          "pitchStart": 280.7,
-          "pitchEnd": 213.3,
-          "confidence": 0.98
+          "pitchStart": 225.4,
+          "pitchEnd": 207.8,
+          "confidence": 0.81
         },
         {
           "tokens": [
@@ -5626,12 +5626,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 5.1,
           "end": 7.862,
-          "pitchStart": 176.8,
-          "pitchEnd": 132.2,
-          "confidence": 0.98
+          "pitchStart": 129,
+          "pitchEnd": 122.7,
+          "confidence": 0.58
         }
       ]
     },
@@ -5639,7 +5639,7 @@
       "text": "Last winter, a city council was testing a new grant for households that were struggling with domestic energy costs.",
       "date": "2026-06-04",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "b559949ac44f3f0e00fcd98b9bb1f0452a29748919cd1a6208ba0c4566c2f858",
       "groups": [
         {
@@ -5662,9 +5662,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.863,
-          "pitchStart": 254,
-          "pitchEnd": 145.5,
-          "confidence": 0.98
+          "pitchStart": 179.8,
+          "pitchEnd": 117.6,
+          "confidence": 0.74
         },
         {
           "tokens": [
@@ -5746,9 +5746,9 @@
           "tone": "↘",
           "start": 1.325,
           "end": 6.575,
-          "pitchStart": 166.7,
-          "pitchEnd": 161.6,
-          "confidence": 0.35
+          "pitchStart": 120.8,
+          "pitchEnd": 95.4,
+          "confidence": 0.54
         }
       ]
     },
@@ -5756,7 +5756,7 @@
       "text": "Civil servants were trying to integrate billing data, home surveys, and community advice so that support would reach people with valid claims.",
       "date": "2026-06-04",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "7ccdfe45ababa8254a1658d78dda2688288b96e3766ef2bd403f47e1f2c370e9",
       "groups": [
         {
@@ -5800,12 +5800,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 2.663,
-          "pitchStart": 166.7,
-          "pitchEnd": 141.6,
-          "confidence": 0.98
+          "pitchStart": 133.3,
+          "pitchEnd": 188.2,
+          "confidence": 0.79
         },
         {
           "tokens": [
@@ -5839,9 +5839,9 @@
           "tone": "↘",
           "start": 3.175,
           "end": 5.175,
-          "pitchStart": 155.3,
-          "pitchEnd": 145.5,
-          "confidence": 0.55
+          "pitchStart": 132.2,
+          "pitchEnd": 117.6,
+          "confidence": 0.66
         },
         {
           "tokens": [
@@ -5891,9 +5891,9 @@
           "tone": "↘",
           "start": 5.438,
           "end": 8.037,
-          "pitchStart": 191.6,
-          "pitchEnd": 145.5,
-          "confidence": 0.98
+          "pitchStart": 143.7,
+          "pitchEnd": 116,
+          "confidence": 0.65
         }
       ]
     },
@@ -5901,7 +5901,7 @@
       "text": "The annual budget looked adequate on paper, but staff were receiving a higher volume of applications than expected.",
       "date": "2026-06-04",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "e27886a2e2e995e733153cb30d34dc9c121abb41f13f4ce66b5d1b0f9f6d2f2c",
       "groups": [
         {
@@ -5944,9 +5944,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.263,
-          "pitchStart": 186.1,
-          "pitchEnd": 160,
-          "confidence": 0.98
+          "pitchStart": 128,
+          "pitchEnd": 115.9,
+          "confidence": 0.69
         },
         {
           "tokens": [
@@ -6004,9 +6004,9 @@
           "tone": "↘",
           "start": 2.763,
           "end": 6.525,
-          "pitchStart": 187.1,
-          "pitchEnd": 146.1,
-          "confidence": 0.98
+          "pitchStart": 142.9,
+          "pitchEnd": 117.6,
+          "confidence": 0.77
         }
       ]
     },
@@ -6014,7 +6014,7 @@
       "text": "It was becoming apparent that many ethnic minority families were not applying because the forms were only available in English.",
       "date": "2026-06-04",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "ecb00571b30892fa69011b905a2ddc1371a8f3e85632eb3f0a038961bc44a65d",
       "groups": [
         {
@@ -6077,9 +6077,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.95,
-          "pitchStart": 197.5,
-          "pitchEnd": 149.5,
-          "confidence": 0.98
+          "pitchStart": 174,
+          "pitchEnd": 141.6,
+          "confidence": 0.71
         },
         {
           "tokens": [
@@ -6125,9 +6125,9 @@
           "tone": "↘",
           "start": 4.325,
           "end": 6.9,
-          "pitchStart": 225.4,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 185,
+          "pitchEnd": 118.2,
+          "confidence": 0.74
         }
       ]
     },
@@ -6135,7 +6135,7 @@
       "text": "Hence, local volunteers were translating the guidance while officials were redesigning the website.",
       "date": "2026-06-04",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "1a2794fd06e483ee84083713bdb8e7e8bb730863ca9d65e67f9cd302e16db7f2",
       "groups": [
         {
@@ -6154,9 +6154,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.487,
-          "pitchStart": 271.2,
-          "pitchEnd": 250,
-          "confidence": 0.87
+          "pitchStart": 280.7,
+          "pitchEnd": 246.2,
+          "confidence": 0.92
         },
         {
           "tokens": [
@@ -6191,12 +6191,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.75,
           "end": 3.188,
-          "pitchStart": 156.9,
-          "pitchEnd": 160,
-          "confidence": 0.35
+          "pitchStart": 160,
+          "pitchEnd": 119.4,
+          "confidence": 0.71
         },
         {
           "tokens": [
@@ -6234,9 +6234,9 @@
           "tone": "↘",
           "start": 3.325,
           "end": 5.625,
-          "pitchStart": 188.3,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 133.3,
+          "pitchEnd": 118.9,
+          "confidence": 0.76
         }
       ]
     },
@@ -6244,7 +6244,7 @@
       "text": "The council was also trying to retain basic checks, because some residents feared that faster approval would weaken accountability.",
       "date": "2026-06-04",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "6ec97c75596c662e35b9fac1ba2dd02e13cfb9232341ac9ec97f61a59385efe8",
       "groups": [
         {
@@ -6295,9 +6295,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.788,
-          "pitchStart": 197.5,
-          "pitchEnd": 150.2,
-          "confidence": 0.98
+          "pitchStart": 194,
+          "pitchEnd": 117.2,
+          "confidence": 0.66
         },
         {
           "tokens": [
@@ -6351,9 +6351,9 @@
           "tone": "↘",
           "start": 3.125,
           "end": 7.037,
-          "pitchStart": 192.8,
-          "pitchEnd": 158.4,
-          "confidence": 0.98
+          "pitchStart": 173.9,
+          "pitchEnd": 160,
+          "confidence": 0.7
         }
       ]
     },
@@ -6361,7 +6361,7 @@
       "text": "During a public debate, critics argued that the city was about to impose another complicated system on poor households.",
       "date": "2026-06-04",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "0e186227a7ffb9043ef4b04acbe86db5baa9fc8b3e7eb49d3d83ca07188f5f9b",
       "groups": [
         {
@@ -6389,12 +6389,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.087,
           "end": 1.288,
-          "pitchStart": 262.3,
-          "pitchEnd": 146.1,
-          "confidence": 0.98
+          "pitchStart": 135.6,
+          "pitchEnd": 131.1,
+          "confidence": 0.51
         },
         {
           "tokens": [
@@ -6453,12 +6453,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "→",
           "start": 1.688,
           "end": 5.55,
-          "pitchStart": 163.3,
-          "pitchEnd": 164.9,
-          "confidence": 0.35
+          "pitchStart": 123.1,
+          "pitchEnd": 122.1,
+          "confidence": 0.4
         },
         {
           "tokens": [
@@ -6484,9 +6484,9 @@
           "tone": "↘",
           "start": 5.65,
           "end": 6.787,
-          "pitchStart": 164.1,
-          "pitchEnd": 135.6,
-          "confidence": 0.98
+          "pitchStart": 167.5,
+          "pitchEnd": 122.7,
+          "confidence": 0.77
         }
       ]
     },
@@ -6494,7 +6494,7 @@
       "text": "In response, the project team explained that it was implementing a simpler process, not adding new barriers.",
       "date": "2026-06-04",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "6fb9e42052a28780f967a35419996fba68ce28e6210d9b70fbf8f9ffae39c3db",
       "groups": [
         {
@@ -6558,12 +6558,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 4.3,
-          "pitchStart": 172,
-          "pitchEnd": 200,
-          "confidence": 0.98
+          "pitchStart": 132.8,
+          "pitchEnd": 118.1,
+          "confidence": 0.61
         },
         {
           "tokens": [
@@ -6590,12 +6590,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 4.625,
           "end": 6.037,
-          "pitchStart": 165,
-          "pitchEnd": 164.9,
-          "confidence": 0.35
+          "pitchStart": 138.6,
+          "pitchEnd": 155.6,
+          "confidence": 0.79
         }
       ]
     },
@@ -6603,7 +6603,7 @@
       "text": "As the pilot continued, new problems were emerging: rented homes often lacked sufficient insulation, and some landlords were refusing to cooperate.",
       "date": "2026-06-04",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "9dd2831f6630af48cb68c42cc38a9399c8631b15d5a692e16ea1b52bbb52b861",
       "groups": [
         {
@@ -6634,9 +6634,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.363,
-          "pitchStart": 228.6,
-          "pitchEnd": 172,
-          "confidence": 0.98
+          "pitchStart": 179.8,
+          "pitchEnd": 134.5,
+          "confidence": 0.8
         },
         {
           "tokens": [
@@ -6666,9 +6666,9 @@
           "tone": "↘",
           "start": 1.725,
           "end": 3.138,
-          "pitchStart": 187.1,
-          "pitchEnd": 148.1,
-          "confidence": 0.98
+          "pitchStart": 139.1,
+          "pitchEnd": 123.1,
+          "confidence": 0.8
         },
         {
           "tokens": [
@@ -6703,12 +6703,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "→",
           "start": 3.763,
           "end": 6.263,
-          "pitchStart": 160,
-          "pitchEnd": 159.2,
-          "confidence": 0.35
+          "pitchStart": 141.6,
+          "pitchEnd": 137.1,
+          "confidence": 0.54
         },
         {
           "tokens": [
@@ -6750,9 +6750,9 @@
           "tone": "↘",
           "start": 6.7,
           "end": 9.225,
-          "pitchStart": 186,
-          "pitchEnd": 146.8,
-          "confidence": 0.98
+          "pitchStart": 148.1,
+          "pitchEnd": 108.1,
+          "confidence": 0.66
         }
       ]
     },
@@ -6760,7 +6760,7 @@
       "text": "By March, the evidence was showing that cash support alone was not enough unless repairs were happening at the same time.",
       "date": "2026-06-04",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "e58725428499f9f40ffb3defb17e184c532e7ca235e090e88eb031f5257652fd",
       "groups": [
         {
@@ -6783,9 +6783,9 @@
           "tone": "↘",
           "start": 0.1,
           "end": 0.738,
-          "pitchStart": 182.9,
+          "pitchStart": 177.8,
           "pitchEnd": 155.3,
-          "confidence": 0.98
+          "confidence": 0.84
         },
         {
           "tokens": [
@@ -6875,9 +6875,9 @@
           "tone": "↘",
           "start": 0.775,
           "end": 6.188,
-          "pitchStart": 166.7,
-          "pitchEnd": 142.9,
-          "confidence": 0.98
+          "pitchStart": 132.2,
+          "pitchEnd": 124,
+          "confidence": 0.58
         }
       ]
     },
@@ -6885,7 +6885,7 @@
       "text": "The main lesson was clear: a grant can help, but it works best when public services are integrating money, information, and practical action.",
       "date": "2026-06-04",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "1bb7a122c2eddfd0f734f87128dc15e437716c0b49c0467fdc1a602796d5c6e1",
       "groups": [
         {
@@ -6920,9 +6920,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.313,
-          "pitchStart": 222.2,
-          "pitchEnd": 135.6,
-          "confidence": 0.98
+          "pitchStart": 158.4,
+          "pitchEnd": 100,
+          "confidence": 0.64
         },
         {
           "tokens": [
@@ -6952,9 +6952,9 @@
           "tone": "↗",
           "start": 1.962,
           "end": 2.825,
-          "pitchStart": 166.7,
-          "pitchEnd": 176.8,
-          "confidence": 0.57
+          "pitchStart": 145.5,
+          "pitchEnd": 242.6,
+          "confidence": 0.8
         },
         {
           "tokens": [
@@ -7005,12 +7005,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 3.25,
           "end": 6.425,
-          "pitchStart": 182.9,
-          "pitchEnd": 152.4,
-          "confidence": 0.98
+          "pitchStart": 136.8,
+          "pitchEnd": 246.2,
+          "confidence": 0.84
         },
         {
           "tokens": [
@@ -7040,9 +7040,9 @@
           "tone": "↘",
           "start": 6.725,
           "end": 8.762,
-          "pitchStart": 179.8,
-          "pitchEnd": 160,
-          "confidence": 0.98
+          "pitchStart": 164.1,
+          "pitchEnd": 116.7,
+          "confidence": 0.73
         }
       ]
     },
@@ -7050,7 +7050,7 @@
       "text": "Since the flood, Lina has occupied the back room of the village clinic as a temporary office.",
       "date": "2026-06-08",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "74c9f629947d533c4bdc6a3468ad09db05d758f31a5760f0d254778a466afb57",
       "groups": [
         {
@@ -7077,9 +7077,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.05,
-          "pitchStart": 280.7,
-          "pitchEnd": 154.7,
-          "confidence": 0.98
+          "pitchStart": 205.1,
+          "pitchEnd": 128,
+          "confidence": 0.7
         },
         {
           "tokens": [
@@ -7146,12 +7146,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 1.325,
           "end": 5.65,
-          "pitchStart": 164.9,
-          "pitchEnd": 166.7,
-          "confidence": 0.35
+          "pitchStart": 174.9,
+          "pitchEnd": 179.5,
+          "confidence": 0.51
         }
       ]
     },
@@ -7159,7 +7159,7 @@
       "text": "She has undertaken a quiet investigation into why the clinic's emergency plan failed during its most difficult phase.",
       "date": "2026-06-08",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "83ca5cb1449215f7cc05f63af7bdff6d4488ec5a1d57e8def6fa0be308f03562",
       "groups": [
         {
@@ -7246,9 +7246,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 6.588,
-          "pitchStart": 181.8,
-          "pitchEnd": 152.4,
-          "confidence": 0.98
+          "pitchStart": 158.4,
+          "pitchEnd": 115.2,
+          "confidence": 0.7
         }
       ]
     },
@@ -7256,7 +7256,7 @@
       "text": "Her principal hypothesis is simple: the internal warning mechanism worked, but no one knew who had the status to act on it.",
       "date": "2026-06-08",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "6d0657ed73d1061793b4a573f80af0692824261d6a1210da9ccf6d12f6855eaf",
       "groups": [
         {
@@ -7291,9 +7291,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.013,
-          "pitchStart": 242.5,
-          "pitchEnd": 145.5,
-          "confidence": 0.98
+          "pitchStart": 235.3,
+          "pitchEnd": 155.3,
+          "confidence": 0.89
         },
         {
           "tokens": [
@@ -7324,12 +7324,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 2.663,
           "end": 4.513,
-          "pitchStart": 192.8,
-          "pitchEnd": 140.4,
-          "confidence": 0.98
+          "pitchStart": 127,
+          "pitchEnd": 210.5,
+          "confidence": 0.77
         },
         {
           "tokens": [
@@ -7391,9 +7391,9 @@
           "tone": "↘",
           "start": 4.8,
           "end": 7.275,
-          "pitchStart": 183.9,
-          "pitchEnd": 146.1,
-          "confidence": 0.98
+          "pitchStart": 155.3,
+          "pitchEnd": 108.8,
+          "confidence": 0.66
         }
       ]
     },
@@ -7401,7 +7401,7 @@
       "text": "For three weeks, she has compared the clinic's medical output with the number of families asking for welfare support.",
       "date": "2026-06-08",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "cd22f4f4a34b024e24070b4254a11af4dadb80f6df8039b817419f9292ff00f6",
       "groups": [
         {
@@ -7428,9 +7428,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.938,
-          "pitchStart": 246.2,
-          "pitchEnd": 151.8,
-          "confidence": 0.98
+          "pitchStart": 307.8,
+          "pitchEnd": 131.7,
+          "confidence": 0.86
         },
         {
           "tokens": [
@@ -7508,9 +7508,9 @@
           "tone": "↘",
           "start": 1.337,
           "end": 6.388,
-          "pitchStart": 183.9,
-          "pitchEnd": 144.1,
-          "confidence": 0.98
+          "pitchStart": 125,
+          "pitchEnd": 108.2,
+          "confidence": 0.61
         }
       ]
     },
@@ -7518,7 +7518,7 @@
       "text": "The figures have exposed a painful gap: elderly patients have received medicine, but many have not yet received clean water.",
       "date": "2026-06-08",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "9a352967f9c01902f4f241848846a55b9d5f5d8fa4dcb442a4ffdc44adc134b1",
       "groups": [
         {
@@ -7558,12 +7558,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 2.15,
-          "pitchStart": 185.1,
-          "pitchEnd": 153.8,
-          "confidence": 0.98
+          "pitchStart": 132.2,
+          "pitchEnd": 144.1,
+          "confidence": 0.66
         },
         {
           "tokens": [
@@ -7597,9 +7597,9 @@
           "tone": "↘",
           "start": 2.8,
           "end": 4.875,
-          "pitchStart": 219.2,
-          "pitchEnd": 167.5,
-          "confidence": 0.98
+          "pitchStart": 172,
+          "pitchEnd": 114.3,
+          "confidence": 0.78
         },
         {
           "tokens": [
@@ -7645,9 +7645,9 @@
           "tone": "↘",
           "start": 5.188,
           "end": 7.5,
-          "pitchStart": 197.5,
-          "pitchEnd": 170.2,
-          "confidence": 0.98
+          "pitchStart": 166.7,
+          "pitchEnd": 112.7,
+          "confidence": 0.85
         }
       ]
     },
@@ -7655,7 +7655,7 @@
       "text": "Prior reports blamed the storm alone, yet Lina has found a parallel problem in the finance records.",
       "date": "2026-06-08",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "7d69830ba322ca6ab5292d3bd04454e920adae8c63c0587eb1dee73687e44ff6",
       "groups": [
         {
@@ -7691,12 +7691,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.087,
           "end": 2.063,
-          "pitchStart": 170.2,
-          "pitchEnd": 149.5,
-          "confidence": 0.98
+          "pitchStart": 134.5,
+          "pitchEnd": 128,
+          "confidence": 0.59
         },
         {
           "tokens": [
@@ -7754,9 +7754,9 @@
           "tone": "↘",
           "start": 2.612,
           "end": 5.888,
-          "pitchStart": 210.5,
-          "pitchEnd": 144.8,
-          "confidence": 0.98
+          "pitchStart": 128,
+          "pitchEnd": 114.3,
+          "confidence": 0.62
         }
       ]
     },
@@ -7764,7 +7764,7 @@
       "text": "A small sum had been reserved for transport, but it has already been spent on repairing the generator.",
       "date": "2026-06-08",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "fe9fa4db84f922a226d2413de140b8c355c57ee2ddd5d0f2e485fd9086dee20f",
       "groups": [
         {
@@ -7811,9 +7811,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.563,
-          "pitchStart": 190.5,
-          "pitchEnd": 166.7,
-          "confidence": 0.98
+          "pitchStart": 210.5,
+          "pitchEnd": 111.1,
+          "confidence": 0.69
         },
         {
           "tokens": [
@@ -7867,9 +7867,9 @@
           "tone": "↘",
           "start": 2.875,
           "end": 5.862,
-          "pitchStart": 207.8,
-          "pitchEnd": 168.4,
-          "confidence": 0.98
+          "pitchStart": 195.1,
+          "pitchEnd": 108.8,
+          "confidence": 0.73
         }
       ]
     },
@@ -7877,7 +7877,7 @@
       "text": "When the nurse Mei saw the records, she said the overall picture was worse than anyone had assumed.",
       "date": "2026-06-08",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "901381144d65fc046722cb8f7cded558d4c7bf1cbb8ff0a7f3dfe926c9da4799",
       "groups": [
         {
@@ -7920,9 +7920,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.725,
-          "pitchStart": 213.3,
-          "pitchEnd": 145.5,
-          "confidence": 0.98
+          "pitchStart": 138.5,
+          "pitchEnd": 117.7,
+          "confidence": 0.75
         },
         {
           "tokens": [
@@ -7980,9 +7980,9 @@
           "tone": "↘",
           "start": 2.025,
           "end": 5.313,
-          "pitchStart": 200,
-          "pitchEnd": 160,
-          "confidence": 0.98
+          "pitchStart": 144.1,
+          "pitchEnd": 125.5,
+          "confidence": 0.75
         }
       ]
     },
@@ -7990,7 +7990,7 @@
       "text": "Lina has just called a meeting with the doctor, the driver, and the town officer to resolve the confusion.",
       "date": "2026-06-08",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "ac9c11475f5f90b6e589d7a40701393365d6856b32d2c15038a3e867a1a48f61",
       "groups": [
         {
@@ -8046,12 +8046,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 3.2,
-          "pitchStart": 174.9,
-          "pitchEnd": 179.8,
-          "confidence": 0.35
+          "pitchStart": 179.8,
+          "pitchEnd": 127,
+          "confidence": 0.82
         },
         {
           "tokens": [
@@ -8097,9 +8097,9 @@
           "tone": "↘",
           "start": 3.438,
           "end": 5.938,
-          "pitchStart": 216.3,
-          "pitchEnd": 156.9,
-          "confidence": 0.98
+          "pitchStart": 156.9,
+          "pitchEnd": 128,
+          "confidence": 0.76
         }
       ]
     },
@@ -8107,7 +8107,7 @@
       "text": "During the meeting, each person has explained what they did, what they missed, and what they still need.",
       "date": "2026-06-08",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "a84d949b980cedb1c841dcf7abe555d348fef3a52680cfe373fe82e53d8de13c",
       "groups": [
         {
@@ -8174,9 +8174,9 @@
           "tone": "↗",
           "start": 0.1,
           "end": 3.625,
-          "pitchStart": 172,
-          "pitchEnd": 170.2,
-          "confidence": 0.35
+          "pitchStart": 158.4,
+          "pitchEnd": 177.8,
+          "confidence": 0.85
         },
         {
           "tokens": [
@@ -8210,9 +8210,9 @@
           "tone": "↘",
           "start": 3.8,
           "end": 4.963,
-          "pitchStart": 220.7,
-          "pitchEnd": 188.2,
-          "confidence": 0.98
+          "pitchStart": 188.2,
+          "pitchEnd": 116.4,
+          "confidence": 0.88
         }
       ]
     },
@@ -8220,7 +8220,7 @@
       "text": "The subsequent plan is modest: one team will deliver water, while another will check patients who have been waiting at home.",
       "date": "2026-06-08",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "9f216c1826c75d909b67c4452e7a769d33a1924350aa7cf8dd9462efaf905248",
       "groups": [
         {
@@ -8255,9 +8255,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.738,
-          "pitchStart": 242.4,
-          "pitchEnd": 155.3,
-          "confidence": 0.98
+          "pitchStart": 158.4,
+          "pitchEnd": 119.4,
+          "confidence": 0.74
         },
         {
           "tokens": [
@@ -8291,9 +8291,9 @@
           "tone": "↘",
           "start": 2.288,
           "end": 3.725,
-          "pitchStart": 233.6,
-          "pitchEnd": 152.4,
-          "confidence": 0.98
+          "pitchStart": 146.8,
+          "pitchEnd": 117.6,
+          "confidence": 0.81
         },
         {
           "tokens": [
@@ -8351,9 +8351,9 @@
           "tone": "↘",
           "start": 4.225,
           "end": 7.013,
-          "pitchStart": 216.3,
-          "pitchEnd": 155.3,
-          "confidence": 0.98
+          "pitchStart": 191.6,
+          "pitchEnd": 115.9,
+          "confidence": 0.74
         }
       ]
     },
@@ -8361,7 +8361,7 @@
       "text": "By evening, Lina has not solved every problem, but she has turned a broken system into a clear list of duties.",
       "date": "2026-06-08",
       "num": 12,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "24c8d3fed2ece69213d4bf7a05c5829723a3dbbed574111f95173bc5ed8ea387",
       "groups": [
         {
@@ -8408,9 +8408,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.587,
-          "pitchStart": 202.6,
-          "pitchEnd": 149.5,
-          "confidence": 0.98
+          "pitchStart": 201.3,
+          "pitchEnd": 105.3,
+          "confidence": 0.66
         },
         {
           "tokens": [
@@ -8476,9 +8476,9 @@
           "tone": "↘",
           "start": 3.1,
           "end": 6.513,
-          "pitchStart": 189.4,
-          "pitchEnd": 179.8,
-          "confidence": 0.53
+          "pitchStart": 180.8,
+          "pitchEnd": 117.7,
+          "confidence": 0.73
         }
       ]
     },
@@ -8486,7 +8486,7 @@
       "text": "A town that faces hotter summers needs an objective method for choosing where to build public cooling rooms.",
       "date": "2026-07-09",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "b4c8c16c5a18da7ad143fe6afb5ffcb1d02688be4f21bac6ec5503fe5dd8a09f",
       "groups": [
         {
@@ -8573,9 +8573,9 @@
           "tone": "↘",
           "start": 0.075,
           "end": 5.513,
-          "pitchStart": 186,
-          "pitchEnd": 163.3,
-          "confidence": 0.98
+          "pitchStart": 124,
+          "pitchEnd": 102.6,
+          "confidence": 0.74
         }
       ]
     },
@@ -8583,7 +8583,7 @@
       "text": "Before the council made its first draft, engineers had studied five years of hospital data and the decline in tree cover.",
       "date": "2026-07-09",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "1e0cd6ccf06a4e505c8df280c7e64d77e4a78399266713195b87b4b5b20985fe",
       "groups": [
         {
@@ -8623,12 +8623,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.1,
           "end": 2.163,
-          "pitchStart": 183.9,
-          "pitchEnd": 148.9,
-          "confidence": 0.98
+          "pitchStart": 144.8,
+          "pitchEnd": 139.9,
+          "confidence": 0.5
         },
         {
           "tokens": [
@@ -8674,9 +8674,9 @@
           "tone": "↘",
           "start": 2.462,
           "end": 5.3,
-          "pitchStart": 188.2,
-          "pitchEnd": 152.4,
-          "confidence": 0.98
+          "pitchStart": 129,
+          "pitchEnd": 115.5,
+          "confidence": 0.71
         },
         {
           "tokens": [
@@ -8714,9 +8714,9 @@
           "tone": "↘",
           "start": 5.425,
           "end": 7.013,
-          "pitchStart": 213.3,
-          "pitchEnd": 133.9,
-          "confidence": 0.98
+          "pitchStart": 165.9,
+          "pitchEnd": 102.9,
+          "confidence": 0.6
         }
       ]
     },
@@ -8724,7 +8724,7 @@
       "text": "Their fundamental question was not which building looked modern, but which site could protect the largest number of residents.",
       "date": "2026-07-09",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "cda92b3c1ad4d7bf5cf4e05bd807f489eeb3ce486c20e5572adf2cee03ca3131",
       "groups": [
         {
@@ -8775,9 +8775,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.075,
-          "pitchStart": 188.2,
-          "pitchEnd": 152.4,
-          "confidence": 0.98
+          "pitchStart": 177.8,
+          "pitchEnd": 107.4,
+          "confidence": 0.69
         },
         {
           "tokens": [
@@ -8831,9 +8831,9 @@
           "tone": "↘",
           "start": 3.4,
           "end": 6.475,
-          "pitchStart": 183.9,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 175.8,
+          "pitchEnd": 115.9,
+          "confidence": 0.66
         }
       ]
     },
@@ -8841,7 +8841,7 @@
       "text": "Capacity matters because one library room may hold forty people, while a school hall has capacity equivalent to several small centres.",
       "date": "2026-07-09",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "2f34bf97d84ececf548fd93e01feac0de43ecec7037ef3b6946227cc862891aa",
       "groups": [
         {
@@ -8893,12 +8893,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.087,
           "end": 3.525,
-          "pitchStart": 173.9,
-          "pitchEnd": 147.5,
-          "confidence": 0.98
+          "pitchStart": 142.9,
+          "pitchEnd": 136.8,
+          "confidence": 0.57
         },
         {
           "tokens": [
@@ -8956,9 +8956,9 @@
           "tone": "↘",
           "start": 4.125,
           "end": 7.862,
-          "pitchStart": 210.5,
-          "pitchEnd": 183.9,
-          "confidence": 0.98
+          "pitchStart": 139.1,
+          "pitchEnd": 124,
+          "confidence": 0.77
         }
       ]
     },
@@ -8966,7 +8966,7 @@
       "text": "Planners must also consult doctors, transport staff, and housing officers before they pursue a final design.",
       "date": "2026-07-09",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "0bf5409cda5bdb34ae90f09fe93cf3a9af83c78f77f261b098a85292f82d331d",
       "groups": [
         {
@@ -8998,12 +8998,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 2.075,
-          "pitchStart": 222.2,
-          "pitchEnd": 158.4,
-          "confidence": 0.98
+          "pitchStart": 123.1,
+          "pitchEnd": 213.3,
+          "confidence": 0.73
         },
         {
           "tokens": [
@@ -9022,12 +9022,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 2.362,
           "end": 3.388,
-          "pitchStart": 258.1,
-          "pitchEnd": 122.6,
-          "confidence": 0.98
+          "pitchStart": 128,
+          "pitchEnd": 139.1,
+          "confidence": 0.64
         },
         {
           "tokens": [
@@ -9074,12 +9074,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 3.55,
           "end": 6.575,
-          "pitchStart": 235.3,
-          "pitchEnd": 137.9,
-          "confidence": 0.98
+          "pitchStart": 133.3,
+          "pitchEnd": 131.2,
+          "confidence": 0.46
         }
       ]
     },
@@ -9087,7 +9087,7 @@
       "text": "These groups often reveal a hidden conflict between medical need and travel time.",
       "date": "2026-07-09",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "3d5f261f77ea65d4e8702e13b2f5485245e9986de283d4e944623026cc6abae9",
       "groups": [
         {
@@ -9154,9 +9154,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 4.45,
-          "pitchStart": 172,
-          "pitchEnd": 172,
-          "confidence": 0.35
+          "pitchStart": 128,
+          "pitchEnd": 113.5,
+          "confidence": 0.57
         }
       ]
     },
@@ -9164,7 +9164,7 @@
       "text": "For example, an external contractor may suggest a cheap site, but nurses may know that older residents cannot reach it.",
       "date": "2026-07-09",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "5e0137855e45be38e4600aa5bdd08261c91806d2a8def3653fceed58b23140c0",
       "groups": [
         {
@@ -9184,12 +9184,12 @@
             false,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 0.087,
           "end": 0.825,
-          "pitchStart": 181.8,
-          "pitchEnd": 206.5,
-          "confidence": 0.98
+          "pitchStart": 175.8,
+          "pitchEnd": 122.1,
+          "confidence": 0.79
         },
         {
           "tokens": [
@@ -9235,9 +9235,9 @@
           "tone": "↘",
           "start": 1.05,
           "end": 3.688,
-          "pitchStart": 225.4,
-          "pitchEnd": 163.3,
-          "confidence": 0.98
+          "pitchStart": 216.2,
+          "pitchEnd": 109.6,
+          "confidence": 0.57
         },
         {
           "tokens": [
@@ -9291,9 +9291,9 @@
           "tone": "↘",
           "start": 4.175,
           "end": 7.1,
-          "pitchStart": 200,
-          "pitchEnd": 146.1,
-          "confidence": 0.98
+          "pitchStart": 156.9,
+          "pitchEnd": 125,
+          "confidence": 0.83
         }
       ]
     },
@@ -9301,7 +9301,7 @@
       "text": "The team can adjust the plan by adding shuttle stops or alter opening hours during dangerous afternoons.",
       "date": "2026-07-09",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "9fc0c36e69ba377776620f90c52df996cad9d7e9ed98f2257084ba53e5e66cb2",
       "groups": [
         {
@@ -9384,9 +9384,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 5.675,
-          "pitchStart": 160,
-          "pitchEnd": 143.5,
-          "confidence": 0.92
+          "pitchStart": 129,
+          "pitchEnd": 116.4,
+          "confidence": 0.75
         }
       ]
     },
@@ -9394,7 +9394,7 @@
       "text": "If the building uses roof panels to generate electricity, the system can reduce costs and enable longer service during power cuts.",
       "date": "2026-07-09",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "8569930d398dec090126c8a26ef393f567edade60ee24d5170be5cbc6d98a733",
       "groups": [
         {
@@ -9445,9 +9445,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.063,
-          "pitchStart": 188.2,
-          "pitchEnd": 153.1,
-          "confidence": 0.98
+          "pitchStart": 132.2,
+          "pitchEnd": 117.2,
+          "confidence": 0.73
         },
         {
           "tokens": [
@@ -9509,9 +9509,9 @@
           "tone": "↘",
           "start": 3.538,
           "end": 7.487,
-          "pitchStart": 190.5,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 119.4,
+          "pitchEnd": 93.6,
+          "confidence": 0.55
         }
       ]
     },
@@ -9519,7 +9519,7 @@
       "text": "In some places, a safe cooling paint is treated as a chemical compound, so the owner must check whether a special licence is required.",
       "date": "2026-07-09",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "ece4dd3ed51c6f011b4773ab3319e767bc9c4823fc93f72dc86489ceec8308b7",
       "groups": [
         {
@@ -9586,9 +9586,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.825,
-          "pitchStart": 165.8,
-          "pitchEnd": 151.7,
-          "confidence": 0.79
+          "pitchStart": 132.2,
+          "pitchEnd": 108.1,
+          "confidence": 0.63
         },
         {
           "tokens": [
@@ -9643,12 +9643,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 4.313,
           "end": 7.45,
-          "pitchStart": 164.9,
-          "pitchEnd": 148.1,
-          "confidence": 0.93
+          "pitchStart": 146.8,
+          "pitchEnd": 207.8,
+          "confidence": 0.76
         }
       ]
     },
@@ -9656,7 +9656,7 @@
       "text": "By the time the first centre opened, the rules had evolved from a simple building project into a health plan.",
       "date": "2026-07-09",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "2aba339c2fa0d95ef6b8110a5cc72cd5c1cf9f2a325759a5f7035a8b6bd3b206",
       "groups": [
         {
@@ -9696,12 +9696,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 0.1,
           "end": 1.913,
-          "pitchStart": 213.3,
-          "pitchEnd": 128,
-          "confidence": 0.98
+          "pitchStart": 125,
+          "pitchEnd": 131.1,
+          "confidence": 0.55
         },
         {
           "tokens": [
@@ -9767,9 +9767,9 @@
           "tone": "↘",
           "start": 2.212,
           "end": 5.838,
-          "pitchStart": 186,
-          "pitchEnd": 151,
-          "confidence": 0.98
+          "pitchStart": 124.6,
+          "pitchEnd": 85.9,
+          "confidence": 0.53
         }
       ]
     },
@@ -9777,7 +9777,7 @@
       "text": "The final lesson is clear: climate adaptation works best when technical choices are tied to daily routines.",
       "date": "2026-07-09",
       "num": 12,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "c723e0d6529f3f0014ee3831b83a07ba8361695c574d95da8a15b248fba12357",
       "groups": [
         {
@@ -9812,9 +9812,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.475,
-          "pitchStart": 250,
-          "pitchEnd": 141,
-          "confidence": 0.98
+          "pitchStart": 188.2,
+          "pitchEnd": 106,
+          "confidence": 0.63
         },
         {
           "tokens": [
@@ -9873,12 +9873,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 2,
           "end": 6.425,
-          "pitchStart": 155.3,
-          "pitchEnd": 144.1,
-          "confidence": 0.62
+          "pitchStart": 142.2,
+          "pitchEnd": 140.5,
+          "confidence": 0.49
         }
       ]
     },
@@ -9886,7 +9886,7 @@
       "text": "For six months, Leila has been trying to transform an abandoned railway station into a weekend market for local artists.",
       "date": "2026-07-13",
       "num": 1,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "f3fe3c91d239d039cf0450577864b0a0d08e29ed920c14453c0958d6cefb18a8",
       "groups": [
         {
@@ -9913,9 +9913,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 0.938,
-          "pitchStart": 313.7,
-          "pitchEnd": 163.3,
-          "confidence": 0.98
+          "pitchStart": 202.6,
+          "pitchEnd": 133.3,
+          "confidence": 0.76
         },
         {
           "tokens": [
@@ -9997,9 +9997,9 @@
           "tone": "↘",
           "start": 1.238,
           "end": 6.987,
-          "pitchStart": 173.9,
-          "pitchEnd": 155.3,
-          "confidence": 0.98
+          "pitchStart": 166.7,
+          "pitchEnd": 129,
+          "confidence": 0.73
         }
       ]
     },
@@ -10007,7 +10007,7 @@
       "text": "She has been working with a diverse team of bakers, musicians, engineers, and shopkeepers, all of whom need a flexible space.",
       "date": "2026-07-13",
       "num": 2,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "a8facba349dd65d691b96e563327ce57189e808042af7f6d99dba28a8c68e07d",
       "groups": [
         {
@@ -10059,12 +10059,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 2.462,
-          "pitchStart": 168.4,
-          "pitchEnd": 152.4,
-          "confidence": 0.89
+          "pitchStart": 150.2,
+          "pitchEnd": 252,
+          "confidence": 0.81
         },
         {
           "tokens": [
@@ -10094,9 +10094,9 @@
           "tone": "↘",
           "start": 2.625,
           "end": 4.95,
-          "pitchStart": 205.1,
-          "pitchEnd": 158.4,
-          "confidence": 0.98
+          "pitchStart": 242.4,
+          "pitchEnd": 109.6,
+          "confidence": 0.69
         },
         {
           "tokens": [
@@ -10138,9 +10138,9 @@
           "tone": "↘",
           "start": 5.4,
           "end": 7.287,
-          "pitchStart": 186,
-          "pitchEnd": 135.6,
-          "confidence": 0.98
+          "pitchStart": 144.3,
+          "pitchEnd": 106,
+          "confidence": 0.66
         }
       ]
     },
@@ -10148,7 +10148,7 @@
       "text": "Their prime concern is money: the market must earn enough revenue to keep the old building safe and the project stable.",
       "date": "2026-07-13",
       "num": 3,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "d4d4638628172541848b7b469778411f332c60c26ddb882edc86c0666fdf2de6",
       "groups": [
         {
@@ -10183,9 +10183,9 @@
           "tone": "↘",
           "start": 0.1,
           "end": 1.637,
-          "pitchStart": 242.4,
-          "pitchEnd": 160,
-          "confidence": 0.98
+          "pitchStart": 186,
+          "pitchEnd": 111.9,
+          "confidence": 0.79
         },
         {
           "tokens": [
@@ -10263,9 +10263,9 @@
           "tone": "↘",
           "start": 1.962,
           "end": 6.612,
-          "pitchStart": 179.8,
-          "pitchEnd": 180.8,
-          "confidence": 0.35
+          "pitchStart": 187.1,
+          "pitchEnd": 119.1,
+          "confidence": 0.81
         }
       ]
     },
@@ -10273,7 +10273,7 @@
       "text": "At first, Leila held an abstract notion that good design simply meant placing every stall in a neat row.",
       "date": "2026-07-13",
       "num": 4,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "f04c33da2a36f37061e801969919c6979d0032ef9eb598c59fa36d3dc5160018",
       "groups": [
         {
@@ -10364,9 +10364,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 5.8,
-          "pitchStart": 170.2,
-          "pitchEnd": 157.6,
-          "confidence": 0.7
+          "pitchStart": 158.4,
+          "pitchEnd": 124,
+          "confidence": 0.75
         }
       ]
     },
@@ -10374,7 +10374,7 @@
       "text": "Then, on a stormy Saturday, the entrance monitor showed an accurate count of visitors leaving after only ten minutes.",
       "date": "2026-07-13",
       "num": 5,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "35f5eb462a497197ef17cd4f9c64ebde852f32ed7c485671c808c52c436cfbb1",
       "groups": [
         {
@@ -10409,9 +10409,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.813,
-          "pitchStart": 202.5,
-          "pitchEnd": 155.3,
-          "confidence": 0.98
+          "pitchStart": 192.8,
+          "pitchEnd": 115.1,
+          "confidence": 0.72
         },
         {
           "tokens": [
@@ -10478,12 +10478,12 @@
             true,
             true
           ],
-          "tone": "↗",
+          "tone": "↘",
           "start": 2.112,
           "end": 6.737,
-          "pitchStart": 161.6,
-          "pitchEnd": 177.8,
-          "confidence": 0.9
+          "pitchStart": 181.8,
+          "pitchEnd": 121.2,
+          "confidence": 0.86
         }
       ]
     },
@@ -10491,7 +10491,7 @@
       "text": "Amir, a psychology student, said the supposedly neutral layout ignored how colour, sound, and crowding shaped a visitor's perspective.",
       "date": "2026-07-13",
       "num": 6,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "f397fdf3f6ad360d93372b558052f6ad4e31cb1f00257307f1425f850416670c",
       "groups": [
         {
@@ -10522,9 +10522,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.625,
-          "pitchStart": 227,
-          "pitchEnd": 127.5,
-          "confidence": 0.98
+          "pitchStart": 127.5,
+          "pitchEnd": 118.1,
+          "confidence": 0.64
         },
         {
           "tokens": [
@@ -10567,12 +10567,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 2.013,
           "end": 4.763,
-          "pitchStart": 201.3,
-          "pitchEnd": 134.5,
-          "confidence": 0.98
+          "pitchStart": 128,
+          "pitchEnd": 262.3,
+          "confidence": 0.91
         },
         {
           "tokens": [
@@ -10611,12 +10611,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "→",
           "start": 5.2,
           "end": 7.85,
-          "pitchStart": 213.3,
-          "pitchEnd": 142.9,
-          "confidence": 0.98
+          "pitchStart": 142.9,
+          "pitchEnd": 143.5,
+          "confidence": 0.39
         }
       ]
     },
@@ -10624,7 +10624,7 @@
       "text": "He had been watching families pause near the door, and he had written precise observations in the margin of Leila's floor plan.",
       "date": "2026-07-13",
       "num": 7,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "8039c5208738bfa1d87e2b60619baab23ad88a12bd56cdec7b706d9401bc8323",
       "groups": [
         {
@@ -10675,9 +10675,9 @@
           "tone": "↘",
           "start": 0.275,
           "end": 3.112,
-          "pitchStart": 202.5,
-          "pitchEnd": 168.4,
-          "confidence": 0.98
+          "pitchStart": 181.8,
+          "pitchEnd": 114.7,
+          "confidence": 0.69
         },
         {
           "tokens": [
@@ -10743,9 +10743,9 @@
           "tone": "↘",
           "start": 3.425,
           "end": 7.438,
-          "pitchStart": 200,
-          "pitchEnd": 158.4,
-          "confidence": 0.98
+          "pitchStart": 183.9,
+          "pitchEnd": 119,
+          "confidence": 0.72
         }
       ]
     },
@@ -10753,7 +10753,7 @@
       "text": "Leila had to acknowledge that his evidence challenged her original idea, so she asked the team to modify the hall before the next market.",
       "date": "2026-07-13",
       "num": 8,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "90feea2ef503336461ee883d803dd10785d780196858f3a7e4fd273961a65f66",
       "groups": [
         {
@@ -10809,12 +10809,12 @@
             true,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 0.087,
           "end": 3.712,
-          "pitchStart": 160,
-          "pitchEnd": 146.1,
-          "confidence": 0.77
+          "pitchStart": 127,
+          "pitchEnd": 228.6,
+          "confidence": 0.75
         },
         {
           "tokens": [
@@ -10880,9 +10880,9 @@
           "tone": "↘",
           "start": 4.263,
           "end": 7.55,
-          "pitchStart": 203.8,
-          "pitchEnd": 139.1,
-          "confidence": 0.98
+          "pitchStart": 137.9,
+          "pitchEnd": 115.9,
+          "confidence": 0.7
         }
       ]
     },
@@ -10890,7 +10890,7 @@
       "text": "They moved food stalls towards the centre, created a quiet path along the wall, and left a small stage beside the waiting area.",
       "date": "2026-07-13",
       "num": 9,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "d0bcbb2a14a51ef506089324e627555635fdff622db6ab48335eeb1e659f9c82",
       "groups": [
         {
@@ -10933,9 +10933,9 @@
           "tone": "↘",
           "start": 0.1,
           "end": 2.2,
-          "pitchStart": 246.2,
-          "pitchEnd": 149.5,
-          "confidence": 0.98
+          "pitchStart": 175.3,
+          "pitchEnd": 115.9,
+          "confidence": 0.7
         },
         {
           "tokens": [
@@ -10977,9 +10977,9 @@
           "tone": "↘",
           "start": 2.475,
           "end": 4.513,
-          "pitchStart": 250,
-          "pitchEnd": 137.9,
-          "confidence": 0.98
+          "pitchStart": 135.6,
+          "pitchEnd": 118.6,
+          "confidence": 0.77
         },
         {
           "tokens": [
@@ -11029,9 +11029,9 @@
           "tone": "↘",
           "start": 4.813,
           "end": 7.375,
-          "pitchStart": 228.6,
-          "pitchEnd": 141.6,
-          "confidence": 0.98
+          "pitchStart": 132.2,
+          "pitchEnd": 111.1,
+          "confidence": 0.74
         }
       ]
     },
@@ -11039,7 +11039,7 @@
       "text": "The more flexible arrangement transformed the atmosphere: children stayed to listen, older visitors found seats, and strangers began talking.",
       "date": "2026-07-13",
       "num": 10,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "70a223143e10e72512479c3792b1b35d99bdcb37ed5818f88d44a3465a921365",
       "groups": [
         {
@@ -11082,9 +11082,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 2.775,
-          "pitchStart": 181.8,
-          "pitchEnd": 153.9,
-          "confidence": 0.98
+          "pitchStart": 142.2,
+          "pitchEnd": 103.7,
+          "confidence": 0.71
         },
         {
           "tokens": [
@@ -11111,12 +11111,12 @@
             false,
             true
           ],
-          "tone": "↘",
+          "tone": "↗",
           "start": 3.35,
           "end": 4.6,
-          "pitchStart": 275.9,
-          "pitchEnd": 170.2,
-          "confidence": 0.98
+          "pitchStart": 140.4,
+          "pitchEnd": 258.1,
+          "confidence": 0.81
         },
         {
           "tokens": [
@@ -11162,9 +11162,9 @@
           "tone": "↘",
           "start": 4.888,
           "end": 7.925,
-          "pitchStart": 168.4,
-          "pitchEnd": 170.2,
-          "confidence": 0.35
+          "pitchStart": 148.1,
+          "pitchEnd": 100.6,
+          "confidence": 0.74
         }
       ]
     },
@@ -11172,7 +11172,7 @@
       "text": "Since that evening, vendors have been reporting higher sales, while Leila has been monitoring whether the new revenue remains stable.",
       "date": "2026-07-13",
       "num": 11,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "0e01dab65573690ae0ce8a01d38d6dc43a3a6dcd41eba7dc862862c36241a97c",
       "groups": [
         {
@@ -11199,9 +11199,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 1.025,
-          "pitchStart": 278.3,
-          "pitchEnd": 173.9,
-          "confidence": 0.98
+          "pitchStart": 213.3,
+          "pitchEnd": 129,
+          "confidence": 0.8
         },
         {
           "tokens": [
@@ -11239,9 +11239,9 @@
           "tone": "↘",
           "start": 1.225,
           "end": 3.3,
-          "pitchStart": 175.8,
-          "pitchEnd": 150.9,
-          "confidence": 0.98
+          "pitchStart": 195.1,
+          "pitchEnd": 121.2,
+          "confidence": 0.75
         },
         {
           "tokens": [
@@ -11299,9 +11299,9 @@
           "tone": "↘",
           "start": 3.65,
           "end": 7.125,
-          "pitchStart": 155.3,
-          "pitchEnd": 146.8,
-          "confidence": 0.48
+          "pitchStart": 132.2,
+          "pitchEnd": 109.6,
+          "confidence": 0.64
         }
       ]
     },
@@ -11309,7 +11309,7 @@
       "text": "She now understands that a useful notion is never merely abstract; it must be tested with accurate evidence, viewed from more than one perspective, and modified when reality disagrees.",
       "date": "2026-07-13",
       "num": 12,
-      "source": "edge-tts-word-boundary-analysis-v2",
+      "source": "edge-tts-nuclear-tone-analysis-v3",
       "audioHash": "708b88803718ed566e3a0e392797eaae7c4d5d911d5867e8def1b51752ec7fa1",
       "groups": [
         {
@@ -11368,9 +11368,9 @@
           "tone": "↘",
           "start": 0.087,
           "end": 3.688,
-          "pitchStart": 181.8,
-          "pitchEnd": 176.8,
-          "confidence": 0.35
+          "pitchStart": 152.4,
+          "pitchEnd": 106.3,
+          "confidence": 0.57
         },
         {
           "tokens": [
@@ -11412,9 +11412,9 @@
           "tone": "↘",
           "start": 4.037,
           "end": 6.188,
-          "pitchStart": 238.8,
-          "pitchEnd": 148.1,
-          "confidence": 0.98
+          "pitchStart": 220.7,
+          "pitchEnd": 119.9,
+          "confidence": 0.73
         },
         {
           "tokens": [
@@ -11452,9 +11452,9 @@
           "tone": "↘",
           "start": 6.5,
           "end": 8.325,
-          "pitchStart": 207.8,
-          "pitchEnd": 164.9,
-          "confidence": 0.98
+          "pitchStart": 164.9,
+          "pitchEnd": 116.4,
+          "confidence": 0.7
         },
         {
           "tokens": [
@@ -11488,9 +11488,9 @@
           "tone": "↘",
           "start": 8.613,
           "end": 10.925,
-          "pitchStart": 153.8,
-          "pitchEnd": 139.7,
-          "confidence": 0.78
+          "pitchStart": 136.8,
+          "pitchEnd": 126,
+          "confidence": 0.66
         }
       ]
     }

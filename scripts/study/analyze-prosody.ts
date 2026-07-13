@@ -23,6 +23,8 @@ const SAMPLE_RATE = 16_000
 const FRAME_SIZE = 640
 const HOP_SIZE = 160
 const MIN_AUDIBLE_PAUSE = 0.055
+const MIN_PITCH_CONFIDENCE = 0.42
+const TONE_THRESHOLD_SEMITONES = 0.9
 
 const WEAK_WORDS = new Set([
   'a', 'an', 'the', 'and', 'or', 'but', 'if', 'that', 'which', 'who', 'whom', 'whose', 'when', 'where',
@@ -33,8 +35,6 @@ const WEAK_WORDS = new Set([
   'they', 'them', 'their', 'he', 'him', 'his', 'she', 'her', 'we', 'us', 'our', 'you', 'your', 'i', 'my',
   'not', 'so', 'very', 'also', 'still', 'just',
 ])
-const CONTRAST_STARTERS = new Set(['but', 'however', 'yet'])
-
 interface Sentence {
   date: string
   num: number
@@ -385,23 +385,6 @@ function prosodyGroups(words: AlignedWord[]): TextGroup[] {
   return groups
 }
 
-function firstWord(group: TextGroup | undefined): string {
-  return normalizeSpeechWord(group?.tokens[0] ?? '')
-}
-
-function looksComplete(group: TextGroup): boolean {
-  const stressCount = group.tokens.filter(isStressWord).length
-  const last = group.tokens[group.tokens.length - 1] ?? ''
-  return group.tokens.length >= 4 && stressCount >= 2 && isStressWord(last)
-}
-
-function fallbackTone(group: TextGroup, index: number, groups: TextGroup[], finalTone: string): string {
-  if (index === groups.length - 1 || group.boundary === 'end') return finalTone
-  if (group.boundary === 'major') return '↘'
-  if (group.boundary === 'comma' && CONTRAST_STARTERS.has(firstWord(groups[index + 1])) && looksComplete(group)) return '↘'
-  return '↗'
-}
-
 function estimateF0(samples: Float32Array, start: number): { f0: number; confidence: number } | undefined {
   const minLag = Math.floor(SAMPLE_RATE / 360)
   const maxLag = Math.floor(SAMPLE_RATE / 75)
@@ -423,14 +406,16 @@ function estimateF0(samples: Float32Array, start: number): { f0: number; confide
   let bestCorr = 0
   for (let lag = minLag; lag <= maxLag; lag += 1) {
     let sum = 0
+    let currentEnergy = 0
     let lagEnergy = 0
     for (let i = 0; i < FRAME_SIZE - lag; i += 1) {
       const a = windowed[i] ?? 0
       const b = windowed[i + lag] ?? 0
       sum += a * b
+      currentEnergy += a * a
       lagEnergy += b * b
     }
-    const corr = lagEnergy > 0 ? sum / Math.sqrt(baseEnergy * lagEnergy) : 0
+    const corr = currentEnergy > 0 && lagEnergy > 0 ? sum / Math.sqrt(currentEnergy * lagEnergy) : 0
     if (corr > bestCorr) {
       bestCorr = corr
       bestLag = lag
@@ -462,32 +447,49 @@ function pitchTrack(samples: Float32Array, threshold: number): PitchPoint[] {
   return points
 }
 
+function contourPitchPoints(group: TextGroup, pitch: PitchPoint[]): PitchPoint[] {
+  const groupStart = group.starts[0] ?? 0
+  const groupEnd = group.ends[group.ends.length - 1] ?? groupStart
+  let nuclearIndex = group.stress.length - 1
+  while (nuclearIndex > 0 && !group.stress[nuclearIndex]) nuclearIndex -= 1
+
+  const select = (start: number): PitchPoint[] => pitch.filter((point) => (
+    point.time >= start
+    && point.time <= groupEnd
+    && point.confidence >= MIN_PITCH_CONFIDENCE
+  ))
+
+  const nuclearStart = group.starts[nuclearIndex] ?? groupStart
+  const nuclearPoints = select(nuclearStart)
+  if (nuclearPoints.length >= 6) return nuclearPoints
+
+  const duration = Math.max(0.05, groupEnd - groupStart)
+  const expandedStart = Math.max(groupStart, groupEnd - Math.min(1.1, Math.max(0.5, duration * 0.45)))
+  const expandedPoints = select(expandedStart)
+  return expandedPoints.length >= 4 ? expandedPoints : select(groupStart)
+}
+
 function toneFromAudio(
   group: TextGroup,
-  index: number,
-  groups: TextGroup[],
-  start: number,
-  end: number,
-  pitch: PitchPoint[],
-  finalTone: string
+  pitch: PitchPoint[]
 ): { tone: string; pitchStart?: number; pitchEnd?: number; confidence: number } {
-  const fallback = fallbackTone(group, index, groups, finalTone)
-  const duration = Math.max(0.05, end - start)
-  const points = pitch.filter((point) => point.time >= start + duration * 0.12 && point.time <= end - duration * 0.05)
-  if (points.length < 4) return { tone: fallback, confidence: 0.25 }
+  const points = contourPitchPoints(group, pitch)
+  if (points.length < 4) return { tone: '→', confidence: 0.2 }
 
-  const headEnd = start + duration * 0.55
-  const tailStart = start + duration * 0.62
-  const head = points.filter((point) => point.time <= headEnd).map((point) => point.f0)
-  const tail = points.filter((point) => point.time >= tailStart).map((point) => point.f0)
+  const bucketSize = Math.max(2, Math.floor(points.length / 3))
+  const head = points.slice(0, bucketSize).map((point) => point.f0)
+  const tail = points.slice(-bucketSize).map((point) => point.f0)
   const pitchStart = median(head)
   const pitchEnd = median(tail)
-  if (!pitchStart || !pitchEnd) return { tone: fallback, confidence: 0.25 }
+  if (!pitchStart || !pitchEnd) return { tone: '→', confidence: 0.2 }
 
-  const diff = pitchEnd - pitchStart
-  const threshold = Math.max(9, pitchStart * 0.045)
-  const tone = diff > threshold ? '↗' : diff < -threshold ? '↘' : (fallback === '↘' || fallback === '↗' ? fallback : '→')
-  const confidence = Math.min(0.98, Math.max(0.35, Math.abs(diff) / (threshold * 2)))
+  const semitoneDelta = 12 * Math.log2(pitchEnd / pitchStart)
+  const tone = semitoneDelta > TONE_THRESHOLD_SEMITONES
+    ? '↗'
+    : semitoneDelta < -TONE_THRESHOLD_SEMITONES ? '↘' : '→'
+  const trackingConfidence = median(points.map((point) => point.confidence)) ?? 0
+  const movementConfidence = Math.min(1, Math.abs(semitoneDelta) / (TONE_THRESHOLD_SEMITONES * 2))
+  const confidence = Math.min(0.98, Math.max(0.3, trackingConfidence * (0.55 + movementConfidence * 0.45)))
   return {
     tone,
     pitchStart: round(pitchStart, 1),
@@ -503,14 +505,13 @@ function analyzeSentence(sentence: Sentence): { audioHash: string; groups: Analy
   const threshold = silenceThreshold(frames)
   const pitch = pitchTrack(samples, threshold)
   const groups = prosodyGroups(alignWordTimings(sentence.text, media.words))
-  const finalTone = sentence.text.trim().endsWith('?') ? '↗' : '↘'
 
   return {
     audioHash: fileHash(media.path),
-    groups: groups.map((group, index) => {
+    groups: groups.map((group) => {
       const start = group.starts[0] ?? 0
       const end = group.ends[group.ends.length - 1] ?? start
-      const tone = toneFromAudio(group, index, groups, start, end, pitch, finalTone)
+      const tone = toneFromAudio(group, pitch)
       return {
         tokens: group.tokens,
         starts: group.starts,

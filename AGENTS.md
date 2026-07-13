@@ -211,7 +211,7 @@ Only enable this when the user asks for it.
 - Dates are ISO `YYYY-MM-DD`.
 - Static pages must consume `design-system/ieltsy/pattern.css` and `runtime.js` directly; do not duplicate them in the exporter or add inline page styles.
 - After adding or changing a published article, run `pnpm study:sync-glossary` and commit `learning/glossary.zh.json`; CI does not have `db/ieltsy.db`.
-- `pnpm pages:build` incrementally generates WordBoundary sentence audio, verifies each RHYTHM cue against the same audio hash, exports the site, and runs the structural gate. `IELTSY_SKIP_AUDIO=1` may be used for visual-only builds after the sentence-analysis cache exists; it omits MP3 files from `dist` but does not bypass RHYTHM validation.
+- `pnpm pages:build` incrementally generates WordBoundary sentence audio, derives each tone from the final stressed word's pitch contour, verifies every RHYTHM cue against the same audio hash, exports the site, and runs the structural gate. `IELTSY_SKIP_AUDIO=1` may be used for visual-only builds after the sentence-analysis cache exists; it omits MP3 files from `dist` but does not bypass RHYTHM validation.
 - Run `pnpm design:audit` for layout, responsive, or interaction changes; it requires local Chrome/Chromium.
 - For content changes, edit markdown sources and rerun the relevant `pnpm db:import:*` command.
 - For schema changes, either add backward-compatible `ALTER TABLE` migrations or tell the user to run `pnpm db:reset`.

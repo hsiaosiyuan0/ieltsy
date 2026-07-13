@@ -2,8 +2,8 @@ import { createHash } from 'node:crypto'
 
 export const AUDIO_VOICE = process.env.IELTSY_AUDIO_VOICE || 'en-US-EmmaMultilingualNeural'
 export const AUDIO_RATE = process.env.IELTSY_AUDIO_RATE || '+0%'
-export const PROSODY_SCHEMA_VERSION = 2
-export const PROSODY_SOURCE = 'edge-tts-word-boundary-analysis-v2'
+export const PROSODY_SCHEMA_VERSION = 3
+export const PROSODY_SOURCE = 'edge-tts-nuclear-tone-analysis-v3'
 export const SENTENCE_AUDIO_PROFILE = 'word-boundary-v2'
 
 function hashKey(parts: string[]): string {
