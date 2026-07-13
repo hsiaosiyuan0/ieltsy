@@ -9881,6 +9881,1618 @@
           "confidence": 0.62
         }
       ]
+    },
+    "ec7b695fe098": {
+      "text": "For six months, Leila has been trying to transform an abandoned railway station into a weekend market for local artists.",
+      "date": "2026-07-13",
+      "num": 1,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "f3fe3c91d239d039cf0450577864b0a0d08e29ed920c14453c0958d6cefb18a8",
+      "groups": [
+        {
+          "tokens": [
+            "For",
+            "six",
+            "months"
+          ],
+          "starts": [
+            0.087,
+            0.25,
+            0.563
+          ],
+          "ends": [
+            0.237,
+            0.55,
+            0.938
+          ],
+          "stress": [
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 0.938,
+          "pitchStart": 313.7,
+          "pitchEnd": 163.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "Leila",
+            "has",
+            "been",
+            "trying",
+            "to",
+            "transform",
+            "an",
+            "abandoned",
+            "railway",
+            "station",
+            "into",
+            "a",
+            "weekend",
+            "market",
+            "for",
+            "local",
+            "artists"
+          ],
+          "starts": [
+            1.238,
+            1.563,
+            1.762,
+            1.913,
+            2.237,
+            2.35,
+            2.987,
+            3.087,
+            3.625,
+            4.025,
+            4.513,
+            4.813,
+            4.888,
+            5.35,
+            5.75,
+            5.938,
+            6.325
+          ],
+          "ends": [
+            1.55,
+            1.75,
+            1.9,
+            2.225,
+            2.337,
+            2.975,
+            3.075,
+            3.612,
+            4.013,
+            4.5,
+            4.8,
+            4.875,
+            5.338,
+            5.737,
+            5.925,
+            6.313,
+            6.987
+          ],
+          "stress": [
+            true,
+            false,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 1.238,
+          "end": 6.987,
+          "pitchStart": 173.9,
+          "pitchEnd": 155.3,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "8bb1067d3aad": {
+      "text": "She has been working with a diverse team of bakers, musicians, engineers, and shopkeepers, all of whom need a flexible space.",
+      "date": "2026-07-13",
+      "num": 2,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "a8facba349dd65d691b96e563327ce57189e808042af7f6d99dba28a8c68e07d",
+      "groups": [
+        {
+          "tokens": [
+            "She",
+            "has",
+            "been",
+            "working",
+            "with",
+            "a",
+            "diverse",
+            "team",
+            "of",
+            "bakers"
+          ],
+          "starts": [
+            0.087,
+            0.263,
+            0.412,
+            0.588,
+            0.938,
+            1.113,
+            1.175,
+            1.587,
+            1.825,
+            1.962
+          ],
+          "ends": [
+            0.25,
+            0.4,
+            0.575,
+            0.925,
+            1.1,
+            1.163,
+            1.575,
+            1.813,
+            1.95,
+            2.462
+          ],
+          "stress": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 2.462,
+          "pitchStart": 168.4,
+          "pitchEnd": 152.4,
+          "confidence": 0.89
+        },
+        {
+          "tokens": [
+            "musicians",
+            "engineers",
+            "and",
+            "shopkeepers"
+          ],
+          "starts": [
+            2.625,
+            3.362,
+            3.987,
+            4.15
+          ],
+          "ends": [
+            3.337,
+            3.962,
+            4.138,
+            4.95
+          ],
+          "stress": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 2.625,
+          "end": 4.95,
+          "pitchStart": 205.1,
+          "pitchEnd": 158.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "all",
+            "of",
+            "whom",
+            "need",
+            "a",
+            "flexible",
+            "space"
+          ],
+          "starts": [
+            5.4,
+            5.612,
+            5.725,
+            5.925,
+            6.112,
+            6.175,
+            6.688
+          ],
+          "ends": [
+            5.6,
+            5.713,
+            5.912,
+            6.1,
+            6.162,
+            6.675,
+            7.287
+          ],
+          "stress": [
+            true,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 5.4,
+          "end": 7.287,
+          "pitchStart": 186,
+          "pitchEnd": 135.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "63cced4a8533": {
+      "text": "Their prime concern is money: the market must earn enough revenue to keep the old building safe and the project stable.",
+      "date": "2026-07-13",
+      "num": 3,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "d4d4638628172541848b7b469778411f332c60c26ddb882edc86c0666fdf2de6",
+      "groups": [
+        {
+          "tokens": [
+            "Their",
+            "prime",
+            "concern",
+            "is",
+            "money"
+          ],
+          "starts": [
+            0.1,
+            0.263,
+            0.613,
+            1.038,
+            1.212
+          ],
+          "ends": [
+            0.25,
+            0.6,
+            1.025,
+            1.2,
+            1.637
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.1,
+          "end": 1.637,
+          "pitchStart": 242.4,
+          "pitchEnd": 160,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "the",
+            "market",
+            "must",
+            "earn",
+            "enough",
+            "revenue",
+            "to",
+            "keep",
+            "the",
+            "old",
+            "building",
+            "safe",
+            "and",
+            "the",
+            "project",
+            "stable"
+          ],
+          "starts": [
+            1.962,
+            2.1,
+            2.525,
+            2.8,
+            2.987,
+            3.325,
+            3.763,
+            3.913,
+            4.175,
+            4.287,
+            4.588,
+            4.95,
+            5.375,
+            5.487,
+            5.588,
+            6.063
+          ],
+          "ends": [
+            2.087,
+            2.513,
+            2.788,
+            2.975,
+            3.313,
+            3.75,
+            3.9,
+            4.162,
+            4.275,
+            4.575,
+            4.938,
+            5.362,
+            5.475,
+            5.575,
+            6.05,
+            6.612
+          ],
+          "stress": [
+            false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 1.962,
+          "end": 6.612,
+          "pitchStart": 179.8,
+          "pitchEnd": 180.8,
+          "confidence": 0.35
+        }
+      ]
+    },
+    "182715f00ee4": {
+      "text": "At first, Leila held an abstract notion that good design simply meant placing every stall in a neat row.",
+      "date": "2026-07-13",
+      "num": 4,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "f04c33da2a36f37061e801969919c6979d0032ef9eb598c59fa36d3dc5160018",
+      "groups": [
+        {
+          "tokens": [
+            "At",
+            "first",
+            "Leila",
+            "held",
+            "an",
+            "abstract",
+            "notion",
+            "that",
+            "good",
+            "design",
+            "simply",
+            "meant",
+            "placing",
+            "every",
+            "stall",
+            "in",
+            "a",
+            "neat",
+            "row"
+          ],
+          "starts": [
+            0.087,
+            0.25,
+            0.775,
+            1.113,
+            1.363,
+            1.475,
+            2.013,
+            2.425,
+            2.587,
+            2.775,
+            3.25,
+            3.625,
+            3.862,
+            4.313,
+            4.575,
+            4.963,
+            5.075,
+            5.138,
+            5.412
+          ],
+          "ends": [
+            0.237,
+            0.75,
+            1.1,
+            1.35,
+            1.462,
+            2,
+            2.413,
+            2.575,
+            2.763,
+            3.237,
+            3.612,
+            3.85,
+            4.3,
+            4.563,
+            4.95,
+            5.063,
+            5.125,
+            5.4,
+            5.8
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 5.8,
+          "pitchStart": 170.2,
+          "pitchEnd": 157.6,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "8f6f4435e223": {
+      "text": "Then, on a stormy Saturday, the entrance monitor showed an accurate count of visitors leaving after only ten minutes.",
+      "date": "2026-07-13",
+      "num": 5,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "35f5eb462a497197ef17cd4f9c64ebde852f32ed7c485671c808c52c436cfbb1",
+      "groups": [
+        {
+          "tokens": [
+            "Then",
+            "on",
+            "a",
+            "stormy",
+            "Saturday"
+          ],
+          "starts": [
+            0.087,
+            0.463,
+            0.625,
+            0.688,
+            1.113
+          ],
+          "ends": [
+            0.438,
+            0.613,
+            0.675,
+            1.1,
+            1.813
+          ],
+          "stress": [
+            true,
+            false,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 1.813,
+          "pitchStart": 202.5,
+          "pitchEnd": 155.3,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "the",
+            "entrance",
+            "monitor",
+            "showed",
+            "an",
+            "accurate",
+            "count",
+            "of",
+            "visitors",
+            "leaving",
+            "after",
+            "only",
+            "ten",
+            "minutes"
+          ],
+          "starts": [
+            2.112,
+            2.225,
+            2.7,
+            3.15,
+            3.425,
+            3.563,
+            4.025,
+            4.313,
+            4.412,
+            5,
+            5.338,
+            5.675,
+            5.938,
+            6.213
+          ],
+          "ends": [
+            2.212,
+            2.688,
+            3.138,
+            3.413,
+            3.55,
+            4.013,
+            4.3,
+            4.4,
+            4.987,
+            5.325,
+            5.662,
+            5.925,
+            6.2,
+            6.737
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "tone": "↗",
+          "start": 2.112,
+          "end": 6.737,
+          "pitchStart": 161.6,
+          "pitchEnd": 177.8,
+          "confidence": 0.9
+        }
+      ]
+    },
+    "1a14fce9e03c": {
+      "text": "Amir, a psychology student, said the supposedly neutral layout ignored how colour, sound, and crowding shaped a visitor's perspective.",
+      "date": "2026-07-13",
+      "num": 6,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "f397fdf3f6ad360d93372b558052f6ad4e31cb1f00257307f1425f850416670c",
+      "groups": [
+        {
+          "tokens": [
+            "Amir",
+            "a",
+            "psychology",
+            "student"
+          ],
+          "starts": [
+            0.087,
+            0.475,
+            0.537,
+            1.188
+          ],
+          "ends": [
+            0.45,
+            0.525,
+            1.175,
+            1.625
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 1.625,
+          "pitchStart": 227,
+          "pitchEnd": 127.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "said",
+            "the",
+            "supposedly",
+            "neutral",
+            "layout",
+            "ignored",
+            "how",
+            "colour"
+          ],
+          "starts": [
+            2.013,
+            2.225,
+            2.325,
+            2.987,
+            3.413,
+            3.788,
+            4.162,
+            4.35
+          ],
+          "ends": [
+            2.212,
+            2.313,
+            2.975,
+            3.4,
+            3.775,
+            4.15,
+            4.338,
+            4.763
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 2.013,
+          "end": 4.763,
+          "pitchStart": 201.3,
+          "pitchEnd": 134.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "sound",
+            "and",
+            "crowding",
+            "shaped",
+            "a",
+            "visitor's",
+            "perspective"
+          ],
+          "starts": [
+            5.2,
+            5.588,
+            5.75,
+            6.25,
+            6.563,
+            6.612,
+            7.112
+          ],
+          "ends": [
+            5.563,
+            5.737,
+            6.237,
+            6.55,
+            6.6,
+            7.1,
+            7.85
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 5.2,
+          "end": 7.85,
+          "pitchStart": 213.3,
+          "pitchEnd": 142.9,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "8a340b788b1f": {
+      "text": "He had been watching families pause near the door, and he had written precise observations in the margin of Leila's floor plan.",
+      "date": "2026-07-13",
+      "num": 7,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "8039c5208738bfa1d87e2b60619baab23ad88a12bd56cdec7b706d9401bc8323",
+      "groups": [
+        {
+          "tokens": [
+            "He",
+            "had",
+            "been",
+            "watching",
+            "families",
+            "pause",
+            "near",
+            "the",
+            "door"
+          ],
+          "starts": [
+            0.275,
+            0.725,
+            0.863,
+            1.038,
+            1.45,
+            1.95,
+            2.325,
+            2.525,
+            2.663
+          ],
+          "ends": [
+            0.713,
+            0.85,
+            1.025,
+            1.438,
+            1.938,
+            2.313,
+            2.513,
+            2.65,
+            3.112
+          ],
+          "stress": [
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.275,
+          "end": 3.112,
+          "pitchStart": 202.5,
+          "pitchEnd": 168.4,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "he",
+            "had",
+            "written",
+            "precise",
+            "observations",
+            "in",
+            "the",
+            "margin",
+            "of",
+            "Leila's",
+            "floor",
+            "plan"
+          ],
+          "starts": [
+            3.425,
+            3.587,
+            3.775,
+            3.962,
+            4.237,
+            4.725,
+            5.513,
+            5.625,
+            5.713,
+            6.112,
+            6.263,
+            6.65,
+            6.95
+          ],
+          "ends": [
+            3.575,
+            3.763,
+            3.95,
+            4.225,
+            4.713,
+            5.5,
+            5.612,
+            5.7,
+            6.1,
+            6.25,
+            6.638,
+            6.938,
+            7.438
+          ],
+          "stress": [
+            false,
+            false,
+            false,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 3.425,
+          "end": 7.438,
+          "pitchStart": 200,
+          "pitchEnd": 158.4,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "56afddcfac72": {
+      "text": "Leila had to acknowledge that his evidence challenged her original idea, so she asked the team to modify the hall before the next market.",
+      "date": "2026-07-13",
+      "num": 8,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "90feea2ef503336461ee883d803dd10785d780196858f3a7e4fd273961a65f66",
+      "groups": [
+        {
+          "tokens": [
+            "Leila",
+            "had",
+            "to",
+            "acknowledge",
+            "that",
+            "his",
+            "evidence",
+            "challenged",
+            "her",
+            "original",
+            "idea"
+          ],
+          "starts": [
+            0.087,
+            0.4,
+            0.6,
+            0.738,
+            1.275,
+            1.425,
+            1.65,
+            2.112,
+            2.612,
+            2.763,
+            3.25
+          ],
+          "ends": [
+            0.388,
+            0.588,
+            0.725,
+            1.262,
+            1.413,
+            1.637,
+            2.1,
+            2.6,
+            2.75,
+            3.237,
+            3.712
+          ],
+          "stress": [
+            true,
+            false,
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 3.712,
+          "pitchStart": 160,
+          "pitchEnd": 146.1,
+          "confidence": 0.77
+        },
+        {
+          "tokens": [
+            "so",
+            "she",
+            "asked",
+            "the",
+            "team",
+            "to",
+            "modify",
+            "the",
+            "hall",
+            "before",
+            "the",
+            "next",
+            "market"
+          ],
+          "starts": [
+            4.263,
+            4.388,
+            4.588,
+            4.862,
+            4.963,
+            5.25,
+            5.375,
+            5.85,
+            5.963,
+            6.313,
+            6.65,
+            6.75,
+            7.063
+          ],
+          "ends": [
+            4.375,
+            4.575,
+            4.85,
+            4.95,
+            5.237,
+            5.362,
+            5.838,
+            5.95,
+            6.3,
+            6.638,
+            6.737,
+            7.05,
+            7.55
+          ],
+          "stress": [
+            false,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 4.263,
+          "end": 7.55,
+          "pitchStart": 203.8,
+          "pitchEnd": 139.1,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "55ef23dc58d7": {
+      "text": "They moved food stalls towards the centre, created a quiet path along the wall, and left a small stage beside the waiting area.",
+      "date": "2026-07-13",
+      "num": 9,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "d0bcbb2a14a51ef506089324e627555635fdff622db6ab48335eeb1e659f9c82",
+      "groups": [
+        {
+          "tokens": [
+            "They",
+            "moved",
+            "food",
+            "stalls",
+            "towards",
+            "the",
+            "centre"
+          ],
+          "starts": [
+            0.1,
+            0.237,
+            0.55,
+            0.813,
+            1.212,
+            1.55,
+            1.65
+          ],
+          "ends": [
+            0.225,
+            0.537,
+            0.8,
+            1.2,
+            1.538,
+            1.637,
+            2.2
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.1,
+          "end": 2.2,
+          "pitchStart": 246.2,
+          "pitchEnd": 149.5,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "created",
+            "a",
+            "quiet",
+            "path",
+            "along",
+            "the",
+            "wall"
+          ],
+          "starts": [
+            2.475,
+            2.913,
+            2.975,
+            3.362,
+            3.675,
+            3.962,
+            4.075
+          ],
+          "ends": [
+            2.9,
+            2.962,
+            3.35,
+            3.663,
+            3.95,
+            4.063,
+            4.513
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 2.475,
+          "end": 4.513,
+          "pitchStart": 250,
+          "pitchEnd": 137.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "left",
+            "a",
+            "small",
+            "stage",
+            "beside",
+            "the",
+            "waiting",
+            "area"
+          ],
+          "starts": [
+            4.813,
+            5.013,
+            5.263,
+            5.313,
+            5.65,
+            6.112,
+            6.463,
+            6.563,
+            6.912
+          ],
+          "ends": [
+            5,
+            5.25,
+            5.3,
+            5.638,
+            6.1,
+            6.45,
+            6.55,
+            6.9,
+            7.375
+          ],
+          "stress": [
+            false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 4.813,
+          "end": 7.375,
+          "pitchStart": 228.6,
+          "pitchEnd": 141.6,
+          "confidence": 0.98
+        }
+      ]
+    },
+    "65c54d1ab551": {
+      "text": "The more flexible arrangement transformed the atmosphere: children stayed to listen, older visitors found seats, and strangers began talking.",
+      "date": "2026-07-13",
+      "num": 10,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "70a223143e10e72512479c3792b1b35d99bdcb37ed5818f88d44a3465a921365",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "more",
+            "flexible",
+            "arrangement",
+            "transformed",
+            "the",
+            "atmosphere"
+          ],
+          "starts": [
+            0.087,
+            0.163,
+            0.388,
+            0.887,
+            1.438,
+            2.025,
+            2.138
+          ],
+          "ends": [
+            0.15,
+            0.375,
+            0.875,
+            1.425,
+            2.013,
+            2.125,
+            2.775
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 2.775,
+          "pitchStart": 181.8,
+          "pitchEnd": 153.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "children",
+            "stayed",
+            "to",
+            "listen"
+          ],
+          "starts": [
+            3.35,
+            3.763,
+            4.05,
+            4.175
+          ],
+          "ends": [
+            3.75,
+            4.037,
+            4.162,
+            4.6
+          ],
+          "stress": [
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 3.35,
+          "end": 4.6,
+          "pitchStart": 275.9,
+          "pitchEnd": 170.2,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "older",
+            "visitors",
+            "found",
+            "seats",
+            "and",
+            "strangers",
+            "began",
+            "talking"
+          ],
+          "starts": [
+            4.888,
+            5.162,
+            5.65,
+            5.963,
+            6.325,
+            6.5,
+            7.037,
+            7.4
+          ],
+          "ends": [
+            5.15,
+            5.638,
+            5.95,
+            6.3,
+            6.487,
+            7.025,
+            7.388,
+            7.925
+          ],
+          "stress": [
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 4.888,
+          "end": 7.925,
+          "pitchStart": 168.4,
+          "pitchEnd": 170.2,
+          "confidence": 0.35
+        }
+      ]
+    },
+    "f474be6a6c13": {
+      "text": "Since that evening, vendors have been reporting higher sales, while Leila has been monitoring whether the new revenue remains stable.",
+      "date": "2026-07-13",
+      "num": 11,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "0e01dab65573690ae0ce8a01d38d6dc43a3a6dcd41eba7dc862862c36241a97c",
+      "groups": [
+        {
+          "tokens": [
+            "Since",
+            "that",
+            "evening"
+          ],
+          "starts": [
+            0.087,
+            0.375,
+            0.6
+          ],
+          "ends": [
+            0.362,
+            0.588,
+            1.025
+          ],
+          "stress": [
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 1.025,
+          "pitchStart": 278.3,
+          "pitchEnd": 173.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "vendors",
+            "have",
+            "been",
+            "reporting",
+            "higher",
+            "sales"
+          ],
+          "starts": [
+            1.225,
+            1.637,
+            1.788,
+            1.962,
+            2.438,
+            2.775
+          ],
+          "ends": [
+            1.625,
+            1.775,
+            1.95,
+            2.425,
+            2.763,
+            3.3
+          ],
+          "stress": [
+            true,
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 1.225,
+          "end": 3.3,
+          "pitchStart": 175.8,
+          "pitchEnd": 150.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "while",
+            "Leila",
+            "has",
+            "been",
+            "monitoring",
+            "whether",
+            "the",
+            "new",
+            "revenue",
+            "remains",
+            "stable"
+          ],
+          "starts": [
+            3.65,
+            3.875,
+            4.15,
+            4.35,
+            4.513,
+            5.1,
+            5.388,
+            5.5,
+            5.737,
+            6.162,
+            6.6
+          ],
+          "ends": [
+            3.862,
+            4.138,
+            4.338,
+            4.5,
+            5.088,
+            5.375,
+            5.487,
+            5.725,
+            6.15,
+            6.588,
+            7.125
+          ],
+          "stress": [
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 3.65,
+          "end": 7.125,
+          "pitchStart": 155.3,
+          "pitchEnd": 146.8,
+          "confidence": 0.48
+        }
+      ]
+    },
+    "fbf7676afd53": {
+      "text": "She now understands that a useful notion is never merely abstract; it must be tested with accurate evidence, viewed from more than one perspective, and modified when reality disagrees.",
+      "date": "2026-07-13",
+      "num": 12,
+      "source": "edge-tts-word-boundary-analysis-v2",
+      "audioHash": "708b88803718ed566e3a0e392797eaae7c4d5d911d5867e8def1b51752ec7fa1",
+      "groups": [
+        {
+          "tokens": [
+            "She",
+            "now",
+            "understands",
+            "that",
+            "a",
+            "useful",
+            "notion",
+            "is",
+            "never",
+            "merely",
+            "abstract"
+          ],
+          "starts": [
+            0.087,
+            0.275,
+            0.512,
+            1.1,
+            1.25,
+            1.3,
+            1.75,
+            2.15,
+            2.313,
+            2.638,
+            3.013
+          ],
+          "ends": [
+            0.263,
+            0.5,
+            1.087,
+            1.238,
+            1.288,
+            1.738,
+            2.138,
+            2.3,
+            2.625,
+            3,
+            3.688
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 3.688,
+          "pitchStart": 181.8,
+          "pitchEnd": 176.8,
+          "confidence": 0.35
+        },
+        {
+          "tokens": [
+            "it",
+            "must",
+            "be",
+            "tested",
+            "with",
+            "accurate",
+            "evidence"
+          ],
+          "starts": [
+            4.037,
+            4.175,
+            4.438,
+            4.563,
+            5.013,
+            5.175,
+            5.675
+          ],
+          "ends": [
+            4.162,
+            4.425,
+            4.55,
+            5,
+            5.162,
+            5.662,
+            6.188
+          ],
+          "stress": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 4.037,
+          "end": 6.188,
+          "pitchStart": 238.8,
+          "pitchEnd": 148.1,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "viewed",
+            "from",
+            "more",
+            "than",
+            "one",
+            "perspective"
+          ],
+          "starts": [
+            6.5,
+            6.8,
+            6.987,
+            7.213,
+            7.388,
+            7.6
+          ],
+          "ends": [
+            6.787,
+            6.975,
+            7.2,
+            7.375,
+            7.588,
+            8.325
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 6.5,
+          "end": 8.325,
+          "pitchStart": 207.8,
+          "pitchEnd": 164.9,
+          "confidence": 0.98
+        },
+        {
+          "tokens": [
+            "and",
+            "modified",
+            "when",
+            "reality",
+            "disagrees"
+          ],
+          "starts": [
+            8.613,
+            8.775,
+            9.35,
+            9.525,
+            10.063
+          ],
+          "ends": [
+            8.762,
+            9.338,
+            9.512,
+            10.05,
+            10.925
+          ],
+          "stress": [
+            false,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 8.613,
+          "end": 10.925,
+          "pitchStart": 153.8,
+          "pitchEnd": 139.7,
+          "confidence": 0.78
+        }
+      ]
     }
   }
 }
