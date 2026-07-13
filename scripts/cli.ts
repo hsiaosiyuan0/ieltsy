@@ -188,6 +188,23 @@ SM-2: 答对 → interval *= ease, ease += 0.1, reps++；答错 → interval=1, 
   },
 
   // ──────────────────────────────────────────────────────────────────────────
+  grammar: {
+    description: '定位已有语法条目及其规范 Markdown 落点',
+    script: 'scripts/study/grammar.ts',
+    args: [
+      { flag: '--id', type: 'string', description: '按语法点 ID 精确查找，如 13' },
+      { flag: '--query', type: 'string', description: '按标题、说明或章节关键词搜索' },
+      { flag: '--json', type: 'boolean', default: false, description: '输出适合 Codex 读取的 JSON' },
+    ],
+    examples: [
+      'pnpm ielts grammar --id 13',
+      'pnpm ielts grammar --query "现在完成进行时" --json',
+    ],
+    notes: `返回既有语法点所在的 grammar/*.md、规范标题和笔记状态。
+沉淀聊天中的语法解释时，先运行此命令定位条目，再更新同一文件中“## 语法笔记 Grammar Notes”下的“### ID. 标题”；不要为同一语法点新建文件。`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
   mistakes: {
     description: '从 db 重新生成错题本 md（覆盖式）',
     script: 'scripts/study/render-mistakes.ts',

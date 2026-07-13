@@ -2,6 +2,7 @@ import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { PROSODY_SOURCE } from './speech-config'
+import { discoverGrammarLibrary } from './grammar-library'
 
 const { values } = parseArgs({
   options: {
@@ -65,6 +66,7 @@ if (existsSync(patternPath) && existsSync(builtCssPath)) {
     '--color-scroll-thumb:',
     '--scrollbar-size:',
     '--measure-reading:',
+    '--measure-reference:',
     '.masthead',
     '.nav-tab__icon',
     '.home-lead',
@@ -73,6 +75,11 @@ if (existsSync(patternPath) && existsSync(builtCssPath)) {
     '.study-toolbar',
     '.reading-sheet',
     '.annotation-rail',
+    '.grammar-library-layout',
+    '.grammar-point-list',
+    '.grammar-detail-layout',
+    '.grammar-note-sheet',
+    '.grammar-note-content h2::before',
     'html::-webkit-scrollbar',
     '.annotation-panel::-webkit-scrollbar',
     'scrollbar-gutter: stable',
@@ -92,6 +99,14 @@ if (existsSync(patternPath) && existsSync(builtCssPath)) {
   check(!/letter-spacing\s*:\s*-/i.test(patternCss), 'pattern.css: negative letter spacing is forbidden')
   check(!/font-size\s*:\s*clamp\s*\(/i.test(patternCss), 'pattern.css: viewport-scaled type is forbidden')
   check(!/@import\s+url/i.test(patternCss), 'pattern.css: remote font imports are forbidden')
+
+  const grammarInlineCode = patternCss.match(/\.grammar-note-content code,[\s\S]*?\.grammar-note-placeholder code\s*\{([\s\S]*?)\n\s*\}/)?.[1] ?? ''
+  includesAll(grammarInlineCode, [
+    'border: 0',
+    'background: transparent',
+    'color: var(--color-secondary)',
+    'text-decoration-line: underline',
+  ], 'grammar inline code')
 }
 
 const htmlFiles = collectFiles(outDir, '.html')
@@ -138,6 +153,7 @@ for (const file of lessonFiles) {
     'data-panel="grammar"',
     'data-panel="prosody"',
     'data-action="toggle-dictation"',
+    '../../grammar/',
     `data-prosody-source="${PROSODY_SOURCE}"`,
   ], scope)
 
@@ -159,6 +175,41 @@ for (const file of lessonFiles) {
   check(vocabEntries > 0, `${scope}: target vocabulary is empty`)
   check(vocabEntries === definitions, `${scope}: ${vocabEntries} target words but ${definitions} Chinese definitions`)
   check(!html.includes('definition-missing'), `${scope}: unresolved Chinese definition found`)
+}
+
+const grammarLibrary = discoverGrammarLibrary()
+const grammarIndexPath = join(outDir, 'grammar', 'index.html')
+check(existsSync(grammarIndexPath), 'grammar/index.html is missing')
+if (existsSync(grammarIndexPath)) {
+  const html = readFileSync(grammarIndexPath, 'utf-8')
+  includesAll(html, [
+    'data-page="grammar-index"',
+    'class="grammar-library-layout"',
+    'data-grammar-search',
+    'data-grammar-filter="all"',
+    'data-grammar-filter="priority"',
+    'data-grammar-filter="notes"',
+  ], 'grammar/index.html')
+  check(count(html, /\bdata-grammar-entry(?:\s|>)/g) === grammarLibrary.points.length, `grammar/index.html: expected ${grammarLibrary.points.length} entries`)
+  check(count(html, /\bdata-grammar-chapter(?:\s|>)/g) === grammarLibrary.chapters.length, `grammar/index.html: expected ${grammarLibrary.chapters.length} chapters`)
+}
+
+const grammarDetailFiles = grammarLibrary.points.map((point) => join(outDir, 'grammar', String(point.id), 'index.html'))
+for (const [index, file] of grammarDetailFiles.entries()) {
+  const point = grammarLibrary.points[index]!
+  check(existsSync(file), `grammar/${point.id}/index.html is missing`)
+  if (!existsSync(file)) continue
+  const html = readFileSync(file, 'utf-8')
+  includesAll(html, [
+    'data-page="grammar-detail"',
+    'class="grammar-detail-intro"',
+    'class="grammar-detail-layout"',
+    'class="grammar-note-sheet"',
+    `#${String(point.id).padStart(3, '0')}`,
+  ], `grammar/${point.id}/index.html`)
+  if (point.detailMarkdown) {
+    check(html.includes('class="grammar-note-content"'), `grammar/${point.id}/index.html: detailed note was not rendered`)
+  }
 }
 
 const mistakesIndexPath = join(outDir, 'mistakes', 'index.html')

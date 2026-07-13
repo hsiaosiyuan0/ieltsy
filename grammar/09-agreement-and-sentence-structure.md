@@ -1,6 +1,6 @@
 # 第 9 章：主谓一致与句子结构 Agreement & Sentence Structure
 
-> 共 39 点｜★★★ 16 / ★★ 22 / ★ 1
+> 共 40 点｜★★★ 17 / ★★ 22 / ★ 1
 
 ## §15 主谓一致 Subject-Verb Agreement
 
@@ -74,6 +74,79 @@
    - 加并列连词: `I love IELTS, and it's challenging.`
    - 改主从复合句: `I love IELTS because it's challenging.`
    - 副词性连词 + 分号: `I love IELTS; however, it's challenging.`
+
+## §36 基础句子成分 Sentence Elements
+
+386. 句子核心成分：主语、谓语与宾语 ★★★ — 先找限定动词，再判断“谁 / 什么 + 做什么 + 对谁 / 什么”；宾语只跟在及物动词或介词后
+
+## 语法笔记 Grammar Notes
+
+### 386. 句子核心成分：主语、谓语与宾语
+
+#### 核心框架
+
+一个完整的英语陈述句通常至少需要**主语（subject）**和**谓语（predicate）**。宾语（object）不是每个句子都有；只有动词需要承受者或作用对象时，句子才出现宾语。
+
+- 主语回答“谁 / 什么处于这个状态或执行这个动作”。
+- 谓语说明主语“做什么 / 是什么 / 怎么样”。严格来说，谓语是主语以外的整个陈述部分；其中的核心动词也叫 `predicator`。
+- 宾语回答及物动词或介词后的“谁 / 什么”，表示动作影响、涉及或指向的对象。
+
+在 `Leila modified the hall.` 中：`Leila` 是主语，`modified the hall` 是谓语，谓语的核心动词是 `modified`，`the hall` 是宾语。
+
+#### 第一步：先找限定动词
+
+限定动词会随时态、语气或主语发生变化。一个独立分句通常只有一组限定动词，先找到它，才能划分主语和谓语。
+
+- `The market earns enough revenue.`：限定动词是 `earns`。
+- `Leila has been monitoring the revenue.`：完整动词短语是 `has been monitoring`，其中 `has` 承担现在时和主谓一致。
+- `To transform the station takes time.`：`to transform` 是不定式；主句的限定动词是 `takes`，整个 `To transform the station` 作主语。
+
+#### 第二步：判断主语
+
+主语不一定是“动作发出者”，也可以表示状态的承载者，甚至由短语或从句构成。
+
+- 名词：`The arrangement transformed the atmosphere.`
+- 代词：`She modified the hall.`
+- 动名词短语：`Monitoring visitor numbers helps the team.`
+- 不定式短语：`To ignore the evidence would be risky.`
+- 从句：`What Amir observed changed Leila's perspective.`
+
+祈使句通常省略主语 `you`：`Modify the layout.` 等于 `(You) modify the layout.`
+
+#### 第三步：判断有没有宾语
+
+先确认核心动词是否及物，再在动词后问“谁 / 什么”。不能直接带宾语的不及物动词，往往需要介词。
+
+- `Visitors left.`：`left` 在这里是不及物动词，没有宾语。
+- `Leila modified the hall.`：`modify` 是及物动词，`the hall` 是直接宾语。
+- `She gave the team a plan.`：`the team` 是间接宾语，`a plan` 是直接宾语。
+- `Amir said that the layout ignored visitor psychology.`：`that` 从句整体作 `said` 的宾语。
+- `They listened to the musicians.`：`listen` 不直接带宾语；`the musicians` 是介词 `to` 的宾语。
+
+#### 宾语与补语不要混淆
+
+系动词后的成分描述或识别主语，叫主语补语，不是宾语。
+
+- `The project is stable.`：`stable` 描述主语 `the project`，是主语补语。
+- `The plan became a success.`：`a success` 说明主语 `the plan` 的身份，也是主语补语。
+- `They found the plan useful.`：`the plan` 是宾语，`useful` 补充说明宾语，是宾语补语。
+
+#### 五种常见基本句型
+
+- `S + V`：`Visitors stayed.`
+- `S + V + C`：`The market became popular.`
+- `S + V + O`：`Leila changed the layout.`
+- `S + V + O + O`：`She gave the team a plan.`
+- `S + V + O + C`：`The change made visitors comfortable.`
+
+这里的 `S / V / O / C` 分别表示 subject、verb、object 和 complement。先识别这些骨架，再把定语、状语和从句放回去，长句会更容易分析。
+
+#### 常见错误
+
+- 缺少谓语：`The students in the hall.` 是句子片段；可改为 `The students are in the hall.`
+- 重复使用谓语形式：`He is work there.` 应改为 `He works there.` 或 `He is working there.`
+- 给不及物动词硬接宾语：`listen music` 应改为 `listen to music`。
+- 把系动词后的补语当宾语：`She is happy.` 中的 `happy` 描述 `she`，并不是动作作用的对象。
 
 ---
 

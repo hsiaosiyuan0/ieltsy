@@ -193,6 +193,10 @@ async function openPage(debugPort, url, width, height) {
   const loaded = cdp.once('Page.loadEventFired')
   await cdp.send('Page.navigate', { url })
   await loaded
+  await cdp.send('Runtime.evaluate', {
+    expression: 'new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(resolve, 120))))',
+    awaitPromise: true,
+  })
   return { cdp, targetId: target.id, errors }
 }
 
@@ -252,6 +256,10 @@ const auditExpression = String.raw`(() => {
   const main = document.querySelector('main#content')
   const readingSheet = document.querySelector('.reading-sheet')
   const annotationRail = document.querySelector('.annotation-rail')
+  const grammarEntries = document.querySelectorAll('[data-grammar-entry]').length
+  const grammarChapters = document.querySelectorAll('[data-grammar-chapter]').length
+  const grammarInlineCode = document.querySelector('.grammar-note-content code')
+  const grammarInlineStyle = grammarInlineCode ? getComputedStyle(grammarInlineCode) : null
 
   return {
     page: bodyPage,
@@ -276,6 +284,18 @@ const auditExpression = String.raw`(() => {
       translationHidden: document.body.classList.contains('hide-zh'),
       readingWidth: readingSheet ? Math.round(readingSheet.getBoundingClientRect().width) : 0,
       annotationWidth: annotationRail ? Math.round(annotationRail.getBoundingClientRect().width) : 0,
+    },
+    grammar: {
+      entries: grammarEntries,
+      chapters: grammarChapters,
+      hasSearch: Boolean(document.querySelector('[data-grammar-search]')),
+      hasNoteSheet: Boolean(document.querySelector('.grammar-note-sheet')),
+      hasDetailedNote: Boolean(document.querySelector('.grammar-note-content')),
+      inlineCode: grammarInlineStyle ? {
+        borderWidth: grammarInlineStyle.borderTopWidth,
+        backgroundColor: grammarInlineStyle.backgroundColor,
+        textDecorationLine: grammarInlineStyle.textDecorationLine,
+      } : null,
     },
   }
 })()`
@@ -345,6 +365,12 @@ const cases = [
   { name: 'home-1440', path: '/', page: 'home', width: 1440, height: 1000 },
   { name: 'home-1024', path: '/', page: 'home', width: 1024, height: 900 },
   { name: 'home-375', path: '/', page: 'home', width: 375, height: 812 },
+  { name: 'grammar-index-1440', path: '/grammar/', page: 'grammar-index', width: 1440, height: 1000 },
+  { name: 'grammar-index-375', path: '/grammar/', page: 'grammar-index', width: 375, height: 812 },
+  { name: 'grammar-detail-1024', path: '/grammar/13/', page: 'grammar-detail', width: 1024, height: 900 },
+  { name: 'grammar-detail-375', path: '/grammar/13/', page: 'grammar-detail', width: 375, height: 812 },
+  { name: 'grammar-elements-1024', path: '/grammar/386/', page: 'grammar-detail', width: 1024, height: 900 },
+  { name: 'grammar-elements-375', path: '/grammar/386/', page: 'grammar-detail', width: 375, height: 812 },
   { name: 'lesson-1440', path: latestLessonPath, page: 'lesson', width: 1440, height: 1050 },
   { name: 'lesson-768', path: latestLessonPath, page: 'lesson', width: 768, height: 1024 },
   { name: 'lesson-375', path: latestLessonPath, page: 'lesson', width: 375, height: 812 },
@@ -415,6 +441,20 @@ try {
       assert(metrics.lesson.translations > 0 && metrics.lesson.translationHidden, `${testCase.name}: translations must exist and start hidden`)
     }
 
+    if (testCase.page === 'grammar-index') {
+      assert(metrics.grammar.entries >= 386, `${testCase.name}: grammar entries are incomplete`)
+      assert(metrics.grammar.chapters >= 12, `${testCase.name}: grammar chapters are incomplete`)
+      assert(metrics.grammar.hasSearch, `${testCase.name}: grammar search is missing`)
+    }
+
+    if (testCase.page === 'grammar-detail') {
+      assert(metrics.grammar.hasNoteSheet, `${testCase.name}: grammar note sheet is missing`)
+      assert(metrics.grammar.hasDetailedNote, `${testCase.name}: grammar #13 detailed note is missing`)
+      assert(metrics.grammar.inlineCode?.borderWidth === '0px', `${testCase.name}: inline code has a border`)
+      assert(metrics.grammar.inlineCode?.backgroundColor === 'rgba(0, 0, 0, 0)', `${testCase.name}: inline code background is not transparent`)
+      assert(metrics.grammar.inlineCode?.textDecorationLine.includes('underline'), `${testCase.name}: inline code underline is missing`)
+    }
+
     results.push({ name: testCase.name, screenshotPath, metrics })
     await cdp.send('Target.closeTarget', { targetId }).catch(() => {})
     cdp.close()
@@ -460,6 +500,72 @@ try {
   assert(readFileSync(mobileDictationScreenshotPath).length > 10000, 'lesson-dictation-375: screenshot appears blank')
   await mobileDictationPage.cdp.send('Target.closeTarget', { targetId: mobileDictationPage.targetId }).catch(() => {})
   mobileDictationPage.cdp.close()
+
+  const grammarInteractionPage = await openPage(debugPort, staticServer.baseUrl + '/grammar/', 1024, 900)
+  const grammarInteractions = await evaluate(grammarInteractionPage.cdp, String.raw`(() => {
+    const input = document.querySelector('[data-grammar-search]')
+    const noteFilter = document.querySelector('[data-grammar-filter="notes"]')
+    const allFilter = document.querySelector('[data-grammar-filter="all"]')
+    const visibleEntries = () => [...document.querySelectorAll('[data-grammar-entry]')].filter((entry) => !entry.hidden)
+    const visibleChapters = () => [...document.querySelectorAll('[data-grammar-chapter]')].filter((chapter) => !chapter.hidden)
+
+    input.value = '现在完成进行时'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    const exactSearch = visibleEntries().length === 1
+      && visibleEntries()[0].textContent.includes('现在完成进行时')
+      && visibleChapters().length === 1
+      && document.querySelector('[data-grammar-results]')?.textContent.trim() === '1 条'
+
+    input.value = ''
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    noteFilter.click()
+    const noteOnly = visibleEntries().length === 2
+      && visibleEntries().every((entry) => entry.getAttribute('data-note') === 'true')
+      && noteFilter.getAttribute('aria-pressed') === 'true'
+
+    input.value = 'not-a-real-grammar-point'
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    const emptyState = visibleEntries().length === 0
+      && !document.querySelector('[data-grammar-empty]')?.hidden
+
+    input.value = ''
+    input.dispatchEvent(new Event('input', { bubbles: true }))
+    allFilter.click()
+    const restored = visibleEntries().length >= 386
+      && allFilter.getAttribute('aria-pressed') === 'true'
+
+    return { exactSearch, noteOnly, emptyState, restored }
+  })()`)
+  assert(Object.values(grammarInteractions).every(Boolean), `grammar-interactions: ${JSON.stringify(grammarInteractions)}`)
+  await grammarInteractionPage.cdp.send('Target.closeTarget', { targetId: grammarInteractionPage.targetId }).catch(() => {})
+  grammarInteractionPage.cdp.close()
+
+  const grammarInlinePage = await openPage(debugPort, staticServer.baseUrl + '/grammar/386/', 1024, 900)
+  const grammarInline = await evaluate(grammarInlinePage.cdp, String.raw`(async () => {
+    const code = document.querySelector('.grammar-note-content code')
+    code?.scrollIntoView({ block: 'center' })
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => setTimeout(resolve, 120))))
+    const rect = code?.getBoundingClientRect()
+    const style = code ? getComputedStyle(code) : null
+    return {
+      visible: Boolean(rect && rect.top >= 0 && rect.bottom <= innerHeight),
+      borderless: style?.borderTopWidth === '0px',
+      transparent: style?.backgroundColor === 'rgba(0, 0, 0, 0)',
+      underlined: Boolean(style?.textDecorationLine.includes('underline')),
+      noHorizontalOverflow: document.documentElement.scrollWidth <= document.documentElement.clientWidth + 1,
+    }
+  })()`)
+  assert(Object.values(grammarInline).every(Boolean), `grammar-inline-code: ${JSON.stringify(grammarInline)}`)
+  const grammarInlineScreenshot = await grammarInlinePage.cdp.send('Page.captureScreenshot', {
+    format: 'png',
+    fromSurface: true,
+    captureBeyondViewport: false,
+  })
+  const grammarInlineScreenshotPath = join(SCREENSHOT_DIR, 'grammar-inline-1024.png')
+  writeFileSync(grammarInlineScreenshotPath, Buffer.from(grammarInlineScreenshot.data, 'base64'))
+  assert(readFileSync(grammarInlineScreenshotPath).length > 10000, 'grammar-inline-1024: screenshot appears blank')
+  await grammarInlinePage.cdp.send('Target.closeTarget', { targetId: grammarInlinePage.targetId }).catch(() => {})
+  grammarInlinePage.cdp.close()
 
   for (const result of results) {
     const { metrics } = result

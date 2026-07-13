@@ -1,6 +1,6 @@
 # IELTSY
 
-> 由 Codex CLI 驱动的 IELTS Band 7 学习闭环工具。SQLite + Node CLI，没有前端，没有 LLM API 调用。
+> 由 Codex CLI 驱动的 IELTS Band 7 学习闭环工具。SQLite + Node CLI 负责学习流程，纯静态站点负责阅读归档；没有内置 LLM API 调用。
 
 ## 是什么
 
@@ -16,7 +16,7 @@
 ## 内容规模
 
 - **7,090 词** — Oxford 5000 (A1-C1 with CEFR) + AWL Sublist 1-10 (570 word families) + IELTS topic vocab
-- **368 语法点** — 12 章 / 按 ★★★ / ★★ / ★ 三级重要度分级
+- **386 语法点** — 12 章 / 按 ★★★ / ★★ / ★ 三级重要度分级，可持续归并详细笔记
 - **30 个话题词汇** — 15 个 Writing Task 2 议题向 + 15 个 Speaking 日常向
 - 5,902 例句 + 2,539 派生词 + 258 搭配（从 Oxford / 手工源 md 导入）
 
@@ -57,11 +57,12 @@ pnpm ielts help --json       # 全套 metadata as JSON（LLM-friendly）
 | `speak` | edge-tts 朗读（默认自然美音 Jenny，可换 UK / 男声 / 不同语速） |
 | `preview` | 启动本地 HTTP 服务，浏览器预览今日文章，点击句子/单词朗读 |
 | `export-pages` | 导出 GitHub Pages 静态站点（手机阅读 / 朗读 / 遮词复习） |
+| `grammar` | 按 ID 或关键词定位已有语法条目和规范 Markdown 落点 |
 | `mistakes` | 从 db 重新生成错题本 md |
 
 ## GitHub Pages 发布
 
-发布版是**纯静态只读站点**：从 `learning/days/YYYY-MM-DD/article.md` 和 `learning/mistakes/*.md` 生成 HTML，适合手机继续阅读、跟读、遮词和中译英默写。SQLite 进度、SM-2 调度和错题写入仍在本地 CLI 里完成。
+发布版是**纯静态只读站点**：从每日文章、错题本和 `grammar/*.md` 生成 HTML，包含学习日、语法库和错题本。语法库提供 386 个条目的全量索引、搜索筛选和独立详情页；SQLite 进度、SM-2 调度和错题写入仍在本地 CLI 里完成。
 
 ```bash
 pnpm pages:build
@@ -86,7 +87,7 @@ ieltsy/
 │   ├── schema.sql        ← 13 张表（内容 9 + 用户进度 4）
 │   └── ieltsy.db         ← SQLite 主库（gitignored）
 ├── data/                 ← 权威外部词表（AWL JSON, Oxford 3000/5000 CSV）
-├── grammar/              ← 12 章语法源 md（已导入 db）
+├── grammar/              ← 12 章语法索引 + 持续归并的详细笔记（已导入 db）
 ├── vocabulary/           ← 30 个话题 + 6 个功能词库源 md（已导入 db）
 ├── scripts/
 │   ├── cli.ts            ← 统一 CLI 入口
@@ -133,6 +134,13 @@ Codex:
 Codex:
   → 跑 pnpm ielts add-word --word consultant
   → 加入学习队列，明天复习时出现
+
+你: 为什么这里用 has been trying？
+Codex:
+  → 结合当前文章解释现在完成进行时
+  → 跑 pnpm ielts grammar --query "现在完成进行时" --json
+  → 把可复用结论归并到 grammar/01-tenses-and-passive.md 的 #13，而不是新建一份聊天笔记
+  → 静态站 /grammar/13/ 展示更新后的详情
 ```
 
 ## 技术栈
@@ -154,7 +162,7 @@ Codex:
 
 ### 存储分工
 
-- **SQLite (`db/ieltsy.db`)** — 结构化查询索引：内容表（7,090 词 + 368 语法点 + 30 话题）、用户进度表（学习计划、SM-2、daily_sessions、word_mistakes）、学习产物的文件路径
+- **SQLite (`db/ieltsy.db`)** — 结构化查询索引：内容表（7,090 词 + 386 语法点 + 30 话题）、用户进度表（学习计划、SM-2、daily_sessions、word_mistakes）、学习产物的文件路径
 - **Markdown** — 教学素材源（`grammar/*.md` / `vocabulary/*.md`，importer 据此填 db）+ 学习产物（`learning/days/.../article.md` / `session.md`、`learning/mistakes/*.md`）
 
 ### 数据流转 / 编排

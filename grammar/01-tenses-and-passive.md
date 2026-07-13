@@ -46,6 +46,38 @@
 28. 学术写作中"被动 + by sb" 与 "主动" 的选择 ★★
 29. `It is said / believed / reported that...` 客观表达句型 ★★★
 
+## 语法笔记 Grammar Notes
+
+### 13. 现在完成进行时
+
+#### 核心判断
+
+现在完成进行时的结构是 `have/has been + V-ing`。它把观察点放在现在，回看一个从过去开始的过程；这个过程通常仍在继续，或刚刚结束但结果仍然可见。重点不是“做完了什么”，而是“这件事持续进行了一段时间”。
+
+#### 常见时间线索
+
+- `for + 时长`：`She has been working for six months.`
+- `since + 起点`：`Vendors have been reporting higher sales since that evening.`
+- `all day`、`lately`、`recently`、`how long` 也常用来突出持续时间或近期反复发生的过程。
+
+#### 与现在完成时的区别
+
+- `She has written three reports.` 强调已经完成的数量或结果。
+- `She has been writing reports.` 强调持续写报告的过程，报告可能尚未全部完成。
+- 状态动词通常不用进行时。表达“认识他十年了”应说 `I have known him for ten years.`，而不是 `I have been knowing him...`。
+
+#### 语境例句
+
+- `Leila has been trying to transform an abandoned railway station.`：`trying` 从六个月前开始并延续到现在，关注的是持续努力的过程。
+- `She has been working with a diverse team.`：合作并非一次性动作，而是一段时间内持续发生的活动。
+- `Leila has been monitoring whether the new revenue remains stable.`：监测从过去的某个时间点开始，现在仍未结束。
+
+#### 易错点
+
+- 主语决定助动词：第三人称单数用 `has`，其余主语用 `have`。
+- `since` 后接时间起点，`for` 后接持续时长。
+- 不要把主动过程误写成被动结构：`has been trying` 是完成进行时；`has been tried` 是现在完成时的被动语态。
+
 ---
 
 [第 2 章: 情态、条件与虚拟 →](02-modals-conditionals-subjunctive.md)

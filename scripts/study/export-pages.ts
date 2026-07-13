@@ -12,6 +12,13 @@ import {
   PROSODY_SOURCE,
   sentenceAudioCacheKey,
 } from './speech-config'
+import {
+  discoverGrammarLibrary,
+  grammarSearchText,
+  type GrammarChapter,
+  type GrammarLibrary,
+  type GrammarPoint,
+} from './grammar-library'
 
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
 const CIRCLED_NUM_TO_INT: Record<string, number> = Object.fromEntries(
@@ -51,6 +58,7 @@ interface ParsedArticle {
   grammarTitle: string
   grammarDescription: string
   grammarExamples: GrammarExample[]
+  grammarId?: number
 }
 
 const { values } = parseArgs({
@@ -103,6 +111,7 @@ function parseArticleMd(date: string, md: string): ParsedArticle {
   const targetWords: TargetWord[] = []
   let grammarTitle = ''
   let grammarDescription = ''
+  let grammarId: number | undefined
   const grammarExamples: GrammarExample[] = []
 
   let section: 'header' | 'article' | 'zh' | 'words' | 'grammar' | 'other' = 'header'
@@ -118,6 +127,8 @@ function parseArticleMd(date: string, md: string): ParsedArticle {
       meta = line.slice(2).trim()
       const genreMatch = meta.match(/体裁:\s*([^|（(]+)/)
       if (genreMatch?.[1]) genre = genreMatch[1].trim()
+      const grammarIdMatch = meta.match(/语法点:[^|]*?#(\d+)/)
+      if (grammarIdMatch?.[1]) grammarId = Number.parseInt(grammarIdMatch[1], 10)
       continue
     }
 
@@ -163,7 +174,7 @@ function parseArticleMd(date: string, md: string): ParsedArticle {
         continue
       }
 
-      const m = line.match(/^-\s*句\s*([①-⑳])\s*[:：·]?\s*`?([^`]+?)`?\s*(?:——|--)\s*(.*)$/)
+      const m = line.match(/^-\s*句\s*([①-⑳])\s*[:：·]?\s*`?([^`]+?)`?\s*(?:—+|–+|-{1,2})\s*(.*)$/)
       if (m) {
         grammarExamples.push({
           sentenceNum: CIRCLED_NUM_TO_INT[m[1]!]!,
@@ -185,6 +196,7 @@ function parseArticleMd(date: string, md: string): ParsedArticle {
     grammarTitle,
     grammarDescription,
     grammarExamples,
+    grammarId,
   }
 }
 
@@ -534,10 +546,11 @@ function prepareAudioAssets(articles: ParsedArticle[]): void {
   }
 }
 
-function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'pause' | 'translate' | 'eye' | 'calendar' | 'layers' | 'wave' | 'pen-line'): string {
+function icon(name: 'book' | 'home' | 'library' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'pause' | 'translate' | 'eye' | 'calendar' | 'layers' | 'wave' | 'pen-line' | 'search'): string {
   const paths: Record<typeof name, string> = {
     book: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h5a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3Z"/><path d="M21 18a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2h-5a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3Z"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
+    library: '<path d="m16 6 4 14"/><path d="M12 6v14"/><path d="M8 8v12"/><path d="M4 4v16"/>',
     archive: '<path d="M3 5h18"/><path d="M5 5v14h14V5"/><path d="M9 9h6"/>',
     'arrow-left': '<path d="m12 19-7-7 7-7"/><path d="M19 12H5"/>',
     'arrow-right': '<path d="m12 5 7 7-7 7"/><path d="M5 12h14"/>',
@@ -549,6 +562,7 @@ function icon(name: 'book' | 'home' | 'archive' | 'arrow-left' | 'arrow-right' |
     layers: '<path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
     wave: '<path d="M2 12h2"/><path d="M6 9v6"/><path d="M10 5v14"/><path d="M14 8v8"/><path d="M18 10v4"/><path d="M22 12h-2"/>',
     'pen-line': '<path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4Z"/>',
+    search: '<circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/>',
   }
   return `<svg class="icon" viewBox="0 0 24 24" aria-hidden="true" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${paths[name]}</svg>`
 }
@@ -561,12 +575,13 @@ function renderShell(opts: {
   title: string
   description: string
   prefix: string
-  page: 'home' | 'lesson' | 'mistakes' | 'mistake-detail' | 'not-found'
-  current?: 'home' | 'mistakes'
+  page: 'home' | 'lesson' | 'grammar-index' | 'grammar-detail' | 'mistakes' | 'mistake-detail' | 'not-found'
+  current?: 'home' | 'grammar' | 'mistakes'
   bodyClass?: string
   body: string
 }): string {
   const navHome = opts.current === 'home' ? ' aria-current="page"' : ''
+  const navGrammar = opts.current === 'grammar' ? ' aria-current="page"' : ''
   const navMistakes = opts.current === 'mistakes' ? ' aria-current="page"' : ''
   const homeHref = opts.prefix || './'
   const bodyClass = opts.bodyClass ? ` class="${escapeHtml(opts.bodyClass)}"` : ''
@@ -593,7 +608,8 @@ function renderShell(opts: {
       </a>
       <nav class="masthead__nav" aria-label="主导航">
         <a class="nav-tab" href="${homeHref}"${navHome}><span class="nav-tab__index">01</span><span class="nav-tab__icon">${icon('home')}</span><span>学习日</span></a>
-        <a class="nav-tab" href="${opts.prefix}mistakes/"${navMistakes}><span class="nav-tab__index">02</span><span class="nav-tab__icon">${icon('archive')}</span><span>错题本</span></a>
+        <a class="nav-tab" href="${opts.prefix}grammar/"${navGrammar}><span class="nav-tab__index">02</span><span class="nav-tab__icon">${icon('library')}</span><span>语法库</span></a>
+        <a class="nav-tab" href="${opts.prefix}mistakes/"${navMistakes}><span class="nav-tab__index">03</span><span class="nav-tab__icon">${icon('archive')}</span><span>错题本</span></a>
       </nav>
       <div class="masthead__status"><span class="status-dot" aria-hidden="true"></span><span>Local archive</span></div>
     </header>
@@ -641,6 +657,9 @@ function renderIndex(articles: ParsedArticle[]): string {
   const latestDeck = latest
     ? escapeHtml('本课聚焦 ' + (latest.grammarTitle || '核心语法') + (latest.grammarDescription ? '：' + displayText(latest.grammarDescription) : '') + '，在完整语境中复习目标词。')
     : '运行每日学习流程后，最新短文会出现在这里。'
+  const latestGrammarFocus = latest
+    ? `${latest.grammarId ? `<a href="grammar/${latest.grammarId}/">` : ''}${escapeHtml(latest.grammarTitle || '等待下一课')}${latest.grammarDescription ? ' · ' + escapeHtml(displayText(latest.grammarDescription)) : ''}${latest.grammarId ? `<span class="grammar-focus-link__arrow">${icon('arrow-right')}</span></a>` : ''}`
+    : '等待下一课'
 
   const body = `
     <main id="content" class="page page--home">
@@ -669,7 +688,7 @@ ${latestActions}
           </div>
           <div class="lesson-brief__note">
             <span>Grammar focus</span>
-            <p>${escapeHtml(latest?.grammarTitle || '等待下一课')}${latest?.grammarDescription ? ' · ' + escapeHtml(displayText(latest.grammarDescription)) : ''}</p>
+            <p class="grammar-focus-link">${latestGrammarFocus}</p>
           </div>
         </aside>
       </section>
@@ -729,6 +748,8 @@ function renderDay(article: ParsedArticle, number: number): string {
               <span class="grammar-example__number">${String(example.sentenceNum).padStart(2, '0')}</span>
               <div><code>${escapeHtml(example.excerpt)}</code>${example.note ? '<p>' + escapeHtml(example.note) + '</p>' : ''}</div>
             </li>`).join('\n')
+  const grammarHref = article.grammarId ? `../../grammar/${article.grammarId}/` : ''
+  const grammarLead = `${escapeHtml(article.grammarTitle || '语法点')}${article.grammarDescription ? ' · ' + escapeHtml(displayText(article.grammarDescription)) : ''}`
 
   const body = `
     <main id="content" class="page page--lesson">
@@ -739,7 +760,7 @@ function renderDay(article: ParsedArticle, number: number): string {
           <div class="lesson-title-block">
             <p class="kicker">${escapeHtml(article.date)} · ${escapeHtml(article.genre)}</p>
             <h1 id="article-title">${escapeHtml(title)}</h1>
-            <p class="lesson-title-block__deck">${escapeHtml(article.grammarTitle || '语法点')}${article.grammarDescription ? ' · ' + escapeHtml(displayText(article.grammarDescription)) : ''}</p>
+            <p class="lesson-title-block__deck">${grammarHref ? `<a class="grammar-inline-link" href="${grammarHref}">${grammarLead}${icon('arrow-right')}</a>` : grammarLead}</p>
             <div class="lesson-title-block__meta">
               ${metaParts.map((part) => '<span class="meta-chip">' + escapeHtml(part) + '</span>').join('\n              ')}
             </div>
@@ -789,6 +810,7 @@ ${wordsHtml}
               <div class="grammar-summary">
                 <strong>${escapeHtml(article.grammarTitle || '未记录')}</strong>
                 ${article.grammarDescription ? '<p>' + escapeHtml(displayText(article.grammarDescription)) + '</p>' : ''}
+                ${grammarHref ? `<a class="grammar-detail-link" href="${grammarHref}"><span>查看完整语法笔记</span>${icon('arrow-right')}</a>` : ''}
               </div>
               <ol class="grammar-examples">
 ${grammarHtml || '                <li class="grammar-example"><span class="grammar-example__number">—</span><div><p>暂无语法例句。</p></div></li>'}
@@ -829,7 +851,7 @@ function renderInlineMd(raw: string): string {
   return html
 }
 
-function renderMarkdown(md: string): string {
+function renderMarkdown(md: string, headingOffset = 1): string {
   const lines = md.split('\n')
   const html: string[] = []
   let paragraph: string[] = []
@@ -857,11 +879,11 @@ function renderMarkdown(md: string): string {
       continue
     }
 
-    const heading = trimmed.match(/^(#{1,3})\s+(.+)$/)
+    const heading = trimmed.match(/^(#{1,6})\s+(.+)$/)
     if (heading) {
       flushParagraph()
       closeList()
-      const level = heading[1]!.length + 1
+      const level = Math.min(6, Math.max(2, heading[1]!.length + headingOffset))
       html.push(`<h${level}>${renderInlineMd(heading[2]!)}</h${level}>`)
       continue
     }
@@ -889,6 +911,202 @@ function renderMarkdown(md: string): string {
   flushParagraph()
   closeList()
   return html.join('\n')
+}
+
+function grammarChapterLabel(chapter: GrammarChapter): string {
+  return displayText(chapter.title.replace(/^第\s*\d+\s*章[:：]?\s*/, ''))
+}
+
+function renderGrammarIndex(library: GrammarLibrary): string {
+  const noteCount = library.points.filter((point) => point.detailMarkdown).length
+  const priorityCount = library.points.filter((point) => point.importance === 3).length
+  const chapterNav = library.chapters.map((chapter) => `          <li>
+            <a href="#chapter-${chapter.number}">
+              <span class="grammar-chapter-nav__number">${issueNumber(chapter.number)}</span>
+              <span>${escapeHtml(grammarChapterLabel(chapter))}</span>
+              <strong>${chapter.points.length}</strong>
+            </a>
+          </li>`).join('\n')
+
+  const chapterSections = library.chapters.map((chapter) => {
+    const points = chapter.points.map((point) => {
+      const fallback = point.summary || point.subsection || point.section || '语法索引条目'
+      const noteStatus = point.detailMarkdown
+        ? '<span class="grammar-point__note">有笔记</span>'
+        : ''
+      return `              <li class="grammar-point" data-grammar-entry data-search="${escapeHtml(grammarSearchText(point))}" data-importance="${point.importance}" data-note="${point.detailMarkdown ? 'true' : 'false'}">
+                <a href="${point.id}/">
+                  <span class="grammar-point__id">${String(point.id).padStart(3, '0')}</span>
+                  <span class="grammar-point__copy">
+                    <strong>${renderInlineMd(point.title)}</strong>
+                    <span>${renderInlineMd(fallback)}</span>
+                  </span>
+                  <span class="grammar-point__meta">
+                    <span class="grammar-point__stars" aria-label="重要度 ${point.importance} 星">${'★'.repeat(point.importance)}</span>
+                    ${noteStatus}
+                  </span>
+                  <span class="grammar-point__arrow">${icon('arrow-right')}</span>
+                </a>
+              </li>`
+    }).join('\n')
+
+    return `          <section class="grammar-chapter" id="chapter-${chapter.number}" data-grammar-chapter>
+            <header class="grammar-chapter__header">
+              <span>${issueNumber(chapter.number)}</span>
+              <div><p>Chapter ${issueNumber(chapter.number)}</p><h2>${escapeHtml(grammarChapterLabel(chapter))}</h2></div>
+              <strong>${chapter.points.length} points</strong>
+            </header>
+            <ol class="grammar-point-list">
+${points}
+            </ol>
+          </section>`
+  }).join('\n')
+
+  const body = `
+    <main id="content" class="page page--grammar-index">
+      <header class="grammar-library-intro">
+        <div>
+          <p class="kicker">Grammar library</p>
+          <h1>语法库</h1>
+          <p class="grammar-library-intro__meta">${library.chapters.length} 章 · ${library.points.length} 个语法点 · ${noteCount} 条详细笔记</p>
+        </div>
+        <dl class="grammar-library-stats">
+          <div><dt>重点语法</dt><dd>${priorityCount}</dd></div>
+          <div><dt>已沉淀</dt><dd>${noteCount}</dd></div>
+        </dl>
+      </header>
+
+      <section class="grammar-controls" aria-label="语法目录工具">
+        <label class="grammar-search">
+          <span>${icon('search')}</span>
+          <span class="sr-only">搜索语法</span>
+          <input type="search" inputmode="search" autocomplete="off" placeholder="搜索语法、结构或关键词" data-grammar-search>
+        </label>
+        <div class="grammar-filter" role="group" aria-label="筛选语法条目">
+          <button type="button" data-grammar-filter="all" aria-pressed="true">全部</button>
+          <button type="button" data-grammar-filter="priority" aria-pressed="false">重点</button>
+          <button type="button" data-grammar-filter="notes" aria-pressed="false">有笔记</button>
+        </div>
+        <output class="grammar-results" data-grammar-results aria-live="polite">${library.points.length} 条</output>
+      </section>
+
+      <div class="grammar-library-layout">
+        <nav class="grammar-chapter-nav" aria-label="语法章节">
+          <p>Chapters</p>
+          <ol>
+${chapterNav}
+          </ol>
+        </nav>
+        <div class="grammar-catalog">
+${chapterSections}
+          <p class="grammar-no-results" data-grammar-empty hidden>没有匹配的语法条目。</p>
+        </div>
+      </div>
+    </main>`
+
+  return renderShell({
+    title: '语法库',
+    description: `${SITE_TITLE} grammar library`,
+    prefix: '../',
+    page: 'grammar-index',
+    current: 'grammar',
+    body,
+  })
+}
+
+function renderGrammarDetail(
+  point: GrammarPoint,
+  library: GrammarLibrary,
+  articles: ParsedArticle[]
+): string {
+  const index = library.points.findIndex((candidate) => candidate.id === point.id)
+  const previous = index > 0 ? library.points[index - 1] : undefined
+  const next = index >= 0 && index < library.points.length - 1 ? library.points[index + 1] : undefined
+  const relatedLessons = articles.filter((article) => article.grammarId === point.id)
+  const summary = point.summary || point.subsection || point.section || '暂无索引说明。'
+  const noteBody = point.detailMarkdown
+    ? `<div class="grammar-note-content">${renderMarkdown(point.detailMarkdown, -2)}</div>`
+    : `<section class="grammar-note-placeholder">
+          <p class="kicker">Index definition</p>
+          <h2>概念速览</h2>
+          <p>${renderInlineMd(summary)}</p>
+        </section>`
+
+  const relatedHtml = relatedLessons.map((article) => {
+    const example = article.grammarExamples[0]
+    return `            <a class="grammar-lesson-link" href="../../days/${article.date}/">
+              <time datetime="${escapeHtml(article.date)}">${escapeHtml(article.date)}<span>${escapeHtml(article.genre)}</span></time>
+              <span class="grammar-lesson-link__copy">
+                <strong>${escapeHtml(articleDisplayTitle(article))}</strong>
+                ${example ? `<code>${escapeHtml(example.excerpt)}</code>` : ''}
+              </span>
+              <span>${icon('arrow-right')}</span>
+            </a>`
+  }).join('\n')
+
+  const sequenceLinks = [
+    previous
+      ? `<a class="grammar-sequence__link grammar-sequence__link--previous" href="../${previous.id}/"><span>${icon('arrow-left')}上一个</span><strong>#${previous.id} ${renderInlineMd(previous.title)}</strong></a>`
+      : '<span></span>',
+    next
+      ? `<a class="grammar-sequence__link grammar-sequence__link--next" href="../${next.id}/"><span>下一个${icon('arrow-right')}</span><strong>#${next.id} ${renderInlineMd(next.title)}</strong></a>`
+      : '<span></span>',
+  ].join('\n')
+
+  const body = `
+    <main id="content" class="page page--grammar-detail">
+      <div class="grammar-detail__back"><a class="text-link" href="../">${icon('arrow-left')}<span>返回语法库</span></a></div>
+      <header class="grammar-detail-intro">
+        <div class="grammar-detail-folio"><span>Grammar</span><strong>${String(point.id).padStart(3, '0')}</strong></div>
+        <div class="grammar-detail-title">
+          <p class="kicker">Chapter ${issueNumber(point.chapter)} · ${escapeHtml(point.section || 'Grammar')}</p>
+          <h1>${renderInlineMd(point.title)}</h1>
+          <p>${renderInlineMd(summary)}</p>
+          <div class="grammar-detail-title__meta">
+            <span class="grammar-detail-stars" aria-label="重要度 ${point.importance} 星">${'★'.repeat(point.importance)}</span>
+            <span>${point.detailMarkdown ? '详细笔记' : '索引释义'}</span>
+            ${point.subsection ? `<span>${escapeHtml(point.subsection)}</span>` : ''}
+          </div>
+        </div>
+      </header>
+
+      <div class="grammar-detail-layout">
+        <article class="grammar-note-sheet" aria-label="${escapeHtml(displayText(point.title))}语法笔记">
+          <header class="grammar-note-sheet__header"><span>Consolidated note</span><strong>#${point.id}</strong></header>
+${noteBody}
+          ${relatedHtml ? `<section class="grammar-related-lessons" aria-labelledby="related-lessons-title">
+            <header><p class="kicker">In context</p><h2 id="related-lessons-title">相关课程</h2></header>
+${relatedHtml}
+          </section>` : ''}
+        </article>
+
+        <aside class="grammar-detail-rail" aria-label="语法条目信息">
+          <dl>
+            <div><dt>编号</dt><dd>#${String(point.id).padStart(3, '0')}</dd></div>
+            <div><dt>章节</dt><dd>${issueNumber(point.chapter)}</dd></div>
+            <div><dt>重要度</dt><dd>${'★'.repeat(point.importance)}</dd></div>
+            <div><dt>课程引用</dt><dd>${relatedLessons.length}</dd></div>
+          </dl>
+          <div class="grammar-detail-rail__chapter">
+            <span>Chapter</span>
+            <p>${escapeHtml(grammarChapterLabel(library.chapters.find((chapter) => chapter.number === point.chapter)!))}</p>
+          </div>
+        </aside>
+      </div>
+
+      <nav class="grammar-sequence" aria-label="相邻语法条目">
+${sequenceLinks}
+      </nav>
+    </main>`
+
+  return renderShell({
+    title: displayText(point.title),
+    description: `${displayText(point.title)} · ${displayText(summary)}`,
+    prefix: '../../',
+    page: 'grammar-detail',
+    current: 'grammar',
+    body,
+  })
 }
 
 function renderMistakesPage(kind: 'words' | 'grammar', markdown: string): string {
@@ -1012,6 +1230,24 @@ function discoverArticles(): ParsedArticle[] {
   return articles.sort((a, b) => b.date.localeCompare(a.date))
 }
 
+function reportGrammarLibraryCoverage(library: GrammarLibrary, articles: ParsedArticle[]): void {
+  const maximumId = library.points.at(-1)?.id ?? 0
+  const missingIds = Array.from({ length: maximumId }, (_, index) => index + 1)
+    .filter((id) => !library.byId.has(id))
+  if (missingIds.length > 0) {
+    throw new Error(`Grammar library has missing IDs: ${missingIds.slice(0, 12).join(', ')}`)
+  }
+
+  const invalidLessons = articles.filter((article) => !article.grammarId || !library.byId.has(article.grammarId))
+  if (invalidLessons.length > 0) {
+    throw new Error(`Lessons reference missing grammar IDs: ${invalidLessons.map((article) => article.date).join(', ')}`)
+  }
+
+  const notes = library.points.filter((point) => point.detailMarkdown).length
+  console.log(`  Grammar: ${library.points.length} points across ${library.chapters.length} chapters; ${notes} detailed notes`)
+  console.log(`  Grammar links: ${articles.length}/${articles.length} lessons reference canonical entries`)
+}
+
 function writePage(path: string, content: string): void {
   mkdirSync(dirname(path), { recursive: true })
   writeFileSync(path, content, 'utf-8')
@@ -1022,8 +1258,10 @@ const SITE_JS = readFileSync(DESIGN_RUNTIME_JS_PATH, 'utf-8')
 
 function main(): void {
   const articles = discoverArticles()
+  const grammarLibrary = discoverGrammarLibrary()
   reportDefinitionCoverage(articles)
   reportProsodyAudioCoverage(articles)
+  reportGrammarLibraryCoverage(grammarLibrary, articles)
   rmSync(OUT_DIR, { recursive: true, force: true })
   mkdirSync(join(OUT_DIR, 'assets'), { recursive: true })
   prepareAudioAssets(articles)
@@ -1051,6 +1289,11 @@ function main(): void {
 
   for (const [index, article] of articles.entries()) {
     writePage(join(OUT_DIR, 'days', article.date, 'index.html'), renderDay(article, articles.length - index))
+  }
+
+  writePage(join(OUT_DIR, 'grammar', 'index.html'), renderGrammarIndex(grammarLibrary))
+  for (const point of grammarLibrary.points) {
+    writePage(join(OUT_DIR, 'grammar', String(point.id), 'index.html'), renderGrammarDetail(point, grammarLibrary, articles))
   }
 
   writePage(join(OUT_DIR, 'mistakes', 'index.html'), renderMistakesIndex())

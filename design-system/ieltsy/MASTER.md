@@ -34,6 +34,12 @@
 
 每句 `RHYTHM` 必须来自页面实际发布的同一份 Edge TTS 音频：分组使用逐词时间轴中的真实停顿，语调读取对应音频区间，分析记录必须通过音频 SHA-256 校验。禁止发布按文本猜测的 fallback 节奏；句子 MP3 失败时也禁止静默切换到另一套浏览器 TTS。
 
+### Grammar
+
+索引使用 `grammar-library-layout`，详情使用 `grammar-detail-layout` 和 `grammar-note-sheet`。语法详情是参考手册，不是代码文档或设置面板：正文限制在 `--measure-reference` 内，章节使用连续编号和校样分隔线，例句列表保持可扫描的账簿式行项。
+
+Markdown 中的 inline code 表示英语词形、短语或句型。它必须保留行内文字的阅读节奏，使用等宽字体、深青文字和细下划标记；禁止使用完整边框、填充底色、圆角胶囊或按钮式外观。长例句必须自然换行，不能撑宽页面。
+
 ### Mistakes
 
 索引使用 `mistake-directory`；详情使用 `mistake-detail-layout` 和 `markdown-sheet`。错题内容保持自动生成，不在展示层改写。

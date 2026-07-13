@@ -219,6 +219,51 @@
     syncViewControls()
   }
 
+  function initializeGrammarLibrary() {
+    const input = document.querySelector('[data-grammar-search]')
+    const entries = Array.from(document.querySelectorAll('[data-grammar-entry]'))
+    const chapters = Array.from(document.querySelectorAll('[data-grammar-chapter]'))
+    const filters = Array.from(document.querySelectorAll('[data-grammar-filter]'))
+    const results = document.querySelector('[data-grammar-results]')
+    const empty = document.querySelector('[data-grammar-empty]')
+    if (!(input instanceof HTMLInputElement) || entries.length === 0) return
+
+    let activeFilter = 'all'
+
+    function applyFilters() {
+      const query = input.value.normalize('NFKC').trim().toLocaleLowerCase('zh-CN')
+      let visibleCount = 0
+
+      for (const entry of entries) {
+        const searchable = entry.getAttribute('data-search') || ''
+        const matchesQuery = !query || searchable.includes(query)
+        const matchesFilter = activeFilter === 'all'
+          || (activeFilter === 'priority' && entry.getAttribute('data-importance') === '3')
+          || (activeFilter === 'notes' && entry.getAttribute('data-note') === 'true')
+        entry.hidden = !(matchesQuery && matchesFilter)
+        if (!entry.hidden) visibleCount += 1
+      }
+
+      for (const chapter of chapters) {
+        chapter.hidden = !chapter.querySelector('[data-grammar-entry]:not([hidden])')
+      }
+
+      if (results) results.textContent = visibleCount + ' 条'
+      if (empty) empty.hidden = visibleCount !== 0
+    }
+
+    input.addEventListener('input', applyFilters)
+    for (const filter of filters) {
+      filter.addEventListener('click', () => {
+        activeFilter = filter.getAttribute('data-grammar-filter') || 'all'
+        for (const item of filters) item.setAttribute('aria-pressed', String(item === filter))
+        applyFilters()
+      })
+    }
+
+    applyFilters()
+  }
+
   function activateTab(name, persist = true) {
     const tab = document.querySelector('[data-tab="' + name + '"]')
     const panel = document.querySelector('[data-panel="' + name + '"]')
@@ -235,6 +280,7 @@
   }
 
   initializeLessonState()
+  initializeGrammarLibrary()
   activateTab(storage.get('ieltsy:annotation-tab') || 'words', false)
 
   document.addEventListener('click', (event) => {

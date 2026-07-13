@@ -30,6 +30,36 @@ If command shape is uncertain at the start of a session, run `pnpm ielts help` f
 | "读 X" / "读这句" | Run `pnpm ielts speak --text "..."`. |
 | "预览文章" / "看一下文章" | Start `pnpm ielts preview` as a long-running background process and report the local URL. |
 | "加 X" / "X 这词不会" | Run `pnpm ielts add-word --word X`. |
+| 对文章里的语法提问 / "这个语法为什么这样用" | 解释当前语境；形成可复用结论后，定位并归并到既有语法条目。 |
+
+## Grammar Conversation Capture
+
+Grammar explanations produced while discussing a daily article are durable study content. Do not leave a reusable explanation only in chat.
+
+1. Answer the user's grammar question in the context of the sentence first.
+2. Run `pnpm ielts grammar --query "<语法标题或关键词>" --json` (or `--id <id>`) to locate the canonical entry before editing any file.
+3. Prefer the best existing point in `grammar/*.md`. Create a new grammar point only when none of the existing points can accurately contain the concept; new IDs are append-only and must never renumber old points.
+4. In that point's existing chapter file, update the single `## 语法笔记 Grammar Notes` section. Each detailed entry uses the exact heading returned by the command: `### <id>. <canonical title>`.
+5. Merge instead of append: preserve correct existing material, fold in the new distinction or example, remove duplication, and keep one coherent explanation. Never add a second note heading or a date-specific grammar file for the same point.
+6. Detailed note subheadings use `####`, normally covering only what is useful: core meaning, form, contrasts, contextual examples, and common errors.
+7. Run `pnpm ielts grammar --id <id> --json` after editing. `has_note` must be `true`; the parser also rejects duplicate, unknown, or title-mismatched note entries.
+8. Run `pnpm pages:build` when the static grammar library needs to be refreshed.
+
+Canonical format inside an existing chapter file:
+
+```markdown
+## 语法笔记 Grammar Notes
+
+### 13. 现在完成进行时
+
+#### 核心判断
+
+[归并后的解释]
+
+#### 语境例句
+
+- `Example from a lesson.`：解释。
+```
 
 ## Daily Article Generation
 
@@ -167,6 +197,9 @@ Only enable this when the user asks for it.
 | `scripts/study/check-design-pattern.ts` | Structural design gate run by `pnpm pages:build`. |
 | `scripts/study/audit-static-pages.mjs` | Chrome-based multi-viewport and interaction audit. |
 | `scripts/study/sync-static-glossary.ts` | Sync published target-word definitions from local SQLite into the tracked static glossary. |
+| `scripts/study/grammar-library.ts` | Parse and validate the canonical 12-chapter grammar library and its merged detailed notes. |
+| `scripts/study/grammar.ts` | Locate the existing grammar point that should receive a conversation-derived explanation. |
+| `grammar/*.md` | Canonical grammar index and detailed notes; update existing chapter files rather than creating per-chat files. |
 | `learning/days/YYYY-MM-DD/` | Daily article and session output. |
 | `learning/mistakes/` | Mistake markdown generated from database views; do not edit manually. |
 | `learning/audio-cache/` | TTS MP3 cache, gitignored. |
