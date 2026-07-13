@@ -1,0 +1,114 @@
+design-system/ieltsy/runtime.js
+  6053c98014b20e2f 222-266,283
+scripts/study/export-pages.ts
+  6053c98014b20e2f 15-21,61,114,130-131,177,199,549,553,565,578-579,584,611-612,660-662,691,751-752,763,813,854,882,886,916-1111,1233-1250,1261,1264,1294-1296
+scripts/cli.ts
+  6053c98014b20e2f 191-206
+README.md
+  6053c98014b20e2f 3,19,60,65,90,137-143,165
+grammar/09-agreement-and-sentence-structure.md
+  6053c98014b20e2f 3,78-149
+design-system/ieltsy/pattern.css
+  6053c98014b20e2f 1,20,60,1429-2242,2568-2573,2596-2604,2606-2609,2677-2706,2787-2788,2972-3108,3110-3187
+scripts/import-grammar.ts
+  6053c98014b20e2f 3,10,26-35
+scripts/study/check-design-pattern.ts
+  6053c98014b20e2f 5,69,78-82,102-109,156,180-212
+scripts/study/grammar-library.ts
+  6053c98014b20e2f 1-204
+scripts/study/audit-static-pages.mjs
+  6053c98014b20e2f 196-199,259-262,288-299,368-373,444-447,450-457,504-568
+grammar/01-tenses-and-passive.md
+  6053c98014b20e2f 49-80
+design-system/ieltsy/MASTER.md
+  6053c98014b20e2f 37-42
+scripts/study/grammar.ts
+  6053c98014b20e2f 1-94
+AGENTS.md
+  6053c98014b20e2f 33,35-62,200-202
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "1bdc7ec5bbb3420dc6b35cfaf89fba6254e6748a",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 2055,
+      "total_deletions": 118,
+      "accepted_lines": 2029,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "design-system/ieltsy/pattern.css": {
+          "additions": 1105,
+          "deletions": 18,
+          "accepted_lines": 1088
+        },
+        "design-system/ieltsy/runtime.js": {
+          "additions": 46,
+          "accepted_lines": 46
+        },
+        "scripts/study/grammar.ts": {
+          "additions": 94,
+          "accepted_lines": 94
+        },
+        "design-system/ieltsy/MASTER.md": {
+          "additions": 6,
+          "accepted_lines": 6
+        },
+        "scripts/study/check-design-pattern.ts": {
+          "additions": 51,
+          "accepted_lines": 51
+        },
+        "AGENTS.md": {
+          "additions": 34,
+          "deletions": 1,
+          "accepted_lines": 33
+        },
+        "grammar/01-tenses-and-passive.md": {
+          "additions": 32,
+          "accepted_lines": 32
+        },
+        "scripts/import-grammar.ts": {
+          "additions": 12,
+          "deletions": 75,
+          "accepted_lines": 12
+        },
+        "scripts/cli.ts": {
+          "additions": 17,
+          "accepted_lines": 17
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 253,
+          "deletions": 10,
+          "accepted_lines": 253
+        },
+        "grammar/09-agreement-and-sentence-structure.md": {
+          "additions": 74,
+          "deletions": 1,
+          "accepted_lines": 74
+        },
+        "scripts/study/audit-static-pages.mjs": {
+          "additions": 111,
+          "deletions": 5,
+          "accepted_lines": 106
+        },
+        "scripts/study/grammar-library.ts": {
+          "additions": 204,
+          "accepted_lines": 204
+        },
+        "README.md": {
+          "additions": 16,
+          "deletions": 8,
+          "accepted_lines": 13
+        }
+      }
+    }
+  }
+}
