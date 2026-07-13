@@ -1,0 +1,47 @@
+learning/glossary.zh.json
+  6053c98014b20e2f 2-4,39,58,82,85-86,88-89,98,102-103,109,119,128,134
+learning/prosody.json
+  6053c98014b20e2f 9884-11495
+learning/days/2026-07-13/article.md
+  6053c98014b20e2f 1-63
+learning/days/2026-07-13/session.md
+  6053c98014b20e2f 1-14
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "3f0836317ba9bc0cf445904949c3d93ef0ce3ef3",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 1706,
+      "total_deletions": 0,
+      "accepted_lines": 1706,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "learning/days/2026-07-13/article.md": {
+          "additions": 63,
+          "accepted_lines": 63
+        },
+        "learning/glossary.zh.json": {
+          "additions": 17,
+          "accepted_lines": 17
+        },
+        "learning/prosody.json": {
+          "additions": 1612,
+          "accepted_lines": 1612
+        },
+        "learning/days/2026-07-13/session.md": {
+          "additions": 14,
+          "accepted_lines": 14
+        }
+      }
+    }
+  }
+}
