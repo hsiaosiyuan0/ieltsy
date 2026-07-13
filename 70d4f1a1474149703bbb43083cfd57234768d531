@@ -1,0 +1,60 @@
+grammar/09-agreement-and-sentence-structure.md
+  6053c98014b20e2f 98,100-117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "70d4f1a1474149703bbb43083cfd57234768d531",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 866,
+      "total_deletions": 850,
+      "accepted_lines": 866,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "scripts/study/speech-config.ts": {
+          "additions": 2,
+          "deletions": 2,
+          "accepted_lines": 2
+        },
+        "design-system/ieltsy/MASTER.md": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        },
+        "scripts/study/analyze-prosody.ts": {
+          "additions": 45,
+          "deletions": 44,
+          "accepted_lines": 45
+        },
+        "AGENTS.md": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        },
+        "grammar/09-agreement-and-sentence-structure.md": {
+          "additions": 20,
+          "deletions": 5,
+          "accepted_lines": 20
+        },
+        "learning/prosody.json": {
+          "additions": 796,
+          "deletions": 796,
+          "accepted_lines": 796
+        }
+      }
+    }
+  }
+}
