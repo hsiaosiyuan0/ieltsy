@@ -95,11 +95,26 @@
 
 #### 第一步：先找限定动词
 
-限定动词会随时态、语气或主语发生变化。一个独立分句通常只有一组限定动词，先找到它，才能划分主语和谓语。
+“限定”不是限制动作能不能发生，而是把抽象的动作或状态**限定到一个具体分句里**。限定动词（finite verb）通常会确定以下信息：
 
-- `The market earns enough revenue.`：限定动词是 `earns`。
-- `Leila has been monitoring the revenue.`：完整动词短语是 `has been monitoring`，其中 `has` 承担现在时和主谓一致。
-- `To transform the station takes time.`：`to transform` 是不定式；主句的限定动词是 `takes`，整个 `To transform the station` 作主语。
+- 时间：动作被放在现在还是过去，如 `works` 与 `worked`。
+- 主语的人称和数：如 `I am`、`she is`、`they are`，以及 `she works` 与 `they work`。
+- 语气或可能性：如 `can`、`must`、`would` 表示能力、必要性或假设。
+
+因此，`working` 只表示“工作这个过程”，不能单独说明谁在什么时间工作；`She is working.` 中的 `is` 才把它限定为“第三人称单数、现在、陈述”。这里 `is` 是限定动词，`working` 是非限定形式。
+
+一个动词短语里如果有多个动词，承担限定功能的通常是最前面的助动词：
+
+- `The market earns enough revenue.`：`earns` 本身是限定动词，表示一般现在时并与单数主语一致。
+- `Leila is monitoring the revenue.`：`is` 是限定动词，`monitoring` 是现在分词。
+- `Leila has been monitoring the revenue.`：`has` 是限定动词；`been` 和 `monitoring` 都是非限定形式。
+- `Leila will modify the hall.`：`will` 是限定动词，`modify` 是不带 `to` 的不定式。
+
+限定动词也是疑问和否定的“操作位置”：`She is working.` 可以变成 `Is she working?` 或 `She is not working.`。如果简单时态里没有助动词，英语会加入限定形式 `do / does / did`：`She works.` → `Does she work?`
+
+注意，限定与否不能只看单词长相。`They work here.` 中的 `work` 虽然与原形相同，但它承担一般现在时并与主语 `they` 对应，所以仍是限定动词。相反，`to work here` 和 `working here` 本身没有限定动词，通常不能独立构成完整陈述句。
+
+在 `To transform the station takes time.` 中，`to transform` 是不定式，主句的限定动词是 `takes`，整个 `To transform the station` 作主语。
 
 #### 第二步：判断主语
 
