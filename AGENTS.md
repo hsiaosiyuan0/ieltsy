@@ -42,8 +42,9 @@ Grammar explanations produced while discussing a daily article are durable study
 4. In that point's existing chapter file, update the single `## 语法笔记 Grammar Notes` section. Each detailed entry uses the exact heading returned by the command: `### <id>. <canonical title>`.
 5. Merge instead of append: preserve correct existing material, fold in the new distinction or example, remove duplication, and keep one coherent explanation. Never add a second note heading or a date-specific grammar file for the same point.
 6. Detailed note subheadings use `####`, normally covering only what is useful: core meaning, form, contrasts, contextual examples, and common errors.
-7. Run `pnpm ielts grammar --id <id> --json` after editing. `has_note` must be `true`; the parser also rejects duplicate, unknown, or title-mismatched note entries.
-8. Run `pnpm pages:build` when the static grammar library needs to be refreshed.
+7. Run `pnpm db:import:grammar` after editing. The importer refreshes the SQLite query projection and fails if any projected row differs from the canonical Markdown library.
+8. Run `pnpm ielts grammar --id <id> --json` after editing. `has_note` must be `true`; the parser also rejects duplicate, unknown, or title-mismatched note entries.
+9. Run `pnpm pages:build` when the static grammar library needs to be refreshed.
 
 Canonical format inside an existing chapter file:
 
@@ -198,6 +199,8 @@ Only enable this when the user asks for it.
 | `scripts/study/audit-static-pages.mjs` | Chrome-based multi-viewport and interaction audit. |
 | `scripts/study/sync-static-glossary.ts` | Sync published target-word definitions from local SQLite into the tracked static glossary. |
 | `scripts/study/grammar-library.ts` | Parse and validate the canonical 12-chapter grammar library and its merged detailed notes. |
+| `scripts/study/grammar-projection.ts` | Define and verify the derived SQLite projection of canonical grammar points. |
+| `scripts/study/check-grammar-projection.ts` | Standalone `pnpm db:check:grammar` harness for detecting stale, missing, or extra SQLite grammar rows. |
 | `scripts/study/grammar.ts` | Locate the existing grammar point that should receive a conversation-derived explanation. |
 | `grammar/*.md` | Canonical grammar index and detailed notes; update existing chapter files rather than creating per-chat files. |
 | `learning/days/YYYY-MM-DD/` | Daily article and session output. |
@@ -209,6 +212,8 @@ Only enable this when the user asks for it.
 - TypeScript + `tsx`; there is no build step.
 - SQLite access uses `better-sqlite3` synchronous APIs.
 - Dates are ISO `YYYY-MM-DD`.
+- `grammar/*.md` is the canonical grammar content. `grammar_points` is a derived, flattened SQLite projection for scheduling, progress, joins, and mistake records; it is not a publishing source.
+- Grammar lookup and static grammar pages intentionally read the tracked Markdown library. Run `pnpm db:import:grammar` to refresh and verify the SQLite projection, or `pnpm db:check:grammar` to check it without writing.
 - Static pages must consume `design-system/ieltsy/pattern.css` and `runtime.js` directly; do not duplicate them in the exporter or add inline page styles.
 - After adding or changing a published article, run `pnpm study:sync-glossary` and commit `learning/glossary.zh.json`; CI does not have `db/ieltsy.db`.
 - `pnpm pages:build` incrementally generates WordBoundary sentence audio, derives each tone from the final stressed word's pitch contour, verifies every RHYTHM cue against the same audio hash, exports the site, and runs the structural gate. `IELTSY_SKIP_AUDIO=1` may be used for visual-only builds after the sentence-analysis cache exists; it omits MP3 files from `dist` but does not bypass RHYTHM validation.

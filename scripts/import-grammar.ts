@@ -1,11 +1,13 @@
 import Database from 'better-sqlite3'
-import { resolve } from 'node:path'
 import { discoverGrammarLibrary } from './study/grammar-library'
-
-const DB_PATH = resolve('db/ieltsy.db')
+import {
+  assertGrammarProjection,
+  GRAMMAR_DB_PATH,
+  projectGrammarPoint,
+} from './study/grammar-projection'
 
 function main(): void {
-  const db = new Database(DB_PATH)
+  const db = new Database(GRAMMAR_DB_PATH)
   db.pragma('foreign_keys = ON')
   const library = discoverGrammarLibrary()
 
@@ -24,14 +26,7 @@ function main(): void {
 
   const importAll = db.transaction(() => {
     for (const point of library.points) {
-      insert.run({
-        id: point.id,
-        chapter: point.chapter,
-        section: point.section || null,
-        title: point.title,
-        importance: point.importance,
-        description: point.summary,
-      })
+      insert.run(projectGrammarPoint(point))
       total += 1
     }
   })
@@ -39,6 +34,8 @@ function main(): void {
   importAll()
 
   console.log(`✓ Grammar imported: ${total} points`)
+  const projection = assertGrammarProjection(db, library)
+  console.log(`  Projection: ${projection.indexedPoints}/${projection.sourcePoints} SQLite rows match grammar/*.md`)
 
   // Stats by chapter
   const byChapter = db

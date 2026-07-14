@@ -10,6 +10,7 @@
     "db:import:oxford": "tsx scripts/import-oxford.ts",
     "db:import:awl": "tsx scripts/import-awl.ts",
     "db:import:grammar": "tsx scripts/import-grammar.ts",
+    "db:check:grammar": "tsx scripts/study/check-grammar-projection.ts",
     "db:import:zh": "tsx scripts/import-zh.ts",
     "db:import:all": "pnpm db:import:topics && pnpm db:import:oxford && pnpm db:import:awl && pnpm db:import:grammar && pnpm db:import:zh",
     "db:stats": "tsx scripts/query-stats.ts",

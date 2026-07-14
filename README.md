@@ -162,8 +162,20 @@ Codex:
 
 ### 存储分工
 
-- **SQLite (`db/ieltsy.db`)** — 结构化查询索引：内容表（7,090 词 + 386 语法点 + 30 话题）、用户进度表（学习计划、SM-2、daily_sessions、word_mistakes）、学习产物的文件路径
-- **Markdown** — 教学素材源（`grammar/*.md` / `vocabulary/*.md`，importer 据此填 db）+ 学习产物（`learning/days/.../article.md` / `session.md`、`learning/mistakes/*.md`）
+- **Markdown** — 人工维护的教学素材源（`grammar/*.md` / `vocabulary/*.md`）+ 学习产物（`learning/days/.../article.md` / `session.md`、`learning/mistakes/*.md`）；其中 `grammar/*.md` 是语法内容的唯一作者源
+- **SQLite (`db/ieltsy.db`)** — 从素材源生成的结构化查询投影（7,090 词 + 386 语法点 + 30 话题）+ 用户进度表（学习计划、SM-2、daily_sessions、word_mistakes）+ 学习产物路径
+
+语法链路刻意区分“内容源”和“运行时投影”：
+
+```text
+grammar/*.md
+    └─ grammar-library.ts 统一解析与校验
+         ├─ grammar CLI / 静态语法页（直接读受版本管理的内容源）
+         └─ import-grammar.ts → SQLite grammar_points
+                                  └─ today / progress / mistakes
+```
+
+`pnpm db:import:grammar` 在导入后会逐字段校验 SQLite 投影；`pnpm db:check:grammar` 可以只检查不写入。检查会拒绝缺失、多余或内容陈旧的语法条目。静态发布不依赖 gitignored 的本地数据库。
 
 ### 数据流转 / 编排
 
