@@ -60,6 +60,14 @@
 - `since + 起点`：`Vendors have been reporting higher sales since that evening.`
 - `all day`、`lately`、`recently`、`how long` 也常用来突出持续时间或近期反复发生的过程。
 
+`six months` 表示一段时间的长度，回答 `How long?`，所以说 `for six months`，不说 `since six months`。`since` 需要的是能回答 `Since when?` 的起点：
+
+- `For six months, Leila has been trying to transform the station.`
+- `Since January, Leila has been trying to transform the station.`
+- `Since she took over the station, Leila has been trying to transform it.`
+
+`six months ago` 指的是“六个月前那个时点”，因此 `since six months ago` 在语法上可以，但只想表达持续了六个月时，`for six months` 更直接。时间状语放在句首或句尾都不会改变这条规则。
+
 #### 与现在完成时的区别
 
 - `She has written three reports.` 强调已经完成的数量或结果。
@@ -75,7 +83,7 @@
 #### 易错点
 
 - 主语决定助动词：第三人称单数用 `has`，其余主语用 `have`。
-- `since` 后接时间起点，`for` 后接持续时长。
+- `since` 后接时间起点，`for` 后接持续时长；判断时可分别问 `Since when?` 和 `How long?`。
 - 不要把主动过程误写成被动结构：`has been trying` 是完成进行时；`has been tried` 是现在完成时的被动语态。
 
 ---
