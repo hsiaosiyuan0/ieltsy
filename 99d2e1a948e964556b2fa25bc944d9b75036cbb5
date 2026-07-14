@@ -1,0 +1,43 @@
+learning/glossary.zh.json
+  6053c98014b20e2f 17
+learning/days/2026-07-13/article.md
+  6053c98014b20e2f 3,35,56
+AGENTS.md
+  6053c98014b20e2f 32,186-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "99d2e1a948e964556b2fa25bc944d9b75036cbb5",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 14,
+      "total_deletions": 3,
+      "accepted_lines": 14,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "AGENTS.md": {
+          "additions": 10,
+          "deletions": 1,
+          "accepted_lines": 10
+        },
+        "learning/days/2026-07-13/article.md": {
+          "additions": 3,
+          "deletions": 2,
+          "accepted_lines": 3
+        },
+        "learning/glossary.zh.json": {
+          "additions": 1,
+          "accepted_lines": 1
+        }
+      }
+    }
+  }
+}
