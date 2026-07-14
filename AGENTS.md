@@ -29,7 +29,7 @@ If command shape is uncertain at the start of a session, run `pnpm ielts help` f
 | "查 X" / "X 什么意思" | Query the SQLite `words` table, using `db/schema.sql` if table shape is needed. |
 | "读 X" / "读这句" | Run `pnpm ielts speak --text "..."`. |
 | "预览文章" / "看一下文章" | Start `pnpm ielts preview` as a long-running background process and report the local URL. |
-| "加 X" / "X 这词不会" | Run `pnpm ielts add-word --word X`. |
+| "加 X" / "X 这词不会" | Run `pnpm ielts add-word --word X`; if X occurs in the current article, also add it to that article's target-word coverage. |
 | 对文章里的语法提问 / "这个语法为什么这样用" | 解释当前语境；形成可复用结论后，定位并归并到既有语法条目。 |
 
 ## Grammar Conversation Capture
@@ -182,6 +182,15 @@ Only enable this when the user asks for it.
 - Mix review words into cloze questions together with new words.
 - Do not create a separate review-only section unless the user asks for one.
 - After `record`, SM-2 computes the next review date; do not edit that manually.
+
+## Words Discovered While Reading
+
+When the user marks a word from the current article as unknown, `add-word` updates the personal learning queue but does not rewrite the published lesson. Keep both views aligned:
+
+1. Run `pnpm ielts add-word --word <word>`.
+2. If the word occurs in the current article and is not already a target, add one row to `## 目标词覆盖`, using its SQLite part of speech and every circled sentence reference.
+3. Increment the coverage count in both the article metadata and heading. Do not change the original prose merely to create another occurrence.
+4. Run `pnpm study:sync-glossary`, then `pnpm pages:build`. The exported sentence must highlight the word and the vocabulary panel must include its Chinese definition.
 
 ## Key Files And Directories
 
