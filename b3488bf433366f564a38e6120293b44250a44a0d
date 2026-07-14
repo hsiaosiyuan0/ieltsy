@@ -1,0 +1,58 @@
+grammar/01-tenses-and-passive.md
+  6053c98014b20e2f 63-70,86
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "b3488bf433366f564a38e6120293b44250a44a0d",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 151,
+      "total_deletions": 19,
+      "accepted_lines": 149,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "AGENTS.md": {
+          "additions": 7,
+          "deletions": 2,
+          "accepted_lines": 7
+        },
+        "scripts/import-grammar.ts": {
+          "additions": 9,
+          "deletions": 12,
+          "accepted_lines": 9
+        },
+        "grammar/01-tenses-and-passive.md": {
+          "additions": 9,
+          "deletions": 1,
+          "accepted_lines": 9
+        },
+        "package.json": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "README.md": {
+          "additions": 15,
+          "deletions": 3,
+          "accepted_lines": 14
+        },
+        "scripts/study/check-grammar-projection.ts": {
+          "additions": 17,
+          "accepted_lines": 17
+        },
+        "scripts/study/grammar-projection.ts": {
+          "additions": 93,
+          "deletions": 1,
+          "accepted_lines": 92
+        }
+      }
+    }
+  }
+}
