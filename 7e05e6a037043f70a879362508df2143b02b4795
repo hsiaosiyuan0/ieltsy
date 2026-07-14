@@ -1,0 +1,53 @@
+scripts/study/grammar-projection.ts
+  6053c98014b20e2f 1-92
+scripts/study/check-grammar-projection.ts
+  6053c98014b20e2f 1-17
+AGENTS.md
+  6053c98014b20e2f 45-47,202-203,215-216
+package.json
+  6053c98014b20e2f 13
+README.md
+  6053c98014b20e2f 165-178
+scripts/import-grammar.ts
+  6053c98014b20e2f 3-7,10,29,37-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "7e05e6a037043f70a879362508df2143b02b4795",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 0,
+      "total_deletions": 0,
+      "accepted_lines": 158,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "AGENTS.md": {
+          "accepted_lines": 12
+        },
+        "scripts/import-grammar.ts": {
+          "accepted_lines": 9
+        },
+        "README.md": {
+          "accepted_lines": 26
+        },
+        "scripts/study/check-grammar-projection.ts": {
+          "accepted_lines": 17
+        },
+        "package.json": {
+          "accepted_lines": 2
+        },
+        "scripts/study/grammar-projection.ts": {
+          "accepted_lines": 92
+        }
+      }
+    }
+  }
+}
