@@ -161,14 +161,19 @@ for (const file of lessonFiles) {
     'data-panel="grammar"',
     'data-panel="prosody"',
     'data-action="toggle-dictation"',
+    'data-action="toggle-sentence-answer"',
     '../../grammar/',
     `data-prosody-source="${PROSODY_SOURCE}"`,
   ], scope)
 
   const sentences = count(html, /<div class="sentence"(?:\s|>)/g)
+  const answerToggles = count(html, /data-action="toggle-sentence-answer"/g)
+  const answerIds = count(html, /id="sentence-\d+-answer"/g)
   const analyzedCues = count(html, new RegExp(`data-prosody-source="${PROSODY_SOURCE}"`, 'g'))
   const timedCueWords = count(html, /class="cue-word [^"]+" data-start="[^"]+" data-end="[^"]+"/g)
   check(sentences > 0, `${scope}: lesson has no sentences`)
+  check(sentences === answerToggles, `${scope}: each sentence needs one dictation answer toggle`)
+  check(sentences === answerIds, `${scope}: each sentence needs one controlled English answer`)
   check(sentences === analyzedCues, `${scope}: ${sentences} sentences but ${analyzedCues} audio-derived RHYTHM cues`)
   check(timedCueWords >= sentences, `${scope}: RHYTHM cues are missing word timing data`)
   check(!html.includes('data-prosody-source="fallback"'), `${scope}: fallback RHYTHM is forbidden`)

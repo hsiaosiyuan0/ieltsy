@@ -11776,18 +11776,45 @@
         }
       ]
     },
-    "a7fc6378a454": {
-      "text": "The free program gives online viewers an incentive to join through a captioned, ASL-interpreted stream, so distance and an entrance fee create no barrier.",
+    "51241e15b679": {
+      "text": "The free, captioned, ASL-interpreted stream gives online viewers an incentive to join because neither distance nor an entrance fee stands in their way.",
       "date": "2026-07-15",
       "num": 3,
       "source": "edge-tts-nuclear-tone-analysis-v3",
-      "audioHash": "f34c92073ad1fcdbde19538432d8be71b3469c3123662c27bbae03324e52c020",
+      "audioHash": "760e08607cda6a15158be6a016ea41be97cf35fba811b0d0a8389d615da901ff",
       "groups": [
         {
           "tokens": [
             "The",
             "free",
-            "program",
+            "captioned"
+          ],
+          "starts": [
+            0.087,
+            0.175,
+            0.55
+          ],
+          "ends": [
+            0.163,
+            0.525,
+            1.137
+          ],
+          "stress": [
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 1.137,
+          "pitchStart": 216.2,
+          "pitchEnd": 137.9,
+          "confidence": 0.78
+        },
+        {
+          "tokens": [
+            "ASL-interpreted",
+            "stream",
             "gives",
             "online",
             "viewers",
@@ -11795,42 +11822,63 @@
             "incentive",
             "to",
             "join",
-            "through",
-            "a",
-            "captioned"
+            "because",
+            "neither",
+            "distance",
+            "nor",
+            "an",
+            "entrance",
+            "fee",
+            "stands",
+            "in",
+            "their",
+            "way"
           ],
           "starts": [
-            0.087,
-            0.175,
-            0.412,
-            0.912,
-            1.163,
-            1.587,
-            1.988,
-            2.087,
-            2.663,
-            2.8,
-            3.1,
-            3.275,
-            3.35
+            1.538,
+            2.55,
+            2.9,
+            3.15,
+            3.587,
+            3.987,
+            4.1,
+            4.65,
+            4.787,
+            5.175,
+            5.5,
+            5.825,
+            6.338,
+            6.563,
+            6.7,
+            7.112,
+            7.313,
+            7.688,
+            7.787,
+            7.987
           ],
           "ends": [
-            0.163,
-            0.4,
-            0.9,
-            1.15,
-            1.575,
-            1.975,
-            2.075,
-            2.65,
-            2.788,
-            3.087,
-            3.263,
-            3.337,
-            3.925
+            2.538,
+            2.888,
+            3.138,
+            3.575,
+            3.975,
+            4.088,
+            4.638,
+            4.775,
+            5.162,
+            5.487,
+            5.813,
+            6.325,
+            6.55,
+            6.688,
+            7.1,
+            7.3,
+            7.675,
+            7.775,
+            7.975,
+            8.338
           ],
           "stress": [
-            false,
             true,
             true,
             true,
@@ -11839,93 +11887,25 @@
             false,
             true,
             false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
             true,
             false,
             false,
             true
           ],
           "tone": "↗",
-          "start": 0.087,
-          "end": 3.925,
-          "pitchStart": 201.3,
-          "pitchEnd": 268.9,
-          "confidence": 0.89
-        },
-        {
-          "tokens": [
-            "ASL-interpreted",
-            "stream"
-          ],
-          "starts": [
-            4.4,
-            5.412
-          ],
-          "ends": [
-            5.4,
-            5.8
-          ],
-          "stress": [
-            true,
-            true
-          ],
-          "tone": "↘",
-          "start": 4.4,
-          "end": 5.8,
-          "pitchStart": 126.5,
-          "pitchEnd": 112.3,
-          "confidence": 0.73
-        },
-        {
-          "tokens": [
-            "so",
-            "distance",
-            "and",
-            "an",
-            "entrance",
-            "fee",
-            "create",
-            "no",
-            "barrier"
-          ],
-          "starts": [
-            6.287,
-            6.463,
-            6.963,
-            7.138,
-            7.287,
-            7.725,
-            7.95,
-            8.325,
-            8.512
-          ],
-          "ends": [
-            6.45,
-            6.95,
-            7.125,
-            7.275,
-            7.713,
-            7.938,
-            8.313,
-            8.5,
-            9.05
-          ],
-          "stress": [
-            false,
-            true,
-            false,
-            false,
-            true,
-            true,
-            true,
-            false,
-            true
-          ],
-          "tone": "↘",
-          "start": 6.287,
-          "end": 9.05,
-          "pitchStart": 150.9,
-          "pitchEnd": 140.4,
-          "confidence": 0.7
+          "start": 1.538,
+          "end": 8.338,
+          "pitchStart": 147.5,
+          "pitchEnd": 165.4,
+          "confidence": 0.82
         }
       ]
     },

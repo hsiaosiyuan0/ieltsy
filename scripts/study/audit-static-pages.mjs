@@ -333,6 +333,8 @@ const interactionExpression = String.raw`(async () => {
   const grammarTab = document.querySelector('[data-tab="grammar"]')
   const dictation = document.querySelector('[data-action="toggle-dictation"]')
   const wordsPanel = document.querySelector('[data-panel="words"]')
+  const englishAnswers = [...document.querySelectorAll('.sentence__english')]
+  const answerToggles = [...document.querySelectorAll('[data-action="toggle-sentence-answer"]')]
 
   const previousScrollBehavior = document.documentElement.style.scrollBehavior
   document.documentElement.style.scrollBehavior = 'auto'
@@ -355,6 +357,11 @@ const interactionExpression = String.raw`(async () => {
   const practiceActive = document.body.classList.contains('practice') && practice?.getAttribute('aria-pressed') === 'true'
   dictation?.click()
   await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+  const allEnglishInitiallyHidden = englishAnswers.every((answer) => getComputedStyle(answer).display === 'none')
+  answerToggles[0]?.click()
+  await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+  const firstTarget = englishAnswers[0]?.querySelector('.target')
+  const firstTargetColor = firstTarget ? getComputedStyle(firstTarget).color : ''
 
   return {
     translationVisible,
@@ -363,7 +370,12 @@ const interactionExpression = String.raw`(async () => {
     grammarPanelVisible: !document.querySelector('[data-panel="grammar"]')?.hidden,
     wordsPanelHidden: Boolean(document.querySelector('[data-panel="words"]')?.hidden),
     dictationActive: document.body.classList.contains('dictation-mode') && dictation?.getAttribute('aria-pressed') === 'true',
-    englishHidden: getComputedStyle(document.querySelector('.sentence__english')).display === 'none',
+    perSentenceControls: answerToggles.length === englishAnswers.length && answerToggles.length > 1,
+    allEnglishInitiallyHidden,
+    firstAnswerVisible: getComputedStyle(englishAnswers[0]).display !== 'none',
+    firstAnswerComplete: !firstTarget || (firstTargetColor !== 'transparent' && firstTargetColor !== 'rgba(0, 0, 0, 0)'),
+    otherAnswersHidden: englishAnswers.slice(1).every((answer) => getComputedStyle(answer).display === 'none'),
+    firstToggleExpanded: answerToggles[0]?.getAttribute('aria-expanded') === 'true',
     chineseVisible: getComputedStyle(document.querySelector('.sentence__translation')).display !== 'none',
     annotationHidden: getComputedStyle(document.querySelector('.annotation-rail')).display === 'none',
     lessonIntroHidden: getComputedStyle(document.querySelector('.lesson-intro')).display === 'none',
@@ -378,13 +390,21 @@ const interactionExpression = String.raw`(async () => {
 
 const restoreInteractionExpression = String.raw`(() => {
   const dictation = document.querySelector('[data-action="toggle-dictation"]')
+  const firstAnswer = document.querySelector('.sentence__english')
+  const firstAnswerToggle = document.querySelector('[data-action="toggle-sentence-answer"]')
+  firstAnswerToggle?.click()
+  const singleAnswerCanHide = getComputedStyle(firstAnswer).display === 'none'
+    && firstAnswerToggle?.getAttribute('aria-expanded') === 'false'
   dictation?.click()
   return {
+    singleAnswerCanHide,
     dictationClosed: !document.body.classList.contains('dictation-mode') && dictation?.getAttribute('aria-pressed') === 'false',
     playbackEnabled: !document.querySelector('[data-action="play-all"]')?.disabled,
     translationRestored: document.querySelector('[data-action="toggle-zh"]')?.getAttribute('aria-pressed') === 'true',
     practiceRestored: document.querySelector('[data-action="toggle-practice"]')?.getAttribute('aria-pressed') === 'true',
     annotationRestored: getComputedStyle(document.querySelector('.annotation-rail')).display !== 'none',
+    sentenceAnswersReset: !document.querySelector('.dictation-answer-visible')
+      && [...document.querySelectorAll('[data-action="toggle-sentence-answer"]')].every((control) => control.getAttribute('aria-expanded') === 'false'),
   }
 })()`
 
@@ -524,9 +544,20 @@ try {
   const mobileDictation = await evaluate(mobileDictationPage.cdp, String.raw`(async () => {
     document.querySelector('[data-action="toggle-dictation"]')?.click()
     await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    const englishAnswers = [...document.querySelectorAll('.sentence__english')]
+    const answerToggles = [...document.querySelectorAll('[data-action="toggle-sentence-answer"]')]
+    const allEnglishInitiallyHidden = englishAnswers.every((answer) => getComputedStyle(answer).display === 'none')
+    answerToggles[0]?.click()
+    await new Promise((resolve) => requestAnimationFrame(() => requestAnimationFrame(resolve)))
+    const firstTarget = englishAnswers[0]?.querySelector('.target')
+    const firstTargetColor = firstTarget ? getComputedStyle(firstTarget).color : ''
     return {
       active: document.body.classList.contains('dictation-mode'),
-      englishHidden: getComputedStyle(document.querySelector('.sentence__english')).display === 'none',
+      allEnglishInitiallyHidden,
+      firstAnswerVisible: getComputedStyle(englishAnswers[0]).display !== 'none',
+      firstAnswerComplete: !firstTarget || (firstTargetColor !== 'transparent' && firstTargetColor !== 'rgba(0, 0, 0, 0)'),
+      secondAnswerHidden: getComputedStyle(englishAnswers[1]).display === 'none',
+      firstToggleExpanded: answerToggles[0]?.getAttribute('aria-expanded') === 'true',
       chineseVisible: getComputedStyle(document.querySelector('.sentence__translation')).display !== 'none',
       annotationHidden: getComputedStyle(document.querySelector('.annotation-rail')).display === 'none',
       lessonIntroHidden: getComputedStyle(document.querySelector('.lesson-intro')).display === 'none',

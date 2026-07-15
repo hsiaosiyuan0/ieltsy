@@ -1,12 +1,12 @@
 # 2026-07-15 · DESCRIPTIVE · An Evening at the American History Museum
 
-> 体裁: descriptive | 字数: ~270 | 新词: 17/17 | 语法点: `used to do` vs `be used to doing` vs `would do` #16
+> 体裁: descriptive | 字数: ~270 | 新词: 18/18 | 语法点: `used to do` vs `be used to doing` vs `would do` #16
 
 ## 短文
 
 ① This July, the National Museum of American History in Washington is preparing for an evening that combines a public ceremony with ordinary museum life.
 ② This evening, Melinda French Gates is scheduled to receive the Great Americans Medal for work advancing opportunity, global health, and gender equality.
-③ The free program gives online viewers an incentive to join through a captioned, ASL-interpreted stream, so distance and an entrance fee create no barrier.
+③ The free, captioned, ASL-interpreted stream gives online viewers an incentive to join because neither distance nor an entrance fee stands in their way.
 ④ An older museum display used to present national achievement as a neat line of famous objects; this federal institution now incorporates live conversation and digital access.
 ⑤ On earlier event nights, ushers would assign seats, test microphones, and offer each guest a brief guide before the lights softened.
 ⑥ Staff are now used to guiding both in-person and remote audiences, and they are capable of switching calmly between stage cues and accessibility requests.
@@ -21,7 +21,7 @@
 
 ① 今年 7 月，位于华盛顿的美国国家历史博物馆正在为一场晚间活动做准备，它把公开典礼与博物馆的日常运作结合在一起。
 ② 今天晚上，Melinda French Gates 将获颁“伟大美国人奖章”，以表彰她在促进机会、全球健康和性别平等方面的工作。
-③ 免费活动通过配有字幕和美国手语翻译的直播吸引线上观众参加，因此距离和入场费都不会构成障碍。
+③ 配有字幕和美国手语翻译的免费直播吸引线上观众参加，因为距离和入场费都不会成为他们的障碍。
 ④ 过去的博物馆展览常把国家成就呈现为一排整齐的著名物件；如今，这家联邦机构把现场对话和数字访问也纳入其中。
 ⑤ 以往举办晚间活动时，引导员常常会分配座位、测试麦克风，并在灯光暗下前为每位来宾提供一份简短指南。
 ⑥ 工作人员现在已经习惯同时引导现场和远程观众，也能够沉着地在舞台提示与无障碍需求之间切换。
@@ -32,7 +32,7 @@
 ⑪ 预定活动不会超过九十分钟，但典礼与讨论的组合应该既能容纳赞扬，也能给不同意见留下足够空间。
 ⑫ 此外，这场网络直播说明，现代美国博物馆可以在保留正式传统的同时，向远在华盛顿之外的人开放。
 
-## 目标词覆盖（17/17）
+## 目标词覆盖（18/18）
 
 | # | 词 | POS | 出现 |
 |---|---|---|---|
@@ -53,6 +53,7 @@
 | 15 | incentive | n | ③ |
 | 16 | incorporate | v | ④ |
 | 17 | index | n | ⑦ |
+| 18 | museum | n | ① ④ ⑧ ⑫ |
 
 ## 语法点示例
 

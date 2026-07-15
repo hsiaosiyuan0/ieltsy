@@ -51,6 +51,25 @@
     })
   }
 
+  function syncSentenceAnswerControl(sentence) {
+    if (!(sentence instanceof HTMLElement)) return
+    const control = sentence.querySelector('[data-action="toggle-sentence-answer"]')
+    if (!(control instanceof HTMLButtonElement)) return
+    const visible = sentence.classList.contains('dictation-answer-visible')
+    const number = sentence.getAttribute('data-number') || ''
+    const label = (visible ? '隐藏' : '显示') + '第 ' + number + ' 句英文'
+    control.setAttribute('aria-expanded', String(visible))
+    control.setAttribute('aria-label', label)
+    control.title = visible ? '隐藏英文' : '显示英文'
+  }
+
+  function resetSentenceAnswers() {
+    document.querySelectorAll('.sentence').forEach((sentence) => {
+      sentence.classList.remove('dictation-answer-visible')
+      syncSentenceAnswerControl(sentence)
+    })
+  }
+
   function setActiveSentence(sentence) {
     if (activeSentence) activeSentence.classList.remove('is-playing')
     activeSentence = sentence instanceof HTMLElement ? sentence : null
@@ -216,6 +235,7 @@
     if (storage.get('ieltsy:dictation') === '1') document.body.classList.add('dictation-mode')
     else document.body.classList.remove('dictation-mode')
 
+    resetSentenceAnswers()
     syncViewControls()
   }
 
@@ -382,13 +402,24 @@
       return
     }
 
+    if (action === 'toggle-sentence-answer') {
+      if (!document.body.classList.contains('dictation-mode')) return
+      const sentence = control?.closest('.sentence')
+      if (!(sentence instanceof HTMLElement)) return
+      const visible = sentence.classList.toggle('dictation-answer-visible')
+      syncSentenceAnswerControl(sentence)
+      announce('第 ' + (sentence.getAttribute('data-number') || '') + ' 句英文已' + (visible ? '显示' : '隐藏'))
+      return
+    }
+
     if (action === 'toggle-dictation') {
       document.body.classList.toggle('dictation-mode')
       const active = document.body.classList.contains('dictation-mode')
       if (active) cancelPlayback()
+      resetSentenceAnswers()
       storage.set('ieltsy:dictation', active ? '1' : '0')
       syncViewControls()
-      announce(active ? '中译英默写模式已开启' : '中译英默写模式已关闭')
+      announce(active ? '逐句中译英默写模式已开启' : '中译英默写模式已关闭')
       return
     }
 

@@ -557,7 +557,7 @@ function prepareAudioAssets(articles: ParsedArticle[]): void {
   }
 }
 
-function icon(name: 'book' | 'home' | 'library' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'pause' | 'translate' | 'eye' | 'calendar' | 'layers' | 'wave' | 'pen-line' | 'search'): string {
+function icon(name: 'book' | 'home' | 'library' | 'archive' | 'arrow-left' | 'arrow-right' | 'play' | 'pause' | 'translate' | 'eye' | 'eye-off' | 'calendar' | 'layers' | 'wave' | 'pen-line' | 'search'): string {
   const paths: Record<typeof name, string> = {
     book: '<path d="M12 7v14"/><path d="M3 18a1 1 0 0 1-1-1V5a2 2 0 0 1 2-2h5a3 3 0 0 1 3 3v15a3 3 0 0 0-3-3Z"/><path d="M21 18a1 1 0 0 0 1-1V5a2 2 0 0 0-2-2h-5a3 3 0 0 0-3 3v15a3 3 0 0 1 3-3Z"/>',
     home: '<path d="m3 11 9-8 9 8"/><path d="M5 10v10h14V10"/><path d="M9 20v-6h6v6"/>',
@@ -569,6 +569,7 @@ function icon(name: 'book' | 'home' | 'library' | 'archive' | 'arrow-left' | 'ar
     pause: '<path d="M9 5v14"/><path d="M15 5v14"/>',
     translate: '<path d="m5 8 6 6"/><path d="m4 14 6-6 2-3"/><path d="M2 5h12"/><path d="M7 2h1"/><path d="M22 22l-5-10-5 10"/><path d="M14 18h6"/>',
     eye: '<path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"/><circle cx="12" cy="12" r="3"/>',
+    'eye-off': '<path d="M10.733 5.076a10.744 10.744 0 0 1 11.205 6.575 1 1 0 0 1 0 .696 10.8 10.8 0 0 1-1.444 2.49"/><path d="M14.084 14.158a3 3 0 0 1-4.242-4.242"/><path d="M17.479 17.499a10.75 10.75 0 0 1-15.417-5.151 1 1 0 0 1 0-.696 10.75 10.75 0 0 1 4.446-5.143"/><path d="m2 2 20 20"/>',
     calendar: '<path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/>',
     layers: '<path d="m12 2 9 5-9 5-9-5 9-5z"/><path d="m3 12 9 5 9-5"/><path d="m3 17 9 5 9-5"/>',
     wave: '<path d="M2 12h2"/><path d="M6 9v6"/><path d="M10 5v14"/><path d="M14 8v8"/><path d="M18 10v4"/><path d="M22 12h-2"/>',
@@ -791,9 +792,12 @@ function renderDay(article: ParsedArticle, number: number, attempts: DictationAt
           <div class="sentence__gutter">
             <button class="sentence__play" type="button" data-action="play-sentence" aria-label="朗读第 ${sentence.num} 句">${icon('play')}</button>
             <span class="sentence__number">${String(sentence.num).padStart(2, '0')}</span>
+            <button class="sentence__answer-toggle" type="button" data-action="toggle-sentence-answer" aria-controls="sentence-${sentence.num}-answer" aria-expanded="false" aria-label="显示第 ${sentence.num} 句英文" title="显示英文">
+              <span class="when-answer-hidden">${icon('eye')}</span><span class="when-answer-visible">${icon('eye-off')}</span>
+            </button>
           </div>
           <div class="sentence__copy">
-            <p class="sentence__english">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</p>
+            <p class="sentence__english" id="sentence-${sentence.num}-answer">${highlightTargets(sentence.text, article.targetWords, targetAudioByText)}</p>
             ${renderFollowCue(sentence.prosody)}
             ${sentence.zh ? '<p class="sentence__translation"><span class="translation-label">译</span><span>' + escapeHtml(sentence.zh) + '</span></p>' : ''}
           </div>

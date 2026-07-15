@@ -1007,7 +1007,8 @@
     line-height: 2.25rem;
   }
 
-  .sentence__play {
+  .sentence__play,
+  .sentence__answer-toggle {
     display: grid;
     width: 2.25rem;
     height: 2.25rem;
@@ -1021,15 +1022,39 @@
     transition: background-color 180ms var(--ease-out), border-color 180ms var(--ease-out), color 180ms var(--ease-out);
   }
 
-  .sentence__play:hover {
+  .sentence__play:hover,
+  .sentence__answer-toggle:hover {
     border-color: var(--color-secondary);
     background: var(--color-secondary);
     color: var(--color-paper);
   }
 
-  .sentence__play .icon {
+  .sentence__play .icon,
+  .sentence__answer-toggle .icon {
     width: 0.875rem;
     height: 0.875rem;
+  }
+
+  .sentence__answer-toggle {
+    display: none;
+  }
+
+  .sentence__answer-toggle[aria-expanded="true"] {
+    border-color: var(--color-secondary);
+    background: var(--color-secondary-soft);
+    color: var(--color-secondary);
+  }
+
+  .when-answer-visible {
+    display: none;
+  }
+
+  .sentence__answer-toggle[aria-expanded="true"] .when-answer-hidden {
+    display: none;
+  }
+
+  .sentence__answer-toggle[aria-expanded="true"] .when-answer-visible {
+    display: inline-flex;
   }
 
   .sentence__copy {
@@ -2862,7 +2887,10 @@
     display: none;
   }
 
-  body.dictation-mode .sentence__english,
+  body.dictation-mode .sentence:not(.dictation-answer-visible) .sentence__english {
+    display: none;
+  }
+
   body.dictation-mode .follow-cue,
   body.dictation-mode .sentence__play,
   body.dictation-mode .annotation-rail,
@@ -2892,8 +2920,29 @@
     cursor: default;
   }
 
+  body.dictation-mode .sentence__gutter {
+    align-items: center;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding-top: 0;
+  }
+
+  body.dictation-mode .sentence__number {
+    line-height: 1.5rem;
+  }
+
+  body.dictation-mode .sentence__answer-toggle {
+    display: grid;
+  }
+
+  body.dictation-mode .sentence__copy {
+    display: flex;
+    flex-direction: column;
+  }
+
   body.dictation-mode .sentence__translation {
     display: flex;
+    order: 1;
     margin-top: 0;
     padding-top: 0;
     border-top: 0;
@@ -2902,7 +2951,19 @@
     line-height: 1.85;
   }
 
-  body.practice .target:not(.revealed) {
+  body.dictation-mode .sentence.dictation-answer-visible .sentence__english {
+    display: block;
+    order: 2;
+    margin-top: var(--space-5);
+    padding-top: var(--space-5);
+    border-top: 1px solid var(--color-line);
+  }
+
+  body.dictation-mode .sentence__english .target {
+    cursor: default;
+  }
+
+  body.practice:not(.dictation-mode) .target:not(.revealed) {
     border-bottom: 2px dashed var(--color-target);
     background: var(--color-target-mark);
     box-shadow: none;
@@ -2910,7 +2971,7 @@
     text-shadow: none;
   }
 
-  body.practice .target:not(.revealed)::selection {
+  body.practice:not(.dictation-mode) .target:not(.revealed)::selection {
     color: transparent;
   }
 
@@ -3356,6 +3417,11 @@
 
     .sentence__gutter {
       align-items: center;
+    }
+
+    body.dictation-mode .sentence {
+      grid-template-columns: 2.5rem minmax(0, 1fr);
+      gap: var(--space-3);
     }
 
     .sentence__english {

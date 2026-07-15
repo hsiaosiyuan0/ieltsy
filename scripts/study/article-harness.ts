@@ -168,6 +168,14 @@ export function validateArticle(date: string): ArticleHarnessResult {
     const escaped = word.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
     const wordPattern = new RegExp(`\\b${escaped}(?:s|es|ed|d|ing)?\\b`, 'i')
     assert(wordPattern.test(articleBody), `${date}: target word "${word}" does not appear in the English article`)
+    const expectedRefs = englishSentences
+      .filter((sentence) => wordPattern.test(sentence[2]!))
+      .map((sentence) => sentence[1]!)
+    const actualRefs = row[3]!.match(/[①-⑳]/g) ?? []
+    assert(
+      actualRefs.join('') === expectedRefs.join(''),
+      `${date}: target word "${word}" refs must be ${expectedRefs.join(' ')}, found ${actualRefs.join(' ') || 'none'}`
+    )
   }
   assert(/^##\s+语法点示例\s*$/m.test(md), `${date}: ## 语法点示例 is missing`)
   assert(/^-\s*句\s*[①-⑳]/m.test(md), `${date}: at least one grammar example is required`)
