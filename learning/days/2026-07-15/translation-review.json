@@ -1,0 +1,246 @@
+{
+  "schema_version": 1,
+  "lesson_date": "2026-07-15",
+  "sentence_pairs": [
+    {
+      "number": "①",
+      "english": "This July, the National Museum of American History in Washington is preparing for an evening event that combines a public ceremony with the museum's everyday activities.",
+      "chinese": "今年 7 月，位于华盛顿的美国国家历史博物馆正在筹备一场晚间活动，这场活动把面向公众的典礼与博物馆的日常活动结合在一起。",
+      "mappings": [
+        {
+          "english": "This July",
+          "chinese": "今年 7 月"
+        },
+        {
+          "english": "the National Museum of American History in Washington",
+          "chinese": "位于华盛顿的美国国家历史博物馆"
+        },
+        {
+          "english": "is preparing for an evening event",
+          "chinese": "正在筹备一场晚间活动"
+        },
+        {
+          "english": "combines a public ceremony with the museum's everyday activities",
+          "chinese": "把面向公众的典礼与博物馆的日常活动结合在一起"
+        }
+      ]
+    },
+    {
+      "number": "②",
+      "english": "This evening, Melinda French Gates is scheduled to receive the Great Americans Medal for work advancing opportunity, global health, and gender equality.",
+      "chinese": "今晚，Melinda French Gates 将按计划获颁“伟大美国人奖章”，以表彰她在促进机会、全球健康和性别平等方面所做的工作。",
+      "mappings": [
+        {
+          "english": "This evening, Melinda French Gates",
+          "chinese": "今晚，Melinda French Gates"
+        },
+        {
+          "english": "is scheduled to receive the Great Americans Medal",
+          "chinese": "将按计划获颁“伟大美国人奖章”"
+        },
+        {
+          "english": "for work advancing opportunity, global health, and gender equality",
+          "chinese": "以表彰她在促进机会、全球健康和性别平等方面所做的工作"
+        }
+      ]
+    },
+    {
+      "number": "③",
+      "english": "The free, captioned, ASL-interpreted stream gives online viewers an incentive to join because neither distance nor an entrance fee stands in their way.",
+      "chinese": "配有字幕和美国手语翻译的免费直播为线上观众提供了参与的动力，因为距离和入场费都不会成为他们的障碍。",
+      "mappings": [
+        {
+          "english": "The free, captioned, ASL-interpreted stream",
+          "chinese": "配有字幕和美国手语翻译的免费直播"
+        },
+        {
+          "english": "gives online viewers an incentive to join",
+          "chinese": "为线上观众提供了参与的动力"
+        },
+        {
+          "english": "because neither distance nor an entrance fee stands in their way",
+          "chinese": "因为距离和入场费都不会成为他们的障碍"
+        }
+      ]
+    },
+    {
+      "number": "④",
+      "english": "Older museum displays used to present national achievement through neat rows of famous objects; today, this federal institution incorporates live conversations and digital access into the way it tells that history.",
+      "chinese": "过去，博物馆的陈列常通过一排排整齐的著名物件来呈现国家成就；如今，这家联邦机构把现场对谈和数字化访问渠道融入讲述这段历史的方式中。",
+      "mappings": [
+        {
+          "english": "Older museum displays",
+          "chinese": "过去，博物馆的陈列"
+        },
+        {
+          "english": "used to present national achievement through neat rows of famous objects",
+          "chinese": "常通过一排排整齐的著名物件来呈现国家成就"
+        },
+        {
+          "english": "today, this federal institution",
+          "chinese": "如今，这家联邦机构"
+        },
+        {
+          "english": "incorporates live conversations and digital access into the way it tells that history",
+          "chinese": "把现场对谈和数字化访问渠道融入讲述这段历史的方式中"
+        }
+      ]
+    },
+    {
+      "number": "⑤",
+      "english": "On earlier event nights, ushers would assign seats, test microphones, and offer each guest a brief guide before the lights softened.",
+      "chinese": "以往举办晚间活动时，引导员通常会分配座位、测试麦克风，并在灯光变得柔和之前为每位来宾提供一份简短指南。",
+      "mappings": [
+        {
+          "english": "On earlier event nights",
+          "chinese": "以往举办晚间活动时"
+        },
+        {
+          "english": "ushers would assign seats, test microphones",
+          "chinese": "引导员通常会分配座位、测试麦克风"
+        },
+        {
+          "english": "offer each guest a brief guide",
+          "chinese": "为每位来宾提供一份简短指南"
+        },
+        {
+          "english": "before the lights softened",
+          "chinese": "在灯光变得柔和之前"
+        }
+      ]
+    },
+    {
+      "number": "⑥",
+      "english": "Staff are now used to guiding both in-person and remote audiences, and they are capable of switching calmly between stage cues and accessibility requests.",
+      "chinese": "工作人员现在已经习惯同时引导现场和远程观众，也能够从容地在舞台提示与无障碍需求之间切换。",
+      "mappings": [
+        {
+          "english": "Staff are now used to guiding both in-person and remote audiences",
+          "chinese": "工作人员现在已经习惯同时引导现场和远程观众"
+        },
+        {
+          "english": "they are capable of switching calmly between stage cues and accessibility requests",
+          "chinese": "也能够从容地在舞台提示与无障碍需求之间切换"
+        }
+      ]
+    },
+    {
+      "number": "⑦",
+      "english": "Near the theater, a digital index points toward collections donated by an artist's estate, while a small display connects personal objects with public memory.",
+      "chinese": "剧场附近，一份电子索引指向由某位艺术家遗产管理机构捐赠的馆藏，而一处小型展览把私人物件与公共记忆连接起来。",
+      "mappings": [
+        {
+          "english": "Near the theater, a digital index",
+          "chinese": "剧场附近，一份电子索引"
+        },
+        {
+          "english": "points toward collections donated by an artist's estate",
+          "chinese": "指向由某位艺术家遗产管理机构捐赠的馆藏"
+        },
+        {
+          "english": "while a small display connects personal objects with public memory",
+          "chinese": "而一处小型展览把私人物件与公共记忆连接起来"
+        }
+      ]
+    },
+    {
+      "number": "⑧",
+      "english": "Researchers edit labels as evidence changes and cite each source, turning corrections into part of the museum's visible work rather than hiding them.",
+      "chinese": "研究人员会随着证据变化编辑说明牌，并标明每个来源，让修订成为博物馆公开工作的一部分，而不是把这些修订隐藏起来。",
+      "mappings": [
+        {
+          "english": "Researchers edit labels as evidence changes",
+          "chinese": "研究人员会随着证据变化编辑说明牌"
+        },
+        {
+          "english": "and cite each source",
+          "chinese": "并标明每个来源"
+        },
+        {
+          "english": "turning corrections into part of the museum's visible work",
+          "chinese": "让修订成为博物馆公开工作的一部分"
+        },
+        {
+          "english": "rather than hiding them",
+          "chinese": "而不是把这些修订隐藏起来"
+        }
+      ]
+    },
+    {
+      "number": "⑨",
+      "english": "Warm light will enhance the medal's gold surface, but the following conversation is likely to matter more than the object itself.",
+      "chinese": "暖色灯光将衬托出奖章金色表面的光泽，但随后的对谈很可能比奖章本身更重要。",
+      "mappings": [
+        {
+          "english": "Warm light will enhance the medal's gold surface",
+          "chinese": "暖色灯光将衬托出奖章金色表面的光泽"
+        },
+        {
+          "english": "the following conversation is likely to matter more than the object itself",
+          "chinese": "随后的对谈很可能比奖章本身更重要"
+        }
+      ]
+    },
+    {
+      "number": "⑩",
+      "english": "Questions about gender, philanthropy, and power may create a bond between visitors who entered with very different ideas about national service.",
+      "chinese": "关于性别、慈善和权力的问题，也许会在那些入场时对国家服务抱有截然不同看法的访客之间建立联结。",
+      "mappings": [
+        {
+          "english": "Questions about gender, philanthropy, and power",
+          "chinese": "关于性别、慈善和权力的问题"
+        },
+        {
+          "english": "create a bond",
+          "chinese": "建立联结"
+        },
+        {
+          "english": "between visitors who entered with very different ideas about national service",
+          "chinese": "在那些入场时对国家服务抱有截然不同看法的访客之间"
+        }
+      ]
+    },
+    {
+      "number": "⑪",
+      "english": "The scheduled program will not exceed ninety minutes, yet its mix of ceremony and discussion should leave enough room for disagreement as well as praise.",
+      "chinese": "预定活动不会超过九十分钟，但典礼与讨论的组合应该为赞扬和不同意见都留下足够空间。",
+      "mappings": [
+        {
+          "english": "The scheduled program will not exceed ninety minutes",
+          "chinese": "预定活动不会超过九十分钟"
+        },
+        {
+          "english": "its mix of ceremony and discussion",
+          "chinese": "典礼与讨论的组合"
+        },
+        {
+          "english": "should leave enough room for disagreement as well as praise",
+          "chinese": "应该为赞扬和不同意见都留下足够空间"
+        }
+      ]
+    },
+    {
+      "number": "⑫",
+      "english": "Furthermore, the webcast shows how a modern American museum can preserve formal traditions while opening them to people far beyond Washington.",
+      "chinese": "此外，这场网络直播说明，现代美国博物馆可以在保留正式传统的同时，让远在华盛顿之外的人也能接触这些传统。",
+      "mappings": [
+        {
+          "english": "Furthermore, the webcast shows",
+          "chinese": "此外，这场网络直播说明"
+        },
+        {
+          "english": "a modern American museum",
+          "chinese": "现代美国博物馆"
+        },
+        {
+          "english": "preserve formal traditions",
+          "chinese": "保留正式传统"
+        },
+        {
+          "english": "while opening them to people far beyond Washington",
+          "chinese": "同时，让远在华盛顿之外的人也能接触这些传统"
+        }
+      ]
+    }
+  ]
+}

@@ -1,6 +1,12 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { ENGLISH_VARIANT, findBritishSpelling, preferredContextRegion } from './study-profile'
+import {
+  readTranslationReview,
+  TRANSLATION_REVIEW_REQUIRED_SINCE,
+  validateTranslationReview,
+  type TranslationReviewResult,
+} from './translation-review'
 
 const DAYS_DIR = resolve('learning/days')
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
@@ -38,6 +44,7 @@ export interface ArticleHarnessResult {
   sentenceCount: number
   targetCount: number
   context: ArticleContext | null
+  translationReview: TranslationReviewResult | null
 }
 
 function assert(condition: unknown, message: string): asserts condition {
@@ -162,6 +169,7 @@ export function validateArticle(date: string): ArticleHarnessResult {
   const targetRows = [...md.matchAll(/^\|\s*\d+\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|$/gm)]
     .filter((match) => match[1]!.trim() !== '词')
   const targetCount = Number.parseInt(targetMeta[1]!, 10)
+  const targetWordsBySentence: Record<string, string[]> = {}
   assert(targetRows.length === targetCount, `${date}: expected ${targetCount} target rows, found ${targetRows.length}`)
   for (const row of targetRows) {
     const word = row[1]!.trim()
@@ -176,9 +184,25 @@ export function validateArticle(date: string): ArticleHarnessResult {
       actualRefs.join('') === expectedRefs.join(''),
       `${date}: target word "${word}" refs must be ${expectedRefs.join(' ')}, found ${actualRefs.join(' ') || 'none'}`
     )
+    for (const sentenceNumber of expectedRefs) {
+      targetWordsBySentence[sentenceNumber] ??= []
+      targetWordsBySentence[sentenceNumber]!.push(word)
+    }
   }
   assert(/^##\s+语法点示例\s*$/m.test(md), `${date}: ## 语法点示例 is missing`)
   assert(/^-\s*句\s*[①-⑳]/m.test(md), `${date}: at least one grammar example is required`)
+
+  const translationReviewRequired = date >= TRANSLATION_REVIEW_REQUIRED_SINCE
+  const translationReviewSource = readTranslationReview(date, translationReviewRequired)
+  const translationReview = translationReviewSource
+    ? validateTranslationReview(
+        date,
+        translationReviewSource,
+        englishSentences.map((sentence) => ({ number: sentence[1]!, text: sentence[2]! })),
+        translatedSentences.map((sentence) => ({ number: sentence[1]!, text: sentence[2]! })),
+        targetWordsBySentence
+      )
+    : null
 
   const contextRequired = date >= REAL_WORLD_CONTEXT_REQUIRED_SINCE
   const context = readArticleContext(date, contextRequired)
@@ -198,6 +222,7 @@ export function validateArticle(date: string): ArticleHarnessResult {
     sentenceCount: englishSentences.length,
     targetCount,
     context,
+    translationReview,
   }
 }
 

@@ -74,6 +74,7 @@ const COMMANDS: Record<string, CommandMeta> = {
   context_region: string,    // weekdays prefer United States; weekends are open/global
   article_path: string,
   context_path: string,      // 现实背景、来源和教学改写边界
+  translation_review_path: string, // 逐句双语复核快照与关键短语映射
   session_path: string,
   new_words: [{id, headword, source_headword?, pos, cefr, def}, ...],
   grammar: {id, title, importance, description} | null,
@@ -85,7 +86,7 @@ Idempotent: 重复调用同一日期返回相同 session。`,
 
   // ──────────────────────────────────────────────────────────────────────────
   'check-article': {
-    description: '校验短文格式、目标词覆盖与现实背景来源',
+    description: '校验短文格式、双语对齐、目标词覆盖与现实背景来源',
     script: 'scripts/study/check-articles.ts',
     args: [
       { flag: '--date', type: 'string', description: '课程日期 YYYY-MM-DD（默认今天）' },
@@ -97,7 +98,8 @@ Idempotent: 重复调用同一日期返回相同 session。`,
       'pnpm ielts check-article --date 2026-07-15 --json',
       'pnpm ielts check-article --all',
     ],
-    notes: `从 article.md + context.json 校验 200-300 词、双语句子编号、目标词表、语法例句和现实背景。
+    notes: `从 article.md + translation-review.json + context.json 校验 200-300 词、逐句双语语义映射、目标词表、语法例句和现实背景。
+translation-review.json 必须与中英文原句完全一致，并让关键短语映射达到覆盖率门槛；任一侧改文后都必须重新复核。
 现实背景不是“14 天新闻”：参考材料默认不得早于 1900 年，较早的近现代材料必须明确说明与当下的连接。`,
   },
 

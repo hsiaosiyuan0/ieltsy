@@ -89,9 +89,10 @@ if (!state) {
 
 const today = new Date().toISOString().split('T')[0]!
 const contextPath = `learning/days/${today}/context.json`
+const translationReviewPath = `learning/days/${today}/translation-review.json`
 const contextRegion = preferredContextRegion(today)
 
-// 为当日学习产物建好文件夹（Codex/LLM 编排器之后会往里写 article.md / session.md）
+// 为当日学习产物建好文件夹（Codex 编排器之后会写文章、双语复核与 session）
 const dayFolder = resolve('learning/days', today)
 mkdirSync(dayFolder, { recursive: true })
 
@@ -271,6 +272,7 @@ if (values.json) {
         context_region: contextRegion,
         article_path: articlePath,
         context_path: contextPath,
+        translation_review_path: translationReviewPath,
         session_path: sessionPath,
         new_words: newWords,
         grammar,
@@ -283,7 +285,9 @@ if (values.json) {
 } else {
   console.log(`=== 今日学习计划 (${today}) ===`)
   console.log(`体裁: ${articleGenre} | 英语: ${ENGLISH_VARIANT} | 背景地区: ${contextRegion}`)
-  console.log(`article: ${articlePath} | context: ${contextPath} | session: ${sessionPath}\n`)
+  console.log(
+    `article: ${articlePath} | context: ${contextPath} | translation review: ${translationReviewPath} | session: ${sessionPath}\n`
+  )
 
   console.log(`📚 新词 (${newWords.length})`)
   for (const w of newWords) {
@@ -324,6 +328,7 @@ if (values.json) {
       context_region: contextRegion,
       article_path: articlePath,
       context_path: contextPath,
+      translation_review_path: translationReviewPath,
       session_path: sessionPath,
       new_words: newWords.map((w) => ({
         id: w.id,

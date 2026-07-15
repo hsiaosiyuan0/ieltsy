@@ -28,9 +28,10 @@
     "study:check:articles": "tsx scripts/study/check-articles.ts --all",
     "study:sync-glossary": "tsx scripts/study/sync-static-glossary.ts",
     "study:export": "tsx scripts/study/export-pages.ts",
+    "test:harness": "tsx --test scripts/study/*.test.ts",
     "design:check": "tsx scripts/study/check-design-pattern.ts",
     "design:audit": "node scripts/study/audit-static-pages.mjs",
-    "pages:build": "pnpm study:check:articles && pnpm study:prosody && pnpm study:export && pnpm design:check"
+    "pages:build": "pnpm test:harness && pnpm study:check:articles && pnpm study:prosody && pnpm study:export && pnpm design:check"
   },
   "dependencies": {
     "better-sqlite3": "^12.9.0"

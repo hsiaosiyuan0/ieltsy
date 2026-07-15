@@ -31,6 +31,7 @@ if (values.json) {
     console.log(
       `✓ ${result.date} · ${result.genre} · ${result.wordCount} words · `
       + `${result.sentenceCount} sentences · ${result.targetCount} targets · `
+      + `${result.translationReview?.sentenceCount ?? 0} aligned · `
       + `${result.context?.context_kind ?? 'legacy context'}`
     )
   }

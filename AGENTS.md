@@ -31,6 +31,7 @@ If command shape is uncertain at the start of a session, run `pnpm ielts help` f
 | "预览文章" / "看一下文章" | Start `pnpm ielts preview` as a long-running background process and report the local URL. |
 | "加 X" / "X 这词不会" | Run `pnpm ielts add-word --word X`; if X occurs in the current article, also add it to that article's target-word coverage. |
 | 对文章里的语法提问 / "这个语法为什么这样用" | 解释当前语境；形成可复用结论后，定位并归并到既有语法条目。 |
+| 对当前文章的短语或译文提问 | Read the numbered English/Chinese pair and its mappings in `translation-review.json` first. State the current translation before discussing alternatives; if it is wrong, explicitly distinguish the old wording from the correction. |
 
 ## Grammar Conversation Capture
 
@@ -73,13 +74,14 @@ After `pnpm ielts today` returns JSON:
    - `argumentative` and `expository`: use a current public issue or a viewpoint from 1900 onward, and state why it still matters now.
    - Do not default to pre-1900 settings, institutions, or social situations. A historical reference is allowed only when the article itself remains anchored in modern life.
    - Prefer United States institutions, daily life, debates, and events whenever `context_region` is `United States`. The schedule deliberately makes US contexts the majority while leaving some global variety.
-4. Generate an English article of about 250 words, with a tolerance of +/-50 words.
+4. Generate an English article of about 250 words, with a tolerance of +/-50 words. Prefer concrete wording over vague phrases that permit materially different Chinese readings; write `the museum's everyday activities` or `the museum's normal operations`, not an underspecified compromise such as `ordinary museum life`.
 5. Use every new word at least once in a natural context.
 6. Use the grammar point at least once.
-7. Write `article.md`, `context.json`, and `session.md` under `learning/days/YYYY-MM-DD/` using the paths returned by `today`.
-8. Run `pnpm ielts check-article --date YYYY-MM-DD` before prosody or static export. Fix the source artifacts rather than bypassing the harness.
-9. Use American English in all teaching prose: spelling, vocabulary, punctuation, and examples must follow `en-US` (`color`, `center`, `program`, `labor`). Preserve a non-US spelling only inside an unavoidable proper name or direct source title, not in the article prose. Imported dictionary rows may retain a British source spelling and ID; `today` exposes the American `headword` plus an optional `source_headword`. Generate from `headword` and keep using the returned `id` for progress and mistakes.
-10. Run `pnpm study:sync-glossary` so CI can render every target word definition without the gitignored SQLite database.
+7. Translate sentence by sentence. Preserve the actor, action, object, modifiers, tense/aspect, logical relation, and pronoun reference; rewrite ambiguous English before trying to rescue it in Chinese.
+8. Write `article.md`, `context.json`, `translation-review.json`, and `session.md` under `learning/days/YYYY-MM-DD/` using the paths returned by `today`.
+9. Run `pnpm ielts check-article --date YYYY-MM-DD` before prosody or static export. Fix the source artifacts rather than bypassing the harness.
+10. Use American English in all teaching prose: spelling, vocabulary, punctuation, and examples must follow `en-US` (`color`, `center`, `program`, `labor`). Preserve a non-US spelling only inside an unavoidable proper name or direct source title, not in the article prose. Imported dictionary rows may retain a British source spelling and ID; `today` exposes the American `headword` plus an optional `source_headword`. Generate from `headword` and keep using the returned `id` for progress and mistakes.
+11. Run `pnpm study:sync-glossary` so CI can render every target word definition without the gitignored SQLite database.
 
 ### `article.md` Template
 
@@ -128,6 +130,37 @@ Critical constraints:
 - Prefix article and translation sentences with circled numbers `①②③...` (`U+2460` through `U+2473`); the preview parser depends on them.
 - Always include `## 中文翻译`; preview uses a toggle and hides it by default.
 - Render genre in the title as uppercase: `NARRATIVE`, `ARGUMENTATIVE`, `DESCRIPTIVE`, `EXPOSITORY`, or `DIALOGUE`.
+
+### `translation-review.json` Contract
+
+This tracked artifact is the reviewed bilingual snapshot and the canonical phrase map for later questions. It does not claim that TypeScript understands translation; it makes the semantic decisions explicit and makes stale reviews fail the release gate.
+
+```json
+{
+  "schema_version": 1,
+  "lesson_date": "YYYY-MM-DD",
+  "sentence_pairs": [
+    {
+      "number": "①",
+      "english": "The museum combines a public ceremony with its everyday activities.",
+      "chinese": "博物馆将一场面向公众的典礼与日常活动结合起来。",
+      "mappings": [
+        { "english": "The museum combines a public ceremony", "chinese": "博物馆将一场面向公众的典礼" },
+        { "english": "with its everyday activities", "chinese": "与日常活动结合起来" }
+      ]
+    }
+  ]
+}
+```
+
+Review rules:
+
+- Include exactly one `sentence_pairs` entry for every numbered article sentence, in order.
+- Copy the full English and Chinese sentences exactly. Any later edit invalidates the snapshot and requires another bilingual review.
+- Split each normal pair into 2-8 contiguous semantic mappings; no single mapping may cover more than 85% of either sentence. A sentence of three words or fewer may use one mapping.
+- Each English mapping must contain at least two words, except for a one-word sentence. Both phrases must occur verbatim in their respective sentence.
+- Mappings must cover at least 70% of English content words and 65% of Chinese letters/numbers. Every target word used in a sentence needs an explicit mapping.
+- Treat the mappings as translation decisions, not a coverage game. If a phrase still supports two materially different mappings, rewrite the English source first.
 
 ### `context.json` Contract
 
@@ -282,12 +315,13 @@ When the user marks a word from the current article as unknown, `add-word` updat
 | `scripts/study/grammar-projection.ts` | Define and verify the derived SQLite projection of canonical grammar points. |
 | `scripts/study/check-grammar-projection.ts` | Standalone `pnpm db:check:grammar` harness for detecting stale, missing, or extra SQLite grammar rows. |
 | `scripts/study/grammar.ts` | Locate the existing grammar point that should receive a conversation-derived explanation. |
-| `scripts/study/article-harness.ts` | Validate article structure, target coverage, and sourced real-world context. |
+| `scripts/study/article-harness.ts` | Coordinate article structure, bilingual review, target coverage, and sourced-context validation. |
+| `scripts/study/translation-review.ts` | Validate exact bilingual review snapshots, semantic-unit coverage, and target-word mappings. |
 | `scripts/study/study-profile.ts` | Define the `en-US` teaching profile, US-topic schedule, and source-to-American spelling projection. |
 | `scripts/study/dictation-library.ts` | Parse and validate immutable per-article dictation attempts. |
 | `scripts/study/dictation-projection.ts` | Keep the SQLite dictation projection aligned with tracked Markdown attempts. |
 | `grammar/*.md` | Canonical grammar index and detailed notes; update existing chapter files rather than creating per-chat files. |
-| `learning/days/YYYY-MM-DD/` | Daily article, real-world context, session, and dictation attempts. |
+| `learning/days/YYYY-MM-DD/` | Daily article, real-world context, bilingual review, session, and dictation attempts. |
 | `learning/mistakes/` | Mistake markdown generated from database views; do not edit manually. |
 | `learning/audio-cache/` | TTS MP3 cache, gitignored. |
 
@@ -302,6 +336,7 @@ When the user marks a word from the current article as unknown, `add-word` updat
 - Grammar lookup and static grammar pages intentionally read the tracked Markdown library. Run `pnpm db:import:grammar` to refresh and verify the SQLite projection, or `pnpm db:check:grammar` to check it without writing.
 - Static pages must consume `design-system/ieltsy/pattern.css` and `runtime.js` directly; do not duplicate them in the exporter or add inline page styles.
 - After adding or changing a published article, run `pnpm study:sync-glossary` and commit `learning/glossary.zh.json`; CI does not have `db/ieltsy.db`.
+- After changing either side of a numbered sentence, update `translation-review.json` from a fresh bilingual reading. Do not copy the old mappings forward without checking meaning and pronoun references.
 - `pnpm pages:build` incrementally generates WordBoundary sentence audio, derives each tone from the final stressed word's pitch contour, verifies every RHYTHM cue against the same audio hash, exports the site, and runs the structural gate. `IELTSY_SKIP_AUDIO=1` may be used for visual-only builds after the sentence-analysis cache exists; it omits MP3 files from `dist` but does not bypass RHYTHM validation.
 - Run `pnpm design:audit` for layout, responsive, or interaction changes; it requires local Chrome/Chromium.
 - For content changes, edit markdown sources and rerun the relevant `pnpm db:import:*` command.
