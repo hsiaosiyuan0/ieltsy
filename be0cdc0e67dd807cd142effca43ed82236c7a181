@@ -1,0 +1,219 @@
+scripts/study/render-mistakes.ts
+  6053c98014b20e2f 4,89-90
+scripts/study/check-articles.ts
+  6053c98014b20e2f 1-38
+design-system/ieltsy/pattern.css
+  6053c98014b20e2f 1,2476-2852,3088-3118,3201-3203,3377-3413,3662-3728
+scripts/study/audit-static-pages.mjs
+  6053c98014b20e2f 30-47,281,319-326,408-413,478-479,491-499,555,567,579
+learning/days/2026-07-15/session.md
+  6053c98014b20e2f 1-14
+scripts/study/dictation-library.ts
+  6053c98014b20e2f 1-165
+scripts/cli.ts
+  6053c98014b20e2f 73-74,76,78,80,82,86-101,112,121,137-153
+scripts/study/dictation-projection.ts
+  6053c98014b20e2f 1-104
+grammar/13-genres-and-purpose.md
+  6053c98014b20e2f 1-233
+grammar/12-common-errors.md
+  6053c98014b20e2f 29
+learning/glossary.zh.json
+  6053c98014b20e2f 16,19-21,24,43,50,54,58,64,68-69,75-76,85,87-88
+package.json
+  6053c98014b20e2f 14,28,33
+scripts/study/today.ts
+  6053c98014b20e2f 5-10,42-45,55-70,73-82,91-92,134,136,142,156-170,189,192,201-210,254,260,270-271,273,285-286,323-324,326,331,339-344
+AGENTS.md
+  6053c98014b20e2f 69-82,116-123,132-152,174,209-216,218-247,281,285-288,290,299-300
+scripts/study/study-profile.ts
+  6053c98014b20e2f 1-169
+scripts/study/dictations.ts
+  6053c98014b20e2f 1-55
+scripts/study/record.ts
+  6053c98014b20e2f 5-6,15,35,46-56,185,199-202
+scripts/study/export-pages.ts
+  6053c98014b20e2f 22-24,65,347-353,355,378-383,589,640,646,666,735-786,896-897,914,925,935-937,941-946,948,976-982,1263-1369,1407,1447,1474,1478-1481,1484-1492,1509
+scripts/study/preview.ts
+  6053c98014b20e2f 8,822-827
+learning/days/2026-07-15/context.json
+  6053c98014b20e2f 1-26
+scripts/study/article-harness.ts
+  6053c98014b20e2f 1-203
+learning/days/2026-07-15/article.md
+  6053c98014b20e2f 1-71
+scripts/study/sync-static-glossary.ts
+  6053c98014b20e2f 4,114-123
+learning/days/2026-07-13/session.md
+  6053c98014b20e2f 3,8,12-15,18
+learning/days/2026-07-13/dictations/attempt-01.md
+  6053c98014b20e2f 1-118
+learning/prosody.json
+  6053c98014b20e2f 11496-13203
+db/schema.sql
+  6053c98014b20e2f 205-222
+scripts/study/check-design-pattern.ts
+  6053c98014b20e2f 6-7,91-93,145-148,186-189,233-255
+scripts/study/add-word.ts
+  6053c98014b20e2f 4,53-54,79-89,95,98,105-106,123,127,131-132
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "be0cdc0e67dd807cd142effca43ed82236c7a181",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 5608,
+      "total_deletions": 1631,
+      "accepted_lines": 4083,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "scripts/study/dictation-projection.ts": {
+          "additions": 104,
+          "accepted_lines": 104
+        },
+        "scripts/study/article-harness.ts": {
+          "additions": 209,
+          "deletions": 6,
+          "accepted_lines": 203
+        },
+        "learning/glossary.zh.json": {
+          "additions": 17,
+          "accepted_lines": 17
+        },
+        "scripts/study/dictations.ts": {
+          "additions": 55,
+          "accepted_lines": 55
+        },
+        "scripts/study/add-word.ts": {
+          "additions": 24,
+          "deletions": 14,
+          "accepted_lines": 22
+        },
+        "learning/days/2026-07-13/dictations/attempt-01.md": {
+          "additions": 121,
+          "deletions": 3,
+          "accepted_lines": 118
+        },
+        "grammar/13-genres-and-purpose.md": {
+          "additions": 233,
+          "accepted_lines": 233
+        },
+        "AGENTS.md": {
+          "additions": 97,
+          "deletions": 20,
+          "accepted_lines": 92
+        },
+        "scripts/study/record.ts": {
+          "additions": 21,
+          "deletions": 1,
+          "accepted_lines": 21
+        },
+        "package.json": {
+          "additions": 3,
+          "deletions": 1,
+          "accepted_lines": 3
+        },
+        "db/schema.sql": {
+          "additions": 18,
+          "accepted_lines": 18
+        },
+        "scripts/cli.ts": {
+          "additions": 46,
+          "deletions": 4,
+          "accepted_lines": 45
+        },
+        "learning/days/2026-07-15/session.md": {
+          "additions": 14,
+          "accepted_lines": 14
+        },
+        "scripts/study/preview.ts": {
+          "additions": 7,
+          "deletions": 2,
+          "accepted_lines": 7
+        },
+        "scripts/study/check-articles.ts": {
+          "additions": 38,
+          "accepted_lines": 38
+        },
+        "scripts/study/check-design-pattern.ts": {
+          "additions": 38,
+          "deletions": 1,
+          "accepted_lines": 38
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 224,
+          "deletions": 22,
+          "accepted_lines": 224
+        },
+        "scripts/study/today.ts": {
+          "additions": 89,
+          "deletions": 21,
+          "accepted_lines": 87
+        },
+        "scripts/study/study-profile.ts": {
+          "additions": 170,
+          "deletions": 1,
+          "accepted_lines": 169
+        },
+        "learning/prosody.json": {
+          "additions": 2922,
+          "deletions": 1214,
+          "accepted_lines": 1708
+        },
+        "learning/days/2026-07-15/article.md": {
+          "additions": 167,
+          "deletions": 96,
+          "accepted_lines": 71
+        },
+        "scripts/study/render-mistakes.ts": {
+          "additions": 3,
+          "deletions": 2,
+          "accepted_lines": 3
+        },
+        "scripts/study/audit-static-pages.mjs": {
+          "additions": 49,
+          "deletions": 4,
+          "accepted_lines": 49
+        },
+        "learning/days/2026-07-13/session.md": {
+          "additions": 199,
+          "deletions": 195,
+          "accepted_lines": 18
+        },
+        "grammar/12-common-errors.md": {
+          "additions": 1,
+          "deletions": 1,
+          "accepted_lines": 1
+        },
+        "scripts/study/dictation-library.ts": {
+          "additions": 169,
+          "deletions": 4,
+          "accepted_lines": 165
+        },
+        "scripts/study/sync-static-glossary.ts": {
+          "additions": 11,
+          "deletions": 7,
+          "accepted_lines": 11
+        },
+        "learning/days/2026-07-15/context.json": {
+          "additions": 36,
+          "deletions": 10,
+          "accepted_lines": 26
+        },
+        "design-system/ieltsy/pattern.css": {
+          "additions": 523,
+          "deletions": 2,
+          "accepted_lines": 523
+        }
+      }
+    }
+  }
+}
