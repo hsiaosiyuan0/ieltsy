@@ -1,6 +1,6 @@
 # 2026-07-15 · DESCRIPTIVE · An Evening at the American History Museum
 
-> 体裁: descriptive | 字数: ~270 | 新词: 18/18 | 语法点: `used to do` vs `be used to doing` vs `would do` #16
+> 体裁: descriptive | 字数: ~270 | 新词: 19/19 | 语法点: `used to do` vs `be used to doing` vs `would do` #16
 
 ## 短文
 
@@ -32,7 +32,7 @@
 ⑪ 预定活动不会超过九十分钟，但典礼与讨论的组合应该既能容纳赞扬，也能给不同意见留下足够空间。
 ⑫ 此外，这场网络直播说明，现代美国博物馆可以在保留正式传统的同时，向远在华盛顿之外的人开放。
 
-## 目标词覆盖（18/18）
+## 目标词覆盖（19/19）
 
 | # | 词 | POS | 出现 |
 |---|---|---|---|
@@ -54,6 +54,7 @@
 | 16 | incorporate | v | ④ |
 | 17 | index | n | ⑦ |
 | 18 | museum | n | ① ④ ⑧ ⑫ |
+| 19 | ceremony | n | ① ⑪ |
 
 ## 语法点示例
 
