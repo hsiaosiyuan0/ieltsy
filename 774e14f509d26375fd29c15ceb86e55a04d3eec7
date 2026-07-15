@@ -1,0 +1,97 @@
+scripts/cli.ts
+  6053c98014b20e2f 77,89,101-102
+package.json
+  6053c98014b20e2f 31,34
+learning/days/2026-07-15/article.md
+  6053c98014b20e2f 3,7,10,22-27,29-33
+scripts/study/today.ts
+  6053c98014b20e2f 92,95,275,288-290,331
+scripts/study/translation-review.test.ts
+  6053c98014b20e2f 1-131
+scripts/study/translation-review.ts
+  6053c98014b20e2f 1-277
+scripts/study/article-harness.ts
+  6053c98014b20e2f 4-9,47,172,187-190,195-205,225
+learning/days/2026-07-15/translation-review.json
+  6053c98014b20e2f 1-246
+AGENTS.md
+  6053c98014b20e2f 34,77,80-84,134-164,318-319,324,339
+scripts/study/check-articles.ts
+  6053c98014b20e2f 34
+learning/prosody.json
+  6053c98014b20e2f 11497-11498,11502,11524,11526,11540,11547-11556,11570,11572-11574,11583,11590-11593,11598-11611,11615-11629,11644,11651-11654,11920-11921,11925,11929,11931,11937,11939,11946-11958,11961-11974,11994-11996,12001,12007,12010-12017,12020,12022-12023,12025-12036,12039-12041,12043-12055,12058,12065-12069,12073,12077-12081
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "774e14f509d26375fd29c15ceb86e55a04d3eec7",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 941,
+      "total_deletions": 190,
+      "accepted_lines": 899,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "AGENTS.md": {
+          "additions": 45,
+          "deletions": 10,
+          "accepted_lines": 42
+        },
+        "package.json": {
+          "additions": 2,
+          "deletions": 1,
+          "accepted_lines": 2
+        },
+        "scripts/study/article-harness.ts": {
+          "additions": 25,
+          "accepted_lines": 25
+        },
+        "scripts/study/translation-review.test.ts": {
+          "additions": 131,
+          "accepted_lines": 131
+        },
+        "learning/prosody.json": {
+          "additions": 150,
+          "deletions": 122,
+          "accepted_lines": 150
+        },
+        "learning/days/2026-07-15/article.md": {
+          "additions": 16,
+          "deletions": 16,
+          "accepted_lines": 14
+        },
+        "learning/days/2026-07-15/translation-review.json": {
+          "additions": 254,
+          "deletions": 8,
+          "accepted_lines": 246
+        },
+        "scripts/study/check-articles.ts": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "scripts/cli.ts": {
+          "additions": 4,
+          "deletions": 2,
+          "accepted_lines": 4
+        },
+        "scripts/study/translation-review.ts": {
+          "additions": 306,
+          "deletions": 29,
+          "accepted_lines": 277
+        },
+        "scripts/study/today.ts": {
+          "additions": 7,
+          "deletions": 2,
+          "accepted_lines": 7
+        }
+      }
+    }
+  }
+}
