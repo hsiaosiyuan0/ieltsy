@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3'
 import { existsSync, readFileSync, readdirSync, writeFileSync } from 'node:fs'
 import { join, resolve } from 'node:path'
+import { sourceHeadwordCandidates } from './study-profile'
 
 const DB_PATH = resolve('db/ieltsy.db')
 const GLOSSARY_PATH = resolve('learning/glossary.zh.json')
@@ -108,19 +109,22 @@ function main(): void {
       const normalizedKey = `${target.word.toLowerCase()}|${normalizePos(target.pos)}`
       if (glossary[key] || glossary[normalizedKey]) continue
 
-      const normalizedWord = target.word.toLowerCase()
       const normalizedPos = normalizePos(target.pos)
       let definition: string | undefined
-      for (const candidate of posCandidates(normalizedPos)) {
-        const row = byWordAndPos.get(normalizedWord, candidate) as DefinitionRow | undefined
+      for (const sourceWord of sourceHeadwordCandidates(target.word)) {
+        for (const candidate of posCandidates(normalizedPos)) {
+          const row = byWordAndPos.get(sourceWord, candidate) as DefinitionRow | undefined
+          if (row?.definition_zh) {
+            definition = definitionZhForPos(row.definition_zh, normalizedPos)
+            break
+          }
+        }
+        if (definition) break
+        const row = byWord.get(sourceWord) as DefinitionRow | undefined
         if (row?.definition_zh) {
           definition = definitionZhForPos(row.definition_zh, normalizedPos)
           break
         }
-      }
-      if (!definition) {
-        const row = byWord.get(normalizedWord) as DefinitionRow | undefined
-        if (row?.definition_zh) definition = definitionZhForPos(row.definition_zh, normalizedPos)
       }
 
       if (definition) {

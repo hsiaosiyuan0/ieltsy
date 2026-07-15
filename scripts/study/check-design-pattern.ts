@@ -3,6 +3,8 @@ import { join, relative, resolve } from 'node:path'
 import { parseArgs } from 'node:util'
 import { PROSODY_SOURCE } from './speech-config'
 import { discoverGrammarLibrary } from './grammar-library'
+import { discoverDictationLibrary } from './dictation-library'
+import { REAL_WORLD_CONTEXT_REQUIRED_SINCE } from './article-harness'
 
 const { values } = parseArgs({
   options: {
@@ -86,6 +88,9 @@ if (existsSync(patternPath) && existsSync(builtCssPath)) {
     'html.is-scrolling',
     '.dictation-mode',
     '.mistake-directory',
+    '.lesson-context',
+    '.dictation-ledger',
+    '.dictation-scoreboard',
     '@media (max-width: 74rem)',
     '@media (max-width: 60rem)',
     '@media (max-width: 45rem)',
@@ -137,7 +142,10 @@ if (existsSync(indexPath)) {
   includesAll(html, ['data-page="home"', 'class="home-lead"', 'class="archive-ledger"'], 'index.html')
 }
 
-const lessonFiles = htmlFiles.filter((file) => file.includes(`${join('days', '')}`))
+const lessonFiles = htmlFiles.filter((file) => {
+  const path = relative(outDir, file).replaceAll('\\', '/')
+  return /^days\/\d{4}-\d{2}-\d{2}\/index\.html$/.test(path)
+})
 check(lessonFiles.length > 0, 'no generated lesson pages found')
 for (const file of lessonFiles) {
   const html = readFileSync(file, 'utf-8')
@@ -175,6 +183,10 @@ for (const file of lessonFiles) {
   check(vocabEntries > 0, `${scope}: target vocabulary is empty`)
   check(vocabEntries === definitions, `${scope}: ${vocabEntries} target words but ${definitions} Chinese definitions`)
   check(!html.includes('definition-missing'), `${scope}: unresolved Chinese definition found`)
+  const lessonDate = scope.match(/days\/(\d{4}-\d{2}-\d{2})\//)?.[1]
+  if (lessonDate && lessonDate >= REAL_WORLD_CONTEXT_REQUIRED_SINCE) {
+    includesAll(html, ['class="lesson-context"', 'Real-world context', 'rel="noreferrer"'], scope)
+  }
 }
 
 const grammarLibrary = discoverGrammarLibrary()
@@ -216,6 +228,31 @@ const mistakesIndexPath = join(outDir, 'mistakes', 'index.html')
 if (existsSync(mistakesIndexPath)) {
   const html = readFileSync(mistakesIndexPath, 'utf-8')
   includesAll(html, ['data-page="mistakes"', 'class="mistake-directory"'], 'mistakes/index.html')
+}
+
+const dictationLibrary = discoverDictationLibrary()
+const dictationsIndexPath = join(outDir, 'dictations', 'index.html')
+check(existsSync(dictationsIndexPath), 'dictations/index.html is missing')
+if (existsSync(dictationsIndexPath)) {
+  const html = readFileSync(dictationsIndexPath, 'utf-8')
+  includesAll(html, ['data-page="dictations"', 'class="dictation-summary"', 'class="dictation-ledger"'], 'dictations/index.html')
+  check(count(html, /class="dictation-entry"/g) === dictationLibrary.attempts.length, 'dictations/index.html: attempt count differs from Markdown')
+}
+
+for (const attempt of dictationLibrary.attempts) {
+  const file = join(outDir, 'dictations', attempt.articleDate, String(attempt.attemptNumber), 'index.html')
+  const scope = relative(outDir, file)
+  check(existsSync(file), `${scope} is missing`)
+  if (!existsSync(file)) continue
+  const html = readFileSync(file, 'utf-8')
+  includesAll(html, [
+    'data-page="dictation-detail"',
+    'class="dictation-scoreboard"',
+    'class="dictation-detail-layout"',
+    'class="markdown-sheet dictation-sheet"',
+    '<del>',
+  ], scope)
+  check(count(html, /class="result-mark result-mark--/g) >= 1, `${scope}: result state is missing`)
 }
 
 for (const kind of ['words', 'grammar']) {

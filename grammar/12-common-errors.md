@@ -26,4 +26,4 @@
 
 ---
 
-[← 第 11 章: 标点与固定句型](11-punctuation-and-fixed-patterns.md)
+[← 第 11 章: 标点与固定句型](11-punctuation-and-fixed-patterns.md) | [第 13 章: 文体与表达目的 →](13-genres-and-purpose.md)

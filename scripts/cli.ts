@@ -70,13 +70,35 @@ const COMMANDS: Record<string, CommandMeta> = {
 {
   date: string,
   article_genre: string,     // narrative | argumentative | descriptive | expository | dialogue
+  english_variant: 'en-US',
+  context_region: string,    // weekdays prefer United States; weekends are open/global
   article_path: string,
+  context_path: string,      // 现实背景、来源和教学改写边界
   session_path: string,
-  new_words: [{id, headword, pos, cefr, def}, ...],
+  new_words: [{id, headword, source_headword?, pos, cefr, def}, ...],
   grammar: {id, title, importance, description} | null,
-  review_words: [{id, headword, def}, ...]
+  review_words: [{id, headword, source_headword?, def}, ...]
 }
+\`headword\` 始终使用美式拼写；\`source_headword\` 仅在导入词库采用其他拼写时出现，学习记录仍使用原始 \`id\`。
 Idempotent: 重复调用同一日期返回相同 session。`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  'check-article': {
+    description: '校验短文格式、目标词覆盖与现实背景来源',
+    script: 'scripts/study/check-articles.ts',
+    args: [
+      { flag: '--date', type: 'string', description: '课程日期 YYYY-MM-DD（默认今天）' },
+      { flag: '--all', type: 'boolean', default: false, description: '校验启用现实背景 harness 后的全部课程' },
+      { flag: '--json', type: 'boolean', default: false, description: '输出结构化校验结果' },
+    ],
+    examples: [
+      'pnpm ielts check-article',
+      'pnpm ielts check-article --date 2026-07-15 --json',
+      'pnpm ielts check-article --all',
+    ],
+    notes: `从 article.md + context.json 校验 200-300 词、双语句子编号、目标词表、语法例句和现实背景。
+现实背景不是“14 天新闻”：参考材料默认不得早于 1900 年，较早的近现代材料必须明确说明与当下的连接。`,
   },
 
   // ──────────────────────────────────────────────────────────────────────────
@@ -87,6 +109,7 @@ Idempotent: 重复调用同一日期返回相同 session。`,
       { flag: '--correct', type: 'string', default: '', description: '答对的 word_id，逗号分隔，如 "123,456"' },
       { flag: '--incorrect', type: 'string', default: '', description: '答错的 word_id' },
       { flag: '--whole-dictation', type: 'boolean', default: false, description: '是否完成了整篇默写' },
+      { flag: '--dictation-file', type: 'string', description: '本次批改 Markdown；与 --whole-dictation 一起使用' },
       { flag: '--notes', type: 'string', default: '', description: 'session 备注' },
       { flag: '--date', type: 'string', description: '覆盖日期（默认今天）' },
       { flag: '--mistakes-json', type: 'string', default: '', description: '详细错题 JSON（结构见 notes）' },
@@ -95,7 +118,7 @@ Idempotent: 重复调用同一日期返回相同 session。`,
     examples: [
       'pnpm ielts record --correct "485,2141,2200" --incorrect "2212"',
       `pnpm ielts record --correct "1,2" --incorrect "3" --mistakes-json '[{"word_id":3,"context":"...","user_answer":"...","correct_answer":"...","error_type":"spelling"}]'`,
-      'pnpm ielts record --whole-dictation --notes "challenging today"',
+      'pnpm ielts record --date 2026-07-15 --whole-dictation --dictation-file learning/days/2026-07-15/dictations/attempt-01.md',
     ],
     notes: `mistakes-json 结构：
 [
@@ -109,6 +132,25 @@ Idempotent: 重复调用同一日期返回相同 session。`,
 ]
 SM-2: 答对 → interval *= ease, ease += 0.1, reps++；答错 → interval=1, ease -= 0.2, reps=0。
 答对 5 次 + 间隔 ≥ 30 天 → status='mastered'。`,
+  },
+
+  // ──────────────────────────────────────────────────────────────────────────
+  dictations: {
+    description: '列出、分配并校验同一篇文章的多次整篇默写',
+    script: 'scripts/study/dictations.ts',
+    args: [
+      { flag: '--date', type: 'string', description: '文章日期 YYYY-MM-DD（默认今天）' },
+      { flag: '--sync', type: 'boolean', default: false, description: '把 Markdown attempt 全量同步为 SQLite 投影' },
+      { flag: '--check', type: 'boolean', default: false, description: '校验 Markdown 与 SQLite 投影完全一致' },
+      { flag: '--json', type: 'boolean', default: false, description: '输出 attempts 和 next_attempt JSON' },
+    ],
+    examples: [
+      'pnpm ielts dictations --date 2026-07-15 --json',
+      'pnpm ielts dictations --sync --date 2026-07-15',
+      'pnpm ielts dictations --check --date 2026-07-15',
+    ],
+    notes: `每次整篇默写保存为 learning/days/YYYY-MM-DD/dictations/attempt-NN.md。
+Markdown 是批改与静态发布的规范源；dictation_attempts 只是查询投影。record --dictation-file 会自动同步投影。`,
   },
 
   // ──────────────────────────────────────────────────────────────────────────

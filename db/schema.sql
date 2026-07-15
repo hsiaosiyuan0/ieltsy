@@ -202,6 +202,24 @@ CREATE TABLE IF NOT EXISTS daily_sessions (
   FOREIGN KEY (new_grammar_id) REFERENCES grammar_points(id)
 );
 
+-- 整篇默写尝试（Markdown 是发布源；本表是可查询投影）
+CREATE TABLE IF NOT EXISTS dictation_attempts (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  session_id INTEGER NOT NULL,
+  attempt_number INTEGER NOT NULL,
+  practiced_at TEXT NOT NULL,
+  correct_words INTEGER NOT NULL,
+  total_words INTEGER NOT NULL,
+  accuracy REAL NOT NULL,
+  passed INTEGER NOT NULL CHECK(passed IN (0,1)),
+  markdown_path TEXT NOT NULL UNIQUE,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP,
+  UNIQUE(session_id, attempt_number),
+  FOREIGN KEY (session_id) REFERENCES daily_sessions(id) ON DELETE CASCADE
+);
+CREATE INDEX IF NOT EXISTS idx_dictation_attempts_session ON dictation_attempts(session_id);
+CREATE INDEX IF NOT EXISTS idx_dictation_attempts_practiced ON dictation_attempts(practiced_at);
+
 -- 单词错题记录（每条 = 一次具体的答错事件）
 CREATE TABLE IF NOT EXISTS word_mistakes (
   id INTEGER PRIMARY KEY AUTOINCREMENT,

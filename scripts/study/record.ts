@@ -2,6 +2,8 @@ import Database from 'better-sqlite3'
 import { readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
+import { discoverDictationLibrary } from './dictation-library'
+import { syncDictationProjection } from './dictation-projection'
 
 const DB_PATH = resolve('db/ieltsy.db')
 
@@ -10,6 +12,7 @@ const { values } = parseArgs({
     correct: { type: 'string', default: '' }, // comma-separated word ids
     incorrect: { type: 'string', default: '' },
     'whole-dictation': { type: 'boolean', default: false },
+    'dictation-file': { type: 'string' },
     notes: { type: 'string', default: '' },
     date: { type: 'string' }, // override date (default = today)
     'mistakes-json': { type: 'string', default: '' }, // detailed mistake records
@@ -29,6 +32,7 @@ const db = new Database(DB_PATH)
 db.pragma('foreign_keys = ON')
 
 const date = values.date ?? new Date().toISOString().split('T')[0]!
+const dictationFile = values['dictation-file'] ? resolve(values['dictation-file']) : null
 
 const session = db.prepare('SELECT * FROM daily_sessions WHERE session_date = ?').get(date) as
   | { id: number; cloze_correct: number; cloze_total: number; session_path: string | null }
@@ -37,6 +41,17 @@ const session = db.prepare('SELECT * FROM daily_sessions WHERE session_date = ?'
 if (!session) {
   console.error(`No session found for ${date}. Run pnpm study today first.`)
   process.exit(1)
+}
+
+const dictationLibrary = dictationFile ? discoverDictationLibrary() : null
+if (values['whole-dictation'] && !dictationFile) {
+  throw new Error('--whole-dictation requires --dictation-file so the graded attempt can be published')
+}
+if (dictationFile) {
+  if (!values['whole-dictation']) throw new Error('--dictation-file requires --whole-dictation')
+  const attempt = dictationLibrary?.attempts.find((item) => item.sourcePath === dictationFile)
+  if (!attempt) throw new Error(`Dictation file is not a valid attempt: ${values['dictation-file']}`)
+  if (attempt.articleDate !== date) throw new Error(`Dictation attempt belongs to ${attempt.articleDate}, not ${date}`)
 }
 
 // Parse mistakes (from --mistakes-json or --mistakes-file)
@@ -167,7 +182,7 @@ const updateAll = db.transaction(() => {
     `UPDATE daily_sessions
      SET cloze_correct = cloze_correct + @correct_count,
          cloze_total = cloze_total + @total_count,
-         whole_dictation_done = @whole,
+         whole_dictation_done = MAX(whole_dictation_done, @whole),
          notes = COALESCE(NULLIF(@notes, ''), notes)
      WHERE session_date = @date`
   ).run({
@@ -180,6 +195,11 @@ const updateAll = db.transaction(() => {
 })
 
 updateAll()
+
+if (dictationLibrary) {
+  syncDictationProjection(db, dictationLibrary.attempts)
+  console.log(`✓ Synced ${dictationLibrary.attempts.length} dictation attempt(s) to SQLite`)
+}
 
 console.log(`✓ Updated ${updatedCount} words via SM-2`)
 if (mistakes.length > 0) {

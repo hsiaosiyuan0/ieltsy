@@ -27,6 +27,24 @@ const latestLesson = readdirSync(join(ROOT, 'days'), { withFileTypes: true })
   .at(-1)
 if (!latestLesson) throw new Error('No generated lesson page found in dist/days.')
 const latestLessonPath = `/days/${latestLesson}/`
+const dictationRoot = join(ROOT, 'dictations')
+const latestDictationDate = existsSync(dictationRoot)
+  ? readdirSync(dictationRoot, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && /^\d{4}-\d{2}-\d{2}$/.test(entry.name))
+      .map((entry) => entry.name)
+      .sort()
+      .at(-1)
+  : undefined
+const latestDictationAttempt = latestDictationDate
+  ? readdirSync(join(dictationRoot, latestDictationDate), { withFileTypes: true })
+      .filter((entry) => entry.isDirectory() && /^\d+$/.test(entry.name))
+      .map((entry) => Number.parseInt(entry.name, 10))
+      .sort((a, b) => a - b)
+      .at(-1)
+  : undefined
+const latestDictationPath = latestDictationDate && latestDictationAttempt
+  ? `/dictations/${latestDictationDate}/${latestDictationAttempt}/`
+  : undefined
 
 const mimeTypes = {
   '.css': 'text/css; charset=utf-8',
@@ -260,6 +278,7 @@ const auditExpression = String.raw`(() => {
   const grammarChapters = document.querySelectorAll('[data-grammar-chapter]').length
   const grammarInlineCode = document.querySelector('.grammar-note-content code')
   const grammarInlineStyle = grammarInlineCode ? getComputedStyle(grammarInlineCode) : null
+  const dictationSheet = document.querySelector('.dictation-sheet')
 
   return {
     page: bodyPage,
@@ -296,6 +315,14 @@ const auditExpression = String.raw`(() => {
         backgroundColor: grammarInlineStyle.backgroundColor,
         textDecorationLine: grammarInlineStyle.textDecorationLine,
       } : null,
+    },
+    dictation: {
+      entries: document.querySelectorAll('.dictation-entry').length,
+      hasScoreboard: Boolean(document.querySelector('.dictation-scoreboard')),
+      hasDetailLayout: Boolean(document.querySelector('.dictation-detail-layout')),
+      hasSheet: Boolean(dictationSheet),
+      deletions: dictationSheet?.querySelectorAll('del').length ?? 0,
+      corrections: dictationSheet?.querySelectorAll('strong').length ?? 0,
     },
   }
 })()`
@@ -378,6 +405,12 @@ const cases = [
   { name: 'mistakes-375', path: '/mistakes/', page: 'mistakes', width: 375, height: 812 },
   { name: 'mistake-detail-1024', path: '/mistakes/words.html', page: 'mistake-detail', width: 1024, height: 900 },
   { name: 'mistake-detail-375', path: '/mistakes/words.html', page: 'mistake-detail', width: 375, height: 812 },
+  { name: 'dictations-1440', path: '/dictations/', page: 'dictations', width: 1440, height: 900 },
+  { name: 'dictations-375', path: '/dictations/', page: 'dictations', width: 375, height: 812 },
+  ...(latestDictationPath ? [
+    { name: 'dictation-detail-1024', path: latestDictationPath, page: 'dictation-detail', width: 1024, height: 900 },
+    { name: 'dictation-detail-375', path: latestDictationPath, page: 'dictation-detail', width: 375, height: 812 },
+  ] : []),
   { name: 'not-found-1024', path: '/404.html', page: 'not-found', width: 1024, height: 800 },
   { name: 'not-found-375', path: '/404.html', page: 'not-found', width: 375, height: 812 },
 ]
@@ -442,8 +475,8 @@ try {
     }
 
     if (testCase.page === 'grammar-index') {
-      assert(metrics.grammar.entries >= 386, `${testCase.name}: grammar entries are incomplete`)
-      assert(metrics.grammar.chapters >= 12, `${testCase.name}: grammar chapters are incomplete`)
+      assert(metrics.grammar.entries >= 394, `${testCase.name}: grammar entries are incomplete`)
+      assert(metrics.grammar.chapters >= 13, `${testCase.name}: grammar chapters are incomplete`)
       assert(metrics.grammar.hasSearch, `${testCase.name}: grammar search is missing`)
     }
 
@@ -453,6 +486,17 @@ try {
       assert(metrics.grammar.inlineCode?.borderWidth === '0px', `${testCase.name}: inline code has a border`)
       assert(metrics.grammar.inlineCode?.backgroundColor === 'rgba(0, 0, 0, 0)', `${testCase.name}: inline code background is not transparent`)
       assert(metrics.grammar.inlineCode?.textDecorationLine.includes('underline'), `${testCase.name}: inline code underline is missing`)
+    }
+
+    if (testCase.page === 'dictations') {
+      assert(metrics.dictation.entries > 0, `${testCase.name}: dictation history is empty`)
+    }
+
+    if (testCase.page === 'dictation-detail') {
+      assert(metrics.dictation.hasScoreboard, `${testCase.name}: score summary is missing`)
+      assert(metrics.dictation.hasDetailLayout && metrics.dictation.hasSheet, `${testCase.name}: correction layout is missing`)
+      assert(metrics.dictation.deletions > 0, `${testCase.name}: user-answer deletions are missing`)
+      assert(metrics.dictation.corrections > 0, `${testCase.name}: corrected answers are missing`)
     }
 
     results.push({ name: testCase.name, screenshotPath, metrics })
@@ -508,6 +552,7 @@ try {
     const allFilter = document.querySelector('[data-grammar-filter="all"]')
     const visibleEntries = () => [...document.querySelectorAll('[data-grammar-entry]')].filter((entry) => !entry.hidden)
     const visibleChapters = () => [...document.querySelectorAll('[data-grammar-chapter]')].filter((chapter) => !chapter.hidden)
+    const noteCount = document.querySelectorAll('[data-grammar-entry][data-note="true"]').length
 
     input.value = '现在完成进行时'
     input.dispatchEvent(new Event('input', { bubbles: true }))
@@ -519,7 +564,7 @@ try {
     input.value = ''
     input.dispatchEvent(new Event('input', { bubbles: true }))
     noteFilter.click()
-    const noteOnly = visibleEntries().length === 2
+    const noteOnly = visibleEntries().length === noteCount
       && visibleEntries().every((entry) => entry.getAttribute('data-note') === 'true')
       && noteFilter.getAttribute('aria-pressed') === 'true'
 
@@ -531,7 +576,7 @@ try {
     input.value = ''
     input.dispatchEvent(new Event('input', { bubbles: true }))
     allFilter.click()
-    const restored = visibleEntries().length >= 386
+    const restored = visibleEntries().length >= 394
       && allFilter.getAttribute('aria-pressed') === 'true'
 
     return { exactSearch, noteOnly, emptyState, restored }

@@ -11493,6 +11493,1714 @@
           "confidence": 0.66
         }
       ]
+    },
+    "dde13192a0fb": {
+      "text": "This July, the National Museum of American History in Washington is preparing for an evening that combines a public ceremony with ordinary museum life.",
+      "date": "2026-07-15",
+      "num": 1,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "65742af227881b6f6336824d6d83d9d779e6dee07beadeff63ed62736adf48a1",
+      "groups": [
+        {
+          "tokens": [
+            "This",
+            "July"
+          ],
+          "starts": [
+            0.087,
+            0.3
+          ],
+          "ends": [
+            0.287,
+            0.8
+          ],
+          "stress": [
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 0.8,
+          "pitchStart": 183.9,
+          "pitchEnd": 126,
+          "confidence": 0.79
+        },
+        {
+          "tokens": [
+            "the",
+            "National",
+            "Museum",
+            "of",
+            "American",
+            "History",
+            "in",
+            "Washington"
+          ],
+          "starts": [
+            1.087,
+            1.188,
+            1.663,
+            2.138,
+            2.25,
+            2.712,
+            3.163,
+            3.3
+          ],
+          "ends": [
+            1.175,
+            1.65,
+            2.125,
+            2.237,
+            2.7,
+            3.15,
+            3.288,
+            3.938
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 1.087,
+          "end": 3.938,
+          "pitchStart": 138.6,
+          "pitchEnd": 120.4,
+          "confidence": 0.74
+        },
+        {
+          "tokens": [
+            "is",
+            "preparing",
+            "for",
+            "an",
+            "evening",
+            "that",
+            "combines",
+            "a",
+            "public",
+            "ceremony",
+            "with",
+            "ordinary",
+            "museum",
+            "life"
+          ],
+          "starts": [
+            4.338,
+            4.487,
+            4.987,
+            5.162,
+            5.3,
+            5.675,
+            5.825,
+            6.3,
+            6.375,
+            6.763,
+            7.35,
+            7.537,
+            8.05,
+            8.55
+          ],
+          "ends": [
+            4.475,
+            4.975,
+            5.15,
+            5.287,
+            5.662,
+            5.813,
+            6.287,
+            6.362,
+            6.75,
+            7.338,
+            7.525,
+            8.037,
+            8.537,
+            8.988
+          ],
+          "stress": [
+            false,
+            true,
+            false,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 4.338,
+          "end": 8.988,
+          "pitchStart": 135.6,
+          "pitchEnd": 113.5,
+          "confidence": 0.79
+        }
+      ]
+    },
+    "aacb48260cef": {
+      "text": "This evening, Melinda French Gates is scheduled to receive the Great Americans Medal for work advancing opportunity, global health, and gender equality.",
+      "date": "2026-07-15",
+      "num": 2,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "5817e0edfc75ea561378c6e4a0004ba13e31343684c2cfe3677dcde3e9a28cac",
+      "groups": [
+        {
+          "tokens": [
+            "This",
+            "evening",
+            "Melinda",
+            "French",
+            "Gates",
+            "is",
+            "scheduled",
+            "to",
+            "receive",
+            "the",
+            "Great",
+            "Americans",
+            "Medal",
+            "for",
+            "work",
+            "advancing",
+            "opportunity"
+          ],
+          "starts": [
+            0.087,
+            0.325,
+            0.738,
+            1.113,
+            1.438,
+            1.725,
+            1.837,
+            2.3,
+            2.425,
+            2.8,
+            2.913,
+            3.188,
+            3.737,
+            4.05,
+            4.263,
+            4.5,
+            5.013
+          ],
+          "ends": [
+            0.313,
+            0.713,
+            1.1,
+            1.425,
+            1.712,
+            1.825,
+            2.288,
+            2.413,
+            2.788,
+            2.9,
+            3.175,
+            3.725,
+            4.037,
+            4.25,
+            4.487,
+            5,
+            5.763
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↗",
+          "start": 0.087,
+          "end": 5.763,
+          "pitchStart": 130.1,
+          "pitchEnd": 258.1,
+          "confidence": 0.92
+        },
+        {
+          "tokens": [
+            "global",
+            "health",
+            "and",
+            "gender",
+            "equality"
+          ],
+          "starts": [
+            6.225,
+            6.6,
+            6.987,
+            7.175,
+            7.487
+          ],
+          "ends": [
+            6.588,
+            6.963,
+            7.162,
+            7.475,
+            8.125
+          ],
+          "stress": [
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 6.225,
+          "end": 8.125,
+          "pitchStart": 135.6,
+          "pitchEnd": 115.9,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "a7fc6378a454": {
+      "text": "The free program gives online viewers an incentive to join through a captioned, ASL-interpreted stream, so distance and an entrance fee create no barrier.",
+      "date": "2026-07-15",
+      "num": 3,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "f34c92073ad1fcdbde19538432d8be71b3469c3123662c27bbae03324e52c020",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "free",
+            "program",
+            "gives",
+            "online",
+            "viewers",
+            "an",
+            "incentive",
+            "to",
+            "join",
+            "through",
+            "a",
+            "captioned"
+          ],
+          "starts": [
+            0.087,
+            0.175,
+            0.412,
+            0.912,
+            1.163,
+            1.587,
+            1.988,
+            2.087,
+            2.663,
+            2.8,
+            3.1,
+            3.275,
+            3.35
+          ],
+          "ends": [
+            0.163,
+            0.4,
+            0.9,
+            1.15,
+            1.575,
+            1.975,
+            2.075,
+            2.65,
+            2.788,
+            3.087,
+            3.263,
+            3.337,
+            3.925
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            false,
+            true
+          ],
+          "tone": "↗",
+          "start": 0.087,
+          "end": 3.925,
+          "pitchStart": 201.3,
+          "pitchEnd": 268.9,
+          "confidence": 0.89
+        },
+        {
+          "tokens": [
+            "ASL-interpreted",
+            "stream"
+          ],
+          "starts": [
+            4.4,
+            5.412
+          ],
+          "ends": [
+            5.4,
+            5.8
+          ],
+          "stress": [
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 4.4,
+          "end": 5.8,
+          "pitchStart": 126.5,
+          "pitchEnd": 112.3,
+          "confidence": 0.73
+        },
+        {
+          "tokens": [
+            "so",
+            "distance",
+            "and",
+            "an",
+            "entrance",
+            "fee",
+            "create",
+            "no",
+            "barrier"
+          ],
+          "starts": [
+            6.287,
+            6.463,
+            6.963,
+            7.138,
+            7.287,
+            7.725,
+            7.95,
+            8.325,
+            8.512
+          ],
+          "ends": [
+            6.45,
+            6.95,
+            7.125,
+            7.275,
+            7.713,
+            7.938,
+            8.313,
+            8.5,
+            9.05
+          ],
+          "stress": [
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 6.287,
+          "end": 9.05,
+          "pitchStart": 150.9,
+          "pitchEnd": 140.4,
+          "confidence": 0.7
+        }
+      ]
+    },
+    "ca07faf34d79": {
+      "text": "An older museum display used to present national achievement as a neat line of famous objects; this federal institution now incorporates live conversation and digital access.",
+      "date": "2026-07-15",
+      "num": 4,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "1d66d038c94293c10125859af0fc6b5807d21da7716711b9671aa62613511974",
+      "groups": [
+        {
+          "tokens": [
+            "An",
+            "older",
+            "museum",
+            "display",
+            "used",
+            "to",
+            "present",
+            "national",
+            "achievement",
+            "as",
+            "a",
+            "neat",
+            "line",
+            "of",
+            "famous",
+            "objects"
+          ],
+          "starts": [
+            0.087,
+            0.237,
+            0.512,
+            0.95,
+            1.413,
+            1.7,
+            1.8,
+            2.163,
+            2.638,
+            3.237,
+            3.388,
+            3.45,
+            3.725,
+            3.975,
+            4.075,
+            4.463
+          ],
+          "ends": [
+            0.225,
+            0.5,
+            0.938,
+            1.4,
+            1.688,
+            1.788,
+            2.15,
+            2.625,
+            3.225,
+            3.375,
+            3.438,
+            3.712,
+            3.962,
+            4.063,
+            4.45,
+            5.037
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 5.037,
+          "pitchStart": 176.9,
+          "pitchEnd": 115.6,
+          "confidence": 0.66
+        },
+        {
+          "tokens": [
+            "this",
+            "federal",
+            "institution",
+            "now",
+            "incorporates",
+            "live",
+            "conversation",
+            "and",
+            "digital",
+            "access"
+          ],
+          "starts": [
+            5.588,
+            5.8,
+            6.2,
+            6.912,
+            7.125,
+            7.775,
+            8.075,
+            8.875,
+            9,
+            9.45
+          ],
+          "ends": [
+            5.787,
+            6.188,
+            6.9,
+            7.112,
+            7.763,
+            8.063,
+            8.863,
+            8.988,
+            9.438,
+            10.088
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 5.588,
+          "end": 10.088,
+          "pitchStart": 156.9,
+          "pitchEnd": 114.3,
+          "confidence": 0.76
+        }
+      ]
+    },
+    "c577f251737b": {
+      "text": "On earlier event nights, ushers would assign seats, test microphones, and offer each guest a brief guide before the lights softened.",
+      "date": "2026-07-15",
+      "num": 5,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "70dda0031ae717f3fe07fbdc56a452e365d566ab0ad641de5f2553acafc51214",
+      "groups": [
+        {
+          "tokens": [
+            "On",
+            "earlier",
+            "event",
+            "nights"
+          ],
+          "starts": [
+            0.087,
+            0.237,
+            0.662,
+            0.963
+          ],
+          "ends": [
+            0.225,
+            0.65,
+            0.95,
+            1.35
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 1.35,
+          "pitchStart": 148.9,
+          "pitchEnd": 139.1,
+          "confidence": 0.66
+        },
+        {
+          "tokens": [
+            "ushers",
+            "would",
+            "assign",
+            "seats"
+          ],
+          "starts": [
+            1.538,
+            1.938,
+            2.087,
+            2.487
+          ],
+          "ends": [
+            1.925,
+            2.075,
+            2.475,
+            2.9
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "→",
+          "start": 1.538,
+          "end": 2.9,
+          "pitchStart": 230.2,
+          "pitchEnd": 227,
+          "confidence": 0.53
+        },
+        {
+          "tokens": [
+            "test",
+            "microphones"
+          ],
+          "starts": [
+            3.3,
+            3.625
+          ],
+          "ends": [
+            3.612,
+            4.35
+          ],
+          "stress": [
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 3.3,
+          "end": 4.35,
+          "pitchStart": 155.3,
+          "pitchEnd": 123.1,
+          "confidence": 0.74
+        },
+        {
+          "tokens": [
+            "and",
+            "offer",
+            "each",
+            "guest",
+            "a",
+            "brief",
+            "guide",
+            "before",
+            "the",
+            "lights",
+            "softened"
+          ],
+          "starts": [
+            4.537,
+            4.725,
+            5.025,
+            5.25,
+            5.537,
+            5.6,
+            5.9,
+            6.2,
+            6.513,
+            6.625,
+            6.925
+          ],
+          "ends": [
+            4.713,
+            5.013,
+            5.237,
+            5.525,
+            5.588,
+            5.888,
+            6.188,
+            6.5,
+            6.612,
+            6.912,
+            7.475
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 4.537,
+          "end": 7.475,
+          "pitchStart": 126,
+          "pitchEnd": 99.8,
+          "confidence": 0.58
+        }
+      ]
+    },
+    "a23594fd9ca0": {
+      "text": "Staff are now used to guiding both in-person and remote audiences, and they are capable of switching calmly between stage cues and accessibility requests.",
+      "date": "2026-07-15",
+      "num": 6,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "d06783c78a842096d403f0596089de08f270f36d54c28f5d2bc0e75bf1074e14",
+      "groups": [
+        {
+          "tokens": [
+            "Staff",
+            "are",
+            "now",
+            "used",
+            "to",
+            "guiding",
+            "both",
+            "in-person",
+            "and",
+            "remote",
+            "audiences"
+          ],
+          "starts": [
+            0.075,
+            0.438,
+            0.525,
+            0.75,
+            1.012,
+            1.1,
+            1.45,
+            1.688,
+            2.275,
+            2.388,
+            2.725
+          ],
+          "ends": [
+            0.425,
+            0.512,
+            0.738,
+            1,
+            1.087,
+            1.438,
+            1.675,
+            2.263,
+            2.375,
+            2.712,
+            3.462
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.075,
+          "end": 3.462,
+          "pitchStart": 217.7,
+          "pitchEnd": 119.9,
+          "confidence": 0.74
+        },
+        {
+          "tokens": [
+            "and",
+            "they",
+            "are",
+            "capable",
+            "of",
+            "switching",
+            "calmly",
+            "between",
+            "stage",
+            "cues",
+            "and",
+            "accessibility",
+            "requests"
+          ],
+          "starts": [
+            3.8,
+            3.962,
+            4.1,
+            4.225,
+            4.725,
+            4.825,
+            5.25,
+            5.662,
+            6.025,
+            6.438,
+            6.75,
+            6.838,
+            7.588
+          ],
+          "ends": [
+            3.95,
+            4.088,
+            4.213,
+            4.713,
+            4.813,
+            5.237,
+            5.65,
+            6.013,
+            6.425,
+            6.737,
+            6.825,
+            7.575,
+            8.2
+          ],
+          "stress": [
+            false,
+            false,
+            false,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "→",
+          "start": 3.8,
+          "end": 8.2,
+          "pitchStart": 124,
+          "pitchEnd": 123.1,
+          "confidence": 0.42
+        }
+      ]
+    },
+    "2508d2d54ed9": {
+      "text": "Near the theater, a digital index points toward collections donated by an artist's estate, while a small display connects personal objects with public memory.",
+      "date": "2026-07-15",
+      "num": 7,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "f78e62f10aa04238831a9b58dad6d7f8a40928ec82ac63b92eb1366deffac3c6",
+      "groups": [
+        {
+          "tokens": [
+            "Near",
+            "the",
+            "theater"
+          ],
+          "starts": [
+            0.087,
+            0.3,
+            0.425
+          ],
+          "ends": [
+            0.287,
+            0.412,
+            0.925
+          ],
+          "stress": [
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 0.925,
+          "pitchStart": 254,
+          "pitchEnd": 123.1,
+          "confidence": 0.75
+        },
+        {
+          "tokens": [
+            "a",
+            "digital",
+            "index",
+            "points",
+            "toward",
+            "collections",
+            "donated",
+            "by",
+            "an",
+            "artist's",
+            "estate"
+          ],
+          "starts": [
+            1.225,
+            1.3,
+            1.712,
+            2.125,
+            2.462,
+            2.75,
+            3.325,
+            3.8,
+            3.962,
+            4.1,
+            4.513
+          ],
+          "ends": [
+            1.288,
+            1.7,
+            2.112,
+            2.45,
+            2.737,
+            3.313,
+            3.788,
+            3.95,
+            4.088,
+            4.5,
+            4.95
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 1.225,
+          "end": 4.95,
+          "pitchStart": 127,
+          "pitchEnd": 109.6,
+          "confidence": 0.69
+        },
+        {
+          "tokens": [
+            "while",
+            "a",
+            "small",
+            "display",
+            "connects",
+            "personal",
+            "objects",
+            "with",
+            "public",
+            "memory"
+          ],
+          "starts": [
+            5.475,
+            5.675,
+            5.737,
+            6.05,
+            6.487,
+            6.912,
+            7.425,
+            7.912,
+            8.063,
+            8.45
+          ],
+          "ends": [
+            5.662,
+            5.725,
+            6.037,
+            6.475,
+            6.9,
+            7.412,
+            7.9,
+            8.05,
+            8.438,
+            8.938
+          ],
+          "stress": [
+            false,
+            false,
+            true,
+            true,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 5.475,
+          "end": 8.938,
+          "pitchStart": 175.8,
+          "pitchEnd": 106.7,
+          "confidence": 0.79
+        }
+      ]
+    },
+    "bb0ed6a299b0": {
+      "text": "Researchers edit labels as evidence changes and cite each source, turning corrections into part of the museum's visible work rather than hiding them.",
+      "date": "2026-07-15",
+      "num": 8,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "6e0b6363c482f4bc7e566ed474df3177e086c2cd54689b34b8bc569a0ec62e50",
+      "groups": [
+        {
+          "tokens": [
+            "Researchers",
+            "edit",
+            "labels",
+            "as",
+            "evidence",
+            "changes",
+            "and",
+            "cite",
+            "each",
+            "source"
+          ],
+          "starts": [
+            0.087,
+            0.738,
+            0.975,
+            1.363,
+            1.563,
+            2.013,
+            2.487,
+            2.625,
+            2.938,
+            3.15
+          ],
+          "ends": [
+            0.725,
+            0.963,
+            1.35,
+            1.55,
+            2,
+            2.475,
+            2.612,
+            2.925,
+            3.138,
+            3.575
+          ],
+          "stress": [
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 3.575,
+          "pitchStart": 136.8,
+          "pitchEnd": 104.6,
+          "confidence": 0.62
+        },
+        {
+          "tokens": [
+            "turning",
+            "corrections",
+            "into",
+            "part",
+            "of",
+            "the",
+            "museum's",
+            "visible",
+            "work"
+          ],
+          "starts": [
+            4.037,
+            4.35,
+            4.95,
+            5.175,
+            5.475,
+            5.575,
+            5.675,
+            6.237,
+            6.7
+          ],
+          "ends": [
+            4.338,
+            4.938,
+            5.162,
+            5.463,
+            5.563,
+            5.662,
+            6.225,
+            6.688,
+            7.037
+          ],
+          "stress": [
+            true,
+            true,
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↗",
+          "start": 4.037,
+          "end": 7.037,
+          "pitchStart": 142.9,
+          "pitchEnd": 190.7,
+          "confidence": 0.81
+        },
+        {
+          "tokens": [
+            "rather",
+            "than",
+            "hiding",
+            "them"
+          ],
+          "starts": [
+            7.338,
+            7.65,
+            7.813,
+            8.2
+          ],
+          "ends": [
+            7.638,
+            7.8,
+            8.188,
+            8.488
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            false
+          ],
+          "tone": "↘",
+          "start": 7.338,
+          "end": 8.488,
+          "pitchStart": 198.8,
+          "pitchEnd": 116.4,
+          "confidence": 0.78
+        }
+      ]
+    },
+    "773ea0ba6823": {
+      "text": "Warm light will enhance the medal's gold surface, but the following conversation is likely to matter more than the object itself.",
+      "date": "2026-07-15",
+      "num": 9,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "230f6db11f644504fc7e92bd2bf7215b731b51a9e2de93897069814f7de0d91b",
+      "groups": [
+        {
+          "tokens": [
+            "Warm",
+            "light",
+            "will",
+            "enhance",
+            "the",
+            "medal's",
+            "gold",
+            "surface"
+          ],
+          "starts": [
+            0.087,
+            0.375,
+            0.613,
+            0.775,
+            1.2,
+            1.3,
+            1.65,
+            1.925
+          ],
+          "ends": [
+            0.362,
+            0.6,
+            0.762,
+            1.188,
+            1.288,
+            1.637,
+            1.913,
+            2.487
+          ],
+          "stress": [
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 2.487,
+          "pitchStart": 225.4,
+          "pitchEnd": 119.4,
+          "confidence": 0.89
+        },
+        {
+          "tokens": [
+            "but",
+            "the",
+            "following",
+            "conversation",
+            "is",
+            "likely",
+            "to",
+            "matter",
+            "more",
+            "than",
+            "the",
+            "object",
+            "itself"
+          ],
+          "starts": [
+            2.825,
+            2.962,
+            3.063,
+            3.513,
+            4.275,
+            4.45,
+            4.825,
+            4.975,
+            5.3,
+            5.563,
+            5.713,
+            5.838,
+            6.3
+          ],
+          "ends": [
+            2.95,
+            3.05,
+            3.5,
+            4.263,
+            4.438,
+            4.813,
+            4.963,
+            5.287,
+            5.55,
+            5.7,
+            5.825,
+            6.287,
+            6.912
+          ],
+          "stress": [
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true
+          ],
+          "tone": "↗",
+          "start": 2.825,
+          "end": 6.912,
+          "pitchStart": 132.2,
+          "pitchEnd": 150.9,
+          "confidence": 0.66
+        }
+      ]
+    },
+    "822e56a111b0": {
+      "text": "Questions about gender, philanthropy, and power may create a bond between visitors who entered with very different ideas about national service.",
+      "date": "2026-07-15",
+      "num": 10,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "f4339845c882b70db7c48c3d7658d4345a1296ecbea08a83d032b8ea1d2d8109",
+      "groups": [
+        {
+          "tokens": [
+            "Questions",
+            "about",
+            "gender"
+          ],
+          "starts": [
+            0.1,
+            0.588,
+            0.863
+          ],
+          "ends": [
+            0.575,
+            0.85,
+            1.313
+          ],
+          "stress": [
+            true,
+            false,
+            true
+          ],
+          "tone": "↗",
+          "start": 0.1,
+          "end": 1.313,
+          "pitchStart": 168.4,
+          "pitchEnd": 246.2,
+          "confidence": 0.88
+        },
+        {
+          "tokens": [
+            "philanthropy"
+          ],
+          "starts": [
+            1.5
+          ],
+          "ends": [
+            2.35
+          ],
+          "stress": [
+            true
+          ],
+          "tone": "↘",
+          "start": 1.5,
+          "end": 2.35,
+          "pitchStart": 172,
+          "pitchEnd": 129.6,
+          "confidence": 0.78
+        },
+        {
+          "tokens": [
+            "and",
+            "power",
+            "may",
+            "create",
+            "a",
+            "bond",
+            "between",
+            "visitors",
+            "who",
+            "entered",
+            "with",
+            "very",
+            "different",
+            "ideas",
+            "about",
+            "national",
+            "service"
+          ],
+          "starts": [
+            2.6,
+            2.775,
+            3.163,
+            3.337,
+            3.688,
+            3.763,
+            4.088,
+            4.45,
+            4.975,
+            5.125,
+            5.475,
+            5.612,
+            5.938,
+            6.3,
+            6.787,
+            7.063,
+            7.525
+          ],
+          "ends": [
+            2.763,
+            3.15,
+            3.325,
+            3.675,
+            3.75,
+            4.075,
+            4.438,
+            4.963,
+            5.112,
+            5.463,
+            5.6,
+            5.925,
+            6.287,
+            6.775,
+            7.05,
+            7.513,
+            8.15
+          ],
+          "stress": [
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            false,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 2.6,
+          "end": 8.15,
+          "pitchStart": 156.7,
+          "pitchEnd": 131.2,
+          "confidence": 0.79
+        }
+      ]
+    },
+    "c91ec57033f3": {
+      "text": "The scheduled program will not exceed ninety minutes, yet its mix of ceremony and discussion should leave enough room for disagreement as well as praise.",
+      "date": "2026-07-15",
+      "num": 11,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "540ba42e4c7950e20f2de1e256a20729e5ec42a013c9c1ffee78746799028539",
+      "groups": [
+        {
+          "tokens": [
+            "The",
+            "scheduled",
+            "program",
+            "will",
+            "not",
+            "exceed",
+            "ninety",
+            "minutes"
+          ],
+          "starts": [
+            0.087,
+            0.175,
+            0.637,
+            1.125,
+            1.262,
+            1.488,
+            1.85,
+            2.2
+          ],
+          "ends": [
+            0.163,
+            0.625,
+            1.113,
+            1.25,
+            1.475,
+            1.837,
+            2.188,
+            2.65
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 2.65,
+          "pitchStart": 136.2,
+          "pitchEnd": 126.1,
+          "confidence": 0.71
+        },
+        {
+          "tokens": [
+            "yet",
+            "its",
+            "mix",
+            "of",
+            "ceremony",
+            "and",
+            "discussion",
+            "should",
+            "leave",
+            "enough",
+            "room",
+            "for",
+            "disagreement",
+            "as",
+            "well",
+            "as",
+            "praise"
+          ],
+          "starts": [
+            3.15,
+            3.3,
+            3.475,
+            3.75,
+            3.862,
+            4.438,
+            4.537,
+            5.15,
+            5.388,
+            5.612,
+            5.912,
+            6.138,
+            6.287,
+            7.013,
+            7.162,
+            7.362,
+            7.5
+          ],
+          "ends": [
+            3.288,
+            3.462,
+            3.737,
+            3.85,
+            4.425,
+            4.525,
+            5.138,
+            5.375,
+            5.6,
+            5.9,
+            6.125,
+            6.275,
+            7,
+            7.15,
+            7.35,
+            7.487,
+            8.088
+          ],
+          "stress": [
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            true,
+            false,
+            true
+          ],
+          "tone": "↘",
+          "start": 3.15,
+          "end": 8.088,
+          "pitchStart": 174.9,
+          "pitchEnd": 111.8,
+          "confidence": 0.57
+        }
+      ]
+    },
+    "922ea54d7ab8": {
+      "text": "Furthermore, the webcast shows how a modern American museum can preserve formal traditions while opening them to people far beyond Washington.",
+      "date": "2026-07-15",
+      "num": 12,
+      "source": "edge-tts-nuclear-tone-analysis-v3",
+      "audioHash": "0dd666511393eb48323a370d4f6fc6014663a8992e63fa0f62944a553562f2ac",
+      "groups": [
+        {
+          "tokens": [
+            "Furthermore"
+          ],
+          "starts": [
+            0.087
+          ],
+          "ends": [
+            0.713
+          ],
+          "stress": [
+            true
+          ],
+          "tone": "↘",
+          "start": 0.087,
+          "end": 0.713,
+          "pitchStart": 307.7,
+          "pitchEnd": 117.6,
+          "confidence": 0.79
+        },
+        {
+          "tokens": [
+            "the",
+            "webcast",
+            "shows",
+            "how",
+            "a",
+            "modern",
+            "American",
+            "museum",
+            "can",
+            "preserve",
+            "formal",
+            "traditions",
+            "while",
+            "opening",
+            "them",
+            "to",
+            "people",
+            "far",
+            "beyond",
+            "Washington"
+          ],
+          "starts": [
+            1.012,
+            1.125,
+            1.675,
+            1.95,
+            2.138,
+            2.188,
+            2.55,
+            3,
+            3.55,
+            3.737,
+            4.15,
+            4.525,
+            5.175,
+            5.4,
+            5.775,
+            5.938,
+            6.063,
+            6.412,
+            6.725,
+            7.125
+          ],
+          "ends": [
+            1.113,
+            1.663,
+            1.938,
+            2.125,
+            2.175,
+            2.538,
+            2.987,
+            3.538,
+            3.725,
+            4.138,
+            4.513,
+            5.162,
+            5.388,
+            5.763,
+            5.925,
+            6.05,
+            6.4,
+            6.713,
+            7.112,
+            7.8
+          ],
+          "stress": [
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            true,
+            true,
+            false,
+            true,
+            false,
+            false,
+            true,
+            true,
+            true,
+            true
+          ],
+          "tone": "↘",
+          "start": 1.012,
+          "end": 7.8,
+          "pitchStart": 158.4,
+          "pitchEnd": 118.5,
+          "confidence": 0.75
+        }
+      ]
     }
   }
 }

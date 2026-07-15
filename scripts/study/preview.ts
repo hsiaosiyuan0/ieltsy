@@ -5,6 +5,7 @@ import { createReadStream, existsSync, mkdirSync, readFileSync, statSync } from 
 import { createServer, type ServerResponse } from 'node:http'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
+import { sourceHeadwordCandidates } from './study-profile'
 
 const DB_PATH = resolve('db/ieltsy.db')
 const CACHE_DIR = resolve('learning/audio-cache')
@@ -818,8 +819,12 @@ function enrichTargetWordsWithZh(db: Database.Database, targets: TargetWord[]): 
     LIMIT 1
   `)
   for (const t of targets) {
-    const row = stmt.get(t.word.toLowerCase(), t.pos) as { definition_zh: string } | undefined
-    if (row?.definition_zh) t.zh = row.definition_zh
+    for (const sourceWord of sourceHeadwordCandidates(t.word)) {
+      const row = stmt.get(sourceWord, t.pos) as { definition_zh: string } | undefined
+      if (!row?.definition_zh) continue
+      t.zh = row.definition_zh
+      break
+    }
   }
 }
 

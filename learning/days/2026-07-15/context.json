@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "lesson_date": "2026-07-15",
+  "context_kind": "current_event",
+  "english_variant": "en-US",
+  "region_focus": "United States",
+  "reference_year": 2026,
+  "topic": "Great Americans Medal event at the National Museum of American History",
+  "fact_summary": "The Smithsonian scheduled a free, captioned, ASL-interpreted Great Americans Medal ceremony and webcast for Melinda French Gates on July 15, 2026, at the National Museum of American History in Washington, D.C.",
+  "present_connection": "The event provides a modern American setting for discussing how public museums combine national traditions, philanthropy, gender equality, accessibility, and online participation.",
+  "adaptation_note": "The schedule, venue, honoree, award rationale, streaming access, and accessibility services are sourced facts; lighting, staff actions, collection details, and visitor reactions are pedagogical reconstruction.",
+  "sources": [
+    {
+      "title": "LIVESTREAM: Great Americans Medal Presentation to Melinda French Gates",
+      "publisher": "National Museum of American History, Smithsonian Institution",
+      "url": "https://americanhistory.si.edu/events/calendar/livestream-great-americans-medal-presentation-melinda-french-gates",
+      "published_date": "2026-07-15"
+    },
+    {
+      "title": "Calendar of Exhibitions and Events: July 2026",
+      "publisher": "National Museum of American History, Smithsonian Institution",
+      "url": "https://americanhistory.si.edu/press/releases/July-2026-calendar",
+      "published_date": "2026-06-15"
+    }
+  ]
+}

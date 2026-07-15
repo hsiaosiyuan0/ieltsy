@@ -19,6 +19,9 @@ import {
   type GrammarLibrary,
   type GrammarPoint,
 } from './grammar-library'
+import { readArticleContext, type ArticleContext } from './article-harness'
+import { discoverDictationLibrary, type DictationAttempt } from './dictation-library'
+import { sourceHeadwordCandidates } from './study-profile'
 
 const CIRCLED = '①②③④⑤⑥⑦⑧⑨⑩⑪⑫⑬⑭⑮⑯⑰⑱⑲⑳'
 const CIRCLED_NUM_TO_INT: Record<string, number> = Object.fromEntries(
@@ -59,6 +62,7 @@ interface ParsedArticle {
   grammarDescription: string
   grammarExamples: GrammarExample[]
   grammarId?: number
+  context?: ArticleContext
 }
 
 const { values } = parseArgs({
@@ -339,14 +343,16 @@ function createDbGlossaryLookup(): { lookup: (word: string, pos: string) => stri
   `)
   return {
     lookup(word: string, pos: string): string | undefined {
-      const normalizedWord = word.trim().toLowerCase()
       const normalizedPos = normalizePos(pos)
-      for (const candidatePos of posCandidates(normalizedPos)) {
-        const exact = byWordAndPos.get(normalizedWord, candidatePos) as { definition_zh: string } | undefined
-        if (exact?.definition_zh) return definitionZhForPos(exact.definition_zh, normalizedPos)
+      for (const sourceWord of sourceHeadwordCandidates(word)) {
+        for (const candidatePos of posCandidates(normalizedPos)) {
+          const exact = byWordAndPos.get(sourceWord, candidatePos) as { definition_zh: string } | undefined
+          if (exact?.definition_zh) return definitionZhForPos(exact.definition_zh, normalizedPos)
+        }
+        const fallback = byWord.get(sourceWord) as { definition_zh: string } | undefined
+        if (fallback?.definition_zh) return definitionZhForPos(fallback.definition_zh, normalizedPos)
       }
-      const fallback = byWord.get(normalizedWord) as { definition_zh: string } | undefined
-      return fallback?.definition_zh ? definitionZhForPos(fallback.definition_zh, normalizedPos) : undefined
+      return undefined
     },
     close() {
       db.close()
@@ -369,7 +375,12 @@ function enrichTargetWords(
   dbLookup: { lookup: (word: string, pos: string) => string | undefined } | null
 ): void {
   for (const target of targetWords) {
-    const staticZh = glossary.get(glossaryKey(target.word, target.pos)) ?? glossary.get(glossaryKey(target.word, normalizePos(target.pos)))
+    let staticZh: string | undefined
+    for (const sourceWord of sourceHeadwordCandidates(target.word)) {
+      staticZh = glossary.get(glossaryKey(sourceWord, target.pos))
+        ?? glossary.get(glossaryKey(sourceWord, normalizePos(target.pos)))
+      if (staticZh) break
+    }
     target.zh = staticZh ?? dbLookup?.lookup(target.word, target.pos)
   }
 }
@@ -575,7 +586,7 @@ function renderShell(opts: {
   title: string
   description: string
   prefix: string
-  page: 'home' | 'lesson' | 'grammar-index' | 'grammar-detail' | 'mistakes' | 'mistake-detail' | 'not-found'
+  page: 'home' | 'lesson' | 'grammar-index' | 'grammar-detail' | 'mistakes' | 'mistake-detail' | 'dictations' | 'dictation-detail' | 'not-found'
   current?: 'home' | 'grammar' | 'mistakes'
   bodyClass?: string
   body: string
@@ -626,12 +637,13 @@ ${opts.body}
 `
 }
 
-function renderIndex(articles: ParsedArticle[]): string {
+function renderIndex(articles: ParsedArticle[], dictationAttempts: DictationAttempt[]): string {
   const latest = articles[0]
   const totalWords = articles.reduce((sum, article) => sum + article.targetWords.length, 0)
   const latestTitle = latest ? articleDisplayTitle(latest) : '今天还没有学习短文'
   const latestHref = latest ? `days/${latest.date}/` : ''
   const latestIssue = issueNumber(articles.length)
+  const dictationCount = dictationAttempts.length
   const lessonItems = articles.map((article, index) => {
     const title = articleDisplayTitle(article)
     const number = issueNumber(articles.length - index)
@@ -651,6 +663,7 @@ function renderIndex(articles: ParsedArticle[]): string {
     ? `          <div class="home-lead__actions">
             <a class="button button--primary" href="${latestHref}">${icon('play')}<span>继续学习</span></a>
             <a class="button" href="mistakes/">${icon('archive')}<span>查看错题</span></a>
+            ${dictationCount > 0 ? `<a class="button" href="dictations/">${icon('pen-line')}<span>默写记录</span></a>` : ''}
           </div>`
     : ''
 
@@ -719,7 +732,58 @@ ${lessonItems || '          <p class="archive-empty">还没有可发布的 artic
   })
 }
 
-function renderDay(article: ParsedArticle, number: number): string {
+function renderRealWorldContext(context?: ArticleContext): string {
+  if (!context) return ''
+  const sources = context.sources.map((source) => `          <li>
+            <a href="${escapeHtml(source.url)}" target="_blank" rel="noreferrer">
+              <span>${escapeHtml(source.title)}</span>
+              <small>${escapeHtml(source.publisher)}</small>
+            </a>
+          </li>`).join('\n')
+  return `
+      <section class="lesson-context" aria-labelledby="lesson-context-title">
+        <header>
+          <p class="kicker">Real-world context</p>
+          <h2 id="lesson-context-title">现实背景</h2>
+          <p>${escapeHtml(context.present_connection)}</p>
+        </header>
+        <div class="lesson-context__details">
+          <dl>
+            <div><dt>背景</dt><dd>${escapeHtml(context.context_kind.replaceAll('_', ' '))}</dd></div>
+            <div><dt>地区</dt><dd>${escapeHtml(context.region_focus)}</dd></div>
+            <div><dt>参考年份</dt><dd>${context.reference_year}</dd></div>
+            <div><dt>英语</dt><dd>${escapeHtml(context.english_variant)}</dd></div>
+          </dl>
+          <p>${escapeHtml(context.adaptation_note)}</p>
+        </div>
+        <ol class="lesson-context__sources" aria-label="现实背景来源">
+${sources}
+        </ol>
+      </section>`
+}
+
+function renderLessonDictations(article: ParsedArticle, attempts: DictationAttempt[]): string {
+  if (attempts.length === 0) return ''
+  const items = attempts.map((attempt) => `          <a class="lesson-dictation-entry" href="../../dictations/${article.date}/${attempt.attemptNumber}/">
+            <span class="lesson-dictation-entry__attempt">Attempt ${issueNumber(attempt.attemptNumber)}</span>
+            <span class="lesson-dictation-entry__score"><strong>${attempt.accuracy}%</strong><small>${attempt.correctWords}/${attempt.totalWords}</small></span>
+            <time datetime="${escapeHtml(attempt.practicedAt.slice(0, 10))}">${escapeHtml(attempt.practicedAt)}</time>
+            <span class="result-mark result-mark--${attempt.passed ? 'pass' : 'retry'}">${escapeHtml(attempt.result)}</span>
+            <span class="lesson-dictation-entry__arrow">${icon('arrow-right')}</span>
+          </a>`).join('\n')
+  return `
+      <section class="lesson-dictations" aria-labelledby="lesson-dictations-title">
+        <header class="section-label">
+          <div><p class="kicker">Recall history</p><h2 id="lesson-dictations-title">整篇默写</h2></div>
+          <a class="text-link" href="../../dictations/"><span>全部记录</span>${icon('arrow-right')}</a>
+        </header>
+        <div class="lesson-dictation-list">
+${items}
+        </div>
+      </section>`
+}
+
+function renderDay(article: ParsedArticle, number: number, attempts: DictationAttempt[]): string {
   const title = articleDisplayTitle(article)
   const metaParts = article.meta.split('|').map((part) => displayText(part)).filter(Boolean)
   const targetAudioByText = article.targetAudioByText ?? new Map()
@@ -829,6 +893,8 @@ ${grammarHtml || '                <li class="grammar-example"><span class="gramm
           </div>
         </aside>
       </div>
+${renderRealWorldContext(article.context)}
+${renderLessonDictations(article, attempts)}
     </main>`
 
   return renderShell({
@@ -845,6 +911,7 @@ ${grammarHtml || '                <li class="grammar-example"><span class="gramm
 function renderInlineMd(raw: string): string {
   let html = escapeHtml(raw)
   html = html.replace(/`([^`]+)`/g, '<code>$1</code>')
+  html = html.replace(/~~(.+?)~~/g, '<del>$1</del>')
   html = html.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
   html = html.replace(/_([^_]+)_/g, '<em>$1</em>')
   html = html.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
@@ -855,7 +922,7 @@ function renderMarkdown(md: string, headingOffset = 1): string {
   const lines = md.split('\n')
   const html: string[] = []
   let paragraph: string[] = []
-  let listOpen = false
+  let listType: 'ul' | 'ol' | null = null
 
   function flushParagraph(): void {
     if (paragraph.length > 0) {
@@ -865,10 +932,20 @@ function renderMarkdown(md: string, headingOffset = 1): string {
   }
 
   function closeList(): void {
-    if (listOpen) {
-      html.push('</ul>')
-      listOpen = false
+    if (listType) {
+      html.push(`</${listType}>`)
+      listType = null
     }
+  }
+
+  function appendListItem(type: 'ul' | 'ol', content: string): void {
+    flushParagraph()
+    if (listType !== type) {
+      closeList()
+      html.push(`<${type}>`)
+      listType = type
+    }
+    html.push(`<li>${renderInlineMd(content)}</li>`)
   }
 
   for (const line of lines) {
@@ -896,12 +973,13 @@ function renderMarkdown(md: string, headingOffset = 1): string {
     }
 
     if (trimmed.startsWith('- ')) {
-      flushParagraph()
-      if (!listOpen) {
-        html.push('<ul>')
-        listOpen = true
-      }
-      html.push(`<li>${renderInlineMd(trimmed.slice(2))}</li>`)
+      appendListItem('ul', trimmed.slice(2))
+      continue
+    }
+
+    const orderedItem = trimmed.match(/^\d+\.\s+(.+)$/)
+    if (orderedItem) {
+      appendListItem('ol', orderedItem[1]!)
       continue
     }
 
@@ -1182,6 +1260,113 @@ function renderMistakesIndex(): string {
   })
 }
 
+function renderDictationsIndex(attempts: DictationAttempt[], articles: ParsedArticle[]): string {
+  const articleByDate = new Map(articles.map((article) => [article.date, article]))
+  const articleCount = new Set(attempts.map((attempt) => attempt.articleDate)).size
+  const passedCount = attempts.filter((attempt) => attempt.passed).length
+  const rows = attempts.map((attempt) => {
+    const article = articleByDate.get(attempt.articleDate)
+    const title = article ? articleDisplayTitle(article) : attempt.articleDate
+    return `        <a class="dictation-entry" href="${attempt.articleDate}/${attempt.attemptNumber}/">
+          <time datetime="${escapeHtml(attempt.practicedAt.slice(0, 10))}">
+            <span>${escapeHtml(attempt.practicedAt)}</span>
+            <small>Article ${escapeHtml(attempt.articleDate)}</small>
+          </time>
+          <span class="dictation-entry__main">
+            <span>Attempt ${issueNumber(attempt.attemptNumber)}</span>
+            <strong>${escapeHtml(title)}</strong>
+            <small>${attempt.sentenceCount} 句逐句批改</small>
+          </span>
+          <span class="dictation-entry__score"><strong>${attempt.accuracy}%</strong><small>${attempt.correctWords}/${attempt.totalWords}</small></span>
+          <span class="result-mark result-mark--${attempt.passed ? 'pass' : 'retry'}">${escapeHtml(attempt.result)}</span>
+          <span class="dictation-entry__arrow">${icon('arrow-right')}</span>
+        </a>`
+  }).join('\n')
+
+  const body = `
+    <main id="content" class="page page--dictations">
+      <header class="page-intro">
+        <div>
+          <p class="kicker">Whole dictation archive</p>
+          <h1>整篇默写记录</h1>
+        </div>
+        <p class="page-intro__aside">同一篇文章的每次默写独立保留。分数用于定位进步，逐句批改用于下一轮精确复现。</p>
+      </header>
+
+      <dl class="dictation-summary" aria-label="默写统计">
+        <div><dt>尝试次数</dt><dd>${attempts.length}</dd></div>
+        <div><dt>覆盖文章</dt><dd>${articleCount}</dd></div>
+        <div><dt>通过次数</dt><dd>${passedCount}</dd></div>
+      </dl>
+
+      <div class="dictation-ledger">
+${rows || '        <p class="archive-empty">还没有整篇默写记录。</p>'}
+      </div>
+    </main>`
+
+  return renderShell({
+    title: '整篇默写记录',
+    description: `${SITE_TITLE} whole-dictation history`,
+    prefix: '../',
+    page: 'dictations',
+    body,
+  })
+}
+
+function renderDictationDetail(
+  attempt: DictationAttempt,
+  article: ParsedArticle,
+  articleAttempts: DictationAttempt[]
+): string {
+  const title = articleDisplayTitle(article)
+  const attemptLinks = articleAttempts.map((item) => `            <a href="../${item.attemptNumber}/"${item.attemptNumber === attempt.attemptNumber ? ' aria-current="page"' : ''}>
+              <span>第 ${item.attemptNumber} 次</span><strong>${item.accuracy}%</strong>
+            </a>`).join('\n')
+  const body = `
+    <main id="content" class="page page--dictation-detail">
+      <header class="page-intro">
+        <div>
+          <a class="text-link" href="../../"><span>${icon('arrow-left')}</span><span>返回默写记录</span></a>
+          <p class="kicker">${escapeHtml(attempt.articleDate)} · Attempt ${issueNumber(attempt.attemptNumber)}</p>
+          <h1>第 ${attempt.attemptNumber} 次整篇默写</h1>
+        </div>
+        <p class="page-intro__aside">对应文章：<a href="../../../days/${attempt.articleDate}/">${escapeHtml(title)}</a></p>
+      </header>
+
+      <dl class="dictation-scoreboard" aria-label="本次默写成绩">
+        <div><dt>准确率</dt><dd>${attempt.accuracy}%</dd></div>
+        <div><dt>正确词数</dt><dd>${attempt.correctWords}<span> / ${attempt.totalWords}</span></dd></div>
+        <div><dt>逐句批改</dt><dd>${attempt.sentenceCount}<span> 句</span></dd></div>
+        <div><dt>结果</dt><dd><span class="result-mark result-mark--${attempt.passed ? 'pass' : 'retry'}">${escapeHtml(attempt.result)}</span></dd></div>
+      </dl>
+
+      <div class="dictation-detail-layout">
+        <aside class="dictation-attempt-nav">
+          <div>
+            <span>Practice date</span>
+            <time datetime="${escapeHtml(attempt.practicedAt.slice(0, 10))}">${escapeHtml(attempt.practicedAt)}</time>
+          </div>
+          <nav aria-label="本文默写次数">
+            <p>Attempts</p>
+${attemptLinks}
+          </nav>
+          <a class="text-link" href="../../../days/${attempt.articleDate}/"><span>回到原文</span>${icon('arrow-right')}</a>
+        </aside>
+        <article class="markdown-sheet dictation-sheet" aria-label="逐句批改">
+${renderMarkdown(attempt.bodyMarkdown, 0)}
+        </article>
+      </div>
+    </main>`
+
+  return renderShell({
+    title: `${title} · 第 ${attempt.attemptNumber} 次默写`,
+    description: `${attempt.articleDate} dictation attempt ${attempt.attemptNumber}: ${attempt.accuracy}%`,
+    prefix: '../../../',
+    page: 'dictation-detail',
+    body,
+  })
+}
+
 function renderNotFound(): string {
   const body = `
     <main id="content" class="page page--not-found">
@@ -1219,6 +1404,7 @@ function discoverArticles(): ParsedArticle[] {
       const articlePath = join(daysDir, entry.name, 'article.md')
       if (!existsSync(articlePath)) continue
       const parsed = parseArticleMd(entry.name, readFileSync(articlePath, 'utf-8'))
+      parsed.context = readArticleContext(entry.name) ?? undefined
       enrichTargetWords(parsed.targetWords, glossary, dbLookup)
       enrichSentencesWithProsody(parsed.sentences, prosody)
       articles.push(parsed)
@@ -1258,6 +1444,7 @@ const SITE_JS = readFileSync(DESIGN_RUNTIME_JS_PATH, 'utf-8')
 
 function main(): void {
   const articles = discoverArticles()
+  const dictationLibrary = discoverDictationLibrary()
   const grammarLibrary = discoverGrammarLibrary()
   reportDefinitionCoverage(articles)
   reportProsodyAudioCoverage(articles)
@@ -1284,11 +1471,25 @@ function main(): void {
     theme_color: '#c74632',
   }, null, 2))
 
-  writePage(join(OUT_DIR, 'index.html'), renderIndex(articles))
+  writePage(join(OUT_DIR, 'index.html'), renderIndex(articles, dictationLibrary.attempts))
   writePage(join(OUT_DIR, '404.html'), renderNotFound())
 
   for (const [index, article] of articles.entries()) {
-    writePage(join(OUT_DIR, 'days', article.date, 'index.html'), renderDay(article, articles.length - index))
+    writePage(
+      join(OUT_DIR, 'days', article.date, 'index.html'),
+      renderDay(article, articles.length - index, dictationLibrary.byDate.get(article.date) ?? [])
+    )
+  }
+
+  writePage(join(OUT_DIR, 'dictations', 'index.html'), renderDictationsIndex(dictationLibrary.attempts, articles))
+  const articleByDate = new Map(articles.map((article) => [article.date, article]))
+  for (const attempt of dictationLibrary.attempts) {
+    const article = articleByDate.get(attempt.articleDate)
+    if (!article) throw new Error(`${attempt.relativePath}: published article is missing`)
+    writePage(
+      join(OUT_DIR, 'dictations', attempt.articleDate, String(attempt.attemptNumber), 'index.html'),
+      renderDictationDetail(attempt, article, dictationLibrary.byDate.get(attempt.articleDate) ?? [])
+    )
   }
 
   writePage(join(OUT_DIR, 'grammar', 'index.html'), renderGrammarIndex(grammarLibrary))
@@ -1305,6 +1506,7 @@ function main(): void {
 
   const latest = articles[0]?.date ?? 'none'
   console.log(`✓ Exported ${articles.length} lessons to ${OUT_DIR}`)
+  console.log(`  Dictations: ${dictationLibrary.attempts.length} attempt(s)`)
   console.log(`  Latest: ${latest}`)
   console.log(`  Open: ${join(OUT_DIR, 'index.html')}`)
 }

@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
+import { sourceHeadwordCandidates, toAmericanEnglish, toAmericanHeadword } from './study-profile'
 
 /**
  * 把任意词加入学习队列。
@@ -49,7 +50,8 @@ interface WordRow {
 
 const findExact = db.prepare(
   `SELECT id, headword, pos, cefr_level, awl_sublist, definition_en
-   FROM words WHERE LOWER(headword) = ? AND pos = ?`
+   FROM words WHERE LOWER(headword) = ? AND pos = ?
+   ORDER BY id LIMIT 1`
 )
 const findAny = db.prepare(
   `SELECT id, headword, pos, cefr_level, awl_sublist, definition_en
@@ -74,27 +76,34 @@ const resetProgress = db.prepare(`
   WHERE word_id = ?
 `)
 
+function findWord(word: string, pos?: string): WordRow | undefined {
+  const matches: WordRow[] = []
+  for (const candidate of sourceHeadwordCandidates(word)) {
+    const row = pos
+      ? findExact.get(candidate, pos) as WordRow | undefined
+      : findAny.get(candidate) as WordRow | undefined
+    if (row) matches.push(row)
+  }
+  return matches.sort((left, right) => left.id - right.id)[0]
+}
+
 let added = 0
 let reset = 0
 let notFound = 0
 
 for (const raw of inputs) {
-  const wordLc = raw.trim().toLowerCase()
+  const wordLc = toAmericanHeadword(raw)
   if (!wordLc) continue
 
-  let row: WordRow | undefined
-  if (values.pos) {
-    row = findExact.get(wordLc, values.pos) as WordRow | undefined
-  } else {
-    row = findAny.get(wordLc) as WordRow | undefined
-  }
+  let row = findWord(wordLc, values.pos)
 
   if (!row) {
     if (!values.force) {
       console.error(`× "${raw}" not in db.`)
       const similar = findSimilar.all(`${wordLc.slice(0, 3)}%`) as { headword: string }[]
       if (similar.length > 0) {
-        console.error(`  Did you mean: ${similar.map((s) => s.headword).join(', ')}`)
+        const suggestions = [...new Set(similar.map((suggestion) => toAmericanHeadword(suggestion.headword)))]
+        console.error(`  Did you mean: ${suggestions.join(', ')}`)
       }
       console.error(`  Use --force to add as a bare entry.`)
       notFound++
@@ -111,15 +120,16 @@ for (const raw of inputs) {
   const meta = [row.pos, row.cefr_level, row.awl_sublist ? `AWL${row.awl_sublist}` : null]
     .filter(Boolean)
     .join(' · ')
+  const displayHeadword = toAmericanHeadword(row.headword)
 
   if (existing) {
     resetProgress.run(today, row.id)
-    console.log(`↻ "${row.headword}" (${meta}) — already tracked since ${existing.first_seen_date}, reset to learning`)
+    console.log(`↻ "${displayHeadword}" (${meta}) — already tracked since ${existing.first_seen_date}, reset to learning`)
     reset++
   } else {
     insertProgress.run(row.id, today, today)
-    console.log(`+ "${row.headword}" (${meta}) added to learning queue`)
-    if (row.definition_en) console.log(`  ${row.definition_en.slice(0, 90)}`)
+    console.log(`+ "${displayHeadword}" (${meta}) added to learning queue`)
+    if (row.definition_en) console.log(`  ${toAmericanEnglish(row.definition_en).slice(0, 90)}`)
     added++
   }
 }

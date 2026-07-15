@@ -1,6 +1,7 @@
 import Database from 'better-sqlite3'
 import { writeFileSync } from 'node:fs'
 import { resolve } from 'node:path'
+import { toAmericanEnglish, toAmericanHeadword } from './study-profile'
 
 /**
  * 从 db 重新生成错题本 md 文件。
@@ -85,8 +86,8 @@ function renderWords(): void {
     lines.push('')
     dateRows.forEach((r, idx) => {
       const meta = [r.pos, r.cefr_level, r.awl_sublist ? `AWL${r.awl_sublist}` : null].filter(Boolean).join(' · ')
-      lines.push(`### ${idx + 1}. \`${r.headword}\` (${meta})`)
-      if (r.definition_en) lines.push(`- **定义**: ${r.definition_en}`)
+      lines.push(`### ${idx + 1}. \`${toAmericanHeadword(r.headword)}\` (${meta})`)
+      if (r.definition_en) lines.push(`- **定义**: ${toAmericanEnglish(r.definition_en)}`)
       lines.push(`- **上下文**: ${r.context}`)
       lines.push(`- **你的答案**: \`${r.user_answer}\``)
       lines.push(`- **正确答案**: \`${r.correct_answer}\``)

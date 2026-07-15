@@ -66,13 +66,20 @@ Canonical format inside an existing chapter file:
 
 After `pnpm ielts today` returns JSON:
 
-1. Read `new_words[].headword`, `grammar.title`, and `grammar.description`.
-2. Use the returned `article_genre`; it is computed from ISO weekday and rotates through `narrative`, `argumentative`, `descriptive`, `expository`, and `dialogue`.
-3. Generate an English article of about 250 words, with a tolerance of +/-50 words.
-4. Use every new word at least once in a natural context.
-5. Use the grammar point at least once.
-6. Write both daily files under `learning/days/YYYY-MM-DD/`, using JSON fields `article_path` and `session_path`.
-7. Run `pnpm study:sync-glossary` so CI can render every target word definition without the gitignored SQLite database.
+1. Read `new_words[].headword`, `grammar.title`, `grammar.description`, `article_genre`, `english_variant`, and `context_region`.
+2. Choose a real-world context before drafting. Browse and verify at least one authoritative source; save the result to the returned `context_path`.
+3. Match context to genre instead of forcing every lesson into breaking news:
+   - `narrative`, `descriptive`, and `dialogue`: use recognisably modern life or a modern/near-modern event, preferably from the 21st century.
+   - `argumentative` and `expository`: use a current public issue or a viewpoint from 1900 onward, and state why it still matters now.
+   - Do not default to pre-1900 settings, institutions, or social situations. A historical reference is allowed only when the article itself remains anchored in modern life.
+   - Prefer United States institutions, daily life, debates, and events whenever `context_region` is `United States`. The schedule deliberately makes US contexts the majority while leaving some global variety.
+4. Generate an English article of about 250 words, with a tolerance of +/-50 words.
+5. Use every new word at least once in a natural context.
+6. Use the grammar point at least once.
+7. Write `article.md`, `context.json`, and `session.md` under `learning/days/YYYY-MM-DD/` using the paths returned by `today`.
+8. Run `pnpm ielts check-article --date YYYY-MM-DD` before prosody or static export. Fix the source artifacts rather than bypassing the harness.
+9. Use American English in all teaching prose: spelling, vocabulary, punctuation, and examples must follow `en-US` (`color`, `center`, `program`, `labor`). Preserve a non-US spelling only inside an unavoidable proper name or direct source title, not in the article prose. Imported dictionary rows may retain a British source spelling and ID; `today` exposes the American `headword` plus an optional `source_headword`. Generate from `headword` and keep using the returned `id` for progress and mistakes.
+10. Run `pnpm study:sync-glossary` so CI can render every target word definition without the gitignored SQLite database.
 
 ### `article.md` Template
 
@@ -106,6 +113,14 @@ After `pnpm ielts today` returns JSON:
 
 - 句 ①: "..." - 解释
 - 句 ⑤: "..." - 解释
+
+## 现实背景
+
+- 背景类型: `current_event | contemporary_issue | recent_history | modern_life`
+- 参考时间: `2026`
+- 现实连接: [为什么这个背景与今天的生活或讨论有关]
+- 来源: [来源标题](https://...)
+- 改写说明: [哪些是已核实事实，哪些是教学性情境重构]
 ```
 
 Critical constraints:
@@ -113,6 +128,28 @@ Critical constraints:
 - Prefix article and translation sentences with circled numbers `①②③...` (`U+2460` through `U+2473`); the preview parser depends on them.
 - Always include `## 中文翻译`; preview uses a toggle and hides it by default.
 - Render genre in the title as uppercase: `NARRATIVE`, `ARGUMENTATIVE`, `DESCRIPTIVE`, `EXPOSITORY`, or `DIALOGUE`.
+
+### `context.json` Contract
+
+```json
+{
+  "schema_version": 1,
+  "lesson_date": "YYYY-MM-DD",
+  "context_kind": "current_event",
+  "english_variant": "en-US",
+  "region_focus": "United States",
+  "reference_year": 2026,
+  "topic": "Concrete real-world topic",
+  "fact_summary": "Facts supported by the sources.",
+  "present_connection": "Why this context matters to life or discussion now.",
+  "adaptation_note": "Boundary between sourced facts and pedagogical reconstruction.",
+  "sources": [
+    { "title": "Source title", "publisher": "Publisher", "url": "https://..." }
+  ]
+}
+```
+
+`reference_year` must be 1900 or later and cannot be later than the lesson year. This is a guard against stale default settings, not a demand for breaking news.
 
 ### `session.md` Template
 
@@ -134,7 +171,7 @@ Write this after cloze finishes and before running `record`.
 - 空 3 (过去分词): `start` ✗ -> `started`
 
 ## 整篇默写（如有）
-[默写 vs 原文 diff]
+- [第 1 次 · 84.8% · 通过](dictations/attempt-01.md)
 
 ## 备注
 [用户提到的困惑 / 想问的]
@@ -169,11 +206,45 @@ Allowed `error_type` values: `spelling`, `similar-form`, `meaning`, `pos`, `unkn
 
 Only enable this when the user asks for it.
 
-1. Show only the title or the beginning of the first sentence.
-2. Let the user dictate in batches of 1-2 sentences.
-3. Compare each sentence against the original and mark errors clearly.
-4. Accuracy above 80% counts as passing.
-5. Pass `--whole-dictation` when recording the session.
+1. Before starting, run `pnpm ielts dictations --date YYYY-MM-DD --json` and use the returned `next_attempt.path`. Never overwrite an earlier attempt.
+2. Show only the title or the beginning of the first sentence.
+3. Let the user dictate in batches of 1-2 sentences.
+4. Compare each sentence against the original and mark errors clearly.
+5. Accuracy above 80% counts as passing.
+6. Write the graded attempt using the contract below, then add a compact link to it in `session.md`.
+7. Run `pnpm ielts record --date YYYY-MM-DD --whole-dictation --dictation-file <next_attempt.path>`. This validates the Markdown and syncs the SQLite projection.
+8. Run `pnpm ielts dictations --date YYYY-MM-DD --check` before static export.
+
+### Dictation Attempt Contract
+
+Each attempt is immutable and uses `learning/days/YYYY-MM-DD/dictations/attempt-NN.md`.
+
+```markdown
+# YYYY-MM-DD · Whole Dictation · Attempt 1
+
+> 练习时间: YYYY-MM-DD HH:mm | 正确: 217/256 | 准确率: 84.8% | 结果: 通过
+
+## 批改标记
+
+- ~~你写的~~ **原文应为**
+- `[语法]`：结构错误。
+- `[拼写]`：拼写错误。
+- `[原文差异]`：表达可能成立，但与原文不同。
+
+## 逐句对照
+
+### ①
+
+[带删除线与粗体修正的逐句批改]
+
+## 优先复习
+
+1. [需要再次默写的结构]
+
+## 备注
+
+[本次整体表现与下一轮重点]
+```
 
 ## Review Mechanism
 
@@ -207,12 +278,16 @@ When the user marks a word from the current article as unknown, `add-word` updat
 | `scripts/study/check-design-pattern.ts` | Structural design gate run by `pnpm pages:build`. |
 | `scripts/study/audit-static-pages.mjs` | Chrome-based multi-viewport and interaction audit. |
 | `scripts/study/sync-static-glossary.ts` | Sync published target-word definitions from local SQLite into the tracked static glossary. |
-| `scripts/study/grammar-library.ts` | Parse and validate the canonical 12-chapter grammar library and its merged detailed notes. |
+| `scripts/study/grammar-library.ts` | Parse and validate the canonical grammar library and its merged detailed notes. |
 | `scripts/study/grammar-projection.ts` | Define and verify the derived SQLite projection of canonical grammar points. |
 | `scripts/study/check-grammar-projection.ts` | Standalone `pnpm db:check:grammar` harness for detecting stale, missing, or extra SQLite grammar rows. |
 | `scripts/study/grammar.ts` | Locate the existing grammar point that should receive a conversation-derived explanation. |
+| `scripts/study/article-harness.ts` | Validate article structure, target coverage, and sourced real-world context. |
+| `scripts/study/study-profile.ts` | Define the `en-US` teaching profile, US-topic schedule, and source-to-American spelling projection. |
+| `scripts/study/dictation-library.ts` | Parse and validate immutable per-article dictation attempts. |
+| `scripts/study/dictation-projection.ts` | Keep the SQLite dictation projection aligned with tracked Markdown attempts. |
 | `grammar/*.md` | Canonical grammar index and detailed notes; update existing chapter files rather than creating per-chat files. |
-| `learning/days/YYYY-MM-DD/` | Daily article and session output. |
+| `learning/days/YYYY-MM-DD/` | Daily article, real-world context, session, and dictation attempts. |
 | `learning/mistakes/` | Mistake markdown generated from database views; do not edit manually. |
 | `learning/audio-cache/` | TTS MP3 cache, gitignored. |
 
@@ -221,6 +296,8 @@ When the user marks a word from the current article as unknown, `add-word` updat
 - TypeScript + `tsx`; there is no build step.
 - SQLite access uses `better-sqlite3` synchronous APIs.
 - Dates are ISO `YYYY-MM-DD`.
+- User-facing vocabulary uses `study-profile.ts` to project imported British spellings to American English. Keep source IDs unchanged so SM-2 history remains stable, and deduplicate scheduling by the projected headword.
+- Do not silently rewrite pre-profile lesson prose: its audio, prosody hashes, and dictation attempts depend on the exact text. In feedback, identify it as a legacy source and teach the current `en-US` form.
 - `grammar/*.md` is the canonical grammar content. `grammar_points` is a derived, flattened SQLite projection for scheduling, progress, joins, and mistake records; it is not a publishing source.
 - Grammar lookup and static grammar pages intentionally read the tracked Markdown library. Run `pnpm db:import:grammar` to refresh and verify the SQLite projection, or `pnpm db:check:grammar` to check it without writing.
 - Static pages must consume `design-system/ieltsy/pattern.css` and `runtime.js` directly; do not duplicate them in the exporter or add inline page styles.

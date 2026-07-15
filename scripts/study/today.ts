@@ -2,6 +2,12 @@ import Database from 'better-sqlite3'
 import { mkdirSync } from 'node:fs'
 import { resolve } from 'node:path'
 import { parseArgs } from 'node:util'
+import {
+  ENGLISH_VARIANT,
+  preferredContextRegion,
+  toAmericanEnglish,
+  toAmericanHeadword,
+} from './study-profile'
 
 const DB_PATH = resolve('db/ieltsy.db')
 
@@ -33,6 +39,10 @@ interface WordRow {
   pronunciation_uk: string | null
 }
 
+interface PresentedWordRow extends WordRow {
+  source_headword?: string
+}
+
 interface GrammarRow {
   id: number
   chapter: number
@@ -40,6 +50,34 @@ interface GrammarRow {
   title: string
   importance: number
   description: string | null
+}
+
+function presentWord(row: WordRow): PresentedWordRow {
+  const headword = toAmericanHeadword(row.headword)
+  return {
+    ...row,
+    headword,
+    definition_en: row.definition_en ? toAmericanEnglish(row.definition_en) : null,
+    ...(headword !== row.headword.toLowerCase() ? { source_headword: row.headword } : {}),
+  }
+}
+
+function hydrateWords(ids: number[]): WordRow[] {
+  const rows = db
+    .prepare(`SELECT * FROM words WHERE id IN (${ids.map(() => '?').join(',') || 'NULL'})`)
+    .all(...ids) as WordRow[]
+  const byId = new Map(rows.map((row) => [row.id, row]))
+  return ids.map((id) => byId.get(id)).filter((row): row is WordRow => Boolean(row))
+}
+
+function presentUniqueWords(rows: WordRow[]): PresentedWordRow[] {
+  const seen = new Set<string>()
+  return rows.flatMap((row) => {
+    const presented = presentWord(row)
+    if (seen.has(presented.headword)) return []
+    seen.add(presented.headword)
+    return [presented]
+  })
 }
 
 const state = db.prepare('SELECT * FROM user_state WHERE id = 1').get() as UserState | undefined
@@ -50,6 +88,8 @@ if (!state) {
 }
 
 const today = new Date().toISOString().split('T')[0]!
+const contextPath = `learning/days/${today}/context.json`
+const contextRegion = preferredContextRegion(today)
 
 // 为当日学习产物建好文件夹（Codex/LLM 编排器之后会往里写 article.md / session.md）
 const dayFolder = resolve('learning/days', today)
@@ -91,17 +131,16 @@ if (existingSession && !values.force) {
   else if (state.baseline_cefr === 'B1') baselineFilter = `AND (w.cefr_level NOT IN ('A1','A2','B1') OR w.cefr_level IS NULL)`
   else if (state.baseline_cefr === 'B2') baselineFilter = `AND (w.cefr_level NOT IN ('A1','A2','B1','B2') OR w.cefr_level IS NULL)`
 
-  // Pick new words: dedupe by headword (smallest id wins), exclude already-learned
+  // Pick new words: retain imported source IDs, but schedule each en-US headword only once.
   // Order: CEFR ascending → AWL preferred → AWL sublist ascending → id
-  const newWords = db
+  const candidateWords = db
     .prepare(
       `
     SELECT id, headword, pos, cefr_level, awl_sublist, definition_en, pronunciation_uk
     FROM words w
     WHERE id IN (
-      SELECT MIN(id) FROM words GROUP BY headword
+      SELECT MIN(id) FROM words GROUP BY lower(headword)
     )
-    AND id NOT IN (SELECT word_id FROM word_progress)
     AND pos IN ('n','v','adj','adv')
     AND headword NOT LIKE '% %'
     ${baselineFilter}
@@ -112,10 +151,23 @@ if (existingSession && !values.force) {
       CASE WHEN w.awl_sublist IS NOT NULL THEN 1 ELSE 2 END,
       w.awl_sublist,
       w.id
-    LIMIT ?
   `
     )
-    .all(state.daily_new_words) as WordRow[]
+    .all() as WordRow[]
+
+  const learnedRows = db
+    .prepare(`SELECT w.headword FROM word_progress wp JOIN words w ON w.id = wp.word_id`)
+    .all() as { headword: string }[]
+  const learnedHeadwords = new Set(learnedRows.map((row) => toAmericanHeadword(row.headword)))
+  const selectedHeadwords = new Set<string>()
+  const newWords: WordRow[] = []
+  for (const candidate of candidateWords) {
+    const headword = toAmericanHeadword(candidate.headword)
+    if (learnedHeadwords.has(headword) || selectedHeadwords.has(headword)) continue
+    selectedHeadwords.add(headword)
+    newWords.push(candidate)
+    if (newWords.length === state.daily_new_words) break
+  }
 
   newWordIds = newWords.map((w) => w.id)
 
@@ -134,21 +186,28 @@ if (existingSession && !values.force) {
   grammarId = newGrammar?.id ?? null
 
   // Review queue: due today
-  const reviewWords = db
+  const reviewCandidates = db
     .prepare(
       `
-    SELECT w.id
+    SELECT w.id, w.headword
     FROM word_progress wp
     JOIN words w ON w.id = wp.word_id
     WHERE wp.next_review_date <= ?
       AND wp.status != 'mastered'
       AND wp.first_seen_date < ?
     ORDER BY wp.next_review_date, wp.ease_factor
-    LIMIT 20
   `
     )
-    .all(today, today) as { id: number }[]
-  reviewWordIds = reviewWords.map((r) => r.id)
+    .all(today, today) as { id: number; headword: string }[]
+  const reviewHeadwords = new Set<string>()
+  reviewWordIds = []
+  for (const candidate of reviewCandidates) {
+    const headword = toAmericanHeadword(candidate.headword)
+    if (reviewHeadwords.has(headword)) continue
+    reviewHeadwords.add(headword)
+    reviewWordIds.push(candidate.id)
+    if (reviewWordIds.length === 20) break
+  }
 
   // Determine genre from ISO weekday (Mon=narrative, Tue=argumentative, etc.)
   const weekday = new Date(today).getUTCDay() // 0=Sun ... 6=Sat
@@ -192,17 +251,13 @@ if (existingSession && !values.force) {
 }
 
 // Hydrate full data
-const newWords = db
-  .prepare(`SELECT * FROM words WHERE id IN (${newWordIds.map(() => '?').join(',') || 'NULL'})`)
-  .all(...newWordIds) as WordRow[]
+const newWords = presentUniqueWords(hydrateWords(newWordIds))
 
 const grammar = grammarId
   ? (db.prepare('SELECT * FROM grammar_points WHERE id = ?').get(grammarId) as GrammarRow)
   : null
 
-const reviewWords = db
-  .prepare(`SELECT * FROM words WHERE id IN (${reviewWordIds.map(() => '?').join(',') || 'NULL'})`)
-  .all(...reviewWordIds) as WordRow[]
+const reviewWords = presentUniqueWords(hydrateWords(reviewWordIds))
 
 // Output
 if (values.json) {
@@ -212,7 +267,10 @@ if (values.json) {
         date: today,
         plan: state,
         article_genre: articleGenre,
+        english_variant: ENGLISH_VARIANT,
+        context_region: contextRegion,
         article_path: articlePath,
+        context_path: contextPath,
         session_path: sessionPath,
         new_words: newWords,
         grammar,
@@ -224,7 +282,8 @@ if (values.json) {
   )
 } else {
   console.log(`=== 今日学习计划 (${today}) ===`)
-  console.log(`体裁: ${articleGenre} | article: ${articlePath} | session: ${sessionPath}\n`)
+  console.log(`体裁: ${articleGenre} | 英语: ${ENGLISH_VARIANT} | 背景地区: ${contextRegion}`)
+  console.log(`article: ${articlePath} | context: ${contextPath} | session: ${sessionPath}\n`)
 
   console.log(`📚 新词 (${newWords.length})`)
   for (const w of newWords) {
@@ -261,11 +320,15 @@ if (values.json) {
     JSON.stringify({
       date: today,
       article_genre: articleGenre,
+      english_variant: ENGLISH_VARIANT,
+      context_region: contextRegion,
       article_path: articlePath,
+      context_path: contextPath,
       session_path: sessionPath,
       new_words: newWords.map((w) => ({
         id: w.id,
         headword: w.headword,
+        ...(w.source_headword ? { source_headword: w.source_headword } : {}),
         pos: w.pos,
         cefr: w.cefr_level,
         def: w.definition_en,
@@ -273,7 +336,12 @@ if (values.json) {
       grammar: grammar
         ? { id: grammar.id, title: grammar.title, importance: grammar.importance, description: grammar.description }
         : null,
-      review_words: reviewWords.map((w) => ({ id: w.id, headword: w.headword, def: w.definition_en })),
+      review_words: reviewWords.map((w) => ({
+        id: w.id,
+        headword: w.headword,
+        ...(w.source_headword ? { source_headword: w.source_headword } : {}),
+        def: w.definition_en,
+      })),
     })
   )
 }
