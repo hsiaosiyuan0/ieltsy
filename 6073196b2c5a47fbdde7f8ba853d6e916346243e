@@ -1,0 +1,77 @@
+design-system/ieltsy/runtime.js
+  6053c98014b20e2f 54-72,238,405-411,419,422
+design-system/ieltsy/pattern.css
+  6053c98014b20e2f 1010-1011,1025-1026,1032-1033,1038-1059,2890,2923-2940,2945,2954-2963,2966,2974,3422-3426
+learning/days/2026-07-15/article.md
+  6053c98014b20e2f 3,9,24,35,56
+scripts/study/audit-static-pages.mjs
+  6053c98014b20e2f 336-337,360-364,373-378,393-397,400,406-407,547-550,552-553,556-560
+learning/prosody.json
+  6053c98014b20e2f 11779-11780,11784,11795,11799-11800,11807,11809-11812,11817-11826,11828,11832-11835,11838-11857,11860-11879,11882-11886,11899,11903-11908
+scripts/study/check-design-pattern.ts
+  6053c98014b20e2f 164,170-171,175-176
+scripts/study/article-harness.ts
+  6053c98014b20e2f 171-178
+scripts/study/export-pages.ts
+  6053c98014b20e2f 560,572,795-797,800
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "6073196b2c5a47fbdde7f8ba853d6e916346243e",
+  "prompts": {
+    "6053c98014b20e2f": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f461c-101c-7fb2-8433-5f5a5640848a",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 245,
+      "total_deletions": 119,
+      "accepted_lines": 244,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "learning/days/2026-07-15/article.md": {
+          "additions": 6,
+          "deletions": 5,
+          "accepted_lines": 5
+        },
+        "learning/prosody.json": {
+          "additions": 83,
+          "deletions": 103,
+          "accepted_lines": 83
+        },
+        "scripts/study/audit-static-pages.mjs": {
+          "additions": 33,
+          "deletions": 2,
+          "accepted_lines": 33
+        },
+        "design-system/ieltsy/pattern.css": {
+          "additions": 72,
+          "deletions": 6,
+          "accepted_lines": 72
+        },
+        "scripts/study/check-design-pattern.ts": {
+          "additions": 5,
+          "accepted_lines": 5
+        },
+        "scripts/study/article-harness.ts": {
+          "additions": 8,
+          "accepted_lines": 8
+        },
+        "design-system/ieltsy/runtime.js": {
+          "additions": 32,
+          "deletions": 1,
+          "accepted_lines": 32
+        },
+        "scripts/study/export-pages.ts": {
+          "additions": 6,
+          "deletions": 2,
+          "accepted_lines": 6
+        }
+      }
+    }
+  }
+}
