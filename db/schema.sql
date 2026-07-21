@@ -140,6 +140,32 @@ CREATE TABLE IF NOT EXISTS grammar_points (
 CREATE INDEX IF NOT EXISTS idx_grammar_chapter ON grammar_points(chapter);
 CREATE INDEX IF NOT EXISTS idx_grammar_importance ON grammar_points(importance);
 
+-- Immutable curriculum projection. grammar/*.md + grammar/curriculum.md remain
+-- canonical; these tables exist so every consumer can verify the same mapping.
+CREATE TABLE IF NOT EXISTS grammar_phases (
+  id TEXT PRIMARY KEY,
+  position INTEGER NOT NULL UNIQUE,
+  name TEXT NOT NULL,
+  caption TEXT NOT NULL,
+  cefr_focus TEXT NOT NULL,
+  start_band REAL NOT NULL,
+  target_band REAL NOT NULL,
+  nominal_weeks INTEGER NOT NULL,
+  word_focus TEXT NOT NULL,
+  grammar_focus TEXT NOT NULL,
+  outcomes_json TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS grammar_point_curriculum (
+  grammar_id INTEGER PRIMARY KEY,
+  phase_id TEXT NOT NULL,
+  phase_order INTEGER NOT NULL,
+  FOREIGN KEY (grammar_id) REFERENCES grammar_points(id) ON DELETE CASCADE,
+  FOREIGN KEY (phase_id) REFERENCES grammar_phases(id) ON DELETE CASCADE,
+  UNIQUE(phase_id, phase_order)
+);
+CREATE INDEX IF NOT EXISTS idx_grammar_curriculum_phase ON grammar_point_curriculum(phase_id, phase_order);
+
 -- ============================================================================
 -- 用户状态与进度（v0: 单用户 CLI）
 -- ============================================================================

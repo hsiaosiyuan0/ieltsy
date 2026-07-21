@@ -16,7 +16,7 @@
 ## 内容规模
 
 - **7,090 词** — Oxford 5000 (A1-C1 with CEFR) + AWL Sublist 1-10 (570 word families) + IELTS topic vocab
-- **386 语法点** — 12 章 / 按 ★★★ / ★★ / ★ 三级重要度分级，可持续归并详细笔记
+- **473 语法点** — 13 章 / 85 个离线分节 / 按 ★★★ / ★★ / ★ 三级重要度分级，并完整映射到 4.5 → 7.5 六阶段课程
 - **30 个话题词汇** — 15 个 Writing Task 2 议题向 + 15 个 Speaking 日常向
 - 5,902 例句 + 2,539 派生词 + 258 搭配（从 Oxford / 手工源 md 导入）
 
@@ -62,7 +62,7 @@ pnpm ielts help --json       # 全套 metadata as JSON（LLM-friendly）
 
 ## GitHub Pages 发布
 
-发布版是**纯静态只读站点**：从每日文章、错题本和 `grammar/*.md` 生成 HTML，包含学习日、语法库和错题本。语法库提供 386 个条目的全量索引、搜索筛选和独立详情页；SQLite 进度、SM-2 调度和错题写入仍在本地 CLI 里完成。
+发布版是**纯静态只读站点**：从每日文章、错题本和 `grammar/*.md` 生成 HTML，包含学习日、语法库和错题本。语法库提供 473 个条目的全量索引、搜索筛选和独立详情页；SQLite 进度、SM-2 调度和错题写入仍在本地 CLI 里完成。
 
 ```bash
 pnpm pages:build
@@ -87,7 +87,7 @@ ieltsy/
 │   ├── schema.sql        ← 13 张表（内容 9 + 用户进度 4）
 │   └── ieltsy.db         ← SQLite 主库（gitignored）
 ├── data/                 ← 权威外部词表（AWL JSON, Oxford 3000/5000 CSV）
-├── grammar/              ← 12 章语法索引 + 持续归并的详细笔记（已导入 db）
+├── grammar/              ← 13 章语法索引 + 六阶段课程映射 + 持续归并的详细笔记（已导入 db）
 ├── vocabulary/           ← 30 个话题 + 6 个功能词库源 md（已导入 db）
 ├── scripts/
 │   ├── cli.ts            ← 统一 CLI 入口
@@ -163,7 +163,7 @@ Codex:
 ### 存储分工
 
 - **Markdown** — 人工维护的教学素材源（`grammar/*.md` / `vocabulary/*.md`）+ 学习产物（`learning/days/.../article.md` / `session.md`、`learning/mistakes/*.md`）；其中 `grammar/*.md` 是语法内容的唯一作者源
-- **SQLite (`db/ieltsy.db`)** — 从素材源生成的结构化查询投影（7,090 词 + 386 语法点 + 30 话题）+ 用户进度表（学习计划、SM-2、daily_sessions、word_mistakes）+ 学习产物路径
+- **SQLite (`db/ieltsy.db`)** — 从素材源生成的结构化查询投影（7,090 词 + 473 语法点 + 6 阶段课程映射 + 30 话题）+ 用户进度表（学习计划、SM-2、daily_sessions、word_mistakes）+ 学习产物路径
 
 语法链路刻意区分“内容源”和“运行时投影”：
 

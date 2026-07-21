@@ -1,6 +1,6 @@
 # 第 13 章：文体与表达目的 Genres and Communicative Purposes
 
-> 共 8 点｜★★★ 6 / ★★ 2 / ★ 0
+> 共 14 点｜★★★ 12 / ★★ 2 / ★ 0
 >
 > 文体不是版式标签，而是作者为完成某种交际目的而选择的组织方式。本章对应每日短文轮换使用的五种核心文体。
 
@@ -17,6 +17,18 @@
 
 393. 五种文体的作用与差别 ★★★ — 比较交际目的、核心问题、典型结构、证据方式和常用语言信号
 394. 主体文体与辅助手法 ★★ — 一篇文章只能有一个主导目的，但可以用描写建立场景、用叙事举例、用对话呈现冲突或用说明补充背景
+
+## §55 IELTS 写作任务与语域 IELTS Writing Tasks & Register
+
+441. Academic Task 1：图表报告的整体结构 ★★★ — `introduction（改写）+ overview（主趋势）+ selected details（分组比较）`，让概述先于细节罗列；例：`Overall, car use remained dominant, whereas rail travel grew fastest.`
+442. Writing Task 2：题型与回应结构 ★★★ — 区分 opinion、discuss both views、advantages / disadvantages、problems / solutions 与 two-part question，用 thesis 和 topic sentences 完整回应；例：`While both views have merit, I argue that prevention should receive more funding.`
+443. General Training Task 1：书信语域与交际功能 ★★★ — 按收信人选择 formal / semi-formal / informal 语域，并用请求、道歉、投诉和建议完成目的；例：`I would be grateful if you could arrange a replacement.`
+
+## §56 IELTS 口语任务语法 IELTS Speaking Task Grammar
+
+444. Speaking Part 1：习惯、偏好与简短扩展 ★★★ — 用一般现在、频率表达、`because / for example` 以及 `used to ... but now` 直接回答并补理由；例：`I usually read on my commute because it helps me unwind.`
+445. Speaking Part 2：叙事、描写与时间推进 ★★★ — 组合过去时态链、时间从句、关系从句和分词修饰，连续组织人物、地点、事件与感受；例：`By the time we arrived, the ceremony had already begun.`
+446. Speaking Part 3：概括、比较、推测与限定 ★★★ — `tend to / in general / whereas / may or might / not all / to some extent` 支撑抽象讨论；例：`Younger people tend to adopt new tools faster, whereas older users may value reliability more.`
 
 ## 语法笔记 Grammar Notes
 

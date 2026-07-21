@@ -1,6 +1,6 @@
 # 第 3 章：从句 Clauses
 
-> 共 23 点｜★★★ 9 / ★★ 13 / ★ 1
+> 共 28 点｜★★★ 11 / ★★ 16 / ★ 1
 
 ## §5.1 名词性从句 Noun Clauses
 
@@ -33,6 +33,17 @@
 69. 比较 ★★★ — `as...as` / `than` / `the more...the more` / `as if`
 70. 方式 ★★ — `as` / `as if` / `as though`
 71. 条件状语从句 ★ — 见第 2 章 §4
+
+## §42 关系结构与压缩 Relative Structures & Compression
+
+405. 关系代词的省略与不可省略 ★★★ — 宾语关系词可省；主语关系词、介词后关系词和非限制性从句关系词不可省；例：`The policy the council introduced was unpopular.`
+406. 融合关系词与让步关系结构 ★★ — `what / whatever / whoever / wherever + clause` 可作名词性成分或表达无条件让步；例：`Whatever the cause is, what matters is the response.`
+451. 部分关系结构：`some / many / none of whom or which` ★★ — 在非限制性从句中对前置集合做部分说明，人物用 `whom`、事物用 `which`；例：`The survey covered six cities, three of which reported a decline.`
+
+## §43 分句层级与缩减 Clause Status & Reduction
+
+455. 限定、非限定与无动词分句 ★★★ — 限定分句含有时态动词，非限定分句用不定式 / 分词，无动词分句省去可恢复的 `be`；例：`If necessary, the figures can be checked again before being published.`
+456. 缩减条件 / 状语从句 ★★ — 同一主语且意义清楚时可用 `if invited / when asked / while working / once completed` 压缩；例：`When asked about the cost, the minister declined to comment.`
 
 ---
 

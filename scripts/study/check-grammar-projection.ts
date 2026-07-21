@@ -12,6 +12,7 @@ try {
   const library = discoverGrammarLibrary()
   const result = assertGrammarProjection(db, library)
   console.log(`✓ Grammar projection: ${result.indexedPoints}/${result.sourcePoints} SQLite rows match grammar/*.md`)
+  console.log(`  Curriculum projection: ${result.assignments} assignments across ${result.phases} phases`)
 } finally {
   db.close()
 }

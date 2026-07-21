@@ -1,6 +1,6 @@
 # 第 1 章：时态与被动 Tenses & Passive
 
-> 共 29 点｜★★★ 13 / ★★ 11 / ★ 5
+> 共 35 点｜★★★ 18 / ★★ 12 / ★ 5
 
 ## §1 时态 Tenses
 
@@ -23,7 +23,7 @@
 12. 过去将来完成时 ★
 
 ### 完成进行时 Perfect Continuous
-13. 现在完成进行时 ★★★ — 持续到现在 / 强调过程（**Band 7 标志性时态**）
+13. 现在完成进行时 ★★★ — 持续到现在 / 强调过程；它是扩大时体范围的一种形式，不能单独对应某个 Band
 14. 过去完成进行时 ★★ — 持续到过去某点
 15. 将来完成进行时 ★
 
@@ -45,6 +45,15 @@
 27. `get` + 过去分词 ★（informal passive）
 28. 学术写作中"被动 + by sb" 与 "主动" 的选择 ★★
 29. `It is said / believed / reported that...` 客观表达句型 ★★★
+
+## §39 动词形态与时态控制 Verb Forms & Tense Control
+
+395. 动词形态 I：原形、第三人称单数与 `-ing` ★★★ — 形式：`work / works / working`、`study → studies`、`lie → lying`；功能：控制一般现在时与进行体的动词形态；例：`She studies while her brother is working.`
+396. 动词形态 II：规则 / 不规则过去式与过去分词 ★★★ — 形式：规则 `-ed` 与 `go–went–gone / write–wrote–written`；功能：区分 V2 与 V3，支撑过去时、完成体和被动；例：`She went home after she had finished the report.`
+397. 状态动词 vs 动态动词 ★★★ — `know / own / believe` 通常不用进行时，`think / have` 可随意义切换；例：`I think it is useful, but I am thinking about the cost.`
+398. 一般现在 vs 现在进行的进阶用法 ★★ — 永久、规律、评述用一般现在；暂时变化、发展趋势或反复抱怨用现在进行；例：`Prices rise every winter, but they are rising unusually fast this year.`
+399. 现在完成 vs 现在完成进行 ★★★ — `have done` 聚焦结果 / 次数，`have been doing` 聚焦过程 / 时长，并注意状态动词限制；例：`I have written three pages; I have been writing since noon.`
+400. 叙事时态链与时间定位 ★★★ — 一般过去推进事件，过去进行铺背景，过去完成交代更早事件；例：`I was walking home when I realised I had left my keys at work.`
 
 ## 语法笔记 Grammar Notes
 

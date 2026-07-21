@@ -14,3 +14,4 @@ learning/audio-cache/
 dist/
 .next/
 out/
+audits/generated/

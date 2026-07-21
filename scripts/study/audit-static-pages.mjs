@@ -495,7 +495,7 @@ try {
     }
 
     if (testCase.page === 'grammar-index') {
-      assert(metrics.grammar.entries >= 394, `${testCase.name}: grammar entries are incomplete`)
+      assert(metrics.grammar.entries >= 473, `${testCase.name}: grammar entries are incomplete`)
       assert(metrics.grammar.chapters >= 13, `${testCase.name}: grammar chapters are incomplete`)
       assert(metrics.grammar.hasSearch, `${testCase.name}: grammar search is missing`)
     }
@@ -607,7 +607,7 @@ try {
     input.value = ''
     input.dispatchEvent(new Event('input', { bubbles: true }))
     allFilter.click()
-    const restored = visibleEntries().length >= 394
+    const restored = visibleEntries().length >= 473
       && allFilter.getAttribute('aria-pressed') === 'true'
 
     return { exactSearch, noteOnly, emptyState, restored }

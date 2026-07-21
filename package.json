@@ -11,6 +11,7 @@
     "db:import:awl": "tsx scripts/import-awl.ts",
     "db:import:grammar": "tsx scripts/import-grammar.ts",
     "db:check:grammar": "tsx scripts/study/check-grammar-projection.ts",
+    "audit:egp": "tsx scripts/audit-egp.ts",
     "db:check:dictations": "tsx scripts/study/dictations.ts --check",
     "db:import:zh": "tsx scripts/import-zh.ts",
     "db:import:all": "pnpm db:import:topics && pnpm db:import:oxford && pnpm db:import:awl && pnpm db:import:grammar && pnpm db:import:zh",

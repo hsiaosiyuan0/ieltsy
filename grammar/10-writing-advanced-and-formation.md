@@ -1,6 +1,6 @@
 # 第 10 章：写作高级结构与构词 Writing Advanced & Word Formation
 
-> 共 54 点｜★★★ 14 / ★★ 22 / ★ 18
+> 共 60 点｜★★★ 20 / ★★ 22 / ★ 18
 
 ## §18 Writing 高级结构
 
@@ -40,6 +40,18 @@
 204. 平行结构（parallelism）★★★ — 三个并列单位的形式一致
 205. 对比连接 ★★★ — `whereas` / `while` / `in contrast` / `by contrast` / `unlike`
 
+## §52 Academic Task 1 数据、流程与地图 Data · Process · Maps
+
+433. 时间轴与时态选择 ★★★ — 历史数据用过去时，无时间流程常用一般现在，预测用 `will / is projected to`；例：`Sales fell in 2020 and are projected to recover by 2030.`
+434. 静态比较、排序与 `respectively` ★★★ — 用比较级、倍数、最高级和 `respectively` 分组对比，而不是逐项报数；例：`Cars and buses accounted for 40% and 20%, respectively.`
+435. 比例、分数与近似 ★★★ — `one in five / a third / 20 per cent / just over or under / account for` 多样且准确地量化；例：`Just under a third of respondents chose public transport.`
+436. 流程图的被动、顺序与目的 ★★★ — `is heated / is then filtered` 配合 `before / after / once / in order to` 聚焦过程；例：`Once the water is heated, it is filtered to remove impurities.`
+437. 地图与场所变化 ★★★ — `there was or were / was converted or replaced / to the north of / between` 比较布局和改造；例：`The car park was replaced by a garden to the east of the station.`
+
+## §53 Task 2 立场控制 Task 2 Stance Control
+
+438. 立场、hedging 与 boosting 的分寸 ★★★ — `may / tends to / appears to / to some extent` 与 `clearly / strongly` 按证据强度选择；例：`This policy may reduce congestion, although its effect is likely to be modest.`
+
 ## §25 构词法 Word Formation
 
 ### 前缀（改变词义）
@@ -61,7 +73,7 @@
 288. 动词 → 名词 ★ — a run / a swim / a try
 
 ### 构词法的实战价值
-289. Writing 名词化 ★★★ — develop → development → the development of...（高分写作核心）
+289. Writing 名词化 ★★★ — `develop → development → the development of...`；用于调整信息密度和语体，但过度名词化会降低清晰度
 290. 词汇扩展 ★★ — 一个词根衍生 5–10 个相关词，提升 Lexical Resource
 
 ## §30 将来时态扩展 Future Forms Extended
