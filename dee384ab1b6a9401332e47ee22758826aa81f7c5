@@ -1,0 +1,220 @@
+grammar/12-common-errors.md
+  bc6170cf339025c4 10,12,23,25
+audits/egp-coverage-rules.json
+  bc6170cf339025c4 1-177
+scripts/study/audit-static-pages.mjs
+  bc6170cf339025c4 498,610
+db/schema.sql
+  bc6170cf339025c4 143-168
+grammar/06-nouns-pronouns-determiners.md
+  bc6170cf339025c4 3,13-16,33,45-62,64-249
+grammar/05-inversion-emphasis-cohesion.md
+  bc6170cf339025c4 3,15,25-26,64,72-79,81-351
+grammar/13-genres-and-purpose.md
+  bc6170cf339025c4 3,21-31
+scripts/study/check-grammar-projection.ts
+  bc6170cf339025c4 15
+.gitignore
+  bc6170cf339025c4 17
+package.json
+  bc6170cf339025c4 14
+grammar/07-modifiers-and-prepositions.md
+  bc6170cf339025c4 3,16,21-22,24,37-171
+grammar/10-writing-advanced-and-formation.md
+  bc6170cf339025c4 3,43-54,76
+scripts/import-grammar.ts
+  bc6170cf339025c4 6-7,16-41,52-63,73-76,84
+scripts/audit-egp.ts
+  bc6170cf339025c4 1-69
+README.md
+  bc6170cf339025c4 19,65,90,166
+grammar/01-tenses-and-passive.md
+  bc6170cf339025c4 3,26,49-56
+grammar/09-agreement-and-sentence-structure.md
+  bc6170cf339025c4 3,10-11,13,15,19,24-25,33,83-104,190-436
+scripts/study/grammar-library.ts
+  bc6170cf339025c4 5,9,11-58,87,90-96,249-285,287-351,353-383
+scripts/study/grammar-library.test.ts
+  bc6170cf339025c4 1-85
+scripts/study/grammar-projection.ts
+  bc6170cf339025c4 3,16-35,55-76,89-103,142,145-156,164-168
+scripts/study/egp-coverage.test.ts
+  bc6170cf339025c4 1-173
+grammar/11-punctuation-and-fixed-patterns.md
+  bc6170cf339025c4 3,16-19,24-25,33-37,97-175
+scripts/study/egp-coverage.ts
+  bc6170cf339025c4 1-381
+grammar/02-modals-conditionals-subjunctive.md
+  bc6170cf339025c4 3,44-55
+audits/README.md
+  bc6170cf339025c4 1-37
+grammar/03-clauses.md
+  bc6170cf339025c4 3,37-46
+grammar/08-verb-patterns-causatives-phrasals.md
+  bc6170cf339025c4 13,35,38-39,41,62-121
+scripts/study/grammar-content-quality.test.ts
+  bc6170cf339025c4 1-146
+grammar/curriculum.md
+  bc6170cf339025c4 1-279
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.2.8-ntes.9",
+  "base_commit_sha": "dee384ab1b6a9401332e47ee22758826aa81f7c5",
+  "prompts": {
+    "bc6170cf339025c4": {
+      "agent_id": {
+        "tool": "codex",
+        "id": "019f5fef-b4cc-7103-ae7e-ba9ce64ff9e2",
+        "model": "gpt-5.6-sol"
+      },
+      "human_author": "hsiaosiyuan0",
+      "messages": [],
+      "total_additions": 2947,
+      "total_deletions": 150,
+      "accepted_lines": 2846,
+      "overriden_lines": 0,
+      "per_file_stats": {
+        "scripts/study/check-grammar-projection.ts": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "grammar/02-modals-conditionals-subjunctive.md": {
+          "additions": 14,
+          "deletions": 1,
+          "accepted_lines": 14
+        },
+        "scripts/audit-egp.ts": {
+          "additions": 74,
+          "deletions": 5,
+          "accepted_lines": 69
+        },
+        ".gitignore": {
+          "additions": 1,
+          "accepted_lines": 1
+        },
+        "scripts/import-grammar.ts": {
+          "additions": 46,
+          "accepted_lines": 46
+        },
+        "scripts/study/grammar-content-quality.test.ts": {
+          "additions": 146,
+          "accepted_lines": 146
+        },
+        "scripts/study/grammar-projection.ts": {
+          "additions": 81,
+          "deletions": 3,
+          "accepted_lines": 81
+        },
+        "grammar/08-verb-patterns-causatives-phrasals.md": {
+          "additions": 66,
+          "deletions": 5,
+          "accepted_lines": 66
+        },
+        "scripts/study/grammar-library.ts": {
+          "additions": 198,
+          "deletions": 3,
+          "accepted_lines": 196
+        },
+        "scripts/study/egp-coverage.ts": {
+          "additions": 392,
+          "deletions": 11,
+          "accepted_lines": 381
+        },
+        "grammar/curriculum.md": {
+          "additions": 303,
+          "deletions": 24,
+          "accepted_lines": 279
+        },
+        "grammar/07-modifiers-and-prepositions.md": {
+          "additions": 142,
+          "deletions": 6,
+          "accepted_lines": 141
+        },
+        "scripts/study/audit-static-pages.mjs": {
+          "additions": 4,
+          "deletions": 4,
+          "accepted_lines": 2
+        },
+        "grammar/13-genres-and-purpose.md": {
+          "additions": 13,
+          "deletions": 1,
+          "accepted_lines": 13
+        },
+        "grammar/12-common-errors.md": {
+          "additions": 4,
+          "deletions": 4,
+          "accepted_lines": 4
+        },
+        "grammar/03-clauses.md": {
+          "additions": 12,
+          "deletions": 1,
+          "accepted_lines": 12
+        },
+        "grammar/11-punctuation-and-fixed-patterns.md": {
+          "additions": 96,
+          "deletions": 9,
+          "accepted_lines": 92
+        },
+        "db/schema.sql": {
+          "additions": 26,
+          "accepted_lines": 26
+        },
+        "grammar/09-agreement-and-sentence-structure.md": {
+          "additions": 287,
+          "deletions": 16,
+          "accepted_lines": 278
+        },
+        "scripts/study/grammar-library.test.ts": {
+          "additions": 91,
+          "deletions": 6,
+          "accepted_lines": 85
+        },
+        "audits/egp-coverage-rules.json": {
+          "additions": 196,
+          "deletions": 19,
+          "accepted_lines": 177
+        },
+        "grammar/10-writing-advanced-and-formation.md": {
+          "additions": 14,
+          "deletions": 2,
+          "accepted_lines": 14
+        },
+        "scripts/study/egp-coverage.test.ts": {
+          "additions": 176,
+          "deletions": 3,
+          "accepted_lines": 173
+        },
+        "README.md": {
+          "additions": 8,
+          "deletions": 8,
+          "accepted_lines": 4
+        },
+        "grammar/05-inversion-emphasis-cohesion.md": {
+          "additions": 289,
+          "deletions": 6,
+          "accepted_lines": 285
+        },
+        "grammar/06-nouns-pronouns-determiners.md": {
+          "additions": 216,
+          "deletions": 9,
+          "accepted_lines": 211
+        },
+        "grammar/01-tenses-and-passive.md": {
+          "additions": 11,
+          "deletions": 2,
+          "accepted_lines": 11
+        },
+        "audits/README.md": {
+          "additions": 39,
+          "deletions": 2,
+          "accepted_lines": 37
+        },
+        "package.json": {
+          "additions": 1,
+          "accepted_lines": 1
+        }
+      }
+    }
+  }
+}
